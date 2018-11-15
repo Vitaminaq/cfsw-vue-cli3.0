@@ -1,0 +1,6 @@
+diff a/config/config.local.js b/config/config.local.js	(rejected hunks)
+@@ -2,2 +2,2 @@ module.exports = {
+-    BASE_PATH: '/'
+-}
++	BASE_PATH: '/'
++};
