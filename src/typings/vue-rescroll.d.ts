@@ -1,1 +1,1 @@
-declare module "vue-rescroll";
+declare module 'vue-rescroll';
