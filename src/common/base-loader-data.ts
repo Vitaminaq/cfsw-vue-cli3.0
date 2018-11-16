@@ -1,8 +1,8 @@
 import VuexClass from 'vuex-class.js';
 
 interface BaseResponse<D> {
-	code?: number;
-	data?: D;
+	code: number;
+	data: D;
 }
 interface BaseVuexClassState<P, D> {
 	params: P;
@@ -10,6 +10,7 @@ interface BaseVuexClassState<P, D> {
 	requestStatus: Loader.RequestStatus;
 }
 class BaseVuexClass<P, D> extends VuexClass {
+	readonly namespaced: boolean = true;
 	api: any;
 	constructor(api: any) {
 		super();
@@ -18,7 +19,10 @@ class BaseVuexClass<P, D> extends VuexClass {
 	}
 	public readonly state: BaseVuexClassState<P, D> = {
 		params: {} as P,
-		res: {},
+		res: {
+			code: 0,
+			data: {} as D
+		},
 		requestStatus: 'unrequest'
 	};
 	get res(): BaseResponse<D> {

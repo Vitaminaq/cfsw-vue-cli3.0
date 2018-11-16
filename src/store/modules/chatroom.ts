@@ -1,14 +1,19 @@
 import chatroom from '@src/api/chatroom';
-import BaseLoader from '@src/common/loader';
+import BaseLoaderList from '@src/common/base-loader-list';
 import VuexClass from 'vuex-class.js';
-import BaseVuexClass from '@src/common/base-vuex-class';
+import BaseLoaderData from '@src/common/base-loader-data';
 
-class ArticList extends BaseLoader {
+class ArticList extends BaseLoaderList {
+	readonly namespaced: boolean = true;
 	constructor() {
-		super();
+		super(new chatroom());
+	}
+	getListBaseAjaxMethod(): Promise<Loader.Response> {
+		return this.api.getArtic();
 	}
 }
-class View extends BaseVuexClass<ChatRoom.View.RequestParams, string> {
+class View extends BaseLoaderData<ChatRoom.View.RequestParams, string> {
+	readonly namespaced: boolean = true;
 	public readonly state: ChatRoom.View.State = {
 		params: {
 			id: ''
@@ -24,16 +29,20 @@ class View extends BaseVuexClass<ChatRoom.View.RequestParams, string> {
 	}
 }
 class ChatRoom extends VuexClass {
+	readonly namespaced: boolean = true;
+	articList: ArticList;
+	view: View;
 	modules: {
 		articList: ArticList;
 		view: View;
 	};
 	constructor() {
 		super(new chatroom());
-		this.namespaced = true;
+		this.articList = new ArticList();
+		this.view = new View(new chatroom());
 		this.modules = {
-			articList: new ArticList(),
-			view: new View(new chatroom())
+			articList: this.articList,
+			view: this.view
 		};
 	}
 }

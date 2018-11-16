@@ -26,6 +26,11 @@ const RorterList: Array<RouteConfig> = [
 	// },
 	{
 		path: '/',
+		redirect: '/chatroom',
+		component: Home
+	},
+	{
+		path: '/chatroom',
 		name: 'chatroom',
 		component: Home
 	}
