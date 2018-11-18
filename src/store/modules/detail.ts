@@ -1,6 +1,10 @@
 import DetailApi from '@src/api/detail';
-import VuexClass from '@src/common/vuex-class';
+import VuexClass from 'vuex-class.js';
+import BaseLoaderData from '@src/common/base-loader-data';
 
+/**
+ * 缓存数据类
+ */
 class SaveData {
 	articMessage: Detail.ArticDetail.Data;
 	clickDetail: any;
@@ -25,68 +29,59 @@ class SaveData {
 /**
  * 获取文章详情
  */
-class ArticDetail extends VuexClass {
+class ArticDetail extends BaseLoaderData<
+	Detail.ArticDetail.RequestParams,
+	Detail.ArticDetail.Data
+> {
 	public readonly state: Detail.ArticDetail.State = {
 		params: {
 			id: ''
 		},
+		res: { code: 0, data: {} as Detail.ArticDetail.Data },
 		requestStatus: 'unrequest',
 		dataStore: {}
 	};
-	_articMessage(state: any): Detail.ArticDetail.Data {
-		return state.articMessage;
+	get dataStore() {
+		return this.state.dataStore;
 	}
-	_requestStatus(state: any): Loader.RequestStatus {
-		return state.requestStatus;
-	}
-	_dataStore(state: any): this {
-		return state.dataStore;
-	}
-	$updateCommentClick(state: any, { id, index }: any): this {
+	$updateCommentClick({ id, index }: any): this {
 		if (
-			state.dataStore[id].articMessage.commentList[index].isClickComment
+			this.state.dataStore[id].articMessage.commentList[index]
+				.isClickComment
 		) {
-			state.dataStore[id].articMessage.commentList[
+			this.state.dataStore[id].articMessage.commentList[
 				index
 			].isClickComment = false;
-			state.dataStore[id].articMessage.commentList[index].clicknum--;
+			this.state.dataStore[id].articMessage.commentList[index].clicknum--;
 		} else {
-			state.dataStore[id].articMessage.commentList[
+			this.state.dataStore[id].articMessage.commentList[
 				index
 			].isClickComment = true;
-			state.dataStore[id].articMessage.commentList[index].clicknum++;
+			this.state.dataStore[id].articMessage.commentList[index].clicknum++;
 		}
 		return this;
 	}
-	$updateArticClick(state: any, id: string): this {
-		if (state.dataStore[id].articMessage.isClick) {
-			state.dataStore[id].articMessage.isClick = false;
-			state.dataStore[id].articMessage.clicknum--;
+	$updateArticClick(id: string): this {
+		if (this.state.dataStore[id].articMessage.isClick) {
+			this.state.dataStore[id].articMessage.isClick = false;
+			this.state.dataStore[id].articMessage.clicknum--;
 		} else {
-			state.dataStore[id].articMessage.isClick = true;
-			state.dataStore[id].articMessage.clicknum++;
+			this.state.dataStore[id].articMessage.isClick = true;
+			this.state.dataStore[id].articMessage.clicknum++;
 		}
 		return this;
 	}
-	$assignParams(
-		state: any,
-		params: Detail.ArticDetail.RequestParams
-	): Detail.ArticDetail.RequestParams {
-		return Object.assign(state.params, params);
-	}
-	$requestStart(state: any): this {
-		state.requestStatus = 'requesting';
-		return this;
-	}
-	$requestSuccess(state: any, res: Detail.ArticDetail.Response): this {
+	$RequestSuccess(res: Detail.ArticDetail.Response): this {
 		if (res.code === 0 && res.data) {
-			state.requestStatus = 'success';
-			if (!state.dataStore[res.data.articId]) {
-				state.dataStore[res.data.articId] = new SaveData();
+			this.state.requestStatus = 'success';
+			if (!this.state.dataStore[res.data.articId]) {
+				this.state.dataStore[res.data.articId] = new SaveData();
 			}
-			state.dataStore[res.data.articId].saveArticMessage({ ...res.data });
+			this.state.dataStore[res.data.articId].saveArticMessage({
+				...res.data
+			});
 		} else {
-			state.requestStatus = 'error';
+			this.state.requestStatus = 'error';
 		}
 		return this;
 	}
@@ -95,17 +90,20 @@ class ArticDetail extends VuexClass {
 		state.requestStatus = 'unrequest';
 		return this;
 	}
-	async getArticDetail({ commit, state }: any): Promise<this> {
-		commit('$requestStart');
-		const res = await new DetailApi().getDetail(state.params);
-		commit('$requestSuccess', res);
+	async getArticDetail(): Promise<this> {
+		this.$RequestStart();
+		const res = await this.api.getDetail(this.state.params);
+		this.$RequestSuccess(res);
 		return this;
 	}
 }
 /**
  * 用户评论文章
  */
-class UserComment extends VuexClass {
+class UserComment extends BaseLoaderData<
+	Detail.UserComment.RequestParams,
+	string
+> {
 	public readonly state: Detail.UserComment.State = {
 		params: {
 			articId: '',
@@ -114,38 +112,26 @@ class UserComment extends VuexClass {
 		res: {
 			code: 0,
 			data: ''
-		}
+		},
+		requestStatus: 'unrequest'
 	};
-	_res(state: any): Detail.UserComment.Response {
-		return state.res;
+	get res(): Detail.UserComment.Response {
+		return this.state.res;
 	}
-	$assginParams(
-		state: any,
-		params: Detail.UserComment.RequestParams
-	): Detail.UserComment.RequestParams {
-		return Object.assign(state.params, params);
-	}
-	$requestSuccess(state: any, res: Detail.UserComment.Response): this {
-		if (res.code === 0 && res.data) {
-			state.res = { ...res };
-		} else {
-			if (res.code !== 0 && res.data) {
-				state.res = { ...res };
-			}
-			state.res.data = '评论失败!';
-		}
-		return this;
-	}
-	async userComment({ state, commit }: any): Promise<this> {
-		const res = await new DetailApi().userComment(state.params);
-		commit('$requestSuccess', res);
+	async userComment(): Promise<this> {
+		this.$RequestStart();
+		const res = await new DetailApi().userComment(this.state.params);
+		this.$RequestSuccess(res);
 		return this;
 	}
 }
 /**
  * 点赞作者
  */
-class AgreeAuthor extends VuexClass {
+class AgreeAuthor extends BaseLoaderData<
+	Detail.AgreeAuthor.RequestParams,
+	string
+> {
 	public readonly state: Detail.AgreeAuthor.State = {
 		params: {
 			id: ''
@@ -156,45 +142,23 @@ class AgreeAuthor extends VuexClass {
 		},
 		requestStatus: 'unrequest'
 	};
-	_status(state: any): Loader.RequestStatus {
-		return state.requestStatus;
+	get res(): Detail.AgreeAuthor.Response {
+		return this.state.res;
 	}
-	_res(state: any): Detail.AgreeAuthor.Response {
-		return state.res;
-	}
-	$assginParams(
-		state: any,
-		params: Detail.UserComment.RequestParams
-	): Detail.UserComment.RequestParams {
-		return Object.assign(state.params, params);
-	}
-	$requestStart(state: any): this {
-		state.requestStatus = 'requesting';
-		return this;
-	}
-	$requestSuccess(state: any, res: Detail.AgreeAuthor.Response): this {
-		if (res.code === 0 && res.data) {
-			state.res = { ...res };
-			state.requestStatus = 'success';
-		} else {
-			if (res.code !== 0 && res.data) {
-				state.res = { ...res };
-			}
-			state.requestStatus = 'error';
-		}
-		return this;
-	}
-	async agreeAuthor({ state, commit }: any): Promise<this> {
-		commit('$requestStart');
-		const res = await new DetailApi().agreeAuthor(state.params);
-		commit('$requestSuccess', res);
+	async agreeAuthor(): Promise<this> {
+		this.$RequestStart();
+		const res = await this.api.agreeAuthor(this.state.params);
+		this.$RequestSuccess(res);
 		return this;
 	}
 }
 /**
  * 点赞评论
  */
-class AgreeComment extends VuexClass {
+class AgreeComment extends BaseLoaderData<
+	Detail.AgreeComment.RequestParams,
+	string
+> {
 	public readonly state: Detail.AgreeComment.State = {
 		params: {
 			id: 0,
@@ -206,44 +170,22 @@ class AgreeComment extends VuexClass {
 		},
 		requestStatus: 'unrequest'
 	};
-	_status(state: any): Loader.RequestStatus {
-		return state.requestStatus;
+	get res(): Detail.AgreeComment.Response {
+		return this.state.res;
 	}
-	_res(state: any): Detail.AgreeComment.Response {
-		return state.res;
-	}
-	$assginParams(
-		state: any,
-		params: Detail.AgreeComment.RequestParams
-	): Detail.AgreeComment.RequestParams {
-		return Object.assign(state.params, params);
-	}
-	$requestStart(state: any): this {
-		state.requestStatus = 'requesting';
-		return this;
-	}
-	$requestSuccess(state: any, res: Detail.AgreeComment.Response): this {
-		if (res.code === 0 && res.data) {
-			state.res = { ...res };
-			state.requestStatus = 'success';
-		} else {
-			if (res.code !== 0 && res.data) {
-				console.log('fdsssssssssssssssssssssssss');
-				state.res = { ...res };
-			}
-			state.requestStatus = 'error';
-		}
-		return this;
-	}
-	async agreeComment({ state, commit }: any): Promise<this> {
-		commit('$requestStart');
-		const res = await new DetailApi().agreeComment(state.params);
-		commit('$requestSuccess', res);
+	async agreeComment(): Promise<this> {
+		this.$RequestStart();
+		const res = await this.api.agreeComment(this.state.params);
+		this.$RequestSuccess(res);
 		return this;
 	}
 }
 
 class Detail extends VuexClass {
+	articDetail: ArticDetail;
+	userComment: UserComment;
+	agreeAuthor: AgreeAuthor;
+	agreeComment: AgreeComment;
 	modules: {
 		articDetail: ArticDetail;
 		userComment: UserComment;
@@ -252,11 +194,15 @@ class Detail extends VuexClass {
 	};
 	constructor() {
 		super(new DetailApi());
+		(this.articDetail = new ArticDetail(new DetailApi())),
+			(this.userComment = new UserComment(new DetailApi())),
+			(this.agreeAuthor = new AgreeAuthor(new DetailApi())),
+			(this.agreeComment = new AgreeComment(new DetailApi()));
 		this.modules = {
-			articDetail: new ArticDetail(),
-			userComment: new UserComment(),
-			agreeAuthor: new AgreeAuthor(),
-			agreeComment: new AgreeComment()
+			articDetail: this.articDetail,
+			userComment: this.userComment,
+			agreeAuthor: this.agreeAuthor,
+			agreeComment: this.agreeComment
 		};
 	}
 }

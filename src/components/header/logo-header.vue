@@ -14,10 +14,10 @@ export default class LogoHeader extends Vue {}
 	top: 0;
 	width: 100%;
 	background-color: #00dcff;
-	font-size: 0.533333rem;
+	font-size: 20px;
 	color: white;
-	height: 0.96rem;
-	line-height: 0.96rem;
+	height: 46px;
+	line-height: 46px;
 	z-index: 999;
 }
 </style>

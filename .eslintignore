@@ -5,3 +5,5 @@ package.json
 tsconfig.json
 yarn.lock
 config.local.js.rej
+public/*
+src/assets/*

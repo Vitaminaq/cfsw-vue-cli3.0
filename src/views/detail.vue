@@ -100,11 +100,6 @@ import { Toast, closeLoading, Time } from '@src/common/comjs';
 import CommentList from '@src/components/detail/comment-list.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
 
-const ArticDetailModule = namespace('detail/articDetail');
-const UserCommentModule = namespace('detail/userComment');
-const AgreeAuthorModule = namespace('detail/agreeAuthor');
-const AgreeCommentModule = namespace('detail/agreeComment');
-
 @Component({
 	components: {
 		CommentList,
@@ -112,24 +107,6 @@ const AgreeCommentModule = namespace('detail/agreeComment');
 	}
 })
 export default class Detail extends Vue {
-	@ArticDetailModule.Mutation('$assignParams') public $assignParams: any;
-	@ArticDetailModule.Action('getArticDetail') public getArticDetail: any;
-	@ArticDetailModule.Getter('_dataStore') public dataStore: any;
-	@ArticDetailModule.Mutation('$updateArticClick')
-	public $updateArticClick: any;
-	@ArticDetailModule.Mutation('$updateCommentClick') $updateCommentClick: any;
-	@ArticDetailModule.Mutation('$clearData') $clearData: any;
-	@UserCommentModule.Mutation('$assginParams') $C_assignParams: any;
-	@UserCommentModule.Action('userComment') userComment: any;
-	@UserCommentModule.Getter('_res') commentRes: any;
-	@AgreeAuthorModule.Mutation('$assginParams') $A_assignParams: any;
-	@AgreeAuthorModule.Action('agreeAuthor') agreeAuthor: any;
-	@AgreeAuthorModule.Getter('_status') A_status: any;
-	@AgreeAuthorModule.Getter('_res') A_res: any;
-	@AgreeCommentModule.Mutation('$assginParams') $AC_assignParams: any;
-	@AgreeCommentModule.Action('agreeComment') agreeComment: any;
-	@AgreeCommentModule.Action('_status') AC_status: any;
-	@AgreeCommentModule.Getter('_res') AC_res: any;
 	status: boolean = false;
 	commentmsg: string = '';
 	hidshow: boolean = true;
@@ -150,22 +127,35 @@ export default class Detail extends Vue {
 	get nickName(): string | null {
 		return localStorage.getItem('nickname');
 	}
-
-	async created() {
-		if (!this.dataStore[this.id]) {
-			await this.getData();
-		} else {
-			this.articMessage = this.dataStore[this.id].articMessage;
-		}
+	get articDetail() {
+		return this.$vuexClass.detail.articDetail;
+	}
+	get agreeAuthor() {
+		return this.$vuexClass.detail.agreeAuthor;
+	}
+	get userComment() {
+		return this.$vuexClass.detail.userComment;
+	}
+	get agreeComment() {
+		return this.$vuexClass.detail.agreeComment;
 	}
 
+	async created() {
+		if (!this.articDetail.dataStore[this.id]) {
+			await this.getData();
+		} else {
+			this.articMessage = this.articDetail.dataStore[
+				this.id
+			].articMessage;
+		}
+	}
 	async getData(): Promise<this> {
 		let params: Detail.ArticDetail.RequestParams = {
 			id: this.id
 		};
-		this.$assignParams(params);
-		await this.getArticDetail();
-		this.articMessage = this.dataStore[this.id].articMessage;
+		this.articDetail.$assignParams(params);
+		await this.articDetail.getArticDetail();
+		this.articMessage = this.articDetail.dataStore[this.id].articMessage;
 		return this;
 	}
 	filter(): this {
@@ -186,9 +176,12 @@ export default class Detail extends Vue {
 			articId: this.id,
 			msg: this.commentmsg
 		};
-		this.$C_assignParams(params);
-		await this.userComment();
-		if (this.commentRes.code === 20000 || this.commentRes.code === 20001) {
+		this.userComment.$assignParams(params);
+		await this.userComment.userComment();
+		if (
+			this.userComment.res.code === 20000 ||
+			this.userComment.res.code === 20001
+		) {
 			this.$router.push({
 				name: 'login',
 				query: {
@@ -208,14 +201,17 @@ export default class Detail extends Vue {
 		let params = {
 			id: this.id
 		};
-		this.$A_assignParams(params);
-		await this.agreeAuthor();
-		if (this.A_res.code === 0) {
-			this.$updateArticClick(this.id);
+		this.agreeAuthor.$assignParams(params);
+		await this.agreeAuthor.agreeAuthor();
+		if (this.agreeAuthor.res.code === 0) {
+			this.agreeAuthor.$updateArticClick(this.id);
 			return this;
 		}
 		// Toast('', this.A_res.data);
-		if (this.A_res.code === 20000 || this.A_res.code === 20001) {
+		if (
+			this.agreeAuthor.res.code === 20000 ||
+			this.agreeAuthor.res.code === 20001
+		) {
 			this.$router.push({
 				name: 'login',
 				query: {
@@ -232,13 +228,19 @@ export default class Detail extends Vue {
 			id: this.id,
 			commentId: commentId
 		};
-		this.$AC_assignParams(params);
-		await this.agreeComment();
-		if (this.AC_res.code === 0) {
-			this.$updateCommentClick({ id: this.id, index: index });
+		this.agreeComment.$assignParams(params);
+		await this.agreeComment.agreeComment();
+		if (this.agreeComment.res.code === 0) {
+			this.agreeComment.$updateCommentClick({
+				id: this.id,
+				index: index
+			});
 			return this;
 		}
-		if (this.AC_res.code === 20000 || this.AC_res.code === 20001) {
+		if (
+			this.agreeComment.res.code === 20000 ||
+			this.agreeComment.res.code === 20001
+		) {
 			this.$router.push({
 				name: 'login',
 				query: {
@@ -371,7 +373,6 @@ export default class Detail extends Vue {
 }
 .agreeaunum {
 	position: absolute;
-	top: 0.4rem;
 	left: 0.9rem;
 	font-size: 0.4rem;
 	color: #adadad;
@@ -427,7 +428,8 @@ export default class Detail extends Vue {
 	left: 0;
 	margin: 0;
 	padding: 0;
-	height: 1.2rem;
+	height: 46px;
+	line-height: 46px;
 	border-top: solid #adadad 1px;
 	background-color: white;
 	width: 100%;

@@ -6,14 +6,17 @@
     "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "prettier-watch": "onchange 'src/**/*.js' 'src/**/*.ts' 'src/**/*.vue' -- prettier --write {{changed}}",
-    "test": "npx onchange 'src/**/*.js' 'src/**/*.ts' 'src/**/*.vue' -- npx prettier --write {{changed}}"
+    "lint": "eslint --fix --ext .js,.ts,.vue src",
+    "prettier-watch": "onchange 'src/**/*.js' 'src/**/*.ts' 'src/**/*.vue' -- prettier --write {{changed}}"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "dependencies": {
     "axios": "^0.18.0",
     "js-cookie": "^2.2.0",
-    "onchange": "^5.1.0",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
@@ -41,8 +44,18 @@
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "lint-staged": "^8.0.4",
+    "postcss-px2rem": "^0.3.0",
     "prettier": "1.15.2",
     "typescript": "^3.0.0",
     "vue-template-compiler": "^2.5.17"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "yarn lint",
+      "git add ."
+    ]
   }
 }

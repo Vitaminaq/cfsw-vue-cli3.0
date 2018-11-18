@@ -30,7 +30,8 @@ declare namespace Detail {
 		export interface State {
 			params: RequestParams;
 			requestStatus: Loader.RequestStatus;
-			dataStore: object;
+			res: Response;
+			dataStore: any;
 		}
 	}
 	namespace UserComment {
@@ -45,6 +46,7 @@ declare namespace Detail {
 		export interface State {
 			params: RequestParams;
 			res: Response;
+			requestStatus: Loader.RequestStatus;
 		}
 	}
 	namespace AgreeAuthor {
@@ -63,8 +65,8 @@ declare namespace Detail {
 	}
 	namespace AgreeComment {
 		export interface RequestParams {
-			id: number;
-			commentId: number;
+			id: number | string;
+			commentId: number | string;
 		}
 		export interface Response {
 			code: number;

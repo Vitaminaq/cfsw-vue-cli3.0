@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="flexible" content="initial-dpr=1" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>cfsw</title>
   </head>
@@ -12,6 +13,48 @@
       <strong>We're sorry but cfsw doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
+    <script>
+        ; (function flexible (window, document) {
+            var docEl = document.documentElement;
+            var dpr = window.devicePixelRatio || 1;
+
+            function setBodyFontSize () {
+                if (document.body) {
+                    document.body.style.fontSize = (12 * dpr) + 'px';
+                    document.body.classList.add('flexible-ready');
+                } else {
+                    document.addEventListener('DOMContentLoaded', setBodyFontSize);
+                }
+            }
+            setBodyFontSize();
+
+            function setRemUnit () {
+                var rem = docEl.clientWidth / 10;
+                docEl.style.fontSize = rem + 'px';
+            }
+
+            setRemUnit();
+
+            window.addEventListener('resize', setRemUnit);
+            window.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    setRemUnit();
+                }
+            });
+
+            if (dpr >= 2) {
+                var fakeBody = document.createElement('body');
+                var testElement = document.createElement('div');
+                testElement.style.border = '.5px solid transparent';
+                fakeBody.appendChild(testElement);
+                docEl.appendChild(fakeBody);
+                if (testElement.offsetHeight === 1) {
+                    docEl.classList.add('hairlines');
+                }
+                docEl.removeChild(fakeBody);
+            }
+        }(window, document));
+</script>
     <!-- built files will be auto injected -->
   </body>
 </html>

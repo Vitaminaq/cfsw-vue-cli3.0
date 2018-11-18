@@ -31,6 +31,7 @@ import config from '@src/config';
 @Component
 export default class ArticList extends Vue {
 	@Prop({ default: () => {} }) item!: Loader.ListItem;
+
 	get baseUrl() {
 		return config.BASE_URL;
 	}
@@ -48,7 +49,7 @@ ul {
 	overflow: hidden;
 	width: 100%;
 	li {
-		border-bottom: solid #adadad 0.013333rem;
+		border-bottom: solid #adadad 1px;
 		.artic-content {
 			width: 98%;
 			display: flex;
@@ -58,22 +59,20 @@ ul {
 			text-align: left;
 			padding-left: 6%;
 			.userImg {
-				padding-top: 0.3rem;
-				font-size: 0.533333rem;
-				font-weight: bold;
+				padding-top: 10px;
 				img {
-					width: 1.2rem;
-					height: 1.2rem;
+					width: 45px;
+					height: 45px;
 					border-radius: 50%;
 				}
 			}
 			.author {
 				width: 100%;
-				font-size: 0.38rem;
-				padding-top: 0.133333rem;
-				margin-left: 0.5rem;
+				font-size: 15px;
+				padding-top: 5px;
+				margin-left: 19px;
 				.title {
-					font-size: 0.6rem;
+					font-size: 23px;
 				}
 				.authorname {
 					width: 15%;

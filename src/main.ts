@@ -1,13 +1,14 @@
-import Vue from 'vue';
+import Vue, { CreateElement, ComponentOptions } from 'vue';
 import App from './App.vue';
-import router from './router';
-import store from './store';
+import localRouter from './router';
+import localStore, { BaseVuexClass } from './store';
 import 'vue2-toast/lib/toast.css';
 import Toast from 'vue2-toast';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
 import VueRescroll from 'vue-rescroll';
 import Cookies from 'js-cookie';
+import svgSprite from '@src/lib/svg-sprite';
 import './registerServiceWorker';
 
 Vue.config.productionTip = false;
@@ -47,14 +48,22 @@ Vue.directive('focus', {
 		el.focus();
 	}
 });
+interface LocalComponentOptions extends ComponentOptions<Vue> {
+	vuexClass?: BaseVuexClass;
+}
 class LocalVue extends Vue {
 	constructor() {
-		super({
-			router: new router(),
+		const store = new localStore();
+		const router = new localRouter();
+		const option: LocalComponentOptions = {
+			router,
 			store,
-			render: (h) => h(App)
-		});
+			vuexClass: store.baseVuexClass,
+			render: (h: CreateElement) => h(App)
+		};
+		super(option);
 		this.$mount('#app');
+		svgSprite(); // 注入svg-sprite
 	}
 }
 export default new LocalVue();

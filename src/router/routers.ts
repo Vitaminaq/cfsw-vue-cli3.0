@@ -3,8 +3,8 @@ const Home = () =>
 	import(/* webpackChunkName: "home" */ '@src/views/chatroom.vue');
 // const Publish = () =>
 //   import(/* webpackChunkName: "publish" */ "@/views/publish.vue");
-// const Detail = () =>
-//   import(/* webpackChunkName: "detail" */ "@/views/detail.vue");
+const Detail = () =>
+	import(/* webpackChunkName: "detail" */ '@src/views/detail.vue');
 // const Register = () =>
 //   import(/* webpackChunkName: "register" */ "@/views/register.vue");
 // const Reset = () => import(/* webpackChunkName: "reset" */ "@/views/reset.vue");
@@ -26,19 +26,24 @@ const RorterList: Array<RouteConfig> = [
 	// },
 	{
 		path: '/',
+		redirect: '/chatroom',
+		component: Home
+	},
+	{
+		path: '/chatroom',
 		name: 'chatroom',
 		component: Home
-	}
+	},
 	// {
 	//   path: "/publish",
 	//   name: "publish",
 	//   component: Publish
 	// },
-	// {
-	//   path: "/detail",
-	//   name: "detail",
-	//   component: Detail
-	// },
+	{
+		path: '/detail',
+		name: 'detail',
+		component: Detail
+	}
 	// {
 	//   path: "/reset",
 	//   name: "reset",

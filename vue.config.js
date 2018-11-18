@@ -10,5 +10,14 @@ module.exports = {
 		webpackConfig.resolve.alias = {
 			'@src': path.resolve(__dirname, './src')
 		};
+	},
+	css: {
+		loaderOptions: {
+			postcss: {
+				plugins: [
+					require('postcss-px2rem')({ remUnit: 37.5 }) // 换算的基数
+				]
+			}
+		}
 	}
 };

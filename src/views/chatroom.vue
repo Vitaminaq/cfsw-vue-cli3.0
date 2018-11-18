@@ -25,51 +25,51 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { State, Action, Mutation, namespace } from 'vuex-class';
+import { State } from '@src/common/vuex-map';
 import { Toast, Time } from '@src/common/comjs';
 import Scroller from '@src/components/scroller/scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
-const ArticListModule = namespace('chatRoom/articList');
-const ViewModule = namespace('chatRoom/view');
 
 @Component({
 	components: { Scroller, ArticList, FooterContent, LogoHeader }
 })
 export default class ChatRoom extends Vue {
-	// @ArticListModule.Action("pullDown") pullDown: any;
-	// @ArticListModule.Action("pullUp") pullUp: any;
-	// @ArticListModule.Getter("_pullDownStatus") pullDownStatus: any;
-	// @ArticListModule.Getter("_pullUpStatus") pullUpStatus: any;
-	// @ArticListModule.Getter("_list") list: any;
-	// @ViewModule.Mutation("$assignParams") $assignParams: any;
-	// @ViewModule.Action("saveView") saveView: any;
-	// @ViewModule.Getter("_res") res: any;
-	// @ViewModule.Getter("_requestStatus") requestStatus: any;
-
-	mounted() {
-		console.log(
-			this.$store,
-			(this as any).$store.chatRoom.articList,
-			'ddddddddddddddddddddddddddddddddddddddddddd'
-		);
+	get articList() {
+		return this.$vuexClass.chatRoom.articList;
 	}
-	// async dropDown() {
-	//   await this.pullDown();
-	//   Toast("", "刷新成功！");
-	// }
-	// async todetail(id: string) {
-	//   let params: ChatRoom.View.RequestParams = {
-	//     id: id
-	//   };
-	//   this.$assignParams(params);
-	//   await this.saveView();
-	//   if (this.res.code === 0) {
-	//     return this.$router.push({ name: "detail", query: { id: id } });
-	//   }
-	//   return Toast("", this.res.data);
-	// }
+	get view() {
+		return this.$vuexClass.chatRoom.view;
+	}
+	get pullDownStatus() {
+		return this.articList.pullDownStatus;
+	}
+	get pullUpStatus() {
+		return this.articList.pullUpStatus;
+	}
+	get list() {
+		return this.articList.list;
+	}
+
+	async pullUp() {
+		return this.articList.pullUp();
+	}
+	async dropDown() {
+		await this.articList.pullDown();
+		Toast('', '刷新成功！');
+	}
+	async todetail(id: string) {
+		let params: ChatRoom.View.RequestParams = {
+			id: id
+		};
+		this.view.$assignParams(params);
+		await this.view.saveView();
+		if (this.view.res.code === 0) {
+			return this.$router.push({ name: 'detail', query: { id: id } });
+		}
+		return Toast('', this.view.res.data);
+	}
 }
 </script>
 
@@ -78,7 +78,7 @@ export default class ChatRoom extends Vue {
 	height: 100%;
 
 	.empty {
-		height: 0.96rem;
+		height: 46px;
 	}
 	#wrapper {
 		position: relative;
