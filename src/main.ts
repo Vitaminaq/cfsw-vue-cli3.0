@@ -6,7 +6,9 @@ import 'vue2-toast/lib/toast.css';
 import Toast from 'vue2-toast';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
-import VueRescroll from 'vue-rescroll';
+// import VueRescroll from 'vue-rescroll';
+import VueVirtualScroller from 'vue-virtual-scroller';
+import VueRescroll from './common/vue-rescroll';
 import Cookies from 'js-cookie';
 import svgSprite from '@src/lib/svg-sprite';
 import './registerServiceWorker';
@@ -39,6 +41,7 @@ Vue.use(Toast, {
 Vue.use(MyButton);
 Vue.use(VueRescroll);
 Vue.use(SvgIcon);
+Vue.use(VueVirtualScroller);
 
 // 注册一个全局自定义指令 `v-focus`
 Vue.directive('focus', {

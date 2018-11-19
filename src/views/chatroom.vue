@@ -9,15 +9,36 @@
 				@pullUp="pullUp"
 				:pull-upstatus="pullUpStatus"
 				@dropDown="dropDown"
+				:list="list"
 			>
-				<ul v-if="!!list[0]">
-					<artic-list
-						:item="item"
-						v-for="(item, key) in list"
-						:key="key"
-						@todetail="todetail"
-					/>
-				</ul>
+				<!--
+					<DynamicScroller
+						:items="list"
+						:min-item-height="16"
+						class="scroller"
+					>
+						<ul v-if="!!list[0]">
+						<template slot-scope="{ item, index, active }">
+							<DynamicScrollerItem
+								:item="item"
+								:active="active"
+								:size-dependencies="[item.msg]"
+								:data-index="index"
+								:data-active="active"
+							>
+				-->
+				<artic-list
+					:item="item"
+					v-for="(item, key) in list"
+					:key="key"
+					@todetail="todetail"
+				/>
+				<!--
+					</DynamicScrollerItem>
+						</template>
+					  </ul>
+					</DynamicScroller>
+				-->
 			</scroller>
 		</div>
 		<footer-content />
@@ -82,7 +103,11 @@ export default class ChatRoom extends Vue {
 	}
 	#wrapper {
 		position: relative;
-		overflow-y: auto;
+		height: 550px;
+		overflow-y: hidden;
 	}
+}
+.vue-recycle-scroller__item-wrapper {
+	height: auto !important;
 }
 </style>

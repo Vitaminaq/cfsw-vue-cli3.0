@@ -7,3 +7,4 @@ yarn.lock
 config.local.js.rej
 public/*
 src/assets/*
+lib/*

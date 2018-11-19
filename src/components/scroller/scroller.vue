@@ -7,7 +7,19 @@
 		@touchend="touchEnd"
 	>
 		<down-loading :is-show="isShow" :height="height" />
-		<slot />
+		<DynamicScroller :items="list" :min-item-height="16" class="scroller">
+			<template slot-scope="{ item, index, active }">
+				<DynamicScrollerItem
+					:item="item"
+					:active="active"
+					:size-dependencies="[item.msg]"
+					:data-index="index"
+					:data-active="active"
+				>
+					<slot />
+				</DynamicScrollerItem>
+			</template>
+		</DynamicScroller>
 		<see-loading :pull-upstatus="pullUpstatus" @pullUp="pullUp" />
 	</div>
 </template>
@@ -35,6 +47,7 @@ import DownLoading from './down-loading.vue';
 export default class Scroller extends Vue {
 	@Prop() pullUpstatus!: string;
 	@Prop() pullDownStatus!: string;
+	@Prop({ default: () => {} }) list!: any;
 	time: number = 0;
 	touchStartY: number = 0;
 	height: number = 0;
@@ -86,5 +99,9 @@ export default class Scroller extends Vue {
 	height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
+
+	.scroller {
+		height: 100%;
+	}
 }
 </style>

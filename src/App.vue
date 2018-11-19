@@ -5,14 +5,12 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { RouterOptions } from 'vue-router';
 
 @Component
 export default class App extends Vue {}
 </script>
 
 <style>
-@import './common/screen.css';
 * {
 	margin: 0;
 	padding: 0;

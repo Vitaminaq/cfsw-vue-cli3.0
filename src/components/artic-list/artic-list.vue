@@ -45,69 +45,65 @@ export default class ArticList extends Vue {
 }
 </script>
 <style lang="less" scoped>
-ul {
-	overflow: hidden;
-	width: 100%;
-	li {
-		border-bottom: solid #adadad 1px;
-		.artic-content {
-			width: 98%;
-			display: flex;
-			display: -webkit-flex;
-			justify-content: center;
-			align-items: center;
-			text-align: left;
-			padding-left: 6%;
-			.userImg {
-				padding-top: 10px;
-				img {
-					width: 45px;
-					height: 45px;
-					border-radius: 50%;
-				}
-			}
-			.author {
-				width: 100%;
-				font-size: 15px;
-				padding-top: 5px;
-				margin-left: 19px;
-				.title {
-					font-size: 23px;
-				}
-				.authorname {
-					width: 15%;
-				}
-				.publishtime {
-					font-size: 0.213333rem;
-					color: #adadad;
-				}
-				.publishtxt {
-					margin-left: 4%;
-				}
+li {
+	border-bottom: solid #adadad 1px;
+	.artic-content {
+		width: 98%;
+		display: flex;
+		display: -webkit-flex;
+		justify-content: center;
+		align-items: center;
+		text-align: left;
+		padding-left: 6%;
+		.userImg {
+			padding-top: 10px;
+			img {
+				width: 45px;
+				height: 45px;
+				border-radius: 50%;
 			}
 		}
-		.oparatenum {
-			display: flex;
-			display: -webkit-flex;
-			justify-content: center;
-			align-items: center;
+		.author {
 			width: 100%;
-			font-size: 0.32rem;
-			color: #adadad;
+			font-size: 15px;
+			padding-top: 5px;
+			margin-left: 19px;
+			.title {
+				font-size: 23px;
+			}
+			.authorname {
+				width: 15%;
+			}
+			.publishtime {
+				font-size: 0.213333rem;
+				color: #adadad;
+			}
+			.publishtxt {
+				margin-left: 4%;
+			}
+		}
+	}
+	.oparatenum {
+		display: flex;
+		display: -webkit-flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		font-size: 0.32rem;
+		color: #adadad;
 
-			.icon-symbol {
-				height: 0.4rem;
-				width: 0.4rem;
-				margin-right: 0.3rem;
-				fill: #adadad;
-			}
-			div {
-				width: 33%;
-				padding-bottom: 0.1rem;
-			}
-			.hasborder {
-				border-right: #adadad 1px solid;
-			}
+		.icon-symbol {
+			height: 0.4rem;
+			width: 0.4rem;
+			margin-right: 0.3rem;
+			fill: #adadad;
+		}
+		div {
+			width: 33%;
+			padding-bottom: 0.1rem;
+		}
+		.hasborder {
+			border-right: #adadad 1px solid;
 		}
 	}
 }
