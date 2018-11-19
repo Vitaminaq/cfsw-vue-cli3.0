@@ -46,6 +46,7 @@ export default class FooterContent extends Vue {
 	bottom: 0;
 	height: 1.4rem;
 	width: 100%;
+	z-index: 9999;
 	display: flex;
 	justify-content: center;
 	align-items: center;

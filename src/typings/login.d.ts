@@ -14,7 +14,6 @@ declare namespace Login {
 	export interface LoginState {
 		params: RequestParams;
 		res: Response;
-		loginStatus: Loader.RequestStatus;
-		isEmpty: boolean;
+		requestStatus: Loader.RequestStatus;
 	}
 }

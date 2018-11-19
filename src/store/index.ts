@@ -15,18 +15,26 @@ export class BaseVuexClass extends VuexClass {
 	readonly namespaced: boolean = true;
 	chatRoom: ChatRoom;
 	detail: Detail;
+	publish: Publish;
+	login: Login;
 	modules: {
 		chatRoom: ChatRoom;
 		detail: Detail;
+		publish: Publish;
+		login: Login;
 	};
 	constructor() {
 		super();
 		this.plugins = [VuexClass.init()];
 		this.chatRoom = new ChatRoom();
 		this.detail = new Detail();
+		this.publish = new Publish();
+		this.login = new Login();
 		this.modules = {
+			login: this.login,
 			chatRoom: this.chatRoom,
-			detail: this.detail
+			detail: this.detail,
+			publish: this.publish
 		};
 	}
 }

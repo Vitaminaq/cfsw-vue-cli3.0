@@ -1,7 +1,8 @@
 import LoginApi from '@src/api/login';
-import VuexClass from '@src/common/vuex-class';
+import BaseLoaderData from '@src/common/base-loader-data';
 
-class UserLogin extends VuexClass {
+class UserLogin extends BaseLoaderData<Login.RequestParams, Login.Data> {
+	readonly namespaced: boolean = true;
 	constructor() {
 		super(new LoginApi());
 		Object.defineProperty(this, 'api', {
@@ -17,41 +18,15 @@ class UserLogin extends VuexClass {
 			code: 0,
 			data: {}
 		},
-		loginStatus: 'unrequest',
-		isEmpty: true
+		requestStatus: 'unrequest'
 	};
-	_res(state: Login.LoginState): Login.Response {
-		return state.res;
+	get res(): Login.Response {
+		return this.state.res;
 	}
-	_loginStatus(state: Login.LoginState): Loader.RequestStatus {
-		return state.loginStatus;
-	}
-	$assignParams(
-		state: Login.LoginState,
-		params: Login.RequestParams
-	): Login.RequestParams {
-		return Object.assign(state.params, params);
-	}
-	$loginStart(state: Login.LoginState): this {
-		state.loginStatus = 'requesting';
-		return this;
-	}
-	$loginSuccess(state: Login.LoginState, res: Login.Response): this {
-		if (res.code === 0 && res.data) {
-			state.loginStatus = 'success';
-			state.res = { ...res };
-		} else {
-			if (res.code !== 0 && res.data) {
-				state.res = { ...res };
-			}
-			state.loginStatus = 'error';
-		}
-		return this;
-	}
-	async userLogin({ commit, state }: any): Promise<this> {
-		commit('$loginStart');
-		const res = await new LoginApi().userLogin(state.params);
-		commit('$loginSuccess', res);
+	async userLogin(): Promise<this> {
+		this.$RequestStart();
+		const res = await new LoginApi().userLogin(this.state.params);
+		this.$RequestSuccess(res);
 		return this;
 	}
 }

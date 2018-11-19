@@ -15,14 +15,14 @@ const options: RouterOptions = {
 class LocalRouter extends Router {
 	constructor() {
 		super(options);
-		this.beforeEach((to, from, next) => {
-			if (to.name === 'publish' || to.name === 'PersonalCenter') {
-				if (!Cookies.get('token') || !Cookies.get('nickname')) {
-					this.push({ name: 'login' });
-				}
-			}
-			next();
-		});
+		// this.beforeEach((to, from, next) => {
+		// 	if (to.name === 'publish' || to.name === 'PersonalCenter') {
+		// 		if (!Cookies.get('token') || !Cookies.get('nickname')) {
+		// 			this.push({ name: 'login' });
+		// 		}
+		// 	}
+		// 	next();
+		// });
 	}
 }
 export default LocalRouter;

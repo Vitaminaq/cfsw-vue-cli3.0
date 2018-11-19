@@ -1,11 +1,12 @@
 import PublishApi from '@src/api/publish';
-import VuexClass from '@src/common/vuex-class';
+import BaseLoaderData from '@src/common/base-loader-data';
 
-class userPublish extends VuexClass {
+class userPublish extends BaseLoaderData<Publish.RequestParams, string> {
+	readonly namespaced: boolean = true;
 	constructor() {
 		super(new PublishApi());
 	}
-	state: Publish.State = {
+	public readonly state: Publish.State = {
 		params: {
 			title: '',
 			msg: ''
@@ -14,38 +15,15 @@ class userPublish extends VuexClass {
 			code: 0,
 			data: ''
 		},
-		publishStatus: 'unrequest',
-		isEmpty: true
+		requestStatus: 'unrequest'
 	};
-	_res(state: any): this {
-		return state.res;
+	get res(): Publish.Response {
+		return this.state.res;
 	}
-	_publishStatus(state: any): this {
-		return state.publishStatus;
-	}
-	$assignParams(state: any, params: Publish.RequestParams): this {
-		return Object.assign(state.params, params);
-	}
-	$publishStart(state: any): this {
-		state.publishStatus = 'requesting';
-		return this;
-	}
-	$publishSuccess(state: any, res: Publish.Response): this {
-		if (res.code === 0 && res.data) {
-			state.publishStatus = 'success';
-			state.res = { ...res };
-		} else {
-			if (res.code !== 0 && res.data) {
-				state.res = { ...res };
-			}
-			state.publishStatus = 'error';
-		}
-		return this;
-	}
-	async userPublish({ commit, state }: any): Promise<this> {
-		commit('$publishStart');
-		const res = await new PublishApi().userPublish(state.params);
-		commit('$publishSuccess', res);
+	async userPublish(): Promise<this> {
+		this.$RequestStart();
+		const res = this.api.userPublish(this.state.params);
+		this.$RequestSuccess(res);
 		return this;
 	}
 }

@@ -6,7 +6,7 @@
     "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "lint": "eslint --fix --ext .js,.ts,.vue src",
     "prettier-watch": "onchange 'src/**/*.js' 'src/**/*.ts' 'src/**/*.vue' -- prettier --write {{changed}}"
   },
   "config": {
@@ -22,7 +22,7 @@
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
-    "vue-rescroll": "^1.0.18",
+    "vue-rescroll": "^1.0.17",
     "vue-router": "^3.0.1",
     "vue-virtual-scroller": "^1.0.0-beta.2",
     "vue2-toast": "^1.3.2",

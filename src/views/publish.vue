@@ -28,9 +28,6 @@ import { Toast, closeLoading } from '../common/comjs';
 import GeneralHeader from '@src/components/header/general-header.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 
-const publishModule = namespace('publish');
-const ArticListModule = namespace('ChatRoom/articList');
-
 @Component({
 	components: {
 		GeneralHeader,
@@ -38,35 +35,33 @@ const ArticListModule = namespace('ChatRoom/articList');
 	}
 })
 export default class publish extends Vue {
-	@publishModule.Mutation('$isEmpty') $isEmpty: any;
-	@publishModule.Getter('_isEmpty') isEmpty: any;
-	@publishModule.Mutation('$assignParams') $assignParams: any;
-	@publishModule.Action('userPublish') userPublish: any;
-	@publishModule.Getter('_res') res: any;
-	@ArticListModule.Mutation('$clearData') $clearData: any;
 	headerTitle: string = '发表文章';
 	title: string = '';
 	artic: string = '';
 	disable: boolean = false;
+
+	get publish() {
+		return this.$vuexClass.publish;
+	}
 
 	async publishIt() {
 		let params = {
 			title: this.title,
 			msg: this.artic
 		};
-		this.$isEmpty(params);
-		if (this.isEmpty) return Toast('', '内容不能为空!');
+		// this.$isEmpty(params);
+		// if (this.isEmpty) return Toast('', '内容不能为空!');
 		this.disable = true;
 		Toast('loading', '发表中...');
-		this.$assignParams(params);
-		await this.userPublish();
+		this.publish.$assignParams(params);
+		await this.publish.userPublish();
 		setTimeout(function() {
 			closeLoading();
 		}, 200);
 		this.disable = false;
-		Toast('', this.res.data);
-		if (this.res.code !== 0) return;
-		this.$clearData();
+		Toast('', this.publish.res.data);
+		if (this.publish.res.code !== 0) return;
+		this.publish.$clearData();
 		return this.$router.push({ name: 'chatroom' });
 	}
 }

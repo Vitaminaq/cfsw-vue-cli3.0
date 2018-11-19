@@ -1,46 +1,47 @@
-// const Login = () => import(/* webpackChunkName: "login" */ "@/views/login.vue");
+const Login = () =>
+	import(/* webpackChunkName: "login" */ '@src/views/login.vue');
 const Home = () =>
 	import(/* webpackChunkName: "home" */ '@src/views/chatroom.vue');
-// const Publish = () =>
-//   import(/* webpackChunkName: "publish" */ "@/views/publish.vue");
+const Publish = () =>
+	import(/* webpackChunkName: "publish" */ '@src/views/publish.vue');
 const Detail = () =>
 	import(/* webpackChunkName: "detail" */ '@src/views/detail.vue');
 // const Register = () =>
 //   import(/* webpackChunkName: "register" */ "@/views/register.vue");
 // const Reset = () => import(/* webpackChunkName: "reset" */ "@/views/reset.vue");
-// const PersonalCenter = () =>
-//   import(/* webpackChunkName: "person" */ "@/views/center/person.vue");
+const PersonalCenter = () =>
+	import(/* webpackChunkName: "person" */ '@src/views/center/person.vue');
 const demo = () =>
 	import(/* webpackChunkName: "person" */ '@src/views/demo.vue');
 
 import { RouteConfig } from 'vue-router';
 
 const RorterList: Array<RouteConfig> = [
-	// {
-	//   path: "/login",
-	//   name: "login",
-	//   component: Login
-	// },
+	{
+		path: '/login',
+		name: 'login',
+		component: Login
+	},
 	// {
 	//   path: "/register",
 	//   name: "register",
 	//   component: Register
 	// },
-	{
-		path: '/',
-		redirect: '/chatroom',
-		component: Home
-	},
+	// {
+	// 	path: '/',
+	// 	redirect: '/chatroom',
+	// 	component: Home
+	// },
 	{
 		path: '/chatroom',
 		name: 'chatroom',
 		component: Home
 	},
-	// {
-	//   path: "/publish",
-	//   name: "publish",
-	//   component: Publish
-	// },
+	{
+		path: '/publish',
+		name: 'publish',
+		component: Publish
+	},
 	{
 		path: '/detail',
 		name: 'detail',
@@ -51,11 +52,11 @@ const RorterList: Array<RouteConfig> = [
 	//   name: "reset",
 	//   component: Reset
 	// },
-	// {
-	//   path: "/my",
-	//   name: "PersonalCenter",
-	//   component: PersonalCenter
-	// },
+	{
+		path: '/my',
+		name: 'PersonalCenter',
+		component: PersonalCenter
+	},
 	{
 		path: '/demo',
 		name: 'demo',

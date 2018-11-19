@@ -27,12 +27,12 @@
 								:data-active="active"
 							>
 				-->
-				<artic-list
-					:item="item"
-					v-for="(item, key) in list"
-					:key="key"
-					@todetail="todetail"
-				/>
+				<!--
+					<artic-list
+						:item="item"
+						@todetail="todetail"
+					/>
+				-->
 				<!--
 					</DynamicScrollerItem>
 						</template>
@@ -103,11 +103,8 @@ export default class ChatRoom extends Vue {
 	}
 	#wrapper {
 		position: relative;
-		height: 550px;
+		height: 580px;
 		overflow-y: hidden;
 	}
-}
-.vue-recycle-scroller__item-wrapper {
-	height: auto !important;
 }
 </style>

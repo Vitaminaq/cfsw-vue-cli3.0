@@ -10,7 +10,6 @@ declare namespace Publish {
 	export interface State {
 		params: RequestParams;
 		res: Response;
-		publishStatus: Loader.RequestStatus;
-		isEmpty: boolean;
+		requestStatus: Loader.RequestStatus;
 	}
 }

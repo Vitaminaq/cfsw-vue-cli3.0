@@ -6,8 +6,17 @@
 		@touchmove="touchMove"
 		@touchend="touchEnd"
 	>
-		<down-loading :is-show="isShow" :height="height" />
-		<DynamicScroller :items="list" :min-item-height="16" class="scroller">
+		<down-loading
+			slot="before-container"
+			:is-show="isShow"
+			:height="height"
+		/>
+		<DynamicScroller
+			:items="list"
+			:min-item-height="84"
+			keyField="articId"
+			class="scroller"
+		>
 			<template slot-scope="{ item, index, active }">
 				<DynamicScrollerItem
 					:item="item"
@@ -16,17 +25,27 @@
 					:data-index="index"
 					:data-active="active"
 				>
-					<slot />
+					<!-- <slot /> -->
+					<artic-list
+						:item="item"
+						:index="index"
+						@todetail="todetail"
+					/>
 				</DynamicScrollerItem>
 			</template>
+			<see-loading
+				slot="after-container"
+				:pull-upstatus="pullUpstatus"
+				@pullUp="pullUp"
+			/>
 		</DynamicScroller>
-		<see-loading :pull-upstatus="pullUpstatus" @pullUp="pullUp" />
 	</div>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import SeeLoading from './see-loading.vue';
 import DownLoading from './down-loading.vue';
+import ArticList from '@src/components/artic-list/artic-list.vue';
 
 /**
  * 加载的几种状态
@@ -41,7 +60,8 @@ import DownLoading from './down-loading.vue';
 @Component({
 	components: {
 		SeeLoading,
-		DownLoading
+		DownLoading,
+		ArticList
 	}
 })
 export default class Scroller extends Vue {
@@ -55,6 +75,7 @@ export default class Scroller extends Vue {
 	myScroll: any;
 
 	mounted() {
+		console.log(this.list);
 		this.myScroll = this.$refs.my_scroll;
 	}
 	pullUp() {
@@ -92,6 +113,7 @@ export default class Scroller extends Vue {
 			this.clear();
 		}, 1);
 	}
+	async todetail(id: string) {}
 }
 </script>
 <style lang="less" scoped>

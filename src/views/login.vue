@@ -42,27 +42,11 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-/**
- * 这里使用一个vuex-class的插件，其实它并不支持用class类去写vuex，只是单纯的做了下vuex对ts的支持而已，
- * https://github.com/ktsn/vuex-class
- * 所以我自己做了一下简单的封装，让vuex拥有继承属性，但是在它github的下面有我组长写的vuex-class.js，是
- * 支持类的写法的，欢迎大家去查看。https://github.com/lzxb/vuex-class.js
- */
-// 这里用的是装饰器，分别对应vuex里面那几个map...的映射方法
 import { Action, Mutation, Getter, namespace } from 'vuex-class';
 import { Toast } from '../common/comjs';
-// 表示连接的是login module。
-const loginModule = namespace('login');
 
 @Component
 export default class login extends Vue {
-	// 表示映射的是login模块下mutation里的$isEmpty方法，其他类推
-	@loginModule.Mutation('$isEmpty') $isEmpty: any;
-	@loginModule.Getter('_isEmpty') isEmpty: any;
-	@loginModule.Action('userLogin') userLogin: any;
-	@loginModule.Mutation('$assignParams') $assignParams: any;
-	@loginModule.Getter('_res') res: any;
-
 	nickname: string = '';
 	password: string = '';
 
@@ -76,6 +60,10 @@ export default class login extends Vue {
 		}
 	};
 
+	get loginModule() {
+		return this.$vuexClass.login;
+	}
+
 	created() {
 		if (!this.$route.query.nickname) return;
 		this.nickname = this.$route.query.nickname;
@@ -86,15 +74,15 @@ export default class login extends Vue {
 			nickname: this.nickname,
 			password: this.password
 		};
-		this.$isEmpty(params);
-		if (this.isEmpty) return Toast('', '用户名密码不能为空');
-		this.$assignParams(params);
+		// this.$isEmpty(params);
+		// if (this.isEmpty) return Toast('', '用户名密码不能为空');
+		this.loginModule.$assignParams(params);
 		this.button.disabled = true;
-		await this.userLogin();
+		await this.loginModule.userLogin();
 		setTimeout(() => {
 			this.button.disabled = false;
 		}, 1000);
-		if (this.res.code !== 0) return Toast('', this.res.data);
+		// if (this.loginModule.res.code !== 0) return Toast('', this.loginModule.res.data);
 		const from = this.$route.query.from || '/';
 		return this.$router.push({ path: from });
 	}

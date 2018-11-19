@@ -8,3 +8,4 @@ config.local.js.rej
 public/*
 src/assets/*
 lib/*
+src/lib/*
