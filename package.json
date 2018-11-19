@@ -6,7 +6,7 @@
     "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "eslint --fix --ext .js,.ts,.vue src",
+    "lint": "vue-cli-service lint",
     "prettier-watch": "onchange 'src/**/*.js' 'src/**/*.ts' 'src/**/*.vue' -- prettier --write {{changed}}"
   },
   "config": {
