@@ -17,11 +17,15 @@ export class BaseVuexClass extends VuexClass {
 	detail: Detail;
 	publish: Publish;
 	login: Login;
+	reset: Reset;
+	register: Register;
 	modules: {
 		chatRoom: ChatRoom;
 		detail: Detail;
 		publish: Publish;
 		login: Login;
+		reset: Reset;
+		register: Register;
 	};
 	constructor() {
 		super();
@@ -30,11 +34,15 @@ export class BaseVuexClass extends VuexClass {
 		this.detail = new Detail();
 		this.publish = new Publish();
 		this.login = new Login();
+		this.reset = new Reset();
+		this.register = new Register();
 		this.modules = {
 			login: this.login,
 			chatRoom: this.chatRoom,
 			detail: this.detail,
-			publish: this.publish
+			publish: this.publish,
+			reset: this.reset,
+			register: this.register
 		};
 	}
 }

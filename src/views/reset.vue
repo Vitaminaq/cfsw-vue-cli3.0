@@ -61,21 +61,13 @@ import { Vue, Component } from 'vue-property-decorator';
 import { Action, namespace } from 'vuex-class';
 import { Toast } from '../common/comjs';
 
-const ResetModule = namespace('reset');
-
 @Component
 export default class Reset extends Vue {
-	@ResetModule.Mutation('$isEmpty') $isEmpty: any;
-	@ResetModule.Getter('_res') res: any;
-	@ResetModule.Getter('_isEmpty') isEmpty: any;
-	@ResetModule.Mutation('$assignParams') $assignParams: any;
-	@ResetModule.Action('userReset') userReset: any;
-
-	nickname: String = '';
-	name: String = '';
-	sex: String = '';
-	age: String = '';
-	password: String = '';
+	nickname: string = '';
+	name: string = '';
+	sex: string = '';
+	age: string = '';
+	password: string = '';
 	button: MyButton.Button<MyButton.BtnStyle> = {
 		disabled: false,
 		value: '重置',
@@ -85,6 +77,11 @@ export default class Reset extends Vue {
 			fontSize: '0.5rem'
 		}
 	};
+
+	get resetModule() {
+		return this.$vuexClass.reset;
+	}
+
 	async reset() {
 		let params = {
 			nickname: this.nickname,
@@ -93,14 +90,17 @@ export default class Reset extends Vue {
 			age: this.age,
 			password: this.password
 		};
-		this.$isEmpty(params);
-		if (this.isEmpty) return Toast('', '请按要求填写!');
+		if ((this as any).isEmpty(params)) {
+			console.log('请填写完整信息');
+			return;
+		}
+		// if (this.isEmpty) return Toast('', '请按要求填写!');
 		this.button.disabled = true;
-		this.$assignParams(params);
-		await this.userReset();
+		this.resetModule.$assignParams(params);
+		await this.resetModule.userReset();
 		this.button.disabled = false;
-		Toast('', this.res.data);
-		if (this.res.code !== 0) return;
+		Toast('', this.resetModule.res.data);
+		if (this.resetModule.res.code !== 0) return;
 		return this.$router.push({
 			name: 'login',
 			query: {

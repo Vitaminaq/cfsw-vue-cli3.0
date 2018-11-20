@@ -10,8 +10,7 @@ declare namespace Register {
 	export interface State {
 		params: RequestParams;
 		res: Response;
-		registerStatus: Loader.RequestStatus;
-		isEmpty: boolean;
+		requestStatus: Loader.RequestStatus;
 	}
 	export interface Response {
 		code: number;

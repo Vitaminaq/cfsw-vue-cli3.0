@@ -6,9 +6,10 @@ const Publish = () =>
 	import(/* webpackChunkName: "publish" */ '@src/views/publish.vue');
 const Detail = () =>
 	import(/* webpackChunkName: "detail" */ '@src/views/detail.vue');
-// const Register = () =>
-//   import(/* webpackChunkName: "register" */ "@/views/register.vue");
-// const Reset = () => import(/* webpackChunkName: "reset" */ "@/views/reset.vue");
+const Register = () =>
+	import(/* webpackChunkName: "register" */ '@src/views/register.vue');
+const Reset = () =>
+	import(/* webpackChunkName: "reset" */ '@src/views/reset.vue');
 const PersonalCenter = () =>
 	import(/* webpackChunkName: "person" */ '@src/views/center/person.vue');
 const demo = () =>
@@ -22,11 +23,11 @@ const RorterList: Array<RouteConfig> = [
 		name: 'login',
 		component: Login
 	},
-	// {
-	//   path: "/register",
-	//   name: "register",
-	//   component: Register
-	// },
+	{
+		path: '/register',
+		name: 'register',
+		component: Register
+	},
 	// {
 	// 	path: '/',
 	// 	redirect: '/chatroom',
@@ -47,11 +48,11 @@ const RorterList: Array<RouteConfig> = [
 		name: 'detail',
 		component: Detail
 	},
-	// {
-	//   path: "/reset",
-	//   name: "reset",
-	//   component: Reset
-	// },
+	{
+		path: '/reset',
+		name: 'reset',
+		component: Reset
+	},
 	{
 		path: '/my',
 		name: 'PersonalCenter',

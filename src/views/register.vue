@@ -77,29 +77,16 @@ import { Action, Mutation, namespace } from 'vuex-class';
 import { Toast, closeLoading } from '../common/comjs';
 import GeneralHeader from '@src/components/header/general-header.vue';
 
-const registerModule = namespace('register');
-
 @Component({
 	components: {
 		GeneralHeader
 	}
 })
 export default class Register extends Vue {
-	@registerModule.Mutation('$isEmpty')
-	$isEmpty: any;
-	@registerModule.Getter('_isEmpty')
-	isEmpty: any;
-	@registerModule.Mutation('$assignParams')
-	$assignParams: any;
-	@registerModule.Action('userRegister')
-	userRegister: any;
-	@registerModule.Getter('_res')
-	res: any;
-
-	nickname: String = '';
-	name: String = '';
-	password: String = '';
-	sex: String = '';
+	nickname: string = '';
+	name: string = '';
+	password: string = '';
+	sex: string = '';
 	age: string = '';
 	uploadImg: any = '';
 	headerImg: any = '';
@@ -113,6 +100,10 @@ export default class Register extends Vue {
 		}
 	};
 
+	get registerModule() {
+		return this.$vuexClass.register;
+	}
+
 	async register() {
 		let params = {
 			nickname: this.nickname,
@@ -122,18 +113,21 @@ export default class Register extends Vue {
 			age: this.age,
 			headimg: this.headerImg
 		};
-		this.$isEmpty(params);
-		if (this.isEmpty) return Toast('', '请填写完整信息');
-		this.$assignParams(params);
+		if ((this as any).isEmpty(params)) {
+			console.log('请填写完整信息');
+			return;
+		}
+		//return Toast('', '请填写完整信息');
+		this.registerModule.$assignParams(params);
 		Toast('loading', '注册中...');
 		this.button.disabled = true;
-		await this.userRegister();
+		await this.registerModule.userRegister();
 		closeLoading();
 		setTimeout(() => {
 			this.button.disabled = false;
 		}, 1000);
-		Toast('', this.res.data);
-		if (this.res.code === 0) {
+		Toast('', this.registerModule.res.data);
+		if (this.registerModule.res.code === 0) {
 			return this.$router.push({
 				name: 'login',
 				query: {

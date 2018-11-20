@@ -14,6 +14,5 @@ declare namespace Reset {
 		params: RequestParams;
 		res: Response;
 		requestStatus: Loader.RequestStatus;
-		isEmpty: boolean;
 	}
 }

@@ -29,6 +29,16 @@ Vue.mixin({
 				});
 			}
 			return true;
+		},
+		// 判断参数是否为空
+		isEmpty(params: any) {
+			let Arr = [];
+			for (const key in params) {
+				if (params.hasOwnProperty(key)) {
+					Arr.push(params[key]);
+				}
+			}
+			return Arr.includes('');
 		}
 	}
 });
