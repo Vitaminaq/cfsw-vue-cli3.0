@@ -5,48 +5,25 @@
 		<div id="wrapper">
 			<scroller
 				:pull-down-status="pullDownStatus"
-				v-rescroll="{ name: 'chatroom' }"
 				@pullUp="pullUp"
 				:pull-upstatus="pullUpStatus"
 				@dropDown="dropDown"
 				:list="list"
+				:minItemHeight="minItemHeight"
 			>
-				<!--
-					<DynamicScroller
-						:items="list"
-						:min-item-height="16"
-						class="scroller"
-					>
-						<ul v-if="!!list[0]">
-						<template slot-scope="{ item, index, active }">
-							<DynamicScrollerItem
-								:item="item"
-								:active="active"
-								:size-dependencies="[item.msg]"
-								:data-index="index"
-								:data-active="active"
-							>
-				-->
-				<!--
+				<template slot-scope="{ item }">
 					<artic-list
 						:item="item"
-						@todetail="todetail"
+						@click.native="todetail(item.articId);"
 					/>
-				-->
-				<!--
-					</DynamicScrollerItem>
-						</template>
-					  </ul>
-					</DynamicScroller>
-				-->
+				</template>
 			</scroller>
 		</div>
 		<footer-content />
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import { State } from '@src/common/vuex-map';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import { Toast, Time } from '@src/common/comjs';
 import Scroller from '@src/components/scroller/scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
@@ -57,6 +34,7 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 	components: { Scroller, ArticList, FooterContent, LogoHeader }
 })
 export default class ChatRoom extends Vue {
+	minItemHeight: string | number = 84;
 	get articList() {
 		return this.$vuexClass.chatRoom.articList;
 	}

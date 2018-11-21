@@ -6,6 +6,7 @@
       ready,
       'page-mode': pageMode,
     }"
+    v-rescroll="{name: 'chatroom123'}"
     @scroll.passive="handleScroll"
   >
     <slot
@@ -95,12 +96,18 @@ export default {
   },
 
   mounted () {
-    this.applyPageMode()
-    this.$nextTick(() => {
-      this.updateVisibleItems(true)
-      this.ready = true
-    })
-    console.log(this.itemHeight, this.heights, '22222222222222');
+      this.applyPageMode()
+      this.$nextTick(() => {
+        if (this.$root.$virtual) {
+           this.pool = this.$root.$virtual.pool
+          // setTimeout(() => {
+          //    this.$el.scrollTop = this.$root.$virtual.top
+          // }, 200);
+        } else {
+          this.updateVisibleItems(true)
+        }
+        this.ready = true
+      })
   },
 
   methods: {
@@ -146,6 +153,10 @@ export default {
     },
 
     handleScroll (event) {
+      this.$root.$virtual = {
+        top: this.$el.scrollTop,
+        pool: this.pool
+      };
       if (!this.$_scrollDirty) {
         this.$_scrollDirty = true
         requestAnimationFrame(() => {
@@ -202,7 +213,6 @@ export default {
 
         // Variable height mode
         if (itemHeight === null) {
-          console.log(heights, 'ggggggggggggggggggg');
           let h
           let a = 0
           let b = count - 1

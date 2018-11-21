@@ -1,5 +1,5 @@
 <template>
-	<li @click="todetail(item.articId);">
+	<li>
 		<div class="artic-content">
 			<div class="userImg">
 				<img :src="`${baseUrl}${item.headimg}`" />
@@ -36,9 +36,6 @@ export default class ArticList extends Vue {
 		return config.BASE_URL;
 	}
 
-	todetail(id: string) {
-		this.$emit('todetail', id);
-	}
 	time(creatAt: string) {
 		return Time(Number(creatAt));
 	}

@@ -13,7 +13,7 @@
 		/>
 		<DynamicScroller
 			:items="list"
-			:min-item-height="84"
+			:min-item-height="minItemHeight"
 			keyField="articId"
 			class="scroller"
 		>
@@ -25,12 +25,7 @@
 					:data-index="index"
 					:data-active="active"
 				>
-					<!-- <slot /> -->
-					<artic-list
-						:item="item"
-						:index="index"
-						@todetail="todetail"
-					/>
+					<slot :item="item" />
 				</DynamicScrollerItem>
 			</template>
 			<see-loading
@@ -45,11 +40,10 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import SeeLoading from './see-loading.vue';
 import DownLoading from './down-loading.vue';
-import ArticList from '@src/components/artic-list/artic-list.vue';
 
 /**
  * 加载的几种状态
- * 未加载 unrequest
+ * 未加载   unrequest
  * 正在加载 requesting
  * 加载成功 success
  * 请求失败 failure
@@ -60,60 +54,114 @@ import ArticList from '@src/components/artic-list/artic-list.vue';
 @Component({
 	components: {
 		SeeLoading,
-		DownLoading,
-		ArticList
+		DownLoading
 	}
 })
 export default class Scroller extends Vue {
 	@Prop() pullUpstatus!: string;
 	@Prop() pullDownStatus!: string;
 	@Prop({ default: () => {} }) list!: any;
+	@Prop({ default: '' }) minItemHeight!: string | number;
 	time: number = 0;
 	touchStartY: number = 0;
 	height: number = 0;
 	isShow: Boolean = false;
 	myScroll: any;
+	downLoading: boolean = false;
 
 	mounted() {
-		console.log(this.list);
 		this.myScroll = this.$refs.my_scroll;
 	}
 	pullUp() {
 		this.$emit('pullUp');
 	}
 	touchStart() {
+		if (this.height !== 0) {
+			this.touchStartY = 10000;
+			return;
+		}
 		let e: any = window.event || event;
 		this.touchStartY = e.changedTouches[0].clientY;
 	}
+	// touchMove() {
+	// 	let e: any = window.event || event;
+	// 	let top = this.myScroll.scrollTop;
+	// 	if (this.touchStartY - e.changedTouches[0].clientY > 0 || top > 0)
+	// 		return;
+	// 	if (this.height < 60) {
+	// 		if (this.height > 20) this.isShow = true;
+	// 		this.height = e.changedTouches[0].clientY - this.touchStartY;
+	// 	} else {
+	// 		this.height = 60;
+	// 	}
+	// }
+	// touchEnd() {
+	// 	let e: any = window.event || event;
+	// 	let top = this.myScroll.scrollTop;
+	// 	if (this.height === 60) {
+	// 		this.$emit('dropDown');
+	// 		this.clear();
+	// 	}
+	// }
 	touchMove() {
 		let e: any = window.event || event;
 		let top = this.myScroll.scrollTop;
-		if (this.touchStartY - e.changedTouches[0].clientY > 0 || top > 0)
+		// this.backTopBtn = false;
+		if (!this.touchStartY) return;
+		if (
+			this.touchStartY - e.changedTouches[0].clientY >= 0 ||
+			top !== 0 ||
+			!this.$listeners.pullDown
+		)
 			return;
-		if (this.height < 60) {
-			if (this.height > 20) this.isShow = true;
+		if (this.height < 70) {
+			if (this.height > 20) {
+				this.downLoading = true;
+			}
 			this.height = e.changedTouches[0].clientY - this.touchStartY;
 		} else {
-			this.height = 60;
+			this.height = 70;
 		}
 	}
 	touchEnd() {
-		let e: any = window.event || event;
-		let top = this.myScroll.scrollTop;
-		if (this.height === 60) {
-			this.$emit('dropDown');
-			this.clear();
+		if (this.height > 50) {
+			this.$emit('pullDown');
+			this.animate();
+		} else {
+			this.downLoading = false;
+			this.height = 0;
 		}
+		// if (this.myScroll.scrollTop > 10) {
+		// 	this.backTopBtn = true;
+		// } else {
+		// 	this.backTopBtn = false;
+		// }
 	}
-	clear() {
-		setTimeout(() => {
-			if (this.height === 0) return;
-			if (this.height < 20) this.isShow = false;
-			this.height = this.height - 1;
-			this.clear();
+	animate() {
+		let timer1: any;
+		if (this.height <= 50) {
+			setTimeout(() => {
+				this.downLoading = false;
+				this.height = 0;
+			}, 200);
+		}
+		timer1 = setTimeout(() => {
+			if (this.height > 50) {
+				this.height = this.height - 1;
+				this.animate();
+			} else {
+				clearTimeout(timer1);
+			}
 		}, 1);
 	}
-	async todetail(id: string) {}
+	// clear() {
+	// 	setTimeout(() => {
+	// 		if (this.height === 0) return;
+	// 		if (this.height < 20) this.isShow = false;
+	// 		this.height = this.height - 1;
+	// 		this.clear();
+	// 	}, 1);
+	// }
 }
 </script>
 <style lang="less" scoped>

@@ -7589,7 +7589,7 @@ vue-property-decorator@^7.0.0:
   dependencies:
     vue-class-component "^6.2.0"
 
-vue-rescroll@^1.0.18:
+vue-rescroll@^1.0.17:
   version "1.0.18"
   resolved "https://registry.yarnpkg.com/vue-rescroll/-/vue-rescroll-1.0.18.tgz#be138cb0bfbff2e30e6d0849ee16a8e6f781ae4c"
   integrity sha512-TdfKqLpO1yFZVttZN/HXy93pw7e+S7lX6tClkexI4tzY3OsTOW//22o17GMflVhTpTH4cHua8jP5S7ACWohI0w==

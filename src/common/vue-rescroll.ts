@@ -17,8 +17,8 @@ class ScrollPosition {
 		x: 0,
 		y: 0
 	};
+	isInit: Boolean = true;
 	$savePosition(position: Position) {
-		console.log(position, 3333333333);
 		return Object.assign(this.position, position);
 	}
 }
@@ -27,7 +27,7 @@ class ScrollPosition {
  * 指令类
  */
 interface Options {
-	dom: HTMLElement;
+	dom: DirectiveHTMLElement;
 	name: string;
 	rescroll: any;
 }
@@ -117,6 +117,7 @@ const directive = {
 		binding: Binding,
 		vnode: VNode
 	) {
+		if (!binding.value.name) return this;
 		nowName = binding.value.name;
 		if (!vnode.context) return this;
 		if (!vnode.context.$root) return this;
@@ -160,16 +161,26 @@ const directive = {
 		if (!el.restoreScroll) {
 			el.restoreScroll = {};
 		}
+		if (!el.restoreScroll.componentUpdatedCounts) {
+			el.restoreScroll.componentUpdatedCounts = 1;
+		}
 		if (!el.restoreScroll[nowName]) {
 			el.restoreScroll[nowName] = new RestoreScroll(options);
 			return this;
 		} else {
-			el.restoreScroll[nowName].update(options);
+			el.restoreScroll.componentUpdatedCounts++;
+			console.log(el.scrollHeight);
+			console.log(el.restoreScroll.componentUpdatedCounts);
+			if (el.restoreScroll.componentUpdatedCounts < 5) {
+				el.restoreScroll[nowName].update(options);
+			}
 			return this;
 		}
 	},
 	unbind(el: DirectiveHTMLElement) {
-		el.restoreScroll[nowName].destroy();
+		if (el.restoreScroll && el.restoreScroll.destroy) {
+			el.restoreScroll[nowName].destroy();
+		}
 		delete el.restoreScroll;
 	}
 };

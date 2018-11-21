@@ -111,9 +111,9 @@ export default {
   },
 
   mounted () {
-    setTimeout(() => {
-      console.log(this.items, 'oooooooooooooooooooooooo', this.vscrollData);
-    }, 1000);
+    // setTimeout(() => {
+    //   console.log(this.items, 'oooooooooooooooooooooooo', this.vscrollData);
+    // }, 1000);
     const scroller = this.$refs.scroller
     const rect = this.getSize(scroller)
     this._scrollerWidth = rect.width

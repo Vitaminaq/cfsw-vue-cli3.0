@@ -68,7 +68,6 @@ export default {
   computed: {
     heights () {
       if (this.itemHeight === null) {
-        console.log('vvvvvvvvvvvvvvvvvvvvvv', this.items, this.minItemHeight);
         const heights = {
           '-1': { accumulator: 0 },
         }
@@ -80,7 +79,6 @@ export default {
         for (let i = 0, l = items.length; i < l; i++) {
           current = items[i][field] || minItemHeight
           accumulator += current
-          console.log(accumulator, 'lllllllllllllllllllllll');
           heights[i] = { accumulator, height: current }
         }
         return heights
@@ -105,6 +103,7 @@ export default {
     getScroll () {
       const el = this.$el
       // const wrapper = this.$refs.wrapper
+
       let scrollState
 
       if (this.pageMode) {
@@ -128,8 +127,11 @@ export default {
           bottom: el.scrollTop + el.clientHeight,
         }
       }
-
-      return scrollState
+      // if (!this.$root.$virtual) {
+      //   this.$root.$virtual = scrollState;
+      // };
+      // return this.$root.$virtual
+      return scrollState;
     },
 
     applyPageMode () {
