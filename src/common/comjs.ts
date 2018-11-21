@@ -4,19 +4,19 @@
 import Vue from 'vue';
 
 // 封装的toast函数
-const Toast = (mark: String, msg: String): void => {
-	if (mark === 'loading') {
-		// 加载动画toast
-		Vue.prototype.$loading(msg);
-	} else {
-		// 正常提示toast
-		Vue.prototype.$toast(msg);
-	}
-};
-// 加载动画toast的关闭函数
-var closeLoading = (): void => {
-	Vue.prototype.$loading.close();
-};
+// const Toast = (mark: String, msg: String): void => {
+// 	if (mark === 'loading') {
+// 		// 加载动画toast
+// 		Vue.prototype.$loading(msg);
+// 	} else {
+// 		// 正常提示toast
+// 		Vue.prototype.$toast(msg);
+// 	}
+// };
+// // 加载动画toast的关闭函数
+// var closeLoading = (): void => {
+// 	Vue.prototype.$loading.close();
+// };
 
 // 时间格式
 const Time = function(str: number) {

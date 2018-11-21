@@ -6,7 +6,7 @@ module.exports = {
 	lintOnSave: process.env.NODE_ENV !== 'production',
 	productionSourceMap: false,
 	configureWebpack(webpackConfig) {
-		webpackConfig.resolve.extensions = ['.vue', '.js', '.ts'];
+		webpackConfig.resolve.extensions = ['.vue', '.js', '.ts', 'jsx', 'tsx'];
 		webpackConfig.resolve.alias = {
 			'@src': path.resolve(__dirname, './src')
 		};

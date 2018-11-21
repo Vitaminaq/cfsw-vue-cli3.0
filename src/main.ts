@@ -2,8 +2,8 @@ import Vue, { CreateElement, ComponentOptions } from 'vue';
 import App from './App.vue';
 import localRouter from './router';
 import localStore, { BaseVuexClass } from './store';
-import 'vue2-toast/lib/toast.css';
-import Toast from 'vue2-toast';
+// import 'vue2-toast/lib/toast.css';
+// import Toast from 'vue2-toast';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
 // import VueRescroll from 'vue-rescroll';
@@ -12,6 +12,7 @@ import VueVirtualScroller from '@src/lib/vue-virtual-scroller';
 import VueRescroll from './common/vue-rescroll';
 import Cookies from 'js-cookie';
 import svgSprite from '@src/lib/svg-sprite';
+import LocalToast from '@src/components/toast/toast';
 import './registerServiceWorker';
 
 Vue.config.productionTip = false;
@@ -43,16 +44,17 @@ Vue.mixin({
 	}
 });
 
-Vue.use(Toast, {
-	defaultType: 'bottom',
-	duration: 1000,
-	wordWrap: true,
-	width: '170px'
-});
+// Vue.use(Toast, {
+// 	defaultType: 'bottom',
+// 	duration: 1000,
+// 	wordWrap: true,
+// 	width: '170px'
+// });
 Vue.use(MyButton);
 Vue.use(VueRescroll);
 Vue.use(SvgIcon);
 Vue.use(VueVirtualScroller);
+Vue.use(LocalToast);
 
 // 注册一个全局自定义指令 `v-focus`
 Vue.directive('focus', {

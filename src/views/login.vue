@@ -76,6 +76,7 @@ export default class login extends Vue {
 		};
 		if ((this as any).isEmpty(params)) {
 			console.log('请填写完整信息');
+			(this as any).$toast();
 			return;
 		}
 		// if (this.isEmpty) return Toast('', '用户名密码不能为空');

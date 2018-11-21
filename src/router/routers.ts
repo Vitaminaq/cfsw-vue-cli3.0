@@ -12,8 +12,6 @@ const Reset = () =>
 	import(/* webpackChunkName: "reset" */ '@src/views/reset.vue');
 const PersonalCenter = () =>
 	import(/* webpackChunkName: "person" */ '@src/views/center/person.vue');
-const demo = () =>
-	import(/* webpackChunkName: "person" */ '@src/views/demo.vue');
 
 import { RouteConfig } from 'vue-router';
 
@@ -57,11 +55,6 @@ const RorterList: Array<RouteConfig> = [
 		path: '/my',
 		name: 'PersonalCenter',
 		component: PersonalCenter
-	},
-	{
-		path: '/demo',
-		name: 'demo',
-		component: demo
 	}
 ];
 export default RorterList;
