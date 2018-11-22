@@ -1,40 +1,67 @@
-import { Vue, Component } from 'vue-property-decorator';
+import Vue from 'vue';
 
-export interface ToastOptions {}
 class LocalToast extends Vue {
-	constructor(options?: any) {
+	constructor(localOptions: LocalToastOptions) {
 		super({
-			created() {
-				console.log(11111111);
+			data() {
+				return {
+					tips: '',
+					timer: ''
+				};
 			},
-			render(createElement: any) {
-				return createElement('div', {
-					style: {
-						width: '200px',
-						height: '50px',
-						color: 'red',
-						fontSize: '14px',
-						backgroundColor: '#333',
-						opacity: '0.8',
-						borderRadius: '5px'
+			render: function(h) {
+				return h('div', {
+					style: localOptions.cssStyle,
+					domProps: {
+						innerHTML: (this as any).tips
 					}
 				});
 			},
-			beforeDestroy() {
-				console.log(22222222);
+			methods: {
+				toggle(tips: string) {
+					if (!!tips) this.$el.style.display = 'block';
+					if ((this as any).timer) {
+						clearTimeout((this as any).timer);
+					}
+					(this as any).tips = tips;
+					(this as any).timer = setTimeout(() => {
+						this.$el.style.display = 'none';
+						(this as any).tips = '';
+					}, localOptions.continuedTime);
+				}
 			}
 		});
+		this.$mount().$el;
 		let el: HTMLElement = this.$mount().$el;
-		const dom = document.body.appendChild(el);
-		setTimeout(() => {
-			document.body.removeChild(dom);
-			this.$destroy();
-		}, 1000);
+		document.body.appendChild(el);
 	}
 }
-export default function install(Vue: any, options: any) {
-	Vue.prototype.$toast = () => {
-		new LocalToast();
-	};
+export interface LocalToastOptions {
+	cssStyle: any;
+	continuedTime: number;
 }
-// export default LocalToast;
+export default function install(Vue: any, options: any) {
+	const localOptions: LocalToastOptions = {
+		cssStyle: {
+			position: 'fixed',
+			bottom: '60px',
+			left: '50%',
+			zIndex: '9999',
+			transform: 'translateX(-50%)',
+			width: 'auto',
+			minWidth: '50px',
+			padding: '5px 8px',
+			color: '#fff',
+			fontSize: '14px',
+			backgroundColor: '#333',
+			opacity: '0.8',
+			borderRadius: '5px',
+			textAlign: 'center',
+			display: 'none'
+		},
+		continuedTime: 1000
+	};
+	Object.assign(localOptions, options);
+	const toast = new LocalToast(localOptions);
+	Vue.prototype.$toast = (toast as any).toggle;
+}

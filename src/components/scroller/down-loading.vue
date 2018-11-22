@@ -1,5 +1,8 @@
 <template>
-	<div class="down-loading" :style="{ height: height + 'px' }">
+	<div
+		class="down-loading"
+		:style="{ height: height + 'px', lineHeight: height + 'px' }"
+	>
 		<img v-if="isShow" src="./loading.gif" />
 	</div>
 </template>

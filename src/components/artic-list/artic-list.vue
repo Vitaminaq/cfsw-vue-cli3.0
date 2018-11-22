@@ -1,5 +1,5 @@
 <template>
-	<li>
+	<div class="list-item">
 		<div class="artic-content">
 			<div class="userImg">
 				<img :src="`${baseUrl}${item.headimg}`" />
@@ -21,7 +21,7 @@
 			</div>
 			<div><svg-icon name="click" />{{ item.clicknum }}</div>
 		</div>
-	</li>
+	</div>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
@@ -42,7 +42,7 @@ export default class ArticList extends Vue {
 }
 </script>
 <style lang="less" scoped>
-li {
+.list-item {
 	border-bottom: solid #adadad 1px;
 	.artic-content {
 		width: 98%;

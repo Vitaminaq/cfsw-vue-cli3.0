@@ -30,15 +30,17 @@ interface Options {
 	dom: DirectiveHTMLElement;
 	name: string;
 	rescroll: any;
+	vn: VNode;
 }
-class RestoreScroll extends Vue {
+class RestoreScroll {
 	opt: Options;
 	watchScroll?: () => void;
 	timer: any;
+	timer1: any;
 	constructor(options: Options) {
-		super();
 		this.opt = options;
 		this.timer = {};
+		this.timer1 = {};
 		this.openScrollStore();
 		this.getPosition();
 		this.scrollTo();
@@ -74,19 +76,54 @@ class RestoreScroll extends Vue {
 		return this;
 	}
 	scrollTo(): this {
-		const { dom, name, rescroll } = this.opt;
+		const { dom, name, rescroll, vn } = this.opt;
 		const { x, y } = rescroll[name].position;
-		if (!rescroll[name] || dom.scrollHeight < y || dom.scrollWidth < x) {
-			dom.scrollLeft = 0;
-			dom.scrollTop = 0;
-			return this;
-		}
-		this.$nextTick(() => {
+		// console.log(dom.scrollTop, y);
+		// if (!rescroll[name] || dom.scrollHeight < y || dom.scrollWidth < x) {
+		// 	dom.scrollLeft = 0;
+		// 	dom.scrollTop = 0;
+		// 	return this;
+		// }
+		if (!vn.context) return this;
+		vn.context.$nextTick(() => {
 			dom.scrollLeft = x;
 			dom.scrollTop = y;
 		});
+		// this.animate(x, y, dom);
 		return this;
 	}
+	// decrement(num1: number, num2: number) {
+	// 	let a = num1 - num2;
+	// 	if (a / 10 < 1) {
+	// 		clearInterval(this.timer1);
+	// 		return a;
+	// 	}
+	// 	let b = (a / 10) * 2;
+	// 	return b;
+	// }
+	// animate(x: number, y: number, dom: any) {
+	// 	console.log(y, dom.scrollTop, '123');
+	// 	if (y === dom.scrollTop) return;
+	// 	let localX = x;
+	// 	let localY = y;
+	// 	this.timer1 = setInterval(() => {
+	// 		if (dom.scrollTop >= y) {
+	// 			clearInterval(this.timer1);
+	// 		}
+	// 		// let distance = this.decrement(y, dom.scrollTop);
+	// 		console.log(y, dom.scrollTop);
+	// 		dom.scrollTop = dom.scrollTop + 10;
+	// 	}, 1000 / 60);
+	// 	// setTimeout(() => {
+	// 	// 	let distance = this.decrement(y, dom.scrollTop);
+	// 	// 	console.log(y, distance);
+	// 	// 	dom.scrollTop = distance;
+	// 	// 	if (dom.scrollTop === y) {
+	// 	// 		clearInterval(this.timer1);
+	// 	// 	}
+	// 	// 	this.animate(x, y, dom);
+	// 	// }, 1000 / 60);
+	// }
 	destroy(): this {
 		const { dom } = this.opt;
 		if (this.watchScroll) {
@@ -111,72 +148,43 @@ interface VueRoot extends Vue {
 }
 
 let nowName: string = '';
+
+// 钩子函数
+const hookMethod = function(
+	el: DirectiveHTMLElement,
+	binding: Binding,
+	vnode: VNode
+) {
+	if (!binding.value.name) return;
+	nowName = binding.value.name;
+	if (!vnode.context) return;
+	if (!vnode.context.$root) return;
+	const root: VueRoot = vnode.context.$root;
+	if (!root.$rescroll) {
+		root.$rescroll = {};
+	}
+	const options: Options = {
+		dom: el,
+		name: binding.value.name,
+		rescroll: root.$rescroll,
+		vn: vnode
+	};
+	if (!el.restoreScroll) {
+		el.restoreScroll = {};
+	}
+	if (!el.restoreScroll[nowName]) {
+		console.log(1);
+		el.restoreScroll[nowName] = new RestoreScroll(options);
+		return;
+	} else {
+		console.log(1);
+		el.restoreScroll[nowName].update(options);
+		return;
+	}
+};
 const directive = {
-	inserted: function(
-		el: DirectiveHTMLElement,
-		binding: Binding,
-		vnode: VNode
-	) {
-		if (!binding.value.name) return this;
-		nowName = binding.value.name;
-		if (!vnode.context) return this;
-		if (!vnode.context.$root) return this;
-		const root: VueRoot = vnode.context.$root;
-		if (!root.$rescroll) {
-			root.$rescroll = {};
-		}
-		const options: Options = {
-			dom: el,
-			name: binding.value.name,
-			rescroll: root.$rescroll
-		};
-		if (!el.restoreScroll) {
-			el.restoreScroll = {};
-		}
-		if (!el.restoreScroll[nowName]) {
-			el.restoreScroll[nowName] = new RestoreScroll(options);
-			return this;
-		} else {
-			el.restoreScroll[nowName].update(options);
-			return this;
-		}
-	},
-	componentUpdated: function(
-		el: DirectiveHTMLElement,
-		binding: Binding,
-		vnode: VNode
-	) {
-		nowName = binding.value.name;
-		if (!vnode.context) return this;
-		if (!vnode.context.$root) return this;
-		const root: VueRoot = vnode.context.$root;
-		if (!root.$rescroll) {
-			root.$rescroll = {};
-		}
-		const options: Options = {
-			dom: el,
-			name: binding.value.name,
-			rescroll: root.$rescroll
-		};
-		if (!el.restoreScroll) {
-			el.restoreScroll = {};
-		}
-		if (!el.restoreScroll.componentUpdatedCounts) {
-			el.restoreScroll.componentUpdatedCounts = 1;
-		}
-		if (!el.restoreScroll[nowName]) {
-			el.restoreScroll[nowName] = new RestoreScroll(options);
-			return this;
-		} else {
-			el.restoreScroll.componentUpdatedCounts++;
-			console.log(el.scrollHeight);
-			console.log(el.restoreScroll.componentUpdatedCounts);
-			if (el.restoreScroll.componentUpdatedCounts < 5) {
-				el.restoreScroll[nowName].update(options);
-			}
-			return this;
-		}
-	},
+	inserted: hookMethod,
+	componentUpdated: hookMethod,
 	unbind(el: DirectiveHTMLElement) {
 		if (el.restoreScroll && el.restoreScroll.destroy) {
 			el.restoreScroll[nowName].destroy();
@@ -185,6 +193,7 @@ const directive = {
 	}
 };
 
+// 指令注册
 const plugin = {
 	install(Vue: VueConstructor) {
 		Vue.directive('rescroll', directive);

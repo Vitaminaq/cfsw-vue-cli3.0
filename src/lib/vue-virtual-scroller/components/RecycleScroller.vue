@@ -6,13 +6,11 @@
       ready,
       'page-mode': pageMode,
     }"
-    v-rescroll="{name: 'chatroom123'}"
-    @scroll.passive="handleScroll"
+    @scroll.passive.stop="handleScroll"
   >
     <slot
       name="before-container"
     />
-
     <div
       ref="wrapper"
       :style="{ height: totalHeight + 'px' }"
@@ -98,15 +96,8 @@ export default {
   mounted () {
       this.applyPageMode()
       this.$nextTick(() => {
-        if (this.$root.$virtual) {
-           this.pool = this.$root.$virtual.pool
-          // setTimeout(() => {
-          //    this.$el.scrollTop = this.$root.$virtual.top
-          // }, 200);
-        } else {
           this.updateVisibleItems(true)
-        }
-        this.ready = true
+          this.ready = true
       })
   },
 

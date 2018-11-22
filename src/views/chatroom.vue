@@ -56,7 +56,7 @@ export default class ChatRoom extends Vue {
 	}
 	async dropDown() {
 		await this.articList.pullDown();
-		Toast('', '刷新成功！');
+		(this as any).$toast('刷新成功!');
 	}
 	async todetail(id: string) {
 		let params: ChatRoom.View.RequestParams = {
@@ -68,6 +68,9 @@ export default class ChatRoom extends Vue {
 			return this.$router.push({ name: 'detail', query: { id: id } });
 		}
 		return Toast('', this.view.res.data);
+	}
+	test() {
+		console.log(this.$el.scrollTop);
 	}
 }
 </script>
@@ -81,7 +84,7 @@ export default class ChatRoom extends Vue {
 	}
 	#wrapper {
 		position: relative;
-		height: 580px;
+		// height: 580px;
 		overflow-y: hidden;
 	}
 }

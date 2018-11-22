@@ -16,6 +16,7 @@
 			:min-item-height="minItemHeight"
 			keyField="articId"
 			class="scroller"
+			v-rescroll="{ name: 'chatroom123' }"
 		>
 			<template slot-scope="{ item, index, active }">
 				<DynamicScrollerItem
@@ -111,12 +112,12 @@ export default class Scroller extends Vue {
 		if (
 			this.touchStartY - e.changedTouches[0].clientY >= 0 ||
 			top !== 0 ||
-			!this.$listeners.pullDown
+			!this.$listeners.dropDown
 		)
 			return;
 		if (this.height < 70) {
 			if (this.height > 20) {
-				this.downLoading = true;
+				this.isShow = true;
 			}
 			this.height = e.changedTouches[0].clientY - this.touchStartY;
 		} else {
@@ -125,10 +126,10 @@ export default class Scroller extends Vue {
 	}
 	touchEnd() {
 		if (this.height > 50) {
-			this.$emit('pullDown');
+			this.$emit('dropDown');
 			this.animate();
 		} else {
-			this.downLoading = false;
+			this.isShow = false;
 			this.height = 0;
 		}
 		// if (this.myScroll.scrollTop > 10) {
@@ -141,7 +142,7 @@ export default class Scroller extends Vue {
 		let timer1: any;
 		if (this.height <= 50) {
 			setTimeout(() => {
-				this.downLoading = false;
+				this.isShow = false;
 				this.height = 0;
 			}, 200);
 		}
