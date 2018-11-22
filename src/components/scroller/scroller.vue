@@ -6,18 +6,17 @@
 		@touchmove="touchMove"
 		@touchend="touchEnd"
 	>
-		<down-loading
-			slot="before-container"
-			:is-show="isShow"
-			:height="height"
-		/>
 		<DynamicScroller
 			:items="list"
 			:min-item-height="minItemHeight"
 			keyField="articId"
 			class="scroller"
-			v-rescroll="{ name: 'chatroom123' }"
 		>
+			<down-loading
+				slot="before-container"
+				:is-show="isShow"
+				:height="height"
+			/>
 			<template slot-scope="{ item, index, active }">
 				<DynamicScrollerItem
 					:item="item"
@@ -41,6 +40,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import SeeLoading from './see-loading.vue';
 import DownLoading from './down-loading.vue';
+import inview from './inview';
 
 /**
  * 加载的几种状态
@@ -115,6 +115,11 @@ export default class Scroller extends Vue {
 			!this.$listeners.dropDown
 		)
 			return;
+		if (!this.$el.firstChild) return;
+		if (this.height < 4) {
+			const isInview = inview(this.$el.firstChild.firstChild);
+			if (!isInview) return;
+		}
 		if (this.height < 70) {
 			if (this.height > 20) {
 				this.isShow = true;

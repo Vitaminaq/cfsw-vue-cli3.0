@@ -84,7 +84,7 @@ export default class ChatRoom extends Vue {
 	}
 	#wrapper {
 		position: relative;
-		// height: 580px;
+		height: 580px;
 		overflow-y: hidden;
 	}
 }

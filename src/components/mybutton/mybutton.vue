@@ -25,6 +25,7 @@ export default class MyButton extends Vue {
 .btn {
 	border: solid white 1px;
 	border-radius: 5px;
+	outline: none;
 	color: white;
 	font-size: 0.373333rem;
 }
