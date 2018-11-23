@@ -37,6 +37,6 @@ cnpm install -g cz-conventional-changelog
 git add . + git cz
 ```
 #### 其他
-如果使用的是vscode编辑器，我有配置.下载Vetur，Prettier-Code formatter以及ESLint插件即可开启保存自动修复功能。
+如果使用的是vscode编辑器，我有配置.vscode工作区，下载Vetur，Prettier-Code formatter以及ESLint插件即可开启保存自动修复功能。
 #### 后台地址
 [https://github.com/Vitaminaq/node-mysql](https://github.com/Vitaminaq/node-mysql)
