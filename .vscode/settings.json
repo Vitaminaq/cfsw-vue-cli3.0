@@ -1,0 +1,42 @@
+{
+    //让vue中的js按编辑器自带的ts格式进行格式化
+    "vetur.format.defaultFormatter.js": "vscode-typescript",
+    //.vue文件template格式化支持，并使用js-beautify-html插件
+    "vetur.format.defaultFormatter.html": "js-beautify-html",
+    //js-beautify-html格式化配置，属性强制换行
+    //文档：https://github.com/beautify-web/js-beautify#css--html
+    "vetur.format.defaultFormatterOptions": {
+      "js-beautify-html": {
+        "wrap_attributes": "force"
+      }
+    },
+    //根据文件后缀名定义vue文件类型
+    "files.associations": {
+      "*.vue": "vue"
+    },
+    //保存时eslint自动修复错误
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      {
+        "language": "html",
+        "autoFix": true
+      },
+      {
+        "language": "vue",
+        "autoFix": true
+      },
+      {
+        "language": "typescript",
+        "autoFix": true
+      }
+    ],
+    // 使用项目配置规则
+    "eslint.options": {
+      "configFile": "./eslintrc.js"
+    },
+    "eslint.autoFixOnSave": true,
+    // 点击保存时，根据 eslint 规则自定修复，同时集成 prettier 到 eslint 中
+    "prettier.eslintIntegration": true
+  }
+  
