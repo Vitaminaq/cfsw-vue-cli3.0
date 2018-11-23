@@ -26,11 +26,11 @@ const RorterList: Array<RouteConfig> = [
 		name: 'register',
 		component: Register
 	},
-	// {
-	// 	path: '/',
-	// 	redirect: '/chatroom',
-	// 	component: Home
-	// },
+	{
+		path: '/',
+		redirect: 'chatroom',
+		component: Home
+	},
 	{
 		path: '/chatroom',
 		name: 'chatroom',

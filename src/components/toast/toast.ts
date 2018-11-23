@@ -50,7 +50,7 @@ export default function install(Vue: any, options: any) {
 			transform: 'translateX(-50%)',
 			width: 'auto',
 			minWidth: '50px',
-			padding: '5px 8px',
+			padding: '10px 20px',
 			color: '#fff',
 			fontSize: '14px',
 			backgroundColor: '#333',

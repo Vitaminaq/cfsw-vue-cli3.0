@@ -5,7 +5,7 @@
 			<div id="nkdiv" class="input">
 				<label>昵称：</label>
 				<input
-					v-model="nickname"
+					v-model.trim="nickname"
 					type="text"
 					name="nickname"
 					placeholder="请输入昵称"
@@ -14,7 +14,7 @@
 			<div class="input">
 				<label>密码：</label>
 				<input
-					v-model="password"
+					v-model.trim="password"
 					type="password"
 					name="password"
 					placeholder="请输入密码"
@@ -76,18 +76,18 @@ export default class login extends Vue {
 		};
 		if ((this as any).isEmpty(params)) {
 			console.log('请填写完整信息');
-			(this as any).$toast('你好!');
+			(this as any).$toast('请填写完整信息!');
 			return;
 		}
-		// if (this.isEmpty) return Toast('', '用户名密码不能为空');
 		this.loginModule.$assignParams(params);
 		this.button.disabled = true;
 		await this.loginModule.userLogin();
 		setTimeout(() => {
 			this.button.disabled = false;
 		}, 1000);
-		// if (this.loginModule.res.code !== 0) return Toast('', this.loginModule.res.data);
-		const from = this.$route.query.from || '/';
+		if (this.loginModule.res.code !== 0)
+			return (this as any).$toast(this.loginModule.res.data);
+		const from = this.$route.query.from || '/chatroom';
 		return this.$router.push({ path: from });
 	}
 }

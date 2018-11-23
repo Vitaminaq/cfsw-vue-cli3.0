@@ -2,8 +2,7 @@
 	<div>
 		<logo-header />
 		<div id="persontx">
-			<img src="../../assets/person/tx.jpg" />
-			<span>只愿梦不醒，满城柳絮纷飞</span>
+			<img :src="headimg" /> <span>{{ nickname }}</span>
 		</div>
 		<div class="topcut" />
 		<ul class="listit">
@@ -28,6 +27,8 @@
 import { Vue, Component } from 'vue-property-decorator';
 import LogoHeader from '@src/components/header/logo-header.vue';
 import FooterContent from '@src/components/footer/footer.vue';
+import Cookies from 'js-cookie';
+import config from '@src/config';
 
 @Component({
 	components: {
@@ -35,7 +36,14 @@ import FooterContent from '@src/components/footer/footer.vue';
 		LogoHeader
 	}
 })
-export default class Person extends Vue {}
+export default class Person extends Vue {
+	get headimg() {
+		return `${config.BASE_URL}${Cookies.get('headimg')}`;
+	}
+	get nickname() {
+		return Cookies.get('nickname');
+	}
+}
 </script>
 <style scoped>
 #persontx {

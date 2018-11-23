@@ -1,4 +1,4 @@
-把之前的表白墙app升级到vue-cli3.0，3.0这个脚手架给人的感觉就是比以前干净多了，附加了一系列所学的当前技术栈，比如vuex,typescript,vuex-class.js等。
+把之前的表白墙app利用vuex，typescript，vuex-class.js等升级到vue-cli3.0，3.0这个脚手架给人的感觉就是比以前干净多了。
 ## Build Setup
 项目正在开发中，界面没怎么设计，随便撸了下，欢迎大家加入讨论。
 
@@ -38,3 +38,5 @@ git add . + git cz
 ```
 #### 其他
 如果使用的是vscode编辑器，我有配置.下载Vetur，Prettier-Code formatter以及ESLint插件即可开启保存自动修复功能。
+#### 后台地址
+[https://github.com/Vitaminaq/node-mysql](https://github.com/Vitaminaq/node-mysql)

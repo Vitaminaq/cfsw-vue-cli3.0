@@ -6,6 +6,7 @@
       ready,
       'page-mode': pageMode,
     }"
+    v-rescroll="{ name: 'chatroom123' }"
     @scroll.passive.stop="handleScroll"
   >
     <slot

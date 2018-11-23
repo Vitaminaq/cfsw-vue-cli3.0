@@ -79,11 +79,11 @@ class RestoreScroll {
 		const { dom, name, rescroll, vn } = this.opt;
 		const { x, y } = rescroll[name].position;
 		// console.log(dom.scrollTop, y);
-		// if (!rescroll[name] || dom.scrollHeight < y || dom.scrollWidth < x) {
-		// 	dom.scrollLeft = 0;
-		// 	dom.scrollTop = 0;
-		// 	return this;
-		// }
+		if (!rescroll[name] || dom.scrollHeight < y || dom.scrollWidth < x) {
+			dom.scrollLeft = 0;
+			dom.scrollTop = 0;
+			return this;
+		}
 		if (!vn.context) return this;
 		vn.context.$nextTick(() => {
 			dom.scrollLeft = x;
@@ -141,6 +141,7 @@ interface Binding {
 
 interface DirectiveHTMLElement extends HTMLElement {
 	restoreScroll?: any;
+	count?: number;
 }
 
 interface VueRoot extends Vue {
@@ -169,16 +170,20 @@ const hookMethod = function(
 		rescroll: root.$rescroll,
 		vn: vnode
 	};
+	if (!el.count) {
+		el.count = 0;
+	}
 	if (!el.restoreScroll) {
 		el.restoreScroll = {};
 	}
 	if (!el.restoreScroll[nowName]) {
-		console.log(1);
 		el.restoreScroll[nowName] = new RestoreScroll(options);
 		return;
 	} else {
-		console.log(1);
-		el.restoreScroll[nowName].update(options);
+		if (el.count < 1) {
+			el.count++;
+			el.restoreScroll[nowName].update(options);
+		}
 		return;
 	}
 };
