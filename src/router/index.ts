@@ -2,6 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Routers from './routers';
 import Cookies from 'js-cookie';
+// (Router as any).prototype.goBack = function() {
+// 	this.isBack = true;
+// 	window.history.go(-1);
+// };
 
 import { RouterOptions } from 'vue-router';
 
@@ -15,14 +19,14 @@ const options: RouterOptions = {
 class LocalRouter extends Router {
 	constructor() {
 		super(options);
-		// this.beforeEach((to, from, next) => {
-		// 	if (to.name === 'publish' || to.name === 'PersonalCenter') {
-		// 		if (!Cookies.get('token') || !Cookies.get('nickname')) {
-		// 			this.push({ name: 'login' });
-		// 		}
-		// 	}
-		// 	next();
-		// });
+		this.beforeEach((to, from, next) => {
+			if (to.name === 'publish' || to.name === 'PersonalCenter') {
+				if (!Cookies.get('token') || !Cookies.get('nickname')) {
+					this.push({ name: 'login' });
+				}
+			}
+			next();
+		});
 	}
 }
 export default LocalRouter;

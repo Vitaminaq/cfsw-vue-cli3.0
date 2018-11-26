@@ -6,7 +6,6 @@
       ready,
       'page-mode': pageMode,
     }"
-    v-rescroll="{ name: 'chatroom123' }"
     @scroll.passive.stop="handleScroll"
   >
     <slot
@@ -14,7 +13,7 @@
     />
     <div
       ref="wrapper"
-      :style="{ height: totalHeight + 'px' }"
+      :style="{ height: (totalHeight + 10) + 'px' }"
       class="vue-recycle-scroller__item-wrapper"
     >
       <div
@@ -66,7 +65,9 @@ export default {
 
   watch: {
     items () {
+      console.log(this.items, 'ddddddddddddd');
       this.updateVisibleItems(true)
+      console.log(this.pool);
     },
 
     pageMode () {
@@ -119,7 +120,9 @@ export default {
         configurable: false,
         value: nonReactive,
       })
+      console.log(view, 'vvvvvvvvvvvvvvvvvvvvvv')
       pool.push(view)
+      console.log(pool, 'klfjdslfhsdkjfhds');
       return view
     },
 
@@ -145,10 +148,6 @@ export default {
     },
 
     handleScroll (event) {
-      this.$root.$virtual = {
-        top: this.$el.scrollTop,
-        pool: this.pool
-      };
       if (!this.$_scrollDirty) {
         this.$_scrollDirty = true
         requestAnimationFrame(() => {
@@ -180,6 +179,7 @@ export default {
 
     updateVisibleItems (checkItem) {
       const itemHeight = this.itemHeight
+      console.log(itemHeight, 'ddddddddddddddddddddddddddddddddddddd')
       const typeField = this.typeField
       const keyField = this.keyField
       const items = this.items

@@ -44,9 +44,6 @@ export default class publish extends Vue {
 		return this.$vuexClass.publish;
 	}
 
-	mounted() {
-		console.log(this.$root);
-	}
 	async publishIt() {
 		let params = {
 			title: this.title,

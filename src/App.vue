@@ -1,13 +1,34 @@
 <template>
 	<div id="app">
-		<transition name="test"> <router-view /> </transition>
+		<transition
+			name="tranAni"
+			:enter-active-class="enterClass"
+			:leave-active-class="leaveClass"
+		>
+			<router-view class="child-view" />
+		</transition>
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 
 @Component
-export default class App extends Vue {}
+export default class App extends Vue {
+	enterClass: string = '';
+	leaveClass: string = '';
+	@Watch('$route')
+	onchange(to: any, from: any) {
+		console.log(to, from);
+		if (to.name === 'publish') {
+			this.enterClass = 'animated fadeInDown';
+		} else if (from.name === 'publish') {
+			this.leaveClass = 'animated fadeOutUp';
+		} else {
+			this.enterClass = 'animated zoomIn';
+			this.leaveClass = 'animated zoomOut';
+		}
+	}
+}
 </script>
 
 <style>
@@ -21,7 +42,9 @@ export default class App extends Vue {}
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
+	background-color: #fff;
 	margin-top: 0;
+	height: 100%;
 }
 a {
 	text-decoration: none;
@@ -39,4 +62,32 @@ button,
 input {
 	-webkit-tap-highlight-color: rgba(255, 0, 0, 0);
 }
+.child-view {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	transition: all 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.tranAni-leave-active {
+	opacity: 0;
+	/* -webkit-transform: translate(50px, 0);
+	transform: translate(50px, 0); */
+}
+.tranAni-enter {
+	opacity: 0;
+	/* -webkit-transform: translate(50px, 0);
+	transform: translate(50px, 0); */
+}
+/* .slide-left-enter,
+.slide-right-leave-active {
+	opacity: 0;
+	-webkit-transform: translate(50px, 0);
+	transform: translate(50px, 0);
+}
+.slide-left-leave-active,
+.slide-right-enter {
+	opacity: 0;
+	-webkit-transform: translate(-50px, 0);
+	transform: translate(-50px, 0);
+} */
 </style>

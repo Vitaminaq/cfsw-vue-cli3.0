@@ -12,10 +12,18 @@
 				:minItemHeight="minItemHeight"
 			>
 				<template slot-scope="{ item }">
-					<artic-list
-						:item="item"
-						@click.native="todetail(item.articId);"
-					/>
+					<transition
+						name="animate-artic-list"
+						enter-active-class="animated bounceInLeft duration-2s"
+						leave-active-class="animated flipOutY"
+						v-on:before-leave="beforeLeave"
+					>
+						<artic-list
+							:item="item"
+							leave-active-class="animated zoomInUp"
+							@click.native="todetail(item.articId);"
+						/>
+					</transition>
 				</template>
 			</scroller>
 		</div>
@@ -34,7 +42,7 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 	components: { Scroller, ArticList, FooterContent, LogoHeader }
 })
 export default class ChatRoom extends Vue {
-	minItemHeight: string | number = 84;
+	minItemHeight: string | number = 145;
 	get articList() {
 		return this.$vuexClass.chatRoom.articList;
 	}
@@ -51,6 +59,9 @@ export default class ChatRoom extends Vue {
 		return this.articList.list;
 	}
 
+	beforeLeave() {
+		console.log(111);
+	}
 	async pullUp() {
 		return this.articList.pullUp();
 	}
@@ -64,10 +75,12 @@ export default class ChatRoom extends Vue {
 		};
 		this.view.$assignParams(params);
 		await this.view.saveView();
-		if (this.view.res.code === 0) {
-			return this.$router.push({ name: 'detail', query: { id: id } });
-		}
-		return Toast('', this.view.res.data);
+		setTimeout(() => {
+			if (this.view.res.code === 0) {
+				return this.$router.push({ name: 'detail', query: { id: id } });
+			}
+		}, 3000);
+		// return Toast('', this.view.res.data);
 	}
 	test() {
 		console.log(this.$el.scrollTop);

@@ -50,7 +50,8 @@ export default class FooterContent extends Vue {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-top: solid #adadad 1px;
+	// prettier-ignore
+	border-top: solid #adadad 1PX;
 	background-color: #fff;
 
 	a {

@@ -16,6 +16,7 @@ declare namespace Loader {
 		nickname: string;
 		title: string;
 		viewnum: number;
+		headimg: string;
 	}
 	export interface Data {
 		list: Array<ListItem>;

@@ -13,6 +13,7 @@ import VueRescroll from './common/vue-rescroll';
 import Cookies from 'js-cookie';
 import svgSprite from '@src/lib/svg-sprite';
 import LocalToast from '@src/components/toast/toast';
+// import 'animate.min.css';
 import './registerServiceWorker';
 
 Vue.config.productionTip = false;
