@@ -18,11 +18,12 @@ export default class App extends Vue {
 	leaveClass: string = '';
 	@Watch('$route')
 	onchange(to: any, from: any) {
-		console.log(to, from);
 		if (to.name === 'publish') {
 			this.enterClass = 'animated fadeInDown';
 		} else if (from.name === 'publish') {
 			this.leaveClass = 'animated fadeOutUp';
+		} else if (to.name === 'chatroom') {
+			this.enterClass = 'animated fadeIn';
 		} else {
 			this.enterClass = 'animated zoomIn';
 			this.leaveClass = 'animated zoomOut';

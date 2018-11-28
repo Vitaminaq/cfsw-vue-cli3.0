@@ -59,7 +59,6 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Action, namespace } from 'vuex-class';
-import { Toast } from '../common/comjs';
 
 @Component
 export default class Reset extends Vue {
@@ -99,7 +98,7 @@ export default class Reset extends Vue {
 		this.resetModule.$assignParams(params);
 		await this.resetModule.userReset();
 		this.button.disabled = false;
-		Toast('', this.resetModule.res.data);
+		// Toast('', this.resetModule.res.data);
 		if (this.resetModule.res.code !== 0) return;
 		return this.$router.push({
 			name: 'login',

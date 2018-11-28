@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Toast } from './comjs';
 import config from '@src/config';
 
 class LocalAxios {
@@ -37,11 +36,11 @@ class LocalAxios {
 			},
 			(err: any) => {
 				console.log(`错误信息 ${err.message}`);
-				Toast('', '连接服务器失败');
-				err.data = {
-					code: -10000,
-					data: '网络出错'
-				};
+				// Toast('', '连接服务器失败');
+				// err.data = {
+				// 	code: -10000,
+				// 	data: '网络出错'
+				// };
 				// switch(err.message) {
 				//     case 'timeout of 1ms exceeded': Toast('', '请求超时'); break;
 				//     case 'Network Error': Toast('', '连接服务器失败'); break;

@@ -11,6 +11,8 @@
 			:min-item-height="minItemHeight"
 			keyField="articId"
 			class="scroller"
+			@visible="visible"
+			@vscroll:update="vscroll"
 		>
 			<down-loading
 				slot="before-container"
@@ -83,6 +85,12 @@ export default class Scroller extends Vue {
 		}
 		let e: any = window.event || event;
 		this.touchStartY = e.changedTouches[0].clientY;
+	}
+	visible() {
+		console.log(1111111111);
+	}
+	vscroll(val: object) {
+		console.log(val);
 	}
 	// touchMove() {
 	// 	let e: any = window.event || event;

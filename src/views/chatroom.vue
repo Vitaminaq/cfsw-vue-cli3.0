@@ -12,18 +12,10 @@
 				:minItemHeight="minItemHeight"
 			>
 				<template slot-scope="{ item }">
-					<transition
-						name="animate-artic-list"
-						enter-active-class="animated bounceInLeft duration-2s"
-						leave-active-class="animated flipOutY"
-						v-on:before-leave="beforeLeave"
-					>
-						<artic-list
-							:item="item"
-							leave-active-class="animated zoomInUp"
-							@click.native="todetail(item.articId);"
-						/>
-					</transition>
+					<artic-list
+						:item="item"
+						@click.native="todetail(item.articId);"
+					/>
 				</template>
 			</scroller>
 		</div>
@@ -32,7 +24,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
-import { Toast, Time } from '@src/common/comjs';
+import { Time } from '@src/common/comjs';
 import Scroller from '@src/components/scroller/scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
@@ -59,9 +51,6 @@ export default class ChatRoom extends Vue {
 		return this.articList.list;
 	}
 
-	beforeLeave() {
-		console.log(111);
-	}
 	async pullUp() {
 		return this.articList.pullUp();
 	}
@@ -75,15 +64,10 @@ export default class ChatRoom extends Vue {
 		};
 		this.view.$assignParams(params);
 		await this.view.saveView();
-		setTimeout(() => {
-			if (this.view.res.code === 0) {
-				return this.$router.push({ name: 'detail', query: { id: id } });
-			}
-		}, 3000);
+		if (this.view.res.code === 0) {
+			return this.$router.push({ name: 'detail', query: { id: id } });
+		}
 		// return Toast('', this.view.res.data);
-	}
-	test() {
-		console.log(this.$el.scrollTop);
 	}
 }
 </script>
