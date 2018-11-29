@@ -2,8 +2,6 @@ import Vue, { CreateElement, ComponentOptions } from 'vue';
 import App from './App.vue';
 import localRouter from './router';
 import localStore, { BaseVuexClass } from './store';
-// import 'vue2-toast/lib/toast.css';
-// import Toast from 'vue2-toast';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
 // import VueRescroll from 'vue-rescroll';
@@ -45,12 +43,6 @@ Vue.mixin({
 	}
 });
 
-// Vue.use(Toast, {
-// 	defaultType: 'bottom',
-// 	duration: 1000,
-// 	wordWrap: true,
-// 	width: '170px'
-// });
 Vue.use(MyButton);
 Vue.use(VueRescroll);
 Vue.use(SvgIcon);

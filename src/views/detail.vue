@@ -19,12 +19,15 @@
 			<div id="comment">
 				<div id="commentitle">评论区</div>
 				<div class="commentul">
-					<ul
+					<transition-group
+						name="list"
+						tag="ul"
 						v-if="
 							articMessage &&
 								articMessage.commentList &&
 								articMessage.commentList.length > 0
 						"
+						enter-active-class="animated rollIn"
 					>
 						<comment-list
 							v-for="(item, index) in articMessage.commentList"
@@ -33,7 +36,7 @@
 							:item="item"
 							@agreeit="agreeit"
 						/>
-					</ul>
+					</transition-group>
 					<div v-else class="no-message">
 						<svg-icon name="no-message" />
 						<div class="tips">快来评论吧!</div>
@@ -96,7 +99,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Getter, Mutation, Action, namespace } from 'vuex-class';
-import { Toast, closeLoading, Time } from '@src/common/comjs';
+import { Time } from '@src/common/comjs';
 import CommentList from '@src/components/detail/comment-list.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
 
@@ -284,6 +287,9 @@ export default class Detail extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
+.list-move {
+	transition: transform 1s;
+}
 #detail {
 	overflow-y: auto;
 }
@@ -331,6 +337,7 @@ export default class Detail extends Vue {
 .commentul {
 	height: auto;
 	width: 100%;
+	overflow-x: hidden;
 	overflow-y: auto;
 
 	.no-message {

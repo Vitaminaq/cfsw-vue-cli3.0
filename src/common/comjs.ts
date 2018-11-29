@@ -42,4 +42,4 @@ const Time = function(str: number) {
 	}
 };
 
-export { Toast, closeLoading, Time };
+export { Time };

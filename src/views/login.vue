@@ -43,7 +43,6 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Action, Mutation, Getter, namespace } from 'vuex-class';
-import { Toast } from '../common/comjs';
 
 @Component
 export default class login extends Vue {

@@ -24,7 +24,6 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Action, Mutation, namespace } from 'vuex-class';
-import { Toast, closeLoading } from '../common/comjs';
 import GeneralHeader from '@src/components/header/general-header.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 
@@ -52,14 +51,14 @@ export default class publish extends Vue {
 		// this.$isEmpty(params);
 		// if (this.isEmpty) return Toast('', '内容不能为空!');
 		this.disable = true;
-		Toast('loading', '发表中...');
+		// Toast('loading', '发表中...');
 		this.publish.$assignParams(params);
 		await this.publish.userPublish();
-		setTimeout(function() {
-			closeLoading();
-		}, 200);
-		this.disable = false;
-		Toast('', this.publish.res.data);
+		// setTimeout(function() {
+		// 	closeLoading();
+		// }, 200);
+		// this.disable = false;
+		// Toast('', this.publish.res.data);
 		if (this.publish.res.code !== 0) return;
 		this.publish.$clearData();
 		return this.$router.push({ name: 'chatroom' });

@@ -1,11 +1,5 @@
 <template>
-	<div
-		ref="my_scroll"
-		class="my_scroll"
-		@touchstart="touchStart"
-		@touchmove="touchMove"
-		@touchend="touchEnd"
-	>
+	<div ref="my_scroll" class="my_scroll">
 		<DynamicScroller
 			:items="list"
 			:min-item-height="minItemHeight"
@@ -34,6 +28,23 @@
 				@pullUp="pullUp"
 			/>
 		</DynamicScroller>
+		<div class="operate-btn operate-ctr" @click="toggleBtn">
+			<svg-icon name="operate" />
+		</div>
+		<transition
+			name="tranAni"
+			enter-active-class="animated fadeIn"
+			leave-active-class="animated fadeOut"
+		>
+			<ul v-show="toggle">
+				<li class="operate-btn refresh-btn" @click="refreshBtn">
+					<svg-icon name="refresh" />
+				</li>
+				<li class="operate-btn back-top-btn" @click="backTopBtn">
+					<svg-icon name="back-top" />
+				</li>
+			</ul>
+		</transition>
 	</div>
 </template>
 <script lang="ts">
@@ -69,105 +80,25 @@ export default class Scroller extends Vue {
 	isShow: Boolean = false;
 	myScroll: any;
 	downLoading: boolean = false;
+	toggle: boolean = false;
 
-	mounted() {
-		this.myScroll = this.$refs.my_scroll;
-	}
 	pullUp() {
 		this.$emit('pullUp');
 	}
-	touchStart() {
-		if (this.height !== 0) {
-			this.touchStartY = 10000;
-			return;
-		}
-		let e: any = window.event || event;
-		this.touchStartY = e.changedTouches[0].clientY;
+	toggleBtn() {
+		this.toggle = !this.toggle;
 	}
-	// touchMove() {
-	// 	let e: any = window.event || event;
-	// 	let top = this.myScroll.scrollTop;
-	// 	if (this.touchStartY - e.changedTouches[0].clientY > 0 || top > 0)
-	// 		return;
-	// 	if (this.height < 60) {
-	// 		if (this.height > 20) this.isShow = true;
-	// 		this.height = e.changedTouches[0].clientY - this.touchStartY;
-	// 	} else {
-	// 		this.height = 60;
-	// 	}
-	// }
-	// touchEnd() {
-	// 	let e: any = window.event || event;
-	// 	let top = this.myScroll.scrollTop;
-	// 	if (this.height === 60) {
-	// 		this.$emit('dropDown');
-	// 		this.clear();
-	// 	}
-	// }
-	touchMove() {
-		let e: any = window.event || event;
-		let top = this.myScroll.scrollTop;
-		// this.backTopBtn = false;
-		if (!this.touchStartY) return;
-		if (
-			this.touchStartY - e.changedTouches[0].clientY >= 0 ||
-			top !== 0 ||
-			!this.$listeners.dropDown
-		)
-			return;
-		if (!this.$el.firstChild) return;
-		if (this.height < 4) {
-			const isInview = inview(this.$el.firstChild.firstChild);
-			if (!isInview) return;
-		}
-		if (this.height < 70) {
-			if (this.height > 20) {
-				this.isShow = true;
-			}
-			this.height = e.changedTouches[0].clientY - this.touchStartY;
-		} else {
-			this.height = 70;
-		}
+	refreshBtn() {
+		this.toggle = !this.toggle;
+		if (!this.$el.childNodes) return;
+		(this as any).$el.childNodes[0].scrollTop = 0;
+		this.$emit('dropDown');
 	}
-	touchEnd() {
-		if (this.height > 50) {
-			this.$emit('dropDown');
-			this.animate();
-		} else {
-			this.isShow = false;
-			this.height = 0;
-		}
-		// if (this.myScroll.scrollTop > 10) {
-		// 	this.backTopBtn = true;
-		// } else {
-		// 	this.backTopBtn = false;
-		// }
+	backTopBtn() {
+		this.toggle = !this.toggle;
+		if (!this.$el.childNodes) return;
+		(this as any).$el.childNodes[0].scrollTop = 0;
 	}
-	animate() {
-		let timer1: any;
-		if (this.height <= 50) {
-			setTimeout(() => {
-				this.isShow = false;
-				this.height = 0;
-			}, 200);
-		}
-		timer1 = setTimeout(() => {
-			if (this.height > 50) {
-				this.height = this.height - 1;
-				this.animate();
-			} else {
-				clearTimeout(timer1);
-			}
-		}, 1);
-	}
-	// clear() {
-	// 	setTimeout(() => {
-	// 		if (this.height === 0) return;
-	// 		if (this.height < 20) this.isShow = false;
-	// 		this.height = this.height - 1;
-	// 		this.clear();
-	// 	}, 1);
-	// }
 }
 </script>
 <style lang="less" scoped>
@@ -178,6 +109,38 @@ export default class Scroller extends Vue {
 
 	.scroller {
 		height: 100%;
+	}
+
+	.operate-btn {
+		position: fixed;
+		z-index: 9999;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		background-color: #ff4700;
+		box-shadow: 1px 1px 5px #adadad, -1px -1px 5px #adadad;
+	}
+
+	.icon-symbol {
+		margin-top: 7px;
+		width: 36px;
+		height: 36px;
+		fill: #fff;
+	}
+
+	.operate-ctr {
+		bottom: 72px;
+		right: 20px;
+	}
+
+	.refresh-btn {
+		bottom: 72px;
+		right: 90px;
+	}
+
+	.back-top-btn {
+		bottom: 142px;
+		right: 20px;
 	}
 }
 </style>

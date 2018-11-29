@@ -23,6 +23,8 @@ export default class App extends Vue {
 			this.enterClass = 'animated fadeInDown';
 		} else if (from.name === 'publish') {
 			this.leaveClass = 'animated fadeOutUp';
+		} else if (to.name === 'chatroom') {
+			this.enterClass = 'animated fadeIn';
 		} else {
 			this.enterClass = 'animated fadeIn';
 			this.leaveClass = 'animated fadeOut';
@@ -70,24 +72,8 @@ input {
 }
 .tranAni-leave-active {
 	opacity: 0;
-	/* -webkit-transform: translate(50px, 0);
-	transform: translate(50px, 0); */
 }
 .tranAni-enter {
 	opacity: 0;
-	/* -webkit-transform: translate(50px, 0);
-	transform: translate(50px, 0); */
 }
-/* .slide-left-enter,
-.slide-right-leave-active {
-	opacity: 0;
-	-webkit-transform: translate(50px, 0);
-	transform: translate(50px, 0);
-}
-.slide-left-leave-active,
-.slide-right-enter {
-	opacity: 0;
-	-webkit-transform: translate(-50px, 0);
-	transform: translate(-50px, 0);
-} */
 </style>

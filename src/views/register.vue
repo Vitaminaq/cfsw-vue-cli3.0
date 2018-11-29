@@ -74,7 +74,6 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Action, Mutation, namespace } from 'vuex-class';
-import { Toast, closeLoading } from '../common/comjs';
 import GeneralHeader from '@src/components/header/general-header.vue';
 
 @Component({
@@ -119,14 +118,14 @@ export default class Register extends Vue {
 		}
 		//return Toast('', '请填写完整信息');
 		this.registerModule.$assignParams(params);
-		Toast('loading', '注册中...');
+		// Toast('loading', '注册中...');
 		this.button.disabled = true;
 		await this.registerModule.userRegister();
-		closeLoading();
-		setTimeout(() => {
-			this.button.disabled = false;
-		}, 1000);
-		Toast('', this.registerModule.res.data);
+		// closeLoading();
+		// setTimeout(() => {
+		// 	this.button.disabled = false;
+		// }, 1000);
+		// Toast('', this.registerModule.res.data);
 		if (this.registerModule.res.code === 0) {
 			return this.$router.push({
 				name: 'login',
