@@ -11,21 +11,21 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Route } from 'vue-router';
 
 @Component
 export default class App extends Vue {
 	enterClass: string = '';
 	leaveClass: string = '';
 	@Watch('$route')
-	onchange(to: any, from: any) {
-		console.log(to, from);
+	onchange(to: Route, from: Route) {
 		if (to.name === 'publish') {
 			this.enterClass = 'animated fadeInDown';
 		} else if (from.name === 'publish') {
 			this.leaveClass = 'animated fadeOutUp';
 		} else {
-			this.enterClass = 'animated zoomIn';
-			this.leaveClass = 'animated zoomOut';
+			this.enterClass = 'animated fadeIn';
+			this.leaveClass = 'animated fadeOut';
 		}
 	}
 }
