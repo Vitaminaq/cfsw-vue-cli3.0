@@ -13,11 +13,22 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 
+export interface BtnStyle {
+	width?: String;
+	height?: String;
+	fontSize?: String;
+}
+export interface Button {
+	disabled: Boolean;
+	value: String;
+	btnStyle?: BtnStyle;
+}
+
 @Component
 export default class MyButton extends Vue {
 	@Prop() disabled!: Boolean;
 	@Prop() value!: String;
-	@Prop({ default: () => {} }) btnStyle!: MyButton.Button<MyButton.BtnStyle>;
+	@Prop({ default: () => {} }) btnStyle!: BtnStyle;
 }
 </script>
 

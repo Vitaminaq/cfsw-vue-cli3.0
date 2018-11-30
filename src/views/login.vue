@@ -2,13 +2,17 @@
 	<div class="login-content">
 		<div class="login">
 			<div class="close" @click="close"><svg-icon name="close" /></div>
-			<div id="tx"><img src="../assets/image/login/tx.jpg" /></div>
+			<div id="tx">
+				<img v-if="!url" src="../assets/image/login/tx.jpg" />
+				<img v-else :src="url" />
+			</div>
 			<form class="loginFrom" method="get" action="#" @submit.prevent>
 				<input
 					v-model.trim="nickname"
 					type="text"
 					name="nickname"
 					placeholder="请输入昵称"
+					@keyup="getUserHeaderImg"
 				/>
 				<input
 					v-model.trim="password"
@@ -39,14 +43,15 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { Action, Mutation, Getter, namespace } from 'vuex-class';
+import { Button } from '@src/components/mybutton/mybutton.vue';
+import config from '@src/config';
 
 @Component
 export default class login extends Vue {
 	nickname: string = '';
 	password: string = '';
 
-	button: MyButton.Button<MyButton.BtnStyle> = {
+	button: Button = {
 		disabled: false,
 		value: '登陆',
 		btnStyle: {
@@ -55,17 +60,34 @@ export default class login extends Vue {
 		}
 	};
 
+	get userHeaderImg() {
+		return this.$vuexClass.login.getUserHeaderImg;
+	}
+	get headerImgUrl() {
+		return this.userHeaderImg.res.data.headimg;
+	}
 	get loginModule() {
-		return this.$vuexClass.login;
+		return this.$vuexClass.login.userLogin;
+	}
+	get url() {
+		if (!this.headerImgUrl) return;
+		return `${config.BASE_URL}${this.headerImgUrl}`;
 	}
 
 	created() {
 		if (!this.$route.query.nickname) return;
 		this.nickname = this.$route.query.nickname;
 	}
-
+	async getUserHeaderImg(): Promise<this> {
+		const params = {
+			nickname: this.nickname
+		};
+		this.userHeaderImg.$assignParams(params);
+		await this.userHeaderImg.getUserHeaderImg();
+		return this;
+	}
 	async login() {
-		let params = {
+		const params = {
 			nickname: this.nickname,
 			password: this.password
 		};
@@ -85,7 +107,6 @@ export default class login extends Vue {
 		const from = this.$route.query.from || '/chatroom';
 		return this.$router.push({ path: from });
 	}
-
 	close() {
 		return this.$router.go(-1);
 	}

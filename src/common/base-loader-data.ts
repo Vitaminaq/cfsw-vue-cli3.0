@@ -1,23 +1,13 @@
 import VuexClass from 'vuex-class.js';
 
-interface BaseResponse<D> {
-	code: number;
-	data: D;
-}
-export interface BaseVuexClassState<P, D> {
-	params: P;
-	res: BaseResponse<D>;
-	requestStatus: Loader.RequestStatus;
-}
 class BaseVuexClass<P, D> extends VuexClass {
 	readonly namespaced: boolean = true;
 	api: any;
 	constructor(api: any) {
 		super();
 		this.api = api;
-		this.namespaced = true;
 	}
-	public readonly state: BaseVuexClassState<P, D> = {
+	public readonly state: API.APIBaseStoreState<P, D> = {
 		params: {} as P,
 		res: {
 			code: 0,
@@ -25,7 +15,7 @@ class BaseVuexClass<P, D> extends VuexClass {
 		},
 		requestStatus: 'unrequest'
 	};
-	get res(): BaseResponse<D> {
+	get res(): API.APIBaseResponse<D> {
 		return this.state.res;
 	}
 	get requestStatus(): Loader.RequestStatus {
@@ -39,7 +29,7 @@ class BaseVuexClass<P, D> extends VuexClass {
 		this.state.requestStatus = 'requesting';
 		return this;
 	}
-	$RequestSuccess(res: BaseResponse<D>): this {
+	$RequestSuccess(res: API.APIBaseResponse<D>): this {
 		if (res.code === 0 && res.data) {
 			this.state.requestStatus = 'success';
 			this.state.res = { ...res };

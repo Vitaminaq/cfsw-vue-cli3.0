@@ -1,4 +1,4 @@
-import Vue, { ComponentOptions } from 'vue';
+import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexClass from 'vuex-class.js';
 import Login from './modules/login';
