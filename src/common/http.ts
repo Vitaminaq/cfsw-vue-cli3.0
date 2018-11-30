@@ -36,15 +36,10 @@ class LocalAxios {
 			},
 			(err: any) => {
 				console.log(`错误信息 ${err.message}`);
-				// Toast('', '连接服务器失败');
-				// err.data = {
-				// 	code: -10000,
-				// 	data: '网络出错'
-				// };
-				// switch(err.message) {
-				//     case 'timeout of 1ms exceeded': Toast('', '请求超时'); break;
-				//     case 'Network Error': Toast('', '连接服务器失败'); break;
-				// }
+				err.data = {
+					code: -10000,
+					data: '网络出错'
+				};
 				console.log(
 					`路由${err.config.url}请求失败，耗时${new Date().getTime() -
 						err.config.startTime}ms`

@@ -31,6 +31,7 @@ export default class LogoHeader extends Vue {
 	left: 0;
 	top: 0;
 	width: 100%;
+	text-align: center;
 	background-color: #00dcff;
 	font-size: 20px;
 	color: white;

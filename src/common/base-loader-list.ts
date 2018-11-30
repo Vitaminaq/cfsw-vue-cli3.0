@@ -64,7 +64,7 @@ export default abstract class BaseLoader extends VuexClass {
 		return this;
 	}
 	public $pullDownSuccess(res: BaseLoaderResponse) {
-		if (res.code !== 0 || !res.data) {
+		if (!res || res.code !== 0 || !res.data) {
 			this.state.pullDownStatus = 'error';
 			return this;
 		}
@@ -91,7 +91,7 @@ export default abstract class BaseLoader extends VuexClass {
 		return this;
 	}
 	public $pullUpSuccess(res: BaseLoaderResponse): this {
-		if (res.code !== 0 || !res.data) {
+		if (!res || res.code !== 0 || !res.data) {
 			this.state.pullUpStatus = 'error';
 			return this;
 		}

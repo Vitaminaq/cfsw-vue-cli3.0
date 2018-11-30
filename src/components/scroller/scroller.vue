@@ -117,6 +117,7 @@ export default class Scroller extends Vue {
 		width: 50px;
 		height: 50px;
 		border-radius: 50%;
+		text-align: center;
 		background-color: #ff4700;
 		box-shadow: 1px 1px 5px #adadad, -1px -1px 5px #adadad;
 	}

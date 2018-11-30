@@ -23,7 +23,7 @@
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import { Time } from '@src/common/comjs';
 import Scroller from '@src/components/scroller/scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
@@ -54,9 +54,12 @@ export default class ChatRoom extends Vue {
 	async pullUp() {
 		return this.articList.pullUp();
 	}
-	async dropDown() {
+	async dropDown(): Promise<this> {
 		await this.articList.pullDown();
-		(this as any).$toast('刷新成功!');
+		if (this.pullDownStatus !== 'error') {
+			(this as any).$toast('刷新成功!');
+		}
+		return this;
 	}
 	async todetail(id: string) {
 		let params: ChatRoom.View.RequestParams = {
@@ -67,7 +70,7 @@ export default class ChatRoom extends Vue {
 		if (this.view.res.code === 0) {
 			return this.$router.push({ name: 'detail', query: { id: id } });
 		}
-		// return Toast('', this.view.res.data);
+		(this as any).$toast(this.view.res.data);
 	}
 }
 </script>

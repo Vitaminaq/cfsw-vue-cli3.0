@@ -1,42 +1,39 @@
 <template>
-	<div class="hello">
-		<div id="tx"><img src="../assets/image/login/tx.jpg" /></div>
-		<form id="loginFrom" method="get" action="#" @submit.prevent>
-			<div id="nkdiv" class="input">
-				<label>昵称：</label>
+	<div class="login-content">
+		<div class="login">
+			<div class="close" @click="close"><svg-icon name="close" /></div>
+			<div id="tx"><img src="../assets/image/login/tx.jpg" /></div>
+			<form class="loginFrom" method="get" action="#" @submit.prevent>
 				<input
 					v-model.trim="nickname"
 					type="text"
 					name="nickname"
 					placeholder="请输入昵称"
 				/>
-			</div>
-			<div class="input">
-				<label>密码：</label>
 				<input
 					v-model.trim="password"
 					type="password"
 					name="password"
 					placeholder="请输入密码"
 				/>
+				<div class="login-btn">
+					<my-button
+						:disabled="button.disabled"
+						:value="button.value"
+						:btn-style="button.btnStyle"
+						@click.native="login"
+					/>
+				</div>
+			</form>
+			<div class="to-content">
+				<router-link class="button" to="/reset"
+					><span>忘记密码？</span></router-link
+				>
+				<router-link class="button register" to="/register"
+					><span>注册新用户</span></router-link
+				>
 			</div>
-			<div id="login-btn">
-				<my-button
-					:disabled="button.disabled"
-					:value="button.value"
-					:btn-style="button.btnStyle"
-					@click.native="login"
-				/>
-			</div>
-			<router-link to="/reset"
-				><span class="button">忘记密码？</span></router-link
-			>
-			<router-link to="/register"
-				><span id="register-btn" class="button"
-					>注册新用户</span
-				></router-link
-			>
-		</form>
+		</div>
 	</div>
 </template>
 
@@ -53,9 +50,8 @@ export default class login extends Vue {
 		disabled: false,
 		value: '登陆',
 		btnStyle: {
-			width: '7.75rem',
 			height: '1.175rem',
-			fontSize: '0.5rem'
+			fontSize: '0.4rem'
 		}
 	};
 
@@ -89,48 +85,88 @@ export default class login extends Vue {
 		const from = this.$route.query.from || '/chatroom';
 		return this.$router.push({ path: from });
 	}
+
+	close() {
+		return this.$router.go(-1);
+	}
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#tx img {
-	height: 1.333333rem;
-	width: 1.333333rem;
-	border-radius: 1.333333rem;
-	border: solid #adadad 0.013333rem;
-	margin-top: 35%;
-}
-#loginFrom {
-	margin-top: 2%;
-	text-align: left;
+<style lang="less" scoped>
+.login-content {
+	height: 100%;
 	width: 100%;
-	font-size: 0.506667rem;
-}
-#loginFrom .input {
-	width: 90%;
-	margin: 0 auto;
-	padding-bottom: 0.2rem;
-}
-#loginFrom input {
-	width: 76%;
-	height: 0.966667rem;
-	font-size: 0.533333rem;
-	padding-left: 0.266667rem;
-}
-#login-btn {
-	width: 100%;
-	text-align: center;
-}
-.button {
-	display: inline-block;
-	width: auto;
-	margin-top: 0.4rem;
-	margin-left: 0.213333rem;
-}
-#register-btn {
-	width: 65%;
-	text-align: right;
-	margin-right: 0.213333rem;
+	background-color: #f7f7f7;
+
+	.login {
+		position: relative;
+		height: 350px;
+		width: 300px;
+		margin: 0 auto;
+		margin-top: 100px;
+		background-color: #fff;
+		// prettier-ignore
+		box-shadow: 1PX 1PX 5px #adadad, -1PX -1PX 5px #adadad;
+		font-size: 0.506667rem;
+
+		.close {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+
+			.icon-symbol {
+				width: 30px;
+				height: 30px;
+				fill: #bcbcbc;
+			}
+		}
+
+		#tx {
+			padding-top: 40px;
+			text-align: center;
+			img {
+				height: 50px;
+				width: 50px;
+				border-radius: 50%;
+			}
+		}
+
+		.loginFrom {
+			text-align: center;
+			input {
+				width: 76%;
+				height: 40px;
+				margin-top: 10px;
+				padding-left: 10px;
+				font-size: 14px;
+				// prettier-ignore
+				border: solid 1PX #ebebeb;
+				border-radius: 5px;
+			}
+
+			.login-btn {
+				width: 80%;
+				margin: 0 auto;
+				margin-top: 20px;
+			}
+		}
+
+		.to-content {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 10px;
+			font-size: 12px;
+
+			.button {
+				width: 50%;
+				margin: 0 10px;
+			}
+
+			.register {
+				text-align: right;
+			}
+		}
+	}
 }
 </style>

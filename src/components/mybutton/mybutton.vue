@@ -21,18 +21,20 @@ export default class MyButton extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .btn {
+	width: 100%;
 	border: solid white 1px;
 	border-radius: 5px;
 	outline: none;
 	color: white;
 	font-size: 0.373333rem;
-}
-.clickBtn {
-	background-color: #00dcff;
-}
-.disabledBtn {
-	background-color: #7bd2e0;
+
+	&.clickBtn {
+		background-color: #00dcff;
+	}
+	&.disabledBtn {
+		background-color: #7bd2e0;
+	}
 }
 </style>

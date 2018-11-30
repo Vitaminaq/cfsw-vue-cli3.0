@@ -292,6 +292,7 @@ export default class Detail extends Vue {
 }
 #detail {
 	overflow-y: auto;
+	text-align: center;
 }
 #detailcontent h1 {
 	padding-top: 1.6rem;
