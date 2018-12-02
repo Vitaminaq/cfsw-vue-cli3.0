@@ -13,9 +13,7 @@
 				<span id="name">{{ articMessage.nickname }}</span>
 				<span>{{ time(Number(articMessage.creatAt)) }}</span>
 			</div>
-			<div id="artic">
-				<span>{{ articMessage.msg }}</span>
-			</div>
+			<div id="artic"><span v-html="articMessage.msg"></span></div>
 			<div id="comment">
 				<div id="commentitle">评论区</div>
 				<div class="commentul">
@@ -28,6 +26,7 @@
 								articMessage.commentList.length > 0
 						"
 						enter-active-class="animated rollIn"
+						leave-active-class="animated rollOut"
 					>
 						<comment-list
 							v-for="(item, index) in articMessage.commentList"
@@ -41,6 +40,9 @@
 						<svg-icon name="no-message" />
 						<div class="tips">快来评论吧!</div>
 					</div>
+					<div v-if="moreComment" class="more-comment">
+						查看更多评论
+					</div>
 					<div id="ulbottom" />
 				</div>
 			</div>
@@ -53,7 +55,7 @@
 						placeholder="说点什么..."
 						@focus="sayit();"
 					/>
-					<div class="agreeuthor" @click="agreeAuthors();">
+					<div class="agreeauthor" @click="agreeAuthors();">
 						<span
 							class="authorimg"
 							:class="
@@ -113,7 +115,7 @@ export default class Detail extends Vue {
 	status: boolean = false;
 	commentmsg: string = '';
 	hidshow: boolean = true;
-	articMessage: any = null;
+	articMessage: Detail.ArticDetail.Data = {} as Detail.ArticDetail.Data;
 	headerTitle: string = '正文';
 	button: MyButton.Button<MyButton.BtnStyle> = {
 		disabled: true,
@@ -127,9 +129,6 @@ export default class Detail extends Vue {
 	get id(): string {
 		return this.$route.query.id;
 	}
-	get nickName(): string | null {
-		return localStorage.getItem('nickname');
-	}
 	get articDetail() {
 		return this.$vuexClass.detail.articDetail;
 	}
@@ -141,6 +140,13 @@ export default class Detail extends Vue {
 	}
 	get agreeComment() {
 		return this.$vuexClass.detail.agreeComment;
+	}
+	get moreComment() {
+		const { articMessage } = this;
+		if (!articMessage.commentList || !articMessage.commentList[0])
+			return false;
+		const len = articMessage.commentList.length || 0;
+		return len > 0 && len < 6;
 	}
 
 	async created() {
@@ -159,6 +165,7 @@ export default class Detail extends Vue {
 		this.articDetail.$assignParams(params);
 		await this.articDetail.getArticDetail();
 		this.articMessage = this.articDetail.dataStore[this.id].articMessage;
+		this.articMessage.msg = this.articMessage.msg.replace(/ /g, '&nbsp;');
 		return this;
 	}
 	filter(): this {
@@ -207,7 +214,7 @@ export default class Detail extends Vue {
 		this.agreeAuthor.$assignParams(params);
 		await this.agreeAuthor.agreeAuthor();
 		if (this.agreeAuthor.res.code === 0) {
-			this.agreeAuthor.$updateArticClick(this.id);
+			this.articDetail.$updateArticClick(this.id);
 			return this;
 		}
 		// Toast('', this.A_res.data);
@@ -234,7 +241,7 @@ export default class Detail extends Vue {
 		this.agreeComment.$assignParams(params);
 		await this.agreeComment.agreeComment();
 		if (this.agreeComment.res.code === 0) {
-			this.agreeComment.$updateCommentClick({
+			this.articDetail.$updateCommentClick({
 				id: this.id,
 				index: index
 			});
@@ -285,7 +292,6 @@ export default class Detail extends Vue {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 .list-move {
 	transition: transform 1s;
@@ -293,192 +299,193 @@ export default class Detail extends Vue {
 #detail {
 	overflow-y: auto;
 	text-align: center;
-}
-#detailcontent h1 {
-	padding-top: 1.6rem;
-	font-size: 0.55rem;
-}
-#author {
-	width: 90%;
-	padding-top: 0.333333rem;
-	margin: 0 auto;
-	font-size: 0.3rem;
-	text-align: left;
-	color: #adadad;
-}
-#author span {
-	display: inline-block;
-}
-#name {
-	width: 20%;
-}
-#artic {
-	font-size: 0.45rem;
-	text-align: left;
-	height: auto;
-	width: 90%;
-	margin: 0 auto;
-	padding-top: 0.266667rem;
-	padding-bottom: 0.4rem;
-}
-#comment {
-	text-align: left;
-	height: auto;
-	overflow-y: auto;
-}
-#commentitle {
-	border-top: #adadad solid 0.066667rem;
-	border-bottom: #adadad solid 1px;
-	font-size: 0.5rem;
-	padding-left: 0.533333rem;
-	height: 1.066667rem;
-	margin: 0 auto;
-	line-height: 1.066667rem;
-}
-.commentul {
-	height: auto;
-	width: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
+	word-wrap: break-word;
 
-	.no-message {
-		.icon-symbol {
-			fill: #adadad;
-		}
+	#detailcontent {
+		text-align: left;
 
-		.tips {
-			text-align: center;
-			font-size: 16px;
-			color: #adadad;
+		h1 {
+			width: 90%;
+			margin: 0 auto;
+			padding-top: 1.6rem;
+			font-size: 0.55rem;
 		}
 	}
-}
-#ulbottom {
-	height: 1.2rem;
-}
-.agreeauthor {
-	display: inline-block;
-	width: auto;
-	padding-left: 0.4rem;
-	padding-top: 0.05rem;
-}
-.agreeuthor {
-	position: relative;
-	margin-left: 0.5rem;
-	width: 15%;
-}
-.agreeauthorimg {
-	height: 0.7rem;
-	width: 0.7rem;
-	background-image: url(../assets/image/chatroom/click.png);
-	background-size: cover;
-}
-.agreeauthorimged {
-	height: 0.7rem;
-	width: 0.7rem;
-	background-image: url(../assets/image/chatroom/clicked.png);
-	background-size: cover;
-}
-.agreeaunum {
-	position: absolute;
-	left: 0.9rem;
-	font-size: 0.4rem;
-	color: #adadad;
-}
-.authorimg {
-	display: inline-block;
-}
-.cmauthor {
-	position: relative;
-	width: 23%;
-}
-.cmauthorimg {
-	height: 0.7rem;
-	width: 0.7rem;
-	background-image: url(../assets/image/detail/comment.png);
-	background-size: cover;
-}
-.time {
-	width: 40%;
-}
-.agree {
-	width: 51%;
-	height: 0.466667rem;
-	line-height: 0.466667rem;
-	text-align: right;
-}
-.commenttxt {
-	padding-top: 0.133333rem;
-	padding-left: 0.8rem;
-	font-size: 0.42rem;
-}
-#back-btn {
-	width: 95%;
-	padding-left: 5%;
-	margin-top: 4%;
-	text-align: left;
-}
-#back-btn button {
-	width: 20%;
-	height: 1rem;
-	border-style: none;
-	border-radius: 50px 5px 5px 50px;
-	background-color: #00dcff;
-	color: white;
-	font-size: 0.453333rem;
-}
-#back-btn button span {
-	margin-left: 0.2rem;
-}
-#footer {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	margin: 0;
-	padding: 0;
-	height: 46px;
-	line-height: 46px;
-	border-top: solid #adadad 1px;
-	background-color: white;
-	width: 100%;
-	text-align: left;
-	overflow: hidden;
-}
-#footer #operate {
-	display: flex;
-	display: -webkit-flex; /* Safari */
-	justify-content: center;
-	align-items: center;
-}
-#footer #input1 {
-	width: 50%;
-	margin-left: 0.8rem;
-	height: 0.8rem;
-	font-size: 0.5rem;
-	padding-left: 0.5rem;
-	border-radius: 50px;
-}
-#motion {
-	height: 0.933333rem;
-	width: 0.933333rem;
-	margin-top: 0.1rem;
-}
-#commentdiv {
-	display: flex;
-	display: -webkit-flex; /* Safari */
-	justify-content: center;
-	align-items: center;
-	padding-top: 0.07rem;
-	overflow: hidden;
-}
-#input2 {
-	width: 65%;
-	height: 0.8rem;
-	border-top: none;
-	border-left: none;
-	border-right: none;
-	font-size: 0.5rem;
-	margin: 0 0.1875rem 0 0.1875rem;
-	border-radius: 0;
+
+	#author {
+		width: 90%;
+		padding-top: 0.333333rem;
+		margin: 0 auto;
+		font-size: 0.3rem;
+		text-align: left;
+		color: #adadad;
+
+		span {
+			display: inline-block;
+		}
+
+		#name {
+			width: 20%;
+		}
+	}
+
+	#artic {
+		font-size: 0.45rem;
+		text-align: left;
+		height: auto;
+		width: 90%;
+		margin: 0 auto;
+		padding-top: 0.266667rem;
+		padding-bottom: 0.4rem;
+	}
+
+	#comment {
+		text-align: left;
+		height: auto;
+		overflow-y: auto;
+
+		#commentitle {
+			border-top: #adadad solid 0.066667rem;
+			border-bottom: #adadad solid 1px;
+			font-size: 0.5rem;
+			padding-left: 0.533333rem;
+			height: 1.066667rem;
+			margin: 0 auto;
+			line-height: 1.066667rem;
+		}
+
+		.commentul {
+			height: auto;
+			width: 100%;
+			overflow-x: hidden;
+			overflow-y: auto;
+
+			.no-message {
+				width: 100%;
+				height: 220px;
+
+				.icon-symbol {
+					fill: #adadad;
+				}
+
+				.tips {
+					text-align: center;
+					font-size: 16px;
+					color: #adadad;
+				}
+			}
+
+			.more-comment {
+				height: 60px;
+				line-height: 60px;
+				font-size: 18px;
+				color: #adadad;
+				text-align: center;
+			}
+
+			#ulbottom {
+				height: 1.2rem;
+			}
+		}
+	}
+
+	#footer {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		margin: 0;
+		padding: 0;
+		height: 46px;
+		line-height: 46px;
+		border-top: solid #adadad 1px;
+		background-color: white;
+		width: 100%;
+		text-align: left;
+		overflow: hidden;
+
+		#operate {
+			display: flex;
+			display: -webkit-flex; /* Safari */
+			justify-content: center;
+			align-items: center;
+
+			#input1 {
+				width: 50%;
+				margin-left: 0.8rem;
+				height: 0.8rem;
+				font-size: 0.5rem;
+				padding-left: 0.5rem;
+				border-radius: 50px;
+			}
+
+			.agreeauthor {
+				position: relative;
+				margin-left: 0.5rem;
+				width: 15%;
+
+				.agreeauthorimg {
+					height: 0.7rem;
+					width: 0.7rem;
+					background-image: url(../assets/image/chatroom/click.png);
+					background-size: cover;
+				}
+				.agreeauthorimged {
+					height: 0.7rem;
+					width: 0.7rem;
+					background-image: url(../assets/image/chatroom/clicked.png);
+					background-size: cover;
+				}
+			}
+
+			.agreeaunum {
+				position: absolute;
+				left: 0.9rem;
+				font-size: 0.4rem;
+				color: #adadad;
+			}
+
+			.authorimg {
+				display: inline-block;
+			}
+
+			.cmauthor {
+				position: relative;
+				width: 23%;
+
+				.cmauthorimg {
+					height: 0.7rem;
+					width: 0.7rem;
+					background-image: url(../assets/image/detail/comment.png);
+					background-size: cover;
+				}
+			}
+		}
+
+		#commentdiv {
+			display: flex;
+			display: -webkit-flex; /* Safari */
+			justify-content: center;
+			align-items: center;
+			padding-top: 0.07rem;
+			overflow: hidden;
+
+			#motion {
+				height: 0.933333rem;
+				width: 0.933333rem;
+				margin-top: 0.1rem;
+			}
+
+			#input2 {
+				width: 65%;
+				height: 0.8rem;
+				border-top: none;
+				border-left: none;
+				border-right: none;
+				font-size: 0.5rem;
+				margin: 0 0.1875rem 0 0.1875rem;
+				border-radius: 0;
+			}
+		}
+	}
 }
 </style>

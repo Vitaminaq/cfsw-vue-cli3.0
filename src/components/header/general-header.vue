@@ -1,7 +1,7 @@
 <template>
 	<header class="header">
 		<router-link to="" event="[]" @click.native="back">
-			<svg-icon name="backtop" />
+			<svg-icon name="back" />
 		</router-link>
 		<span class="title">{{ headerTitle }}</span> <slot name="btn" />
 	</header>
@@ -30,7 +30,8 @@ export default class GeneralHeader extends Vue {
 	justify-content: center;
 	align-items: center;
 	background-color: #fff;
-	border-bottom: solid #adadad 1px;
+	// prettier-ignore
+	border-bottom: solid #adadad 1PX;
 	font-size: 0.5rem;
 	height: 1.2rem;
 	z-index: 999;
@@ -39,8 +40,9 @@ export default class GeneralHeader extends Vue {
 		padding-top: 7px;
 
 		.icon-symbol {
-			width: 25px;
-			height: 25px;
+			width: 22px;
+			height: 22px;
+			fill: #adadad;
 		}
 	}
 

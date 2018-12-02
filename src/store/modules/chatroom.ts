@@ -6,7 +6,7 @@ import BaseLoaderData from '@src/common/base-loader-data';
 class ArticList extends BaseLoaderList {
 	readonly namespaced: boolean = true;
 	getListBaseAjaxMethod(): Promise<Loader.Response> {
-		return this.api.getArtic();
+		return this.api.getArtic(this.state.params);
 	}
 }
 class View extends BaseLoaderData<ChatRoom.View.RequestParams, string> {

@@ -6,6 +6,9 @@ export default class DetailApi extends BaseAxios {
 	): Promise<Detail.ArticDetail.Response> {
 		return this.axios.post('/api/user/detail', params);
 	}
+	getUserComment(params: any) {
+		return this.axios.get('/api/user/artic/comments', params);
+	}
 	userComment(
 		params: Detail.UserComment.RequestParams
 	): Promise<Detail.UserComment.Response> {

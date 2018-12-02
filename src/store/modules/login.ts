@@ -9,7 +9,9 @@ class GetUserHeaderImg extends BaseLoaderData<
 	readonly namespaced: boolean = true;
 	async getUserHeaderImg(): Promise<this> {
 		this.$RequestStart();
-		const res = await this.api.getUserHeaderImg(this.state.params);
+		const res: API.Login.UserHeaderImg.Response = await this.api.getUserHeaderImg(
+			this.state.params
+		);
 		this.$RequestSuccess(res);
 		return this;
 	}
@@ -19,20 +21,11 @@ class UserLogin extends BaseLoaderData<
 	API.Login.UserLogin.Data
 > {
 	readonly namespaced: boolean = true;
-	// public readonly state: API.Login.UserLogin.State = {
-	// 	params: {
-	// 		nickname: '',
-	// 		password: ''
-	// 	},
-	// 	res: {
-	// 		code: 0,
-	// 		data: {}
-	// 	},
-	// 	requestStatus: 'unrequest'
-	// };
 	async userLogin(): Promise<this> {
 		this.$RequestStart();
-		const res = await this.api.userLogin(this.state.params);
+		const res: API.Login.UserLogin.Response = await this.api.userLogin(
+			this.state.params
+		);
 		this.$RequestSuccess(res);
 		return this;
 	}

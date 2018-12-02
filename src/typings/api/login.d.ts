@@ -7,6 +7,7 @@ declare namespace API.Login {
 			headimg: string;
 		}
 		export type State = API.APIBaseStoreState<RequestParams, Data>;
+		export type Response = API.APIBaseResponse<Data>;
 	}
 	export namespace UserLogin {
 		export interface RequestParams {

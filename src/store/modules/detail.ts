@@ -12,6 +12,7 @@ class SaveData {
 		this.articMessage = {
 			articId: 0,
 			clicknum: 0,
+			commentList: [],
 			commentnum: 0,
 			creatAt: '',
 			msg: '',
@@ -85,14 +86,23 @@ class ArticDetail extends BaseLoaderData<
 		}
 		return this;
 	}
-	$clearData(state: any): this {
-		state.articMessage = {};
-		state.requestStatus = 'unrequest';
-		return this;
-	}
 	async getArticDetail(): Promise<this> {
 		this.$RequestStart();
 		const res = await this.api.getDetail(this.state.params);
+		this.$RequestSuccess(res);
+		return this;
+	}
+}
+/**
+ * 获取文章评论
+ */
+class GetUserComment extends BaseLoaderData<
+	Detail.UserComment.RequestParams,
+	string
+> {
+	async getUserComment(): Promise<this> {
+		this.$RequestStart();
+		const res = await this.api.getUserComment(this.state.params);
 		this.$RequestSuccess(res);
 		return this;
 	}
@@ -104,23 +114,9 @@ class UserComment extends BaseLoaderData<
 	Detail.UserComment.RequestParams,
 	string
 > {
-	public readonly state: Detail.UserComment.State = {
-		params: {
-			articId: '',
-			msg: ''
-		},
-		res: {
-			code: 0,
-			data: ''
-		},
-		requestStatus: 'unrequest'
-	};
-	get res(): Detail.UserComment.Response {
-		return this.state.res;
-	}
 	async userComment(): Promise<this> {
 		this.$RequestStart();
-		const res = await new DetailApi().userComment(this.state.params);
+		const res = await this.api.userComment(this.state.params);
 		this.$RequestSuccess(res);
 		return this;
 	}
@@ -132,19 +128,6 @@ class AgreeAuthor extends BaseLoaderData<
 	Detail.AgreeAuthor.RequestParams,
 	string
 > {
-	public readonly state: Detail.AgreeAuthor.State = {
-		params: {
-			id: ''
-		},
-		res: {
-			code: 0,
-			data: ''
-		},
-		requestStatus: 'unrequest'
-	};
-	get res(): Detail.AgreeAuthor.Response {
-		return this.state.res;
-	}
 	async agreeAuthor(): Promise<this> {
 		this.$RequestStart();
 		const res = await this.api.agreeAuthor(this.state.params);
@@ -159,20 +142,6 @@ class AgreeComment extends BaseLoaderData<
 	Detail.AgreeComment.RequestParams,
 	string
 > {
-	public readonly state: Detail.AgreeComment.State = {
-		params: {
-			id: 0,
-			commentId: 0
-		},
-		res: {
-			code: 0,
-			data: ''
-		},
-		requestStatus: 'unrequest'
-	};
-	get res(): Detail.AgreeComment.Response {
-		return this.state.res;
-	}
 	async agreeComment(): Promise<this> {
 		this.$RequestStart();
 		const res = await this.api.agreeComment(this.state.params);
@@ -183,6 +152,7 @@ class AgreeComment extends BaseLoaderData<
 
 class Detail extends VuexClass {
 	articDetail: ArticDetail;
+	getUserComment: GetUserComment;
 	userComment: UserComment;
 	agreeAuthor: AgreeAuthor;
 	agreeComment: AgreeComment;
@@ -191,18 +161,21 @@ class Detail extends VuexClass {
 		userComment: UserComment;
 		agreeAuthor: AgreeAuthor;
 		agreeComment: AgreeComment;
+		getUserComment: GetUserComment;
 	};
 	constructor() {
 		super(new DetailApi());
 		(this.articDetail = new ArticDetail(new DetailApi())),
-			(this.userComment = new UserComment(new DetailApi())),
+			(this.getUserComment = new GetUserComment(new DetailApi()));
+		(this.userComment = new UserComment(new DetailApi())),
 			(this.agreeAuthor = new AgreeAuthor(new DetailApi())),
 			(this.agreeComment = new AgreeComment(new DetailApi()));
 		this.modules = {
 			articDetail: this.articDetail,
 			userComment: this.userComment,
 			agreeAuthor: this.agreeAuthor,
-			agreeComment: this.agreeComment
+			agreeComment: this.agreeComment,
+			getUserComment: this.getUserComment
 		};
 	}
 }

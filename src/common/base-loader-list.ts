@@ -36,7 +36,7 @@ export default abstract class BaseLoader extends VuexClass {
 		pullDownStatus: 'unrequest',
 		pullUpStatus: 'unrequest'
 	};
-	abstract getListBaseAjaxMethod?(): Promise<BaseLoaderResponse>;
+	abstract getListBaseAjaxMethod(): Promise<BaseLoaderResponse>;
 	public get list(): Array<any> {
 		const set = new Set(this.state.list);
 		const list = Array.from(set);
@@ -79,7 +79,7 @@ export default abstract class BaseLoader extends VuexClass {
 	}
 	public async pullDown(): Promise<this> {
 		this.$pullDownStart();
-		const res = await this.api.getArtic(this.state.params);
+		const res = await this.getListBaseAjaxMethod();
 		this.$pullDownSuccess(res);
 		return this;
 	}
@@ -106,7 +106,7 @@ export default abstract class BaseLoader extends VuexClass {
 	}
 	public async pullUp(): Promise<this> {
 		this.$pullUpStart();
-		const res = await this.api.getArtic(this.state.params);
+		const res = await this.getListBaseAjaxMethod();
 		this.$pullUpSuccess(res);
 		return this;
 	}

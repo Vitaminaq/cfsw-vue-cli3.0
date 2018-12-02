@@ -14,6 +14,7 @@ declare namespace Detail {
 		export interface Data {
 			articId: number;
 			clicknum: number;
+			commentList: Array<Commentxt>;
 			commentnum: number;
 			creatAt: string;
 			msg: string;

@@ -75,13 +75,18 @@ export default class ArticList extends Vue {
 				}
 			}
 			.author {
-				width: 100%;
-				font-size: 15px;
+				width: 240px;
+				font-size: 14px;
 				padding-top: 10px;
-				margin-left: 19px;
+				margin-left: 18px;
+
 				.title {
+					widows: 80%;
 					margin-bottom: 5px;
-					font-size: 23px;
+					font-size: 22px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 				.authorname {
 					width: 15%;

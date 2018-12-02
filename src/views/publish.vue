@@ -4,7 +4,10 @@
 			<button
 				slot="btn"
 				:disabled="disable"
-				class="publishit"
+				:class="[
+					'publishit',
+					!title || !artic ? 'disable-publish' : ''
+				]"
 				@click="publishIt"
 			>
 				发表
@@ -17,7 +20,9 @@
 			type="text"
 			placeholder="请输入标题"
 		/>
-		<textarea v-model="artic" placeholder="请输入正文" />
+		<div class="artic">
+			<textarea v-model="artic" placeholder="请输入正文" />
+		</div>
 	</div>
 </template>
 
@@ -42,24 +47,26 @@ export default class publish extends Vue {
 	get publish() {
 		return this.$vuexClass.publish;
 	}
+	get articHtml() {
+		return this.artic.replace(/ /g, '&nbsp;');
+	}
 
 	async publishIt() {
 		let params = {
 			title: this.title,
 			msg: this.artic
 		};
-		// this.$isEmpty(params);
-		// if (this.isEmpty) return Toast('', '内容不能为空!');
+		if ((this as any).isEmpty(params)) {
+			(this as any).$toast('请填写完整信息!');
+			return;
+		}
 		this.disable = true;
-		// Toast('loading', '发表中...');
 		this.publish.$assignParams(params);
 		await this.publish.userPublish();
-		// setTimeout(function() {
-		// 	closeLoading();
-		// }, 200);
-		// this.disable = false;
-		// Toast('', this.publish.res.data);
-		if (this.publish.res.code !== 0) return;
+		this.disable = false;
+		if (this.publish.res.code !== 0) {
+			return (this as any).$toast(this.publish.res.data);
+		}
 		this.publish.$clearData();
 		return this.$router.push({ name: 'chatroom' });
 	}
@@ -68,12 +75,20 @@ export default class publish extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 #publish {
+	text-align: center;
+	width: 100%;
+	overflow-x: hidden;
+
 	.publishit {
 		border-style: none;
 		background-color: #fff;
 		outline: none;
 		font-size: 0.5rem;
 		color: #00dcff;
+
+		&.disable-publish {
+			color: #adadad;
+		}
 	}
 
 	input {
@@ -88,7 +103,8 @@ export default class publish extends Vue {
 	}
 
 	textarea {
-		height: 400px;
+		height: auto;
+		max-height: 400px;
 		width: 90%;
 		overflow-y: auto;
 		outline: none;
