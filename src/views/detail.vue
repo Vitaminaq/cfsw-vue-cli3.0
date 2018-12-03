@@ -285,10 +285,6 @@ export default class Detail extends Vue {
 	back(): void {
 		return this.$router.go(-1);
 	}
-	// beforeDestroy () {
-	//     console.log(1);
-	//     this.$clearData();
-	// }
 }
 </script>
 

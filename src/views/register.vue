@@ -110,21 +110,22 @@ export default class Register extends Vue {
 			password: this.password,
 			sex: this.sex,
 			age: this.age,
-			headimg: this.headerImg
+			headimg: '1'
 		};
 		if ((this as any).isEmpty(params)) {
-			console.log('请填写完整信息');
+			(this as any).$toast('请填写完整信息');
 			return;
 		}
+		params.headimg = this.headerImg;
 		//return Toast('', '请填写完整信息');
 		this.registerModule.$assignParams(params);
 		// Toast('loading', '注册中...');
 		this.button.disabled = true;
 		await this.registerModule.userRegister();
 		// closeLoading();
-		// setTimeout(() => {
-		// 	this.button.disabled = false;
-		// }, 1000);
+		setTimeout(() => {
+			this.button.disabled = false;
+		}, 1000);
 		// Toast('', this.registerModule.res.data);
 		if (this.registerModule.res.code === 0) {
 			return this.$router.push({
