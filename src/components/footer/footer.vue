@@ -17,7 +17,11 @@ interface routerList {
 	toPathName: string;
 }
 
-@Component
+@Component({
+	beforeRouteUpdate() {
+		console.log(22222222222);
+	}
+})
 export default class FooterContent extends Vue {
 	list: Array<routerList> = [
 		{

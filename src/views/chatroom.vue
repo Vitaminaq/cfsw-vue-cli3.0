@@ -23,18 +23,19 @@
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import { Time } from '@src/common/comjs';
 import Scroller from '@src/components/scroller/scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
+import { Route } from 'vue-router';
 
 @Component({
 	components: { Scroller, ArticList, FooterContent, LogoHeader }
 })
 export default class ChatRoom extends Vue {
-	minItemHeight: string | number = 145;
+	minItemHeight: string | number = 122;
 	get articList() {
 		return this.$vuexClass.chatRoom.articList;
 	}
@@ -71,6 +72,11 @@ export default class ChatRoom extends Vue {
 			return this.$router.push({ name: 'detail', query: { id: id } });
 		}
 		(this as any).$toast(this.view.res.data);
+	}
+	beforeDestroy() {
+		if (this.$route.name === 'publish') {
+			this.articList.$clearData();
+		}
 	}
 }
 </script>

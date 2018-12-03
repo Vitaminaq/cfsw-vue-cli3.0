@@ -146,7 +146,7 @@ export default class Detail extends Vue {
 		if (!articMessage.commentList || !articMessage.commentList[0])
 			return false;
 		const len = articMessage.commentList.length || 0;
-		return len > 0 && len < 6;
+		return len > 4;
 	}
 
 	async created() {
@@ -321,7 +321,7 @@ export default class Detail extends Vue {
 		}
 
 		#name {
-			width: 20%;
+			width: auto;
 		}
 	}
 

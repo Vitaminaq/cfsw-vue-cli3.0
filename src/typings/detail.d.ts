@@ -8,8 +8,13 @@ declare namespace Detail {
 			num: number;
 		}
 		export interface Commentxt {
-			msg?: string;
-			name?: Array<string>;
+			clicknum: number;
+			commentId: number;
+			creatAt: string;
+			headimg: string;
+			isClickComment: boolean;
+			msg: string;
+			nickname: string;
 		}
 		export interface Data {
 			articId: number;

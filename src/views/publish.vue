@@ -72,12 +72,17 @@ export default class publish extends Vue {
 	}
 }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="less" scoped>
 #publish {
 	text-align: center;
 	width: 100%;
 	overflow-x: hidden;
+
+	button {
+		width: auto;
+		margin-right: 15px;
+	}
 
 	.publishit {
 		border-style: none;

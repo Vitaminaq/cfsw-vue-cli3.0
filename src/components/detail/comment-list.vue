@@ -1,15 +1,20 @@
 <template>
 	<li>
-		<div class="commentname">{{ item.nickname }}</div>
-		<div class="commentmsg">
-			<span class="time">{{ time(Number(item.creatAt)) }}</span>
-			<span class="agree">
-				<span
-					:class="item.isClickComment ? 'agreeimged' : 'agreeimg'"
-					@click="agreeit(item.commentId);"
-				/>
-				<span class="agreenum">{{ item.clicknum }}</span>
-			</span>
+		<div class="commenter-detail">
+			<img :src="headImgUrl" />
+			<div class="comment-content">
+				<div class="commentname">{{ item.nickname }}</div>
+				<div class="commentmsg">
+					<div class="time">{{ time(Number(item.creatAt)) }}</div>
+					<div class="click" @click="agreeit(item.commentId);">
+						<svg-icon
+							name="click"
+							:class="isClicked ? 'is-clicked' : ''"
+						/>
+					</div>
+					<div class="agreenum">{{ item.clicknum }}</div>
+				</div>
+			</div>
 		</div>
 		<div class="commenttxt">{{ item.msg }}</div>
 	</li>
@@ -17,18 +22,18 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Time } from '@src/common/comjs';
+import config from '@src/config';
 
 @Component
 export default class CommentList extends Vue {
-	@Prop({ required: true }) index!: any;
-	@Prop({ default: () => {} }) item!: any;
+	@Prop({ required: true }) index!: number | string;
+	@Prop({ default: () => {} }) item!: Detail.ArticDetail.Commentxt;
 
-	get nickName(): string | null {
-		return localStorage.getItem('nickname');
+	get headImgUrl() {
+		return `${config.BASE_URL}${this.item.headimg}`;
 	}
-	get status(): boolean {
-		if (!this.nickName) return false;
-		return this.item.c_agree.name.includes(this.nickName);
+	get isClicked() {
+		return this.item.isClickComment;
 	}
 
 	time(time: number): string | undefined {
@@ -44,59 +49,67 @@ export default class CommentList extends Vue {
 li {
 	height: auto;
 	width: 100%;
-	border-bottom: solid #adadad 1px;
 	padding-bottom: 0.2rem;
+	border-bottom: solid #adadad 1px;
+
+	.commenter-detail {
+		padding-top: 8px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	img {
+		border-radius: 50%;
+		height: 30px;
+		width: 30px;
+		margin-left: 20px;
+	}
+
+	.comment-content {
+		width: 80%;
+		padding-left: 20px;
+	}
+
 	.commentname {
-		font-size: 0.4rem;
-		height: 0.46rem;
-		padding-left: 0.8rem;
+		font-size: 14px;
 		color: #adadad;
-		padding-top: 0.2rem;
 	}
 	.commentmsg {
-		padding-top: 0.106667rem;
-		font-size: 0.3rem;
-		color: #adadad;
-		height: 0.466667rem;
 		position: relative;
-		padding-left: 0.8rem;
-		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 10px;
+		color: #adadad;
 
-		span {
-			display: inline-block;
+		.time {
+			width: 100%;
+		}
+
+		.icon-symbol {
+			width: 12px;
+			height: 12px;
+			fill: #adadad;
+		}
+
+		.click {
+			width: 6%;
+
+			.is-clicked {
+				fill: #00dcff;
+			}
+		}
+
+		.agreenum {
+			margin-right: 20px;
 		}
 	}
-	.agreenum {
-		position: relative;
-		top: -0.04rem;
-		padding-left: 0.133333rem;
-	}
 
-	.agreeimg,
-	.agreeimged {
-		height: 0.426667rem;
-		width: 0.426667rem;
-		background-size: cover;
-	}
-	.agreeimg {
-		background-image: url(../../assets/image/chatroom/click.png);
-	}
-	.agreeimged {
-		background-image: url(../../assets/image/chatroom/clicked.png);
-	}
-	.time {
-		width: 40%;
-	}
-	.agree {
-		width: 51%;
-		height: 0.466667rem;
-		line-height: 0.466667rem;
-		text-align: right;
-	}
 	.commenttxt {
-		padding-top: 0.133333rem;
-		padding-left: 0.8rem;
-		font-size: 0.42rem;
+		padding-top: 6px;
+		padding-left: 70px;
+		font-size: 16px;
 	}
 }
 </style>

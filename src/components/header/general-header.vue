@@ -3,7 +3,8 @@
 		<router-link to="" event="[]" @click.native="back">
 			<svg-icon name="back" />
 		</router-link>
-		<span class="title">{{ headerTitle }}</span> <slot name="btn" />
+		<span class="title">{{ headerTitle }}</span>
+		<span v-if="!hasBtn" class="right"></span> <slot v-else name="btn" />
 	</header>
 </template>
 <script lang="ts">
@@ -13,6 +14,10 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 export default class GeneralHeader extends Vue {
 	@Prop({ default: '' }) headerTitle!: string;
 	@Prop({ default: '' }) backPathName!: string;
+
+	get hasBtn() {
+		return !!this.$slots.btn;
+	}
 
 	back() {
 		if (!this.backPathName) return this.$router.go(-1);
@@ -26,17 +31,19 @@ export default class GeneralHeader extends Vue {
 	left: 0;
 	top: 0;
 	width: 100%;
+	height: 1.2rem;
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	background-color: #fff;
 	// prettier-ignore
 	border-bottom: solid #adadad 1PX;
 	font-size: 0.5rem;
-	height: 1.2rem;
 	z-index: 999;
 
 	a {
+		width: auto;
+		margin-left: 15px;
 		padding-top: 7px;
 
 		.icon-symbol {
@@ -46,8 +53,10 @@ export default class GeneralHeader extends Vue {
 		}
 	}
 
-	.title {
-		width: 73%;
+	.right {
+		width: 22px;
+		height: 10px;
+		margin-right: 15px;
 	}
 }
 </style>

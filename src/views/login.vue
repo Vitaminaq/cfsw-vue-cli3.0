@@ -74,9 +74,10 @@ export default class login extends Vue {
 		return `${config.BASE_URL}${this.headerImgUrl}`;
 	}
 
-	created() {
+	mounted() {
 		if (!this.$route.query.nickname) return;
 		this.nickname = this.$route.query.nickname;
+		this.getUserHeaderImg();
 	}
 	async getUserHeaderImg(): Promise<this> {
 		const params = {
