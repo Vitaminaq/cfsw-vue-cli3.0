@@ -7,6 +7,7 @@
     @resize="onScrollerResize"
     @visible="onScrollerVisible"
     v-on="listeners"
+    v-rescroll = "{name: 'chatroom'}"
   >
     <template slot-scope="{ item: itemWithHeight, index, active }">
       <slot

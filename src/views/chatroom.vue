@@ -1,5 +1,5 @@
 <template>
-	<div id="chatroom">
+	<div class="chatroom">
 		<logo-header />
 		<div class="empty"></div>
 		<div id="wrapper">
@@ -82,7 +82,7 @@ export default class ChatRoom extends Vue {
 </script>
 
 <style lang="less" scoped>
-#chatroom {
+.chatroom {
 	height: 100%;
 
 	.empty {

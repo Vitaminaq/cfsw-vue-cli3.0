@@ -4,6 +4,7 @@
 		v-rescroll="{
 			name: `detail${$route.query.id}`
 		}"
+		ref="detail"
 		@click="control"
 	>
 		<general-header :header-title="headerTitle" back-path-name="chatroom" />
@@ -50,32 +51,34 @@
 				</div>
 			</div>
 			<div id="footer">
-				<div v-if="hidshow" id="operate">
+				<div v-if="hidshow" class="operate">
 					<input
-						id="input1"
+						class="input1"
 						type="text"
 						name=""
 						placeholder="说点什么..."
 						@focus="sayit();"
 					/>
-					<div class="agreeauthor" @click="agreeAuthors();">
-						<span
-							class="authorimg"
-							:class="
-								articMessage.isClick
-									? 'agreeauthorimged'
-									: 'agreeauthorimg'
-							"
+					<div
+						class="operate-artic oprate-click"
+						@click="agreeAuthors();"
+					>
+						<svg-icon
+							name="click"
+							:class="articMessage.isClick ? 'oprated' : ''"
 						/>
-						<span class="agreeaunum">{{
+						<span class="agreeau-num">{{
 							articMessage.clicknum
 						}}</span>
 					</div>
-					<div class="cmauthor">
-						<span class="cmauthorimg authorimg" />
-						<span class="agreeaunum">{{
+					<div class="operate-artic" @click="toButtom">
+						<svg-icon name="comment" />
+						<span class="agreeau-num">{{
 							articMessage.commentnum
 						}}</span>
+					</div>
+					<div class="operate-comment">
+						<svg-icon name="collection" />
 					</div>
 				</div>
 				<div v-else id="commentdiv">
@@ -313,6 +316,10 @@ export default class Detail extends Vue {
 	back(): void {
 		return this.$router.go(-1);
 	}
+	toButtom() {
+		const detailDom = (this as any).$refs.detail;
+		detailDom.scrollTop = detailDom.scrollHeight;
+	}
 }
 </script>
 
@@ -433,68 +440,64 @@ export default class Detail extends Vue {
 		left: 0;
 		margin: 0;
 		padding: 0;
-		height: 46px;
-		line-height: 46px;
-		border-top: solid #adadad 1px;
-		background-color: white;
+		height: 50px;
+		line-height: 50px;
+		// prettier-ignore
+		border-top: solid #adadad 1PX;
+		background-color: #fff;
 		width: 100%;
 		text-align: left;
 		overflow: hidden;
 
-		#operate {
+		.operate {
 			display: flex;
 			display: -webkit-flex; /* Safari */
 			justify-content: center;
 			align-items: center;
 
-			#input1 {
-				width: 50%;
-				margin-left: 0.8rem;
-				height: 0.8rem;
-				font-size: 0.5rem;
-				padding-left: 0.5rem;
+			.input1 {
+				width: 100%;
+				margin-left: 20px;
+				height: 34px;
+				font-size: 18px;
+				padding-left: 20px;
 				border-radius: 50px;
 			}
 
-			.agreeauthor {
-				position: relative;
-				margin-left: 0.5rem;
-				width: 15%;
+			.icon-symbol {
+				width: 20px;
+				height: 20px;
+				fill: #adadad;
+			}
 
-				.agreeauthorimg {
-					height: 0.7rem;
-					width: 0.7rem;
-					background-image: url(../assets/image/chatroom/click.png);
-					background-size: cover;
+			.operate-artic {
+				display: flex;
+				display: -webkit-flex; /* Safari */
+				justify-content: center;
+				align-items: center;
+				margin-right: 20px;
+
+				&.oprate-click {
+					margin-left: 20px;
 				}
-				.agreeauthorimged {
-					height: 0.7rem;
-					width: 0.7rem;
-					background-image: url(../assets/image/chatroom/clicked.png);
-					background-size: cover;
+
+				.oprated {
+					fill: #00dcff;
+				}
+
+				.agreeau-num {
+					margin-left: 4px;
+					font-size: 12px;
+					color: #adadad;
 				}
 			}
 
-			.agreeaunum {
-				position: absolute;
-				left: 0.9rem;
-				font-size: 0.4rem;
-				color: #adadad;
-			}
+			.operate-comment {
+				margin-right: 20px;
 
-			.authorimg {
-				display: inline-block;
-			}
-
-			.cmauthor {
-				position: relative;
-				width: 23%;
-
-				.cmauthorimg {
-					height: 0.7rem;
-					width: 0.7rem;
-					background-image: url(../assets/image/detail/comment.png);
-					background-size: cover;
+				.icon-symbol {
+					position: relative;
+					top: -2px;
 				}
 			}
 		}
