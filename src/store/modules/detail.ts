@@ -7,21 +7,8 @@ import BaseLoaderData from '@src/common/base-loader-data';
  */
 class SaveData {
 	articMessage: Detail.ArticDetail.Data;
-	clickDetail: any;
 	constructor() {
-		this.articMessage = {
-			articId: 0,
-			clicknum: 0,
-			commentList: [],
-			commentnum: 0,
-			creatAt: '',
-			msg: '',
-			nickname: '',
-			title: '',
-			updateAt: '',
-			viewnum: 0,
-			isClick: false
-		};
+		this.articMessage = {} as Detail.ArticDetail.Data;
 	}
 	saveArticMessage(params: any): this {
 		return Object.assign(this.articMessage, params);

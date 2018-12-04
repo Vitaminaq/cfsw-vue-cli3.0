@@ -9,9 +9,12 @@
 		<general-header :header-title="headerTitle" back-path-name="chatroom" />
 		<div v-if="!!articMessage" id="detailcontent">
 			<h1>{{ articMessage.title }}</h1>
-			<div id="author">
-				<span id="name">{{ articMessage.nickname }}</span>
-				<span>{{ time(Number(articMessage.creatAt)) }}</span>
+			<div class="author">
+				<div class="author-headimg"><img :src="headImg" /></div>
+				<span class="name">{{ articMessage.nickname }}</span>
+				<span class="time">{{
+					timestampToDateTime(Number(articMessage.creatAt))
+				}}</span>
 			</div>
 			<div id="artic"><span v-html="articMessage.msg"></span></div>
 			<div id="comment">
@@ -100,10 +103,10 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { Getter, Mutation, Action, namespace } from 'vuex-class';
-import { Time } from '@src/common/comjs';
+import { Time, timeFromNow, timestampToDateTime } from '@src/common/comjs';
 import CommentList from '@src/components/detail/comment-list.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
+import config from '@src/config';
 
 @Component({
 	components: {
@@ -117,6 +120,7 @@ export default class Detail extends Vue {
 	hidshow: boolean = true;
 	articMessage: Detail.ArticDetail.Data = {} as Detail.ArticDetail.Data;
 	headerTitle: string = '正文';
+	headImg: string = '';
 	button: MyButton.Button<MyButton.BtnStyle> = {
 		disabled: true,
 		value: '评论',
@@ -132,6 +136,18 @@ export default class Detail extends Vue {
 	get articDetail() {
 		return this.$vuexClass.detail.articDetail;
 	}
+	// get headImg() {
+	// 	if (
+	// 		!this.articDetail ||
+	// 		!this.articDetail.dataStore ||
+	// 		!this.articDetail.dataStore[this.id] ||
+	// 		!this.articDetail.dataStore[this.id].articMessage
+	// 	)
+	// 		return 'dsfd';
+	// 	return `${config.BASE_URL}${
+	// 		this.articDetail.dataStore[this.id].articMessage.headimg
+	// 	}`;
+	// }
 	get agreeAuthor() {
 		return this.$vuexClass.detail.agreeAuthor;
 	}
@@ -156,6 +172,9 @@ export default class Detail extends Vue {
 			this.articMessage = this.articDetail.dataStore[
 				this.id
 			].articMessage;
+			this.headImg = `${config.BASE_URL}${
+				this.articDetail.dataStore[this.id].articMessage.headimg
+			}`;
 		}
 	}
 	async getData(): Promise<this> {
@@ -165,6 +184,9 @@ export default class Detail extends Vue {
 		this.articDetail.$assignParams(params);
 		await this.articDetail.getArticDetail();
 		this.articMessage = this.articDetail.dataStore[this.id].articMessage;
+		this.headImg = `${config.BASE_URL}${
+			this.articDetail.dataStore[this.id].articMessage.headimg
+		}`;
 		this.articMessage.msg = this.articMessage.msg.replace(/ /g, '&nbsp;');
 		return this;
 	}
@@ -180,6 +202,12 @@ export default class Detail extends Vue {
 	}
 	time(time: number): string | undefined {
 		return Time(time);
+	}
+	timeFromNow(time: number) {
+		return timeFromNow(time);
+	}
+	timestampToDateTime(time: number) {
+		return timestampToDateTime(time);
 	}
 	async commentit(): Promise<this> {
 		let params = {
@@ -305,23 +333,37 @@ export default class Detail extends Vue {
 			margin: 0 auto;
 			padding-top: 1.6rem;
 			font-size: 0.55rem;
+			text-align: center;
 		}
 	}
 
-	#author {
+	.author {
 		width: 90%;
-		padding-top: 0.333333rem;
+		padding-top: 10px;
 		margin: 0 auto;
-		font-size: 0.3rem;
-		text-align: left;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		font-size: 12px;
 		color: #adadad;
 
-		span {
-			display: inline-block;
+		.author-headimg {
+			width: 26px;
+
+			img {
+				width: 26px;
+				height: 26px;
+				border-radius: 50%;
+			}
 		}
 
-		#name {
-			width: auto;
+		.name {
+			width: 100%;
+			margin-left: 10px;
+		}
+
+		.time {
+			white-space: nowrap;
 		}
 	}
 
