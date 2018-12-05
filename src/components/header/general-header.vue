@@ -1,11 +1,15 @@
 <template>
-	<header class="header">
-		<router-link to="" event="[]" @click.native="back">
-			<svg-icon name="back" />
-		</router-link>
-		<span class="title">{{ headerTitle }}</span>
-		<span v-if="!hasBtn" class="right"></span> <slot v-else name="btn" />
-	</header>
+	<div>
+		<header>
+			<router-link to="" event="[]" @click.native="back">
+				<svg-icon name="back" />
+			</router-link>
+			<span class="title">{{ headerTitle }}</span>
+			<span v-if="!hasBtn" class="right"></span>
+			<slot v-else name="btn" />
+		</header>
+		<div class="empty"></div>
+	</div>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
@@ -26,12 +30,15 @@ export default class GeneralHeader extends Vue {
 }
 </script>
 <style lang="less" scoped>
-.header {
+.empty {
+	height: 46px;
+}
+header {
 	position: fixed;
 	left: 0;
 	top: 0;
 	width: 100%;
-	height: 1.2rem;
+	height: 46px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

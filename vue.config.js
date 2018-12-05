@@ -8,6 +8,7 @@ module.exports = {
 	configureWebpack(webpackConfig) {
 		webpackConfig.resolve.extensions = ['.vue', '.js', '.ts', 'jsx', 'tsx'];
 		webpackConfig.resolve.alias = {
+			vue$: 'vue/dist/vue.esm.js',
 			'@src': path.resolve(__dirname, './src')
 		};
 	},

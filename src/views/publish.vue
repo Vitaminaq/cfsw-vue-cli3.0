@@ -20,18 +20,18 @@
 			type="text"
 			placeholder="请输入标题"
 		/>
-		<div class="artic">
-			<textarea v-model="artic" placeholder="请输入正文" />
-		</div>
+		<vue-html5-editor
+			:content="artic"
+			:z-index="1"
+			@change="updateData"
+		></vue-html5-editor>
 	</div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { State, Action, Mutation, namespace } from 'vuex-class';
 import GeneralHeader from '@src/components/header/general-header.vue';
 import FooterContent from '@src/components/footer/footer.vue';
-
 @Component({
 	components: {
 		GeneralHeader,
@@ -70,6 +70,11 @@ export default class publish extends Vue {
 		this.publish.$clearData();
 		return this.$router.push({ name: 'chatroom' });
 	}
+
+	updateData(val: string) {
+		this.artic = val;
+		console.log(this.artic);
+	}
 }
 </script>
 
@@ -97,27 +102,15 @@ export default class publish extends Vue {
 	}
 
 	input {
-		margin-top: 1.6rem;
-		padding-left: 0.15rem;
-		padding-bottom: 0.2rem;
+		margin: 10px 0;
+		padding-left: 5px;
+		padding-bottom: 7px;
 		width: 90%;
 		font-size: 0.6rem;
-		height: 0.8rem;
+		height: 30px;
 		border: none;
-		border-bottom: #adadad dotted 1px;
-	}
-
-	textarea {
-		height: auto;
-		max-height: 400px;
-		width: 90%;
-		overflow-y: auto;
-		outline: none;
-		border: none;
-		padding-left: 0.15rem;
-		padding-top: 0.3rem;
-		font-size: 0.48rem;
-		resize: none;
+		// prettier-ignore
+		border-bottom: #adadad dotted 1PX;
 	}
 }
 </style>

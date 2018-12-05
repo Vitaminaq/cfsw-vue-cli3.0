@@ -48,6 +48,7 @@
     "postcss-px2rem": "^0.3.0",
     "prettier": "1.15.2",
     "typescript": "^3.0.0",
+    "vue-html5-editor": "^1.1.1",
     "vue-template-compiler": "^2.5.17"
   },
   "gitHooks": {

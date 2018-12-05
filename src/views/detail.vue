@@ -17,7 +17,7 @@
 					timestampToDateTime(Number(articMessage.creatAt))
 				}}</span>
 			</div>
-			<div id="artic"><span v-html="articMessage.msg"></span></div>
+			<div id="artic" v-html="articMessage.msg"></div>
 			<div id="comment">
 				<div id="commentitle">评论区</div>
 				<div class="commentul">
@@ -190,7 +190,7 @@ export default class Detail extends Vue {
 		this.headImg = `${config.BASE_URL}${
 			this.articDetail.dataStore[this.id].articMessage.headimg
 		}`;
-		this.articMessage.msg = this.articMessage.msg.replace(/ /g, '&nbsp;');
+		// this.articMessage.msg = this.articMessage.msg.replace(/ /g, '&nbsp;');
 		return this;
 	}
 	filter(): this {
@@ -338,7 +338,7 @@ export default class Detail extends Vue {
 		h1 {
 			width: 90%;
 			margin: 0 auto;
-			padding-top: 1.6rem;
+			padding-top: 20px;
 			font-size: 0.55rem;
 			text-align: center;
 		}
