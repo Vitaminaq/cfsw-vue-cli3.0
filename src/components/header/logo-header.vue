@@ -1,32 +1,20 @@
 <template>
-	<header id="header">
-		<transition
-			name="head-animate"
-			:duration="300"
-			enter-active-class="animated lightSpeedIn delay-3s"
-		>
-			<span v-show="isShow">Confenssion Wall</span>
-		</transition>
-	</header>
+	<div>
+		<header><span>Confenssion Wall</span></header>
+		<div class="empty"></div>
+	</div>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component
-export default class LogoHeader extends Vue {
-	isShow: boolean = false;
-	mounted() {
-		// setTimeout(() => {
-		this.isShow = true;
-		// }, 2000);
-	}
-	beforeDestroy() {
-		this.isShow = false;
-	}
-}
+export default class LogoHeader extends Vue {}
 </script>
 <style lang="less" scoped>
-#header {
+.empty {
+	height: 46px;
+}
+header {
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -39,7 +27,4 @@ export default class LogoHeader extends Vue {
 	line-height: 46px;
 	z-index: 999;
 }
-// .head-animate-enter {
-
-// }
 </style>

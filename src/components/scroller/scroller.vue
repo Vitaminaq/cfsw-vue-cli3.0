@@ -6,11 +6,6 @@
 			keyField="articId"
 			class="scroller"
 		>
-			<down-loading
-				slot="before-container"
-				:is-show="isShow"
-				:height="height"
-			/>
 			<template slot-scope="{ item, index, active }">
 				<DynamicScrollerItem
 					:item="item"
@@ -74,12 +69,6 @@ export default class Scroller extends Vue {
 	@Prop() pullDownStatus!: string;
 	@Prop({ default: () => {} }) list!: any;
 	@Prop({ default: '' }) minItemHeight!: string | number;
-	time: number = 0;
-	touchStartY: number = 0;
-	height: number = 0;
-	isShow: Boolean = false;
-	myScroll: any;
-	downLoading: boolean = false;
 	toggle: boolean = false;
 
 	pullUp() {
@@ -114,8 +103,9 @@ export default class Scroller extends Vue {
 	.operate-btn {
 		position: fixed;
 		z-index: 9999;
-		width: 50px;
-		height: 50px;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
 		border-radius: 50%;
 		text-align: center;
 		background-color: #ff4700;
@@ -123,9 +113,8 @@ export default class Scroller extends Vue {
 	}
 
 	.icon-symbol {
-		margin-top: 7px;
-		width: 36px;
-		height: 36px;
+		width: 26px;
+		height: 26px;
 		fill: #fff;
 	}
 

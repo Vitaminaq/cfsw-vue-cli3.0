@@ -990,6 +990,11 @@ alphanum-sort@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
 
+animate.css@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-3.7.0.tgz#5de25d1ee5fba11ba6a1e2c4fa568f512eb7d4da"
+  integrity sha512-u3iMXDJr0cxMdQocIciDiou9Au4L5f9uT+/jCtprw3s1j3HcfCuI+khF+90Ps2KdsEhM2soF7SXB4WUvI3HlXg==
+
 ansi-colors@^3.0.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.1.tgz#9638047e4213f3428a11944a7d4b31cba0a3ff95"
@@ -7567,6 +7572,11 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.1.tgz#b2d3d95402a811602380783ea4f566eb875569a2"
 
+vue-html5-editor@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vue-html5-editor/-/vue-html5-editor-1.1.1.tgz#5910210a830d8c8d3479a1f1fec8473192aa03b3"
+  integrity sha1-WRAhCoMNjI00eaHx/shHMZKqA7M=
+
 vue-loader@^15.4.2:
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.4.2.tgz#812bb26e447dd3b84c485eb634190d914ce125e2"
@@ -7634,11 +7644,6 @@ vue-virtual-scroller@^1.0.0-beta.2:
     vue-observe-visibility "^0.4.3"
     vue-resize "^0.4.4"
 
-vue2-toast@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/vue2-toast/-/vue2-toast-1.3.2.tgz#0b9203cb347d4b900b1e7a409529168bde970c2f"
-  integrity sha512-YimNbE5ZVFuolwNLU8pG+85PO6vjxTDo/u1PZGtNV3PuQEmnm0C/aPpwrMfV3IOYPABBskUcz0muwByduNAqDw==
-
 vue@^2.5.17:
   version "2.5.17"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
@@ -7648,11 +7653,6 @@ vuex-class.js@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/vuex-class.js/-/vuex-class.js-0.1.3.tgz#40dd5c4318d51628177027c89133ba16d1f741fb"
   integrity sha512-2sAUrM2uS0fyrpVFUR0gQY0JgVg3n0kn3q0ZJ8KIlkFp3y/CD3RsY7BVIdb008hz2VNF2eMg5+6SewzcJWrXxA==
-
-vuex-class@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/vuex-class/-/vuex-class-0.3.1.tgz#3c0b946bcff4cf2be1904de5b0cab1a3dd5c41d5"
-  integrity sha512-d7Hc+ItQx6p9E/2mEWiyrvyEuo7Uj0mq4VNImd7dmxTelnkhOavKPMEG1Xdypug2RlPEYv0920IOa3hdVZ+4AA==
 
 vuex@^3.0.1:
   version "3.0.1"

@@ -1,8 +1,7 @@
 <template>
 	<div class="chatroom">
 		<logo-header />
-		<div class="empty"></div>
-		<div id="wrapper">
+		<div class="wrapper">
 			<scroller
 				:pull-down-status="pullDownStatus"
 				@pullUp="pullUp"
@@ -29,13 +28,12 @@ import Scroller from '@src/components/scroller/scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
-import { Route } from 'vue-router';
 
 @Component({
 	components: { Scroller, ArticList, FooterContent, LogoHeader }
 })
 export default class ChatRoom extends Vue {
-	minItemHeight: string | number = 122;
+	minItemHeight: string | number = 110;
 	get articList() {
 		return this.$vuexClass.chatRoom.articList;
 	}
@@ -85,13 +83,11 @@ export default class ChatRoom extends Vue {
 .chatroom {
 	height: 100%;
 
-	.empty {
-		height: 46px;
-	}
-	#wrapper {
+	.wrapper {
 		position: relative;
-		height: 580px;
+		height: 610px;
 		overflow-y: hidden;
+		background-color: #f7f7f7;
 	}
 }
 </style>

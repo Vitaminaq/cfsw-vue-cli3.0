@@ -16,18 +16,20 @@ export default class SeeLoading extends Vue {
 	@Prop({ default: 'unrequest' }) pullUpstatus!: string;
 	timer: number = 0;
 
-	created() {
-		this.timer = setInterval(() => {
-			let isSee = inview(this.$el);
-			if (
-				isSee &&
-				this.pullUpstatus !== 'requesting' &&
-				this.pullUpstatus !== 'done' &&
-				this.pullUpstatus !== 'error'
-			) {
-				return this.$emit('pullUp');
-			}
-		}, 1000);
+	mounted() {
+		this.timer = setInterval(this.see, 500);
+		this.see();
+	}
+	see() {
+		const isSee = inview(this.$el);
+		if (
+			isSee &&
+			this.pullUpstatus !== 'requesting' &&
+			this.pullUpstatus !== 'done' &&
+			this.pullUpstatus !== 'error'
+		) {
+			return this.$emit('pullUp');
+		}
 	}
 	reload() {
 		this.$emit('pullUp');

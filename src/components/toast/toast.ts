@@ -31,7 +31,6 @@ class LocalToast extends Vue {
 				}
 			}
 		});
-		this.$mount().$el;
 		let el: HTMLElement = this.$mount().$el;
 		document.body.appendChild(el);
 	}

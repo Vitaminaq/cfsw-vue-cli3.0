@@ -12,13 +12,16 @@
 						}}</span>
 					</div>
 					<div class="oparatenum">
-						<div class="hasborder">
-							<svg-icon name="view" />{{ item.viewnum }}
-						</div>
-						<div class="hasborder">
-							<svg-icon name="comment" />{{ item.commentnum }}
-						</div>
-						<div><svg-icon name="click" />{{ item.clicknum }}</div>
+						<span class="icon left">
+							<svg-icon name="view" />
+						</span>
+						<span class="num">{{ item.viewnum }}</span>
+						<span class="icon"> <svg-icon name="comment" /> </span>
+						<span class="num">{{ item.commentnum }}</span>
+						<span class="icon right">
+							<svg-icon name="click" />
+						</span>
+						<span class="num">{{ item.clicknum }}</span>
 					</div>
 				</div>
 			</div>
@@ -46,7 +49,7 @@ export default class ArticList extends Vue {
 <style lang="less" scoped>
 .list-item {
 	width: 100%;
-	padding: 10px 0 0 0;
+	padding-top: 10px;
 
 	.list-content {
 		width: 90%;
@@ -54,11 +57,11 @@ export default class ArticList extends Vue {
 		border-radius: 10px;
 		// prettier-ignore
 		box-shadow: 1PX 1PX 5PX #adadad, -1PX -1PX 5PX #adadad;
+		background-color: #fff;
 		.artic-content {
 			width: 93%;
 			margin: 0 10px 0 15px;
 			display: flex;
-			display: -webkit-flex;
 			justify-content: center;
 			align-items: center;
 			text-align: left;
@@ -80,7 +83,8 @@ export default class ArticList extends Vue {
 
 				.title {
 					margin-bottom: 5px;
-					font-size: 20px;
+					font-size: 16px;
+					font-weight: bold;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
@@ -103,7 +107,7 @@ export default class ArticList extends Vue {
 					.publishtime {
 						width: auto;
 						margin-left: 10px;
-						font-size: 8px;
+						font-size: 10px;
 						white-space: nowrap;
 					}
 				}
@@ -119,7 +123,7 @@ export default class ArticList extends Vue {
 			align-items: center;
 			width: 100%;
 			margin-top: 8px;
-			font-size: 0.32rem;
+			font-size: 12px;
 			color: #adadad;
 
 			.icon-symbol {
@@ -128,9 +132,21 @@ export default class ArticList extends Vue {
 				margin-right: 0.3rem;
 				fill: #adadad;
 			}
-			div {
+			// .icon {
+			// 	width: 33%;
+			// 	padding-bottom: 0.1rem;
+			// 	text-align: center;
+
+			// 	&.left {
+			// 		text-align: left;
+			// 	}
+
+			// 	&.right {
+			// 		text-align: right;
+			// 	}
+			// }
+			.num {
 				width: 33%;
-				padding-bottom: 0.1rem;
 			}
 		}
 	}
