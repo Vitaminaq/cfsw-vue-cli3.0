@@ -47,9 +47,6 @@ export default class publish extends Vue {
 	get publish() {
 		return this.$vuexClass.publish;
 	}
-	get articHtml() {
-		return this.artic.replace(/ /g, '&nbsp;');
-	}
 
 	async publishIt() {
 		let params = {

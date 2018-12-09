@@ -44,7 +44,11 @@
 						<svg-icon name="no-message" />
 						<div class="tips">快来评论吧!</div>
 					</div>
-					<div v-if="moreComment" class="more-comment">
+					<div
+						v-if="moreComment"
+						class="more-comment"
+						@click="toComment"
+					>
 						查看更多评论
 					</div>
 					<div id="ulbottom" />
@@ -319,6 +323,14 @@ export default class Detail extends Vue {
 	toButtom() {
 		const detailDom = (this as any).$refs.detail;
 		detailDom.scrollTop = detailDom.scrollHeight;
+	}
+	toComment() {
+		this.$router.push({
+			name: 'comment',
+			query: {
+				id: this.id
+			}
+		});
 	}
 }
 </script>

@@ -12,6 +12,8 @@ const Reset = () =>
 	import(/* webpackChunkName: "reset" */ '@src/views/reset.vue');
 const PersonalCenter = () =>
 	import(/* webpackChunkName: "person" */ '@src/views/center/person.vue');
+const ArticComment = () =>
+	import(/* webpackChunkName: "comment" */ '@src/views/comment.vue');
 
 import { RouteConfig } from 'vue-router';
 
@@ -45,6 +47,11 @@ const RorterList: Array<RouteConfig> = [
 		path: '/detail',
 		name: 'detail',
 		component: Detail
+	},
+	{
+		path: '/comment',
+		name: 'comment',
+		component: ArticComment
 	},
 	{
 		path: '/reset',

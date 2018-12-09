@@ -49,7 +49,7 @@ export default class Person extends Vue {
 #persontx {
 	width: 100%;
 	height: 2.9rem;
-	margin-top: 40px;
+	text-align: center;
 	font-size: 14px;
 }
 #persontx img {

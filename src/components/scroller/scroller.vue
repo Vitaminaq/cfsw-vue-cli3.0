@@ -105,7 +105,6 @@ export default class Scroller extends Vue {
 		z-index: 9999;
 		width: 40px;
 		height: 40px;
-		line-height: 40px;
 		border-radius: 50%;
 		text-align: center;
 		background-color: #ff4700;
@@ -115,6 +114,7 @@ export default class Scroller extends Vue {
 	.icon-symbol {
 		width: 26px;
 		height: 26px;
+		margin-top: 7px;
 		fill: #fff;
 	}
 
