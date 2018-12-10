@@ -117,7 +117,6 @@ export default class Register extends Vue {
 			return;
 		}
 		params.headimg = this.headerImg;
-		//return Toast('', '请填写完整信息');
 		this.registerModule.$assignParams(params);
 		// Toast('loading', '注册中...');
 		this.button.disabled = true;
@@ -126,7 +125,7 @@ export default class Register extends Vue {
 		setTimeout(() => {
 			this.button.disabled = false;
 		}, 1000);
-		// Toast('', this.registerModule.res.data);
+		(this as any).$toast(this.registerModule.res.data);
 		if (this.registerModule.res.code === 0) {
 			return this.$router.push({
 				name: 'login',
