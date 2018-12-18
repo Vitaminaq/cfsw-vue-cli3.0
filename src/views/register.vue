@@ -73,7 +73,6 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { Action, Mutation, namespace } from 'vuex-class';
 import GeneralHeader from '@src/components/header/general-header.vue';
 
 @Component({

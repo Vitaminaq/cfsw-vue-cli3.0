@@ -58,7 +58,6 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { Action, namespace } from 'vuex-class';
 
 @Component
 export default class Reset extends Vue {
