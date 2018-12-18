@@ -58,6 +58,7 @@ export default class ArticList extends Vue {
 <style lang="less" scoped>
 .list-item {
 	width: 100%;
+	height: 100px;
 	padding-top: 10px;
 
 	.list-content {

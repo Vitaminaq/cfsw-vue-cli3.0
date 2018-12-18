@@ -19,7 +19,7 @@
 					</template>
 				</scroller>
 			-->
-			<my-virtual-scroller> </my-virtual-scroller>
+			<my-virtual-scroller :list="list"> </my-virtual-scroller>
 		</div>
 		<footer-content />
 	</div>

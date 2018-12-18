@@ -1,14 +1,14 @@
 <template>
-	<virtual-scroller id="scroller">
+	<virtual-scroller id="scroller" @scroll="onScroll">
 		<template>
-			<slot />
+			<section>123333</section>
 		</template>
 	</virtual-scroller>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import '@src/lib/virtual-scroller/virtual-scroller.js';
-// import './test';
+import './test';
 import { ItemSource } from '@src/lib/virtual-scroller/ItemSource.js';
 import ArticList from '@src/components/artic-list/artic-list.vue';
 
@@ -16,7 +16,38 @@ import ArticList from '@src/components/artic-list/artic-list.vue';
 export default class MyVirtualScroller extends Vue {
 	virtualScroller: any = null;
 	nodePool: Array<any> = [];
+	// @Prop({ default: () => [] }) list!: any;
 	list: Array<any> = [
+		{
+			name: 'a'
+		},
+		{
+			name: 'b'
+		},
+		{
+			name: 'c'
+		},
+		{
+			name: 'a'
+		},
+		{
+			name: 'a'
+		},
+		{
+			name: 'b'
+		},
+		{
+			name: 'c'
+		},
+		{
+			name: 'a'
+		},
+		{
+			name: 'c'
+		},
+		{
+			name: 'a'
+		},
 		{
 			name: 'a'
 		},
@@ -46,21 +77,34 @@ export default class MyVirtualScroller extends Vue {
 			this.init();
 		}
 	}
+	onScroll() {
+		// this.virtualScroller.updateElement = (
+		// 	child: any,
+		// 	item: any,
+		// 	index: number
+		// ) => {
+		// 	console.log(child, item, index);
+		// 	const cp = new ArticList(item);
+		// 	document
+		// 		.getElementsByTagName('contact-element')
+		// 		[index].appendChild(cp.$mount().$el);
+		// 	return;
+		// };
+	}
 	init() {
 		this.virtualScroller = this.$el;
-		this.virtualScroller.updateElement = (
-			child: any,
-			item: any,
-			index: number
-		) => {
-			// child;
-			const cp = new ArticList(item);
-			document
-				.getElementsByTagName('contact-element')
-				[index].appendChild(cp.$mount().$el);
-			console.log(child, item, index);
-			return;
-		};
+		// this.virtualScroller.updateElement = (
+		// 	child: any,
+		// 	item: any,
+		// 	index: number
+		// ) => {
+		// 	console.log(child, item, index);
+		// 	const cp = new ArticList(item);
+		// 	document
+		// 		.getElementsByTagName('contact-element')
+		// 		[index].appendChild(cp.$mount().$el);
+		// 	return;
+		// };
 		this.virtualScroller.itemSource = ItemSource.fromArray(
 			this.list,
 			(c: any) => {
@@ -78,3 +122,9 @@ export default class MyVirtualScroller extends Vue {
 	}
 }
 </script>
+<style lang="less" scoped>
+#scroller {
+	height: 100%;
+	overflow-y: scroll;
+}
+</style>
