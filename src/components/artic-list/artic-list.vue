@@ -1,31 +1,34 @@
 <template>
 	<div class="list-item">
-		<div class="list-content">
-			<div class="artic-content">
-				<div class="userImg"><img :src="baseUrl" /></div>
-				<div class="author">
-					<div class="title">{{ item.title }}</div>
-					<div class="detail">
-						<span class="authorname">{{ item.nickname }}</span>
-						<span class="publishtime">{{
-							time(item.creatAt)
-						}}</span>
-					</div>
-					<div class="oparatenum">
-						<span class="icon left">
-							<svg-icon name="view" />
-						</span>
-						<span class="num">{{ item.viewnum }}</span>
-						<span class="icon"> <svg-icon name="comment" /> </span>
-						<span class="num">{{ item.commentnum }}</span>
-						<span class="icon right">
-							<svg-icon name="click" />
-						</span>
-						<span class="num">{{ item.clicknum }}</span>
+		<!--
+			<div class="list-content">
+				<div class="artic-content">
+					<div class="userImg"><img :src="baseUrl" /></div>
+					<div class="author">
+						<div class="title">{{ item.title }}</div>
+						<div class="detail">
+							<span class="authorname">{{ item.nickname }}</span>
+							<span class="publishtime">{{
+								time(item.creatAt)
+							}}</span>
+						</div>
+						<div class="oparatenum">
+							<span class="icon left">
+								<svg-icon name="view" />
+							</span>
+							<span class="num">{{ item.viewnum }}</span>
+							<span class="icon"> <svg-icon name="comment" /> </span>
+							<span class="num">{{ item.commentnum }}</span>
+							<span class="icon right">
+								<svg-icon name="click" />
+							</span>
+							<span class="num">{{ item.clicknum }}</span>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		-->
+		21574878798
 	</div>
 </template>
 <script lang="ts">
@@ -35,7 +38,13 @@ import config from '@src/config';
 
 @Component
 export default class ArticList extends Vue {
-	@Prop({ default: () => {} }) item!: Loader.ListItem;
+	item: any;
+	constructor(item: any) {
+		super(item);
+		this.item = item;
+		console.log(this.item);
+	}
+	// @Prop({ default: () => {} }) item!: Loader.ListItem;
 
 	get baseUrl() {
 		return `${config.BASE_URL}${this.item.headimg}`;

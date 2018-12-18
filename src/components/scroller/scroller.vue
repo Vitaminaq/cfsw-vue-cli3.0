@@ -1,28 +1,36 @@
 <template>
 	<div ref="my_scroll" class="my_scroll">
-		<DynamicScroller
-			:items="list"
-			:min-item-height="minItemHeight"
-			keyField="articId"
-			class="scroller"
-		>
-			<template slot-scope="{ item, index, active }">
-				<DynamicScrollerItem
-					:item="item"
-					:active="active"
-					:size-dependencies="[item.msg]"
-					:data-index="index"
-					:data-active="active"
-				>
-					<slot :item="item" />
-				</DynamicScrollerItem>
-			</template>
-			<see-loading
-				slot="after-container"
-				:pull-upstatus="pullUpstatus"
-				@pullUp="pullUp"
-			/>
-		</DynamicScroller>
+		<!--
+			<DynamicScroller
+				:items="list"
+				:min-item-height="minItemHeight"
+				keyField="articId"
+				class="scroller"
+			>
+				<template slot-scope="{ item, index, active }">
+					<DynamicScrollerItem
+						:item="item"
+						:active="active"
+						:size-dependencies="[item.msg]"
+						:data-index="index"
+						:data-active="active"
+					>
+						<slot :item="item" />
+					</DynamicScrollerItem>
+				</template>
+				<see-loading
+					slot="after-container"
+					:pull-upstatus="pullUpstatus"
+					@pullUp="pullUp"
+				/>
+			</DynamicScroller>
+		-->
+		<slot />
+		<see-loading
+			slot="after-container"
+			:pull-upstatus="pullUpstatus"
+			@pullUp="pullUp"
+		/>
 		<div class="operate-btn operate-ctr" @click="toggleBtn">
 			<svg-icon name="operate" />
 		</div>
@@ -43,7 +51,7 @@
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import SeeLoading from './see-loading.vue';
 import DownLoading from './down-loading.vue';
 import inview from './inview';
@@ -67,12 +75,13 @@ import inview from './inview';
 export default class Scroller extends Vue {
 	@Prop() pullUpstatus!: string;
 	@Prop() pullDownStatus!: string;
-	@Prop({ default: () => {} }) list!: any;
+	@Prop({ default: () => [] }) list!: any;
 	@Prop({ default: '' }) minItemHeight!: string | number;
 	toggle: boolean = false;
 
-	pullUp() {
+	async pullUp() {
 		this.$emit('pullUp');
+		return;
 	}
 	toggleBtn() {
 		this.toggle = !this.toggle;
@@ -88,6 +97,7 @@ export default class Scroller extends Vue {
 		if (!this.$el.childNodes) return;
 		(this as any).$el.childNodes[0].scrollTop = 0;
 	}
+	beforeDestroy() {}
 }
 </script>
 <style lang="less" scoped>
