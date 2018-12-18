@@ -50,6 +50,9 @@ export default class ChatRoom extends Vue {
 		return this.articList.list;
 	}
 
+	mounted() {
+		console.log(this.$store);
+	}
 	async pullUp() {
 		return this.articList.pullUp();
 	}
