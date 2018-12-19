@@ -111,6 +111,7 @@ class LocalVue extends Vue {
 		super(option);
 		this.$mount('#app');
 		svgSprite(); // 注入svg-sprite
+		Vue.prototype.myrouter = this.$router;
 	}
 }
 export default new LocalVue();

@@ -1,34 +1,44 @@
-import { Vue, Component, Watch } from 'vue-property-decorator';
-import ArticList from '@src/components/artic-list/artic-list.vue';
-
-// let items: any = null;
-
+let listItem = {};
+let components: any;
 class ContactElement extends HTMLElement {
+	constructor() {
+		super();
+	}
 	connectedCallback() {
 		if (this.shadowRoot) {
 			return;
 		}
-		// console.log(items);
-		console.log((this as any)._contact);
-		this.attachShadow({ mode: 'open' }).appendChild(
-			new ArticList((this as any).contact).$mount().$el
-		);
+		console.log(this, (this as any)._item, this.dataset);
+		// (window as any).vs = this;
+		this.attachShadow({ mode: 'open' }).innerHTML = `<div id="vs"></div>`;
+		this._render();
 	}
-	get contact() {
-		return (this as any)._contact;
+	get item() {
+		return (this as any)._item;
 	}
-	set contact(contact) {
-		if (contact !== (this as any)._contact) {
-			(this as any)._contact = contact;
-			// this._render();
+	set item(item) {
+		if (item !== (this as any)._item) {
+			(this as any)._item = item;
 		}
 	}
+	_render() {
+		if (!this.shadowRoot) return;
+		new components({
+			propsData: {
+				item: listItem
+			}
+		}).$mount((this as any).shadowRoot.querySelector('#vs'));
+	}
 }
-customElements.define('contact-element', ContactElement);
+// customElements.define('contact-element', ContactElement);
 
-// export default class InsertListItem {
-// 	constructor(item: any) {
-// 		items = item;
-// 		customElements.define('contact-element', ContactElement);
-// 	}
-// }
+class InsertListItem {
+	constructor() {
+		customElements.define('contact-element', ContactElement);
+	}
+	propData(component: any) {
+		components = component;
+	}
+}
+
+export default new InsertListItem();

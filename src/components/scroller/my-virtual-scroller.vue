@@ -1,123 +1,101 @@
 <template>
-	<virtual-scroller id="scroller" @scroll="onScroll">
+	<!-- <div> -->
+	<virtual-scroller id="scroller">
 		<template>
-			<section>123333</section>
+			<section></section>
 		</template>
 	</virtual-scroller>
+	<!--
+		<see-loading
+				slot="after-container"
+				:pull-upstatus="pullUpstatus"
+				@pullUp="pullUp"
+			/>
+		</div>
+	-->
 </template>
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import '@src/lib/virtual-scroller/virtual-scroller.js';
-import './test';
+// import InsertListItem from './test';
 import { ItemSource } from '@src/lib/virtual-scroller/ItemSource.js';
 import ArticList from '@src/components/artic-list/artic-list.vue';
+import SeeLoading from './see-loading.vue';
 
 @Component
 export default class MyVirtualScroller extends Vue {
 	virtualScroller: any = null;
 	nodePool: Array<any> = [];
-	// @Prop({ default: () => [] }) list!: any;
-	list: Array<any> = [
-		{
-			name: 'a'
-		},
-		{
-			name: 'b'
-		},
-		{
-			name: 'c'
-		},
-		{
-			name: 'a'
-		},
-		{
-			name: 'a'
-		},
-		{
-			name: 'b'
-		},
-		{
-			name: 'c'
-		},
-		{
-			name: 'a'
-		},
-		{
-			name: 'c'
-		},
-		{
-			name: 'a'
-		},
-		{
-			name: 'a'
-		},
-		{
-			name: 'b'
-		},
-		{
-			name: 'c'
-		},
-		{
-			name: 'a'
-		}
-	];
+	localList: Array<any> = ['seeloading'];
+	seeLoadingNode: any = null;
+
+	@Prop() pullUpstatus!: string;
+	@Prop() pullDownStatus!: string;
+	@Prop({ required: true }) ListItemComponent!: any;
+	@Prop({ default: () => [] }) list!: any;
 
 	@Watch('list')
 	onchange(val: any) {
+		this.virtualScroller.itemsChanged();
 		if (!this.virtualScroller) {
 			this.init();
 		} else {
-			this.virtualScroller.itemsChanged();
+			this.localList = [...val, 'seeloading'];
+			console.log(this.virtualScroller, this.localList);
+			this.virtualScroller.itemSource = this.localList;
+			// this.virtualScroller.itemsChanged();
 		}
 	}
 
-	mounted() {
-		// new InsertListItem(this.list);
+	async mounted() {
+		// InsertListItem.propData(ArticList);
 		if (!this.virtualScroller) {
+			this.seeLoadingNode = new SeeLoading({
+				propsData: {
+					pullUpstatus: this.pullUpstatus,
+					pullUp: this.pullUp
+				}
+			}).$mount().$el;
 			this.init();
 		}
 	}
-	onScroll() {
-		// this.virtualScroller.updateElement = (
-		// 	child: any,
-		// 	item: any,
-		// 	index: number
-		// ) => {
-		// 	console.log(child, item, index);
-		// 	const cp = new ArticList(item);
-		// 	document
-		// 		.getElementsByTagName('contact-element')
-		// 		[index].appendChild(cp.$mount().$el);
-		// 	return;
-		// };
+	async pullUp() {
+		await this.$emit('pullUp');
+		return;
 	}
 	init() {
-		this.virtualScroller = this.$el;
-		// this.virtualScroller.updateElement = (
-		// 	child: any,
-		// 	item: any,
-		// 	index: number
-		// ) => {
-		// 	console.log(child, item, index);
-		// 	const cp = new ArticList(item);
-		// 	document
-		// 		.getElementsByTagName('contact-element')
-		// 		[index].appendChild(cp.$mount().$el);
-		// 	return;
-		// };
+		this.virtualScroller = document.querySelector('virtual-scroller');
 		this.virtualScroller.itemSource = ItemSource.fromArray(
-			this.list,
+			this.localList,
 			(c: any) => {
 				return c;
 			}
 		);
-		this.virtualScroller.createElement = () => {
+		console.log(this.virtualScroller.itemSource);
+		this.virtualScroller.createElement = (item: any) => {
+			if (item === 'seeloading') return this.seeLoadingNode;
 			return (
 				this.nodePool.pop() || document.createElement('contact-element')
 			);
 		};
+		this.virtualScroller.updateElement = (
+			element: any,
+			item: any,
+			index: number
+		) => {
+			if (element.id === 'seeLoading') return;
+			element.innerHTML = `<div id="vs"></div>`;
+			new this.ListItemComponent({
+				propsData: {
+					item: item
+				}
+			}).$mount(element.children[0]);
+			return;
+		};
 		this.virtualScroller.recycleElement = (element: any) => {
-			this.nodePool.push(element);
+			if (element.id === 'seeLoading') {
+				this.nodePool.push(element);
+			}
 		};
 	}
 }

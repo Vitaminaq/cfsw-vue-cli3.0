@@ -11,7 +11,6 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { State, Action } from 'vuex-class';
 
 export interface BtnStyle {
 	width?: String;

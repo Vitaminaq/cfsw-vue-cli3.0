@@ -29,7 +29,7 @@ export default abstract class BaseLoader extends VuexClass {
 	}
 	public readonly state: BaseLoaderState = {
 		params: {
-			limit: 9,
+			limit: 15,
 			page: 0
 		},
 		list: [],

@@ -14,6 +14,7 @@ import inview from './inview';
 @Component
 export default class SeeLoading extends Vue {
 	@Prop({ default: 'unrequest' }) pullUpstatus!: string;
+	@Prop({ default: () => {} }) pullUp!: any;
 	timer: number = 0;
 
 	mounted() {
@@ -28,11 +29,11 @@ export default class SeeLoading extends Vue {
 			this.pullUpstatus !== 'done' &&
 			this.pullUpstatus !== 'error'
 		) {
-			return this.$emit('pullUp');
+			return this.pullUp();
 		}
 	}
 	reload() {
-		this.$emit('pullUp');
+		this.pullUp();
 	}
 	beforeDestroy() {
 		clearInterval(this.timer);

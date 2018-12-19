@@ -19,7 +19,15 @@
 					</template>
 				</scroller>
 			-->
-			<my-virtual-scroller :list="list"> </my-virtual-scroller>
+			<my-virtual-scroller
+				:pull-down-status="pullDownStatus"
+				@pullUp="pullUp"
+				:pull-upstatus="pullUpStatus"
+				:list-item-component="ArticList"
+				@dropDown="dropDown"
+				:list="list"
+			>
+			</my-virtual-scroller>
 		</div>
 		<footer-content />
 	</div>
@@ -36,7 +44,6 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 @Component({
 	components: {
 		Scroller,
-		ArticList,
 		FooterContent,
 		LogoHeader,
 		MyVirtualScroller
@@ -59,10 +66,10 @@ export default class ChatRoom extends Vue {
 	get list() {
 		return this.articList.list;
 	}
-
-	mounted() {
-		console.log(this.$store);
+	get ArticList() {
+		return ArticList;
 	}
+
 	async pullUp() {
 		return this.articList.pullUp();
 	}
