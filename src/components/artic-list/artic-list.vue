@@ -26,6 +26,9 @@
 				</div>
 			</div>
 		</div>
+		<div v-if="!!(heightFeild % 2 === 0)" class="test">
+			15456498756456465456
+		</div>
 	</div>
 </template>
 <script lang="ts">
@@ -35,17 +38,22 @@ import config from '@src/config';
 
 @Component
 export default class ArticList extends Vue {
-	@Prop({ default: () => {} }) item!: any;
+	@Prop({ default: () => {} }) rootOptions!: any;
+	@Prop({ default: '' }) heightFeild!: any;
+	item: any = '';
 
 	get baseUrl() {
+		if (!this.item) return;
 		return `${config.BASE_URL}${this.item.headimg}`;
 	}
-
 	time(creatAt: string) {
 		return Time(Number(creatAt));
 	}
+	getItem(item: any) {
+		this.item = item;
+	}
 	toDetail() {
-		(Vue as any).prototype.myrouter.push({
+		this.rootOptions.router.push({
 			name: 'detail',
 			query: { id: this.item.articId }
 		});
@@ -55,8 +63,11 @@ export default class ArticList extends Vue {
 <style lang="less">
 .artic-list-item {
 	width: 100%;
-	height: 100px;
 	padding-top: 10px;
+
+	.test {
+		height: 40px;
+	}
 
 	.list-content {
 		width: 90%;

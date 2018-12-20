@@ -24,6 +24,7 @@
 				@pullUp="pullUp"
 				:pull-upstatus="pullUpStatus"
 				:list-item-component="ArticList"
+				height-feild="articId"
 				@dropDown="dropDown"
 				:list="list"
 			>

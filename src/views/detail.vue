@@ -173,16 +173,16 @@ export default class Detail extends Vue {
 	}
 
 	async created() {
-		if (!this.articDetail.dataStore[this.id]) {
-			await this.getData();
-		} else {
-			this.articMessage = this.articDetail.dataStore[
-				this.id
-			].articMessage;
-			this.headImg = `${config.BASE_URL}${
-				this.articDetail.dataStore[this.id].articMessage.headimg
-			}`;
-		}
+		// if (!this.articDetail.dataStore[this.id]) {
+		// 	await this.getData();
+		// } else {
+		// 	this.articMessage = this.articDetail.dataStore[
+		// 		this.id
+		// 	].articMessage;
+		// 	this.headImg = `${config.BASE_URL}${
+		// 		this.articDetail.dataStore[this.id].articMessage.headimg
+		// 	}`;
+		// }
 	}
 	async getData(): Promise<this> {
 		let params: Detail.ArticDetail.RequestParams = {

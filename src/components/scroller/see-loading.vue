@@ -1,5 +1,5 @@
 <template>
-	<div id="seeLoading" class="see-loading">
+	<div id="seeLoading" class="see-loading" :style="{ top: scrollerTop }">
 		<span v-if="pullUpstatus === 'done'">无更多数据</span>
 		<span v-else-if="pullUpstatus === 'error'" @click="reload"
 			>加载失败，请点击重新加载</span
@@ -8,20 +8,20 @@
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import inview from './inview';
 
 @Component
 export default class SeeLoading extends Vue {
 	@Prop({ default: 'unrequest' }) pullUpstatus!: string;
 	@Prop({ default: () => {} }) pullUp!: any;
+	@Prop({ default: '0px' }) scrollerTop!: string;
 	timer: number = 0;
 
-	mounted() {
-		this.timer = setInterval(this.see, 500);
-		this.see();
+	async mounted() {
+		await this.see();
 	}
-	see() {
+	async see() {
 		const isSee = inview(this.$el);
 		if (
 			isSee &&
@@ -29,7 +29,16 @@ export default class SeeLoading extends Vue {
 			this.pullUpstatus !== 'done' &&
 			this.pullUpstatus !== 'error'
 		) {
-			return this.pullUp();
+			await this.$emit('pullUp');
+			this.timer = setInterval(this.see, 500);
+		}
+		if (
+			isSee &&
+			this.pullUpstatus !== 'requesting' &&
+			this.pullUpstatus !== 'done' &&
+			this.pullUpstatus !== 'error'
+		) {
+			this.timer = setInterval(this.see, 500);
 		}
 	}
 	reload() {
@@ -43,7 +52,10 @@ export default class SeeLoading extends Vue {
 
 <style lang="less" scoped>
 .see-loading {
+	position: absolute;
+	left: 0;
 	height: 4rem;
+	width: 100%;
 	text-align: center;
 
 	span {
