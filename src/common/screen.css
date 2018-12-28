@@ -1,0 +1,27 @@
+html{
+  font-size: 37.5px;
+}
+@media screen and (min-width: 240px) {
+  html {font-size: 24px;}
+}
+@media screen and (min-width: 270px) {
+  html {font-size: 27px;}
+}
+@media screen and (min-width: 320px) {
+  html {font-size: 32px;}
+}
+@media screen and (min-width: 360px) {
+  html {font-size: 36px;}
+}
+@media screen and (min-width: 375px) {
+  html {font-size: 37.5px;}
+}
+@media screen and (min-width: 410px) {
+  html {font-size: 41px;}
+}
+@media screen and (min-width: 540px) {
+  html {font-size: 54px;}
+}
+@media screen and (min-width: 621px) {
+  html {font-size: 62.1px;}
+}

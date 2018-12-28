@@ -22,15 +22,13 @@
 		<footer-content />
 	</div>
 </template>
-
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import LogoHeader from '@src/components/header/logo-header.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import Cookies from 'js-cookie';
 import config from '@src/config';
-
-@Component({
+@Component<Person>({
 	components: {
 		FooterContent,
 		LogoHeader
@@ -49,7 +47,7 @@ export default class Person extends Vue {
 #persontx {
 	width: 100%;
 	height: 2.9rem;
-	text-align: center;
+	margin-top: 40px;
 	font-size: 14px;
 }
 #persontx img {

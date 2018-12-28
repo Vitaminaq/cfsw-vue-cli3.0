@@ -1,114 +1,90 @@
 <template>
-	<div class="chatroom">
-		<logo-header />
-		<div class="wrapper">
-			<!--
-				<scroller
-					:pull-down-status="pullDownStatus"
-					@pullUp="pullUp"
-					:pull-upstatus="pullUpStatus"
-					@dropDown="dropDown"
-					:list="list"
-					:minItemHeight="minItemHeight"
-				>
-					<template slot-scope="{ item }">
-						<artic-list
-							:item="item"
-							@click.native="todetail(item.articId);"
-						/>
-					</template>
-				</scroller>
-			-->
-			<my-virtual-scroller
-				:pull-down-status="pullDownStatus"
-				@pullUp="pullUp"
-				:pull-upstatus="pullUpStatus"
-				:list-item-component="ArticList"
-				height-feild="articId"
-				@dropDown="dropDown"
-				:list="list"
-			>
-			</my-virtual-scroller>
-		</div>
-		<footer-content />
-	</div>
+    <div id="chatroom">
+        <logo-header/>
+        <div class="empty"></div>
+        <div id="wrapper">
+            <scroller
+                @dropDown="dropDown"
+                @pullUp="pullUp"
+                :pullUpstatus="pullUpStatus"
+                :pullDownStatus="pullDownStatus"
+                v-rescroll="{name: 'chatroom'}"
+            >
+                <ul v-if="!!list[0]">
+                    <artic-list
+                        v-for="(item, key) in list"
+                        :key = key
+                        :item="item"
+                        @todetail="todetail"
+                    />
+                </ul>
+            </scroller>
+        </div>
+        <footer-content/>
+    </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator';
-import { Time } from '@src/common/comjs';
+import { Vue, Component } from 'vue-property-decorator';
+import { State, Action, Mutation, namespace } from 'vuex-class';
+import { Toast, Time } from '@src/common/comjs';
 import Scroller from '@src/components/scroller/scroller.vue';
-import MyVirtualScroller from '@src/components/scroller/my-virtual-scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
+const ArticListModule = namespace('ChatRoom/articList');
+const ViewModule = namespace('ChatRoom/view');
+import { ComponentOptions } from 'vue';
 
-@Component({
-	components: {
-		Scroller,
-		FooterContent,
-		LogoHeader,
-		MyVirtualScroller
-	}
-})
+interface localComponent extends ComponentOptions<Vue> {
+}
+const options:localComponent = {
+    components: {
+        Scroller,
+        ArticList,
+        FooterContent,
+        LogoHeader
+    }
+}
+@Component(options)
 export default class ChatRoom extends Vue {
-	minItemHeight: string | number = 110;
-	get articList() {
-		return this.$vuexClass.chatRoom.articList;
-	}
-	get view() {
-		return this.$vuexClass.chatRoom.view;
-	}
-	get pullDownStatus() {
-		return this.articList.pullDownStatus;
-	}
-	get pullUpStatus() {
-		return this.articList.pullUpStatus;
-	}
-	get list() {
-		return this.articList.list;
-	}
-	get ArticList() {
-		return ArticList;
-	}
+    @ArticListModule.Action('pullDown') pullDown: any;
+    @ArticListModule.Action('pullUp') pullUp: any;
+    @ArticListModule.Getter('_pullDownStatus') pullDownStatus: any;
+    @ArticListModule.Getter('_pullUpStatus') pullUpStatus: any;
+    @ArticListModule.Getter('_list') list: any;
+    @ViewModule.Mutation('$assignParams') $assignParams: any;
+    @ViewModule.Action('saveView') saveView: any;
+    @ViewModule.Getter('_res') res: any;
+    @ViewModule.Getter('_requestStatus') requestStatus: any;
 
-	async pullUp() {
-		return this.articList.pullUp();
-	}
-	async dropDown(): Promise<this> {
-		await this.articList.pullDown();
-		if (this.pullDownStatus !== 'error') {
-			(this as any).$toast('刷新成功!');
-		}
-		return this;
-	}
-	async todetail(id: string) {
-		let params: ChatRoom.View.RequestParams = {
-			id: id
-		};
-		this.view.$assignParams(params);
-		await this.view.saveView();
-		if (this.view.res.code === 0) {
-			return this.$router.push({ name: 'detail', query: { id: id } });
-		}
-		(this as any).$toast(this.view.res.data);
-	}
-	beforeDestroy() {
-		if (this.$route.name === 'publish') {
-			this.articList.$clearData();
-		}
-	}
+    async dropDown () {
+        await this.pullDown();
+        Toast('', '刷新成功！');
+    }
+    async todetail (id: string) {
+        let params: ChatRoom.View.RequestParams = {
+            id: id
+        };
+        this.$assignParams(params);
+        await this.saveView();
+        if (this.res.code === 0) {
+            return this.$router.push({ name: 'detail', query: { id: id } });
+        }
+        return Toast('', this.res.data);
+    }
 }
 </script>
 
 <style lang="less" scoped>
-.chatroom {
-	height: 100%;
+#chatroom {
+    height: 100%;
 
-	.wrapper {
-		position: relative;
-		height: 610px;
-		overflow-y: hidden;
-		background-color: #f7f7f7;
-	}
+    .empty {
+        height: 0.96rem;
+    }
+    #wrapper {
+        position: relative;
+        overflow-y: auto;
+    }
 }
 </style>

@@ -1,39 +1,52 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "types": [
-      "webpack-env"
-    ],
-    "paths": {
-      "@src/*": [
-        "src/*"
-      ]
-    },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
-  },
+  // 需要编译的文件
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx", "src/lib/vue-virtual-scroller/index.js"
+    "src/**/*"
   ],
+  // 需要忽略编译的文件
   "exclude": [
     "node_modules"
-  ]
+  ],
+  // 编译器
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@src/*": [
+        "./*"
+      ]
+    }, // This must be specified if "paths" is.
+    // 包含的类型声明文件路径列表
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    // 以严格模式解析
+    "strict": true,
+    // 允许从没有设置默认导出的模块中默认导入
+    "allowSyntheticDefaultImports": true,
+    // 启用装饰器
+    "experimentalDecorators": true,
+    // 禁用函数参数双向协变检查。
+    "strictFunctionTypes": false,
+    // 允许编译javascript文件
+    "allowJs": true,
+    // 采用的模块系统
+    "module": "esnext",
+    // 编译输出目标 ES 版本
+    "target": "es5",
+    // 如何处理模块
+    "moduleResolution": "node",
+    // 在表达式和声明上有隐含的any类型时报错
+    "noImplicitAny": true,
+    // 编译过程中需要引入的库文件的列表。
+    "lib": [
+      "dom",
+      "es5",
+      "es6",
+      "es7",
+      "es2015.promise"
+    ],
+    "sourceMap": true,
+    // 给错误和消息设置样式，使用颜色和上下文。
+    "pretty": true
+  }
 }

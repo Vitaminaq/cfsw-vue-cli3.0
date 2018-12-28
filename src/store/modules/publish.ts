@@ -1,37 +1,53 @@
 import PublishApi from '@src/api/publish';
-import BaseLoaderData from '@src/common/base-loader-data';
+import VuexClass from '@src/common/vuex-class';
 
-class userPublish extends BaseLoaderData<Publish.RequestParams, string> {
-	readonly namespaced: boolean = true;
-	constructor() {
-		super(new PublishApi());
-	}
-	// public readonly state: Publish.State = {
-	// 	params: {
-	// 		title: '',
-	// 		msg: ''
-	// 	},
-	// 	res: {
-	// 		code: 0,
-	// 		data: ''
-	// 	},
-	// 	requestStatus: 'unrequest'
-	// };
-	get res(): Publish.Response {
-		return this.state.res;
-	}
-	async userPublish(): Promise<this> {
-		this.$RequestStart();
-		const res = await this.api.userPublish(this.state.params);
-		this.$RequestSuccess(res);
-		return this;
-	}
-	$clearData() {
-		this.state.params = {
-			title: '',
-			msg: ''
-		};
-	}
+class userPublish extends VuexClass {
+    constructor () {
+        super(new PublishApi());
+    }
+    state: Publish.State = {
+        params: {
+            title: '',
+            msg: ''
+        },
+        res: {
+            code: 0,
+            data: ''
+        },
+        publishStatus: 'unrequest',
+        isEmpty: true
+    }
+    _res (state: any):this {
+        return state.res;
+    }
+    _publishStatus (state: any):this {
+        return state.publishStatus;
+    }
+    $assignParams (state: any, params: Publish.RequestParams):this {
+        return Object.assign(state.params, params);
+    }
+    $publishStart (state: any):this {
+        state.publishStatus = 'requesting';
+        return this;
+    }
+    $publishSuccess (state:any, res: Publish.Response):this {
+        if (res.code === 0 && res.data) {
+            state.publishStatus = 'success';
+            state.res = { ...res };
+        } else {
+            if (res.code !== 0 && res.data) {
+                state.res = { ...res };
+            }
+            state.publishStatus = 'error';
+        }
+        return this;
+    }
+    async userPublish ({ commit, state }:any):Promise<this> {
+        commit('$publishStart');
+        const res = await new PublishApi().userPublish(state.params);
+        commit('$publishSuccess', res);
+        return this;
+    }
 }
 
 export default userPublish;

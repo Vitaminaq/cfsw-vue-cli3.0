@@ -1,193 +1,138 @@
 <template>
-	<div class="login-content">
-		<div class="login">
-			<div class="close" @click="close"><svg-icon name="close" /></div>
-			<div id="tx">
-				<img v-if="!url" src="../assets/image/login/tx.jpg" />
-				<img v-else :src="url" />
-			</div>
-			<form class="loginFrom" method="get" action="#" @submit.prevent>
-				<input
-					v-model.trim="nickname"
-					type="text"
-					name="nickname"
-					placeholder="请输入昵称"
-					@keyup="getUserHeaderImg"
-				/>
-				<input
-					v-model.trim="password"
-					type="password"
-					name="password"
-					placeholder="请输入密码"
-				/>
-				<div class="login-btn">
-					<my-button
-						:disabled="button.disabled"
-						:value="button.value"
-						:btn-style="button.btnStyle"
-						@click.native="login"
-					/>
-				</div>
-			</form>
-			<div class="to-content">
-				<router-link class="button" to="/reset"
-					><span>忘记密码？</span></router-link
-				>
-				<router-link class="button register" to="/register"
-					><span>注册新用户</span></router-link
-				>
-			</div>
-		</div>
-	</div>
+  <div class="hello">
+    <div id="tx">
+      <img src="../assets/image/login/tx.jpg">
+    </div>
+    <form id="loginFrom" method="get" action="#" @submit.prevent>
+      <div class="input" id="nkdiv">
+        <label>昵称：</label> <input type="text" name="nickname" placeholder="请输入昵称" v-model="nickname"/>
+      </div>
+      <div class="input">
+        <label>密码：</label> <input type="password" name="password" placeholder="请输入密码" v-model="password"/>
+      </div>
+      <div id="login-btn">
+        <my-button
+          :disabled="button.disabled"
+          :value="button.value"
+          :btnStyle="button.btnStyle"
+          @click.native="login"
+        />
+      </div>
+      <router-link to="/reset"><span class="button">忘记密码？</span></router-link>
+      <router-link to="/register"><span class="button" id="register-btn">注册新用户</span></router-link>
+    </form>
+  </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Vue, Component } from 'vue-property-decorator';
-import { Button } from '@src/components/mybutton/mybutton.vue';
-import config from '@src/config';
+/**
+ * 这里使用一个vuex-class的插件，其实它并不支持用class类去写vuex，只是单纯的做了下vuex对ts的支持而已，
+ * https://github.com/ktsn/vuex-class
+ * 所以我自己做了一下简单的封装，让vuex拥有继承属性，但是在它github的下面有我组长写的vuex-class.js，是
+ * 支持类的写法的，欢迎大家去查看。https://github.com/lzxb/vuex-class.js
+ */
+// 这里用的是装饰器，分别对应vuex里面那几个map...的映射方法
+import { Action, Mutation, Getter, namespace } from 'vuex-class';
+import { Toast } from '../common/comjs';
+// 表示连接的是login module。
+const loginModule = namespace('login');
 
 @Component
 export default class login extends Vue {
-	nickname: string = '';
-	password: string = '';
+    // 表示映射的是login模块下mutation里的$isEmpty方法，其他类推
+    @loginModule.Mutation('$isEmpty') $isEmpty: any;
+    @loginModule.Getter('_isEmpty') isEmpty: any;
+    @loginModule.Action('userLogin') userLogin: any;
+    @loginModule.Mutation('$assignParams') $assignParams :any;
+    @loginModule.Getter('_res') res: any;
 
-	button: Button = {
-		disabled: false,
-		value: '登陆',
-		btnStyle: {
-			height: '1.175rem',
-			fontSize: '0.4rem'
-		}
-	};
+    nickname: string | string[] = '';
+    password: string = '';
 
-	get userHeaderImg() {
-		return this.$vuexClass.login.getUserHeaderImg;
-	}
-	get headerImgUrl() {
-		return this.userHeaderImg.res.data.headimg;
-	}
-	get loginModule() {
-		return this.$vuexClass.login.userLogin;
-	}
-	get url() {
-		if (!this.headerImgUrl) return;
-		return `${config.BASE_URL}${this.headerImgUrl}`;
-	}
+    button: MyButton.Button<MyButton.BtnStyle> = {
+        disabled: false,
+        value: '登陆',
+        btnStyle: {
+            width: '7.75rem',
+            height: '1.175rem',
+            fontSize: '0.5rem'
+        }
+    }
 
-	mounted() {
-		if (!this.$route.query.nickname) return;
-		this.nickname = this.$route.query.nickname;
-		this.getUserHeaderImg();
-	}
-	async getUserHeaderImg(): Promise<this> {
-		const params = {
-			nickname: this.nickname
-		};
-		this.userHeaderImg.$assignParams(params);
-		await this.userHeaderImg.getUserHeaderImg();
-		return this;
-	}
-	async login() {
-		const params = {
-			nickname: this.nickname,
-			password: this.password
-		};
-		if ((this as any).isEmpty(params)) {
-			(this as any).$toast('请填写完整信息!');
-			return;
-		}
-		this.loginModule.$assignParams(params);
-		this.button.disabled = true;
-		await this.loginModule.userLogin();
-		setTimeout(() => {
-			this.button.disabled = false;
-		}, 1000);
-		if (this.loginModule.res.code !== 0)
-			return (this as any).$toast(this.loginModule.res.data);
-		const from = this.$route.query.from || '/chatroom';
-		return this.$router.push({ path: from });
-	}
-	close() {
-		return this.$router.go(-1);
-	}
+    mounted () {
+        if (!this.$route.query.nickname) return;
+        const nickname = this.$route.query.nickname;
+        this.nickname = nickname[0] || nickname;
+    }
+
+    async login () {
+        let params = {
+            nickname: this.nickname,
+            password: this.password
+        };
+        this.$isEmpty(params);
+        if (this.isEmpty) return Toast('', '用户名密码不能为空');
+        this.$assignParams(params);
+        this.button.disabled = true;
+        await this.userLogin();
+        setTimeout(() => {
+            this.button.disabled = false;
+        }, 1000);
+        if (this.res.code !== 0) return Toast('', this.res.data);
+        const from: string | string[] = this.$route.query.from;
+        let to: any;
+        if (from[0]) {
+          to = from[0]
+        } else if (from) {
+          to = from;
+        } else {
+          to = '/'
+        }
+        return this.$router.push({path: to});
+    }
 }
 </script>
 
-<style lang="less" scoped>
-.login-content {
-	height: 100%;
-	width: 100%;
-	background-color: #f7f7f7;
-
-	.login {
-		position: relative;
-		height: 350px;
-		width: 300px;
-		margin: 0 auto;
-		margin-top: 100px;
-		background-color: #fff;
-		// prettier-ignore
-		box-shadow: 1PX 1PX 5px #adadad, -1PX -1PX 5px #adadad;
-		font-size: 0.506667rem;
-
-		.close {
-			position: absolute;
-			top: 5px;
-			right: 5px;
-
-			.icon-symbol {
-				width: 30px;
-				height: 30px;
-				fill: #bcbcbc;
-			}
-		}
-
-		#tx {
-			padding-top: 40px;
-			text-align: center;
-			img {
-				height: 50px;
-				width: 50px;
-				border-radius: 50%;
-			}
-		}
-
-		.loginFrom {
-			text-align: center;
-			input {
-				width: 76%;
-				height: 40px;
-				margin-top: 10px;
-				padding-left: 10px;
-				font-size: 14px;
-				// prettier-ignore
-				border: solid 1PX #ebebeb;
-				border-radius: 5px;
-			}
-
-			.login-btn {
-				width: 80%;
-				margin: 0 auto;
-				margin-top: 20px;
-			}
-		}
-
-		.to-content {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			margin-top: 10px;
-			font-size: 12px;
-
-			.button {
-				width: 50%;
-				margin: 0 10px;
-			}
-
-			.register {
-				text-align: right;
-			}
-		}
-	}
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+#tx img{
+  height: 1.333333rem;
+  width: 1.333333rem;
+  border-radius: 1.333333rem;
+  border: solid #ADADAD 0.013333rem;
+  margin-top: 35%;
+}
+#loginFrom{
+   margin-top: 2%;
+   text-align: left;
+   width: 100%;
+   font-size: 0.506667rem;
+}
+#loginFrom .input{
+  width: 90%;
+  margin: 0 auto;
+  padding-bottom: 0.2rem;
+}
+#loginFrom input{
+  width: 76%;
+  height: 0.966667rem;
+  font-size: 0.533333rem;
+  padding-left: 0.266667rem;
+}
+#login-btn{
+  width: 100%;
+  text-align: center;
+}
+.button{
+  display: inline-block;
+  width: auto;
+  margin-top: 0.4rem;
+  margin-left: 0.213333rem;
+}
+#register-btn{
+  width: 65%;
+  text-align: right;
+  margin-right: 0.213333rem;
 }
 </style>
