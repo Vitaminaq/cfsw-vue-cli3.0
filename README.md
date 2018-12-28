@@ -1,7 +1,7 @@
 # myts
 
-> 基于vue-cli2.0的typescript的cfsw重构  
-> vue-cli3.0请移步 https://github.com/Vitaminaq/cfsw-vue-cli3.0 代码风格稍微好看那么一点
+基于vue-cli2.0的typescript+vuex+ssr的cfsw重构，项目直接拿之前入门vue的老项目改的，由于vue-cli 2.0的ssr对于typescript不太友好，只是简单的展示是下ssr的方法，项目基于[vue官方实例](https://github.com/vuejs/vue-hackernews-2.0)，对此的理解，项目都有注释。
+ * 基于vue-cli3.0的typvuex-class,请移步[master分支](https://github.com/Vitaminaq/cfsw-vue-cli3.0)。
 
 ## Build Setup
 
@@ -15,3 +15,9 @@ npm run dev
 # build for production with minification 打包上线
 npm run build
 ```
+### 其他
+个人不建议使用vue-cli 2.0来构建typescript的ssr，因为并不是很兼容，vue-cli 2.0还是基于原始webpack来构建的，所以使用ts必须要使用webpack 4.0以上的版本。webpack 4.0以上后，很多打包插件都已经被替换，所以会有很恶心的警告出现，最常见的如：
+``` javascript
+(node:8944) DeprecationWarning: Tapable.plugin is deprecated. Use new API on `.hooks` instead
+```
+如果有哪位大神解决了这个警告，请教我一下，感谢赐教。
