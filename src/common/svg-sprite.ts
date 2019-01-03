@@ -1,4 +1,5 @@
 export default () => {
+    if (!document) return;
     const b = document.body;
         b.insertAdjacentHTML(
             'afterbegin',

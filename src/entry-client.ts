@@ -5,6 +5,13 @@ import 'vue2-toast/lib/toast.css';
 import Toast from 'vue2-toast';
 import svgSprite from '@src/common/svg-sprite';
 import { Route } from 'vue-router';
+import MyButton from '@src/components/mybutton';
+import SvgIcon from '@src/components/svg';
+import VueRescroll from 'vue-rescroll';
+
+Vue.use(MyButton);
+Vue.use(VueRescroll);
+Vue.use(SvgIcon);
 
 
 Vue.use(Toast, {
@@ -34,8 +41,8 @@ Vue.mixin({
 const { app, router, store } = createApp()
 
 // 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
-if ((window as any).__INITIAL_STATE__) {
-    store.replaceState((window as any).__INITIAL_STATE__)
+if (window.__INITIAL_STATE__) {
+    store.replaceState(window.__INITIAL_STATE__)
 }
 
 router.onReady(() => {
@@ -61,7 +68,14 @@ router.onReady(() => {
     svgSprite(); // 注入svg-sprite
 })
 
-// service worker
-// if (navigator.serviceWorker) {
-//   navigator.serviceWorker.register('/service-worker.js')
-// }
+// 如果浏览器支持serviceWorker则注册
+if (navigator.serviceWorker) {
+    console.log('serviceWorker');
+    navigator.serviceWorker.register('/service-worker.js')
+}
+
+declare global {
+    interface Window {
+      __INITIAL_STATE__: any
+    }
+  }

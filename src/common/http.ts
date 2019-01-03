@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Toast } from './comjs';
 import config from '@src/config';
+const isDev = process.env.NODE_ENV !== 'production'
 
 class LocalAxios {
     public axios: any;
@@ -28,10 +29,14 @@ class LocalAxios {
     }
     private onResponse () {
         this.axios.interceptors.response.use((response: any) => {
-            console.log(`路由${response.config.url}请求成功，耗时${new Date().getTime() - response.config.startTime}ms`);
+            if (isDev) {
+                console.log(`路由${response.config.url}请求成功，耗时${new Date().getTime() - response.config.startTime}ms`);
+            }
             return response.data;
         }, (err: any) => {
-            console.log(`错误信息 ${err.message}`);
+            if (isDev) {
+                console.log(`错误信息 ${err.message}`);
+            }
             Toast('', '连接服务器失败');
             err.data = {
                 code: -10000,
@@ -41,7 +46,9 @@ class LocalAxios {
             //     case 'timeout of 1ms exceeded': Toast('', '请求超时'); break;
             //     case 'Network Error': Toast('', '连接服务器失败'); break;
             // }
-            console.log(`路由${err.config.url}请求失败，耗时${new Date().getTime() - err.config.startTime}ms`);
+            if (isDev) {
+                console.log(`路由${err.config.url}请求失败，耗时${new Date().getTime() - err.config.startTime}ms`);
+            }
             return Promise.resolve(err.data);
         });
     }

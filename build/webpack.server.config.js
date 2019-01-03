@@ -17,6 +17,20 @@ module.exports = merge(base, {
       'create-api': './create-api-server.js'
     }
   },
+  module: {
+    rules: [
+      {
+        test: /\.(le|c)ss$/,
+        use: [
+          'vue-style-loader',
+          {
+            loader: 'css-loader'
+          },
+          'less-loader',
+        ]
+      }
+    ]
+  },
   // https://webpack.js.org/configuration/externals/#externals
   // https://github.com/liady/webpack-node-externals
   externals: nodeExternals({

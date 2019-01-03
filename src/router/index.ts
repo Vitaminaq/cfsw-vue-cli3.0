@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Cookies from 'js-cookie';
 
 Vue.use(Router);
 
@@ -26,53 +25,44 @@ class LocalRouter extends Router {
         super({
             mode: 'history',
             fallback: false,
-    routes: [
-        {
-            path: '/login',
-            name: 'login',
-            component: Login
-        },
-        {
-            path: '/register',
-            name: 'register',
-            component: Register
-        },
-        {
-            path: '/',
-            name: 'chatroom',
-            component: Home
-        },
-        {
-            path: '/publish',
-            name: 'publish',
-            component: Publish
-        },
-        {
-            path: '/detail',
-            name: 'detail',
-            component: Detail
-        },
-        {
-            path: '/reset',
-            name: 'reset',
-            component: Reset
-        },
-        {
-            path: '/my',
-            name: 'PersonalCenter',
-            component: PersonalCenter
-        }
-    ]
+            routes: [
+                {
+                    path: '/login',
+                    name: 'login',
+                    component: Login
+                },
+                {
+                    path: '/register',
+                    name: 'register',
+                    component: Register
+                },
+                {
+                    path: '/',
+                    name: 'chatroom',
+                    component: Home
+                },
+                {
+                    path: '/publish',
+                    name: 'publish',
+                    component: Publish
+                },
+                {
+                    path: '/detail',
+                    name: 'detail',
+                    component: Detail
+                },
+                {
+                    path: '/reset',
+                    name: 'reset',
+                    component: Reset
+                },
+                {
+                    path: '/my',
+                    name: 'PersonalCenter',
+                    component: PersonalCenter
+                }
+            ]
         })
-        // this.beforeEach((to, from, next) => {
-        //     console.log(Cookies.get('token'), 'fdsfdsf')
-		// 	if (to.name === 'publish' || to.name === 'PersonalCenter') {
-		// 		if (!Cookies.get('token') || !Cookies.get('nickname')) {
-		// 			this.push({ name: 'login' });
-		// 		}
-		// 	}
-		// 	next();
-		// });
     }
 }
 export default LocalRouter;

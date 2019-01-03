@@ -1,6 +1,5 @@
 const path = require('path')
 const webpack = require('webpack')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
@@ -54,14 +53,6 @@ module.exports = {
           limit: 10000,
           name: '[name].[ext]?[hash]'
         }
-      },
-      {
-        test: /\.(sa|sc|c|le)ss$/,
-        use: [
-          isProd ? MiniCssExtractPlugin.loader: 'vue-style-loader',
-          'css-loader',
-          'less-loader',
-        ],
       }
     ]
   },
@@ -75,10 +66,7 @@ module.exports = {
         // new webpack.optimize.UglifyJsPlugin({
         //   compress: { warnings: false }
         // }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new MiniCssExtractPlugin({
-          filename: 'common.[chunkhash].css'
-        })
+        new webpack.optimize.ModuleConcatenationPlugin()
       ]
     : [
         new VueLoaderPlugin(),

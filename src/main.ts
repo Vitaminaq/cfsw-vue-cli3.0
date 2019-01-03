@@ -3,13 +3,6 @@ import App from './App.vue';
 import LocalStore from './store/index'
 import LocalRouter from './router/index'
 import { sync } from 'vuex-router-sync';
-import MyButton from '@src/components/mybutton';
-import SvgIcon from '@src/components/svg';
-import VueRescroll from 'vue-rescroll';
-
-Vue.use(MyButton);
-Vue.use(VueRescroll);
-Vue.use(SvgIcon);
 
 Vue.directive('focus', {
     inserted: function (el) {
