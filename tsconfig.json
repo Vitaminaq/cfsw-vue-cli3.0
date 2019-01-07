@@ -9,6 +9,7 @@
   ],
   // 编译器
   "compilerOptions": {
+    "outDir": "./dist/",
     "baseUrl": "./src",
     "paths": {
       "@src/*": [

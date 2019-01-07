@@ -70,8 +70,15 @@ router.onReady(() => {
 
 // 如果浏览器支持serviceWorker则注册
 if (navigator.serviceWorker) {
-    console.log('serviceWorker');
-    navigator.serviceWorker.register('/service-worker.js')
+    navigator.serviceWorker.register('/service-worker.js').then((registration) => {
+        console.log(registration, '>>>>>>>>>>>>>>>>>>>>')
+        console.log('serviceWorker注册成功')
+        registration.addEventListener('fetch', function(e: any) {
+            console.log('Fetch event ' + ' :', e.request.url);
+          })
+    }).catch(() => {
+        console.log('serviceWorker注册失败')
+    })
 }
 
 declare global {
