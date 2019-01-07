@@ -4,31 +4,29 @@
 			<div class="artic-content">
 				<div class="userImg"><img :src="baseUrl" /></div>
 				<div class="author">
-					<div class="title">{{ item.title }}</div>
+					<div class="title">{{ dataItem.title }}</div>
 					<div class="detail">
-						<span class="authorname">{{ item.nickname }}</span>
+						<span class="authorname">{{ dataItem.nickname }}</span>
 						<span class="publishtime">{{
-							time(item.creatAt)
+							time(dataItem.creatAt)
 						}}</span>
 					</div>
 					<div class="oparatenum">
 						<span class="icon left">
 							<svg-icon name="view" />
 						</span>
-						<span class="num">{{ item.viewnum }}</span>
+						<span class="num">{{ dataItem.viewnum }}</span>
 						<span class="icon"> <svg-icon name="comment" /> </span>
-						<span class="num">{{ item.commentnum }}</span>
+						<span class="num">{{ dataItem.commentnum }}</span>
 						<span class="icon right">
 							<svg-icon name="click" />
 						</span>
-						<span class="num">{{ item.clicknum }}</span>
+						<span class="num">{{ dataItem.clicknum }}</span>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div v-if="!!(heightFeild % 2 === 0)" class="test">
-			15456498756456465456
-		</div>
+		<div class="test" v-html="dataItem.show"></div>
 	</div>
 </template>
 <script lang="ts">
@@ -39,12 +37,17 @@ import config from '@src/config';
 @Component
 export default class ArticList extends Vue {
 	@Prop({ default: () => {} }) rootOptions!: any;
-	@Prop({ default: '' }) heightFeild!: any;
+	@Prop({ default: () => {} }) heightFeild!: any;
+	@Prop({ default: '' }) data!: any;
 	item: any = '';
 
 	get baseUrl() {
-		if (!this.item) return;
-		return `${config.BASE_URL}${this.item.headimg}`;
+		if (!this.dataItem) return;
+		return `${config.BASE_URL}${this.dataItem.headimg}`;
+	}
+	get dataItem() {
+		if (!!this.item) return this.item;
+		return this.data;
 	}
 	time(creatAt: string) {
 		return Time(Number(creatAt));
@@ -52,10 +55,11 @@ export default class ArticList extends Vue {
 	getItem(item: any) {
 		this.item = item;
 	}
+
 	toDetail() {
 		this.rootOptions.router.push({
 			name: 'detail',
-			query: { id: this.item.articId }
+			query: { id: this.dataItem.articId }
 		});
 	}
 }
@@ -66,7 +70,7 @@ export default class ArticList extends Vue {
 	padding-top: 10px;
 
 	.test {
-		height: 40px;
+		height: auto;
 	}
 
 	.list-content {

@@ -18,31 +18,58 @@ export default class SeeLoading extends Vue {
 	@Prop({ default: '0px' }) scrollerTop!: string;
 	timer: number = 0;
 
+	@Watch('pullUpstatus')
+	onchange(val: any) {
+		console.log(val);
+	}
+
+	// async mounted() {
+	// 	await this.see();
+	// }
+	// async see() {
+	// 	const isSee = inview(this.$el);
+	// 	if (
+	// 		isSee &&
+	// 		this.pullUpstatus !== 'requesting' &&
+	// 		this.pullUpstatus !== 'done' &&
+	// 		this.pullUpstatus !== 'error'
+	// 	) {
+	// 		await this.$emit('pullUp');
+	// 		this.timer = setInterval(this.see, 500);
+	// 	}
+	// 	if (
+	// 		isSee &&
+	// 		this.pullUpstatus !== 'requesting' &&
+	// 		this.pullUpstatus !== 'done' &&
+	// 		this.pullUpstatus !== 'error'
+	// 	) {
+	// 		this.timer = setInterval(this.see, 500);
+	// 	}
+	// }
+	// reload() {
+	// 	this.pullUp();
+	// }
 	async mounted() {
-		await this.see();
+		await this.onSee();
+		this.timer = setInterval(this.onSee, 500);
 	}
-	async see() {
-		const isSee = inview(this.$el);
+	async reload() {
+		await this.$emit('pullUp');
+		this.timer = setInterval(this.onSee, 500);
+	}
+	onSee() {
+		let isSee = inview(this.$el, {});
 		if (
 			isSee &&
 			this.pullUpstatus !== 'requesting' &&
 			this.pullUpstatus !== 'done' &&
 			this.pullUpstatus !== 'error'
 		) {
-			await this.$emit('pullUp');
-			this.timer = setInterval(this.see, 500);
+			this.$emit('pullUp');
 		}
-		if (
-			isSee &&
-			this.pullUpstatus !== 'requesting' &&
-			this.pullUpstatus !== 'done' &&
-			this.pullUpstatus !== 'error'
-		) {
-			this.timer = setInterval(this.see, 500);
+		if (this.pullUpstatus === 'error') {
+			clearInterval(this.timer);
 		}
-	}
-	reload() {
-		this.pullUp();
 	}
 	beforeDestroy() {
 		clearInterval(this.timer);

@@ -1,10 +1,8 @@
 <template>
-	<!-- <div> -->
 	<virtual-scroller id="scroller">
 		<template>
 			<section>
 				<see-loading
-					slot="after-container"
 					:pull-upstatus="pullUpstatus"
 					:scrollerTop="scrollerTop"
 					@pullUp="pullUp"
@@ -12,14 +10,6 @@
 			</section>
 		</template>
 	</virtual-scroller>
-	<!--
-		<see-loading
-				slot="after-container"
-				:pull-upstatus="pullUpstatus"
-				@pullUp="pullUp"
-			/>
-		</div>
-	-->
 </template>
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
@@ -41,11 +31,14 @@ export default class MyVirtualScroller extends Vue {
 	classArr: any = {};
 	scrollerTop: string = '';
 	componentDom: any;
+	localList: any = [];
+	nodeAccount: number = 0;
 
 	@Prop() pullUpstatus!: string;
 	@Prop() pullDownStatus!: string;
 	@Prop({ required: true }) ListItemComponent!: any;
 	@Prop({ default: () => [] }) list!: any;
+	@Prop({ default: '' }) type!: any;
 	@Prop({ default: '' }) heightFeild!: any;
 
 	@Watch('list')
@@ -53,19 +46,30 @@ export default class MyVirtualScroller extends Vue {
 		if (!this.virtualScroller) {
 			this.init();
 		} else {
+			this.localList = val.map((item: any) => {
+				if (item.articId % 2 > 0) {
+					item.show = '<div>1234556668</div>';
+				} else {
+					item.show = '';
+				}
+				return item;
+			});
 			this.virtualScroller.itemSource = ItemSource.fromArray(
-				this.list,
+				this.localList,
 				(c: any) => {
 					return c;
 				}
 			);
-			this.virtualScroller.itemsChanged();
+			console.log(this.localList);
+			// this.virtualScroller.itemsChanged();
 		}
+	}
+	@Watch('pullUpstatus')
+	onchangestatus(val: any) {
+		console.log(val);
 	}
 
 	async mounted() {
-		// InsertListItem.propData(ArticList);
-		this.componentDom = new this.ListItemComponent();
 		if (!this.virtualScroller) {
 			this.init();
 		}
@@ -77,26 +81,26 @@ export default class MyVirtualScroller extends Vue {
 	init() {
 		this.virtualScroller = document.querySelector('virtual-scroller');
 		this.virtualScroller.itemSource = ItemSource.fromArray(
-			this.list,
+			this.localList,
 			(c: any) => {
 				return c;
 			}
 		);
 		this.virtualScroller.createElement = (item: any) => {
+			// this.localList.item;
 			return (
 				this.nodePool.pop() ||
 				(() => {
+					this.localList[this.nodeAccount] = item;
 					const dom = document.createElement('contact-element');
 					dom.innerHTML = `<div id="vs"></div>`;
 					const nodeClass = new this.ListItemComponent({
-						propsData: {
-							rootOptions: this.$root.$options,
-							heightFeild: item[this.heightFeild]
-						}
+						propsData: this.$root.$options,
+						data: item
 					});
 					const node = nodeClass.$mount(dom.children[0]);
-					dom.id = node._uid;
-					this.classArr[node._uid] = nodeClass;
+					dom.id = String(node._uid);
+					this.classArr[dom.id] = nodeClass;
 					return dom;
 				})()
 			);
