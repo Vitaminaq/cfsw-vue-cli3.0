@@ -2,24 +2,23 @@
 	<div class="chatroom">
 		<logo-header />
 		<div class="wrapper">
-			<!--
-				<scroller
-					:pull-down-status="pullDownStatus"
-					@pullUp="pullUp"
-					:pull-upstatus="pullUpStatus"
-					@dropDown="dropDown"
-					:list="list"
-					:minItemHeight="minItemHeight"
-				>
-					<template slot-scope="{ item }">
-						<artic-list
-							:item="item"
-							@click.native="todetail(item.articId);"
-						/>
-					</template>
-				</scroller>
-			-->
-			<my-virtual-scroller
+			<scroller
+				:pull-down-status="pullDownStatus"
+				@pullUp="pullUp"
+				:pull-upstatus="pullUpStatus"
+				@dropDown="dropDown"
+				:list="list"
+				:minItemHeight="minItemHeight"
+			>
+				<template slot-scope="{ item }">
+					<artic-list
+						:item="item"
+						@click.native="todetail(item.articId)"
+					/>
+				</template>
+			</scroller>
+
+			<!-- <my-virtual-scroller
 				:pull-down-status="pullDownStatus"
 				@pullUp="pullUp"
 				:pull-upstatus="pullUpStatus"
@@ -27,7 +26,7 @@
 				@dropDown="dropDown"
 				:list="list"
 			>
-			</my-virtual-scroller>
+			</my-virtual-scroller> -->
 		</div>
 		<footer-content />
 	</div>
@@ -46,7 +45,8 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 		Scroller,
 		FooterContent,
 		LogoHeader,
-		MyVirtualScroller
+		MyVirtualScroller,
+		ArticList
 	}
 })
 export default class ChatRoom extends Vue {
@@ -87,7 +87,10 @@ export default class ChatRoom extends Vue {
 		this.view.$assignParams(params);
 		await this.view.saveView();
 		if (this.view.res.code === 0) {
-			return this.$router.push({ name: 'detail', query: { id: id } });
+			return this.$router.push({
+				name: 'artic-detail',
+				query: { id: id }
+			});
 		}
 		(this as any).$toast(this.view.res.data);
 	}

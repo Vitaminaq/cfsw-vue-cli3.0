@@ -6,7 +6,7 @@
 				<div class="commentname">{{ item.nickname }}</div>
 				<div class="commentmsg">
 					<div class="time">{{ time(Number(item.creatAt)) }}</div>
-					<div class="click" @click="agreeit(item.commentId);">
+					<div class="click" @click="agreeit(item.commentId)">
 						<svg-icon
 							name="click"
 							:class="isClicked ? 'is-clicked' : ''"

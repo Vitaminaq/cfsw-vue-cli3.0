@@ -3,7 +3,7 @@
 		<div class="login">
 			<div class="close" @click="close"><svg-icon name="close" /></div>
 			<div id="tx">
-				<img v-if="!url" src="../assets/image/login/tx.jpg" />
+				<img v-if="!url" src="../assets/head_img.svg" />
 				<img v-else :src="url" />
 			</div>
 			<form class="loginFrom" method="get" action="#" @submit.prevent>
@@ -48,7 +48,7 @@ import config from '@src/config';
 
 @Component
 export default class login extends Vue {
-	nickname: string = '';
+	nickname: string | string[] = '';
 	password: string = '';
 
 	button: Button = {
@@ -75,8 +75,13 @@ export default class login extends Vue {
 	}
 
 	mounted() {
-		if (!this.$route.query.nickname) return;
-		this.nickname = this.$route.query.nickname;
+		const nickname = this.$route.query.nickname;
+		if (!nickname) return;
+		if (nickname[0]) {
+			this.nickname = nickname[0];
+		} else {
+			this.nickname = this.$route.query.nickname;
+		}
 		this.getUserHeaderImg();
 	}
 	async getUserHeaderImg(): Promise<this> {
@@ -104,8 +109,18 @@ export default class login extends Vue {
 		}, 1000);
 		if (this.loginModule.res.code !== 0)
 			return (this as any).$toast(this.loginModule.res.data);
-		const from = this.$route.query.from || '/chatroom';
-		return this.$router.push({ path: from });
+		const from = this.$route.query.from;
+		let to: string;
+		if (!from) {
+			to = '/chatroom';
+		} else {
+			if (from[0]) {
+				to = from[0];
+			} else {
+				to = from as string;
+			}
+		}
+		return this.$router.push({ path: to });
 	}
 	close() {
 		return this.$router.go(-1);

@@ -5,7 +5,7 @@
 			<div id="tx">
 				<img
 					v-if="!headerImg"
-					src="../assets/man.png"
+					src="../assets/head_img.svg"
 					@click="clickUpload"
 				/>
 				<img v-else :src="headerImg" @click="clickUpload" />
@@ -13,7 +13,7 @@
 					id="file"
 					ref="uploadFile"
 					type="file"
-					@change="upload($event);"
+					@change="upload($event)"
 				/>
 			</div>
 			<div class="inputdiv">

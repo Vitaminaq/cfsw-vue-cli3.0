@@ -1,5 +1,5 @@
 <template>
-	<div id="seeLoading" class="see-loading" :style="{ top: scrollerTop }">
+	<div id="seeLoading" class="see-loading">
 		<span v-if="pullUpstatus === 'done'">无更多数据</span>
 		<span v-else-if="pullUpstatus === 'error'" @click="reload"
 			>加载失败，请点击重新加载</span

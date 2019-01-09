@@ -19,19 +19,19 @@ class LocalToast extends Vue {
 			},
 			methods: {
 				toggle(tips: string) {
-					if (!!tips) this.$el.style.display = 'block';
+					if (!!tips) (this as any).$el.style.display = 'block';
 					if ((this as any).timer) {
 						clearTimeout((this as any).timer);
 					}
 					(this as any).tips = tips;
 					(this as any).timer = setTimeout(() => {
-						this.$el.style.display = 'none';
+						(this as any).$el.style.display = 'none';
 						(this as any).tips = '';
 					}, localOptions.continuedTime);
 				}
 			}
 		});
-		let el: HTMLElement = this.$mount().$el;
+		let el: Element = this.$mount().$el;
 		document.body.appendChild(el);
 	}
 }

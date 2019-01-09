@@ -18,8 +18,11 @@ import CommentList from '@src/components/detail/comment-list.vue';
 	}
 })
 export default class ArticComment extends Vue {
-	get id() {
-		return this.$route.query.id;
+	get id(): string {
+		const id = this.$route.query.id;
+		if (!id) return '1';
+		if (id[0]) return id[0];
+		return id as string;
 	}
 	get articDetail() {
 		return this.$vuexClass.detail.articDetail;
