@@ -57,6 +57,9 @@ export default class ChatRoom extends Vue {
     @ViewModule.Getter('_res') res: any;
     @ViewModule.Getter('_requestStatus') requestStatus: any;
 
+    mounted () {
+        console.log((this as any).$store);
+    }
     async dropDown () {
         await this.pullDown();
         Toast('', '刷新成功！');
