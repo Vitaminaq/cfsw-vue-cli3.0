@@ -6,6 +6,7 @@ const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const WebpackBar = require('webpackbar');
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
 
 const config = merge(base, {
@@ -89,6 +90,9 @@ const config = merge(base, {
     // new webpack.optimize.RuntimeChunkPlugin({
     //   name: "manifest"
     // }),
+    // new UglifyJsPlugin({
+    //   cache: false
+    // }),
     new MiniCssExtractPlugin({
       filename: 'common.[chunkhash].css'
     }),
@@ -96,7 +100,7 @@ const config = merge(base, {
   ]
 })
 
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
     new SWPrecachePlugin({
       cacheId: 'cfsw',
@@ -105,12 +109,12 @@ if (process.env.NODE_ENV === 'production') {
       dontCacheBustUrlsMatching: /./,
       // 未使用webpack打包的资源（例如图片）也缓存下来
       mergeStaticsConfig: true,
-      staticFileGlobs: [
-        path.join(__dirname, '../dist/static/*.*')
-      ],
-      stripPrefixMulti: {
-        [path.join(__dirname, '../dist/static')]: '/static' // 使缓存的图片路径正确
-      },
+      // staticFileGlobs: [
+      //   path.join(__dirname, '../dist/static/*.*')
+      // ],
+      // stripPrefixMulti: {
+      //   [path.join(__dirname, '../dist/static')]: '/static' // 使缓存的图片路径正确
+      // },
       staticFileGlobsIgnorePatterns: [/\.map$/, /\.json$/], // 过滤staticFile
       runtimeCaching: [
         {
@@ -128,6 +132,6 @@ if (process.env.NODE_ENV === 'production') {
       ]
     })
   )
-}
+// }
 
 module.exports = config
