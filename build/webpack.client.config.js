@@ -29,6 +29,28 @@ const config = merge(base, {
       }
     ]
   },
+  optimization: {   
+    splitChunks: {
+      cacheGroups: {
+        //打包重复出现的代码
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'initial',
+          name: 'vendor'
+        },
+        //打包第三方类库
+        commons: {
+          name: "commons",
+          chunks: "initial",
+          minChunks: Infinity
+        }
+      }
+    },
+    // 为每个入口提取出webpack runtime模块     
+    runtimeChunk: {
+        name: 'manifest'
+    }
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
@@ -47,34 +69,28 @@ const config = merge(base, {
 // priority: 表示缓存的优先级；
 // test: 缓存组的规则，表示符合条件的的放入当前缓存组，值可以是function、boolean、string、RegExp，默认为空；
 // reuseExistingChunk: 表示可以使用已经存在的块，即如果满足条件的块已经存在就使用已有的，不再创建一个新的块。
-    new webpack.optimize.SplitChunksPlugin({
-      cacheGroups: {
-        default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-        },
-        //打包重复出现的代码
-        vendor: {
-            chunks: 'initial',
-            minChunks: 2,
-            maxInitialRequests: 5,
-            minSize: 0,
-            name: 'vendor'
-        },
-        //打包第三方类库
-        commons: {
-            name: "commons",
-            chunks: "initial",
-            minChunks: Infinity
-        }
-    }
-    }),
-    new webpack.optimize.RuntimeChunkPlugin({
-      name: "manifest"
-    }),
+    // new webpack.optimize.SplitChunksPlugin({
+    //   cacheGroups: {
+    //     //打包重复出现的代码
+    //     vendor: {
+    //         test: /[\\/]node_modules[\\/]/,
+    //         chunks: 'initial',
+    //         name: 'vendor'
+    //     },
+    //     //打包第三方类库
+    //     commons: {
+    //         name: "commons",
+    //         chunks: "initial",
+    //         minChunks: Infinity
+    //     }
+    //   }
+    // }),
+    // // 为每个入口提取出webpack runtime模块   
+    // new webpack.optimize.RuntimeChunkPlugin({
+    //   name: "manifest"
+    // }),
     new MiniCssExtractPlugin({
-      filename: '/common.[chunkhash].css'
+      filename: 'common.[chunkhash].css'
     }),
     new VueSSRClientPlugin()
   ]
@@ -88,7 +104,7 @@ if (process.env.NODE_ENV === 'production') {
       minify: true,
       dontCacheBustUrlsMatching: /./,
       // 未使用webpack打包的资源（例如图片）也缓存下来
-      // mergeStaticsConfig: true,
+      mergeStaticsConfig: true,
       staticFileGlobs: [
         path.join(__dirname, '../dist/static/*.*')
       ],
@@ -103,6 +119,10 @@ if (process.env.NODE_ENV === 'production') {
         },
         {
           urlPattern: /\/(login|register|publish|detail|reset|my)/,
+          handler: 'networkFirst'
+        },
+        {
+          urlPattern: /.(png|jepg|svg|jpg|gif)$/,
           handler: 'networkFirst'
         }
       ]

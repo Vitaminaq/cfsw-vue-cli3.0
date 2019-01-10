@@ -4,10 +4,11 @@ const base = require('./webpack.base.config')
 const nodeExternals = require('webpack-node-externals')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 const WebpackBar = require('webpackbar');
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = merge(base, {
   target: 'node',
-  devtool: '#source-map',
+  devtool: isProd ? false : '#source-map',
   entry: './src/entry-server.ts',
   output: {
     filename: 'server-bundle.js',
