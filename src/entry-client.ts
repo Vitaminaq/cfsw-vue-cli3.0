@@ -8,6 +8,7 @@ import { Route } from 'vue-router';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
 import VueRescroll from 'vue-rescroll';
+const isDev = process.env.NODE_ENV !== 'production';
 
 Vue.use(MyButton);
 Vue.use(VueRescroll);
@@ -68,13 +69,17 @@ router.onReady(() => {
     svgSprite(); // 注入svg-sprite
 })
 
-// 如果浏览器支持serviceWorker则注册
-if (navigator.serviceWorker) {
-    navigator.serviceWorker.register('/service-worker.js').then((registration) => {
-        console.log('serviceWorker注册成功')
-    }).catch(() => {
-        console.log('serviceWorker注册失败')
-    })
+if (!isDev) {
+    // 如果浏览器支持serviceWorker则注册
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/service-worker.js').then(() => {
+            console.log('serviceWorker注册成功')
+        }).catch(() => {
+            console.log('serviceWorker注册失败')
+        })
+    } else {
+
+    }
 }
 
 declare global {
