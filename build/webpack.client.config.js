@@ -23,7 +23,11 @@ const config = merge(base, {
       {
         test: /\.(sa|sc|c|le)ss$/,
         use: [
-          isProd ? MiniCssExtractPlugin.loader: 'vue-style-loader',
+          isProd ? { loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: './css'
+            }
+          }: 'vue-style-loader',
           'css-loader',
           'less-loader',
         ],
@@ -90,17 +94,15 @@ const config = merge(base, {
     // new webpack.optimize.RuntimeChunkPlugin({
     //   name: "manifest"
     // }),
-    // new UglifyJsPlugin({
-    //   cache: false
-    // }),
+    new UglifyJsPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'common.[chunkhash].css'
+      filename: 'css/common.[chunkhash].css'
     }),
     new VueSSRClientPlugin()
   ]
 })
 
-// if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
     new SWPrecachePlugin({
       cacheId: 'cfsw',
@@ -127,11 +129,15 @@ const config = merge(base, {
         },
         {
           urlPattern: /.(png|jepg|svg|jpg|gif)$/,
-          handler: 'networkFirst'
+          handler: 'cacheFirst'
+        },
+        {
+          urlPattern: /^data:image\//,
+          handler: 'cacheFirst'
         }
       ]
     })
   )
-// }
+}
 
 module.exports = config
