@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -12,7 +13,7 @@ module.exports = {
     : '#cheap-module-source-map',
   output: {
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '/dist/',
+    publicPath: '/',
     filename: 'js/[name].[chunkhash].js'
   },
   resolve: {
@@ -63,9 +64,7 @@ module.exports = {
   plugins: isProd
     ? [
         new VueLoaderPlugin(),
-        // new webpack.optimize.UglifyJsPlugin({
-        //   compress: { warnings: false }
-        // }),
+        new UglifyJsPlugin(),
         new webpack.optimize.ModuleConcatenationPlugin()
       ]
     : [

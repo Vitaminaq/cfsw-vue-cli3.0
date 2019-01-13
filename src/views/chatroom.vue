@@ -15,7 +15,7 @@
                         v-for="(item, key) in list"
                         :key = key
                         :item="item"
-                        @todetail="todetail"
+                        @click.native="todetail(item.articId)"
                     />
                 </ul>
             </scroller>

@@ -7,7 +7,7 @@
 >
     <general-header :headerTitle="headerTitle" backPathName="chatroom"/>
     <div id="detailcontent" v-if="!!data">
-        <h1>{{data.title}}</h1>
+        <h1 :class="Number(data.articId) === 1 ? 'test1' : 'test2'">{{data.title}}</h1>
         <div id="author">
             <span id="name">{{data.nickname}}</span>
             <span>{{time(Number(data.creatAt))}}</span>
@@ -97,12 +97,12 @@ const options:localComponent = {
         GeneralHeader
     },
     async asyncData({store, route}:any) {
-        const id = route.query.id; 
-        let params: Detail.ArticDetail.RequestParams = {
-            id: id
-        };
-        store.commit('detail/articDetail/$assignParams', params);
-        await store.dispatch('detail/articDetail/getArticDetail');
+        // const id = route.query.id; 
+        // let params: Detail.ArticDetail.RequestParams = {
+        //     id: id
+        // };
+        // store.commit('detail/articDetail/$assignParams', params);
+        // await store.dispatch('detail/articDetail/getArticDetail');
     }
 }
 @Component(options)
@@ -145,6 +145,14 @@ export default class Detail extends Vue {
         return id[0] || id;
     }
    
+    async mounted () {
+        console.log('eeeeeeeeeeeeeeeeeeeeeee');
+        let params: any = {
+            id: this.id
+        };
+        this.$store.commit('detail/articDetail/$assignParams', params);
+        await this.$store.dispatch('detail/articDetail/getArticDetail');
+   }
     async getData (): Promise<this> {
         let params: any = {
             id: this.id
@@ -253,6 +261,14 @@ export default class Detail extends Vue {
 </script>
 
 <style lang="less" scoped>
+.test1 {
+    color: red;
+}
+
+.test2 {
+    color: blue;
+}
+
 #detail{
   overflow-y: auto;
 }
