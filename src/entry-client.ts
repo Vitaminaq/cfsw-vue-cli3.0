@@ -78,7 +78,10 @@ if (!isDev) {
             console.log('serviceWorker注册失败')
         })
     } else {
-
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = '';
+        document.body.append(iframe);
     }
 }
 
