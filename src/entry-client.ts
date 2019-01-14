@@ -78,10 +78,11 @@ if (!isDev) {
             console.log('serviceWorker注册失败')
         })
     } else {
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = '';
-        document.body.append(iframe);
+        console.log('当前浏览器不支持serviceWorker,将采用application cache进行缓存');
+        const manifestIframe = document.createElement('iframe');
+        manifestIframe.src = '/manifest.html';
+        manifestIframe.style.display = 'none';
+        document.body.appendChild(manifestIframe);
     }
 }
 

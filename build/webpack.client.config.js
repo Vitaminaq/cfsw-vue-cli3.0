@@ -6,7 +6,6 @@ const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const WebpackBar = require('webpackbar');
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
 
 const config = merge(base, {
@@ -34,7 +33,7 @@ const config = merge(base, {
       }
     ]
   },
-  optimization: {   
+  optimization: {
     splitChunks: {
       cacheGroups: {
         //打包重复出现的代码
@@ -94,7 +93,7 @@ const config = merge(base, {
     // new webpack.optimize.RuntimeChunkPlugin({
     //   name: "manifest"
     // }),
-    new UglifyJsPlugin(),
+    // new UglifyJsPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/common.[chunkhash].css'
     }),
@@ -124,7 +123,11 @@ if (process.env.NODE_ENV === 'production') {
           handler: 'networkFirst'
         },
         {
-          urlPattern: /\/(login|register|publish|detail|reset|my)/,
+          urlPattern: /\/(login|register|publish|reset|my)/,
+          handler: 'networkFirst'
+        },
+        {
+          urlPattern: '/^detail?/',
           handler: 'networkFirst'
         },
         {

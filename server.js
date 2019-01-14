@@ -10,6 +10,7 @@ const resolve = file => path.resolve(__dirname, file)
 const { createBundleRenderer } = require('vue-server-renderer')
 const config = require('./config/index');
 const createManifest = require('./lib/create-manifest').createManifest;
+const routerList = require('./lib/router-list');
 
 const isProd = process.env.NODE_ENV === 'production'
 const useMicroCache = process.env.MICRO_CACHE !== 'false'
@@ -18,6 +19,10 @@ const serverInfo =
   `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
 const app = express()
+
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json({limit: "2mb"}));
 
 function createRenderer (bundle, options) {
 
@@ -39,7 +44,9 @@ if (isProd) {
   const template = fs.readFileSync(templatePath, 'utf-8')
   const bundle = require('./dist/vue-ssr-server-bundle.json')
   const clientManifest = require('./dist/vue-ssr-client-manifest.json')
-  manifestList = new Set(clientManifest.all)
+  manifestList = Array.from(new Set(clientManifest.all)).map((item) => {
+    return `/${item}`;
+  }).concat(routerList);
   renderer = createRenderer(bundle, {
     template,
     clientManifest
@@ -60,15 +67,19 @@ const serve = (path, cache) => express.static(resolve(path), {
 
 app.use(compression({ threshold: 0 }))
 app.use(favicon('./public/logo-48.png'))
-app.use('/dist', serve('./dist', true))
+app.use('/', serve('./dist', true))
 app.use('/public', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
-app.use(createManifest(manifestList));
+if (!!manifestList && manifestList.length > 0) {
+  app.use(createManifest(manifestList, new Date()));
+}
 
-app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl))
+
+app.use(microcache.cacheSeconds(60, req => useMicroCache && req.path))
 
 function render (req, res) {
+
   const s = Date.now()
 
   res.setHeader("Content-Type", "text/html");

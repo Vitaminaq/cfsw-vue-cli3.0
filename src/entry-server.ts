@@ -18,7 +18,6 @@ export default (context: Context) => {
         if (fullPath !== url) {
             return reject({ url: fullPath })
         }
-
         // 如果等于，则把当前url,push进router中，便于客户端接管
         router.push(url)
 
