@@ -10,9 +10,9 @@
                 :pullDownStatus="pullDownStatus"
                 v-rescroll="{name: 'chatroom'}"
             >
-                <ul v-if="!!list[0]">
+                <ul v-if="!!List[0]">
                     <artic-list
-                        v-for="(item, key) in list"
+                        v-for="(item, key) in List"
                         :key = key
                         :item="item"
                         @click.native="todetail(item.articId)"
@@ -48,7 +48,7 @@ const options:localComponent = {
 @Component(options)
 export default class ChatRoom extends Vue {
     @ArticListModule.Action('pullDown') pullDown: any;
-    @ArticListModule.Action('pullUp') pullUp: any;
+    @ArticListModule.Action('pullUp') pullUps: any;
     @ArticListModule.Getter('_pullDownStatus') pullDownStatus: any;
     @ArticListModule.Getter('_pullUpStatus') pullUpStatus: any;
     @ArticListModule.Getter('_list') list: any;
@@ -57,9 +57,36 @@ export default class ChatRoom extends Vue {
     @ViewModule.Getter('_res') res: any;
     @ViewModule.Getter('_requestStatus') requestStatus: any;
 
+    List: any = [];
+
+    // get List() {
+    //     if (!!this.list && this.list.length > 0) return this.list;
+    //     const localList = window.localStorage.getItem('articList') || false;
+    //     if (!!localList) return JSON.parse(localList);
+    //     return [];
+    // }
+
+    mounted () {
+        const localList = window.localStorage.getItem('articList') || false;
+        if (!!localList) return this.List = [...JSON.parse(localList)];
+    }
     async dropDown () {
         await this.pullDown();
         Toast('', '刷新成功！');
+    }
+    async pullUp () {
+        await this.pullUps();
+        const localJsonList = window.localStorage.getItem('articList');
+        if(!!this.list && this.list.length > 0) {
+            if (!localJsonList) {
+                window.localStorage.setItem('articList', JSON.stringify(this.list));
+            } else {
+                const len = JSON.parse(localJsonList).length;
+                if (len > 0 && len < 9) {
+                    window.localStorage.setItem('articList', JSON.stringify(this.list));
+                }
+            }
+        }
     }
     async todetail (id: string) {
         let params: ChatRoom.View.RequestParams = {
