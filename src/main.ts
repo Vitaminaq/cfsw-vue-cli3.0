@@ -7,7 +7,6 @@ import SvgIcon from '@src/components/svg';
 import VueRescroll from 'vue-rescroll';
 // import VueVirtualScroller from 'vue-virtual-scroller';
 import VueVirtualScroller from '@src/lib/vue-virtual-scroller';
-// import VueRescroll from './common/vue-rescroll';
 import Cookies from 'js-cookie';
 import svgSprite from '@src/lib/svg-sprite';
 import LocalToast from '@src/components/toast/toast';

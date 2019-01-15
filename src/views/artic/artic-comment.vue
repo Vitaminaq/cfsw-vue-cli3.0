@@ -11,7 +11,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import CommentList from '@src/components/detail/comment-list.vue';
+import CommentList from '@src/components/artic/comment-list.vue';
 @Component({
 	components: {
 		CommentList
