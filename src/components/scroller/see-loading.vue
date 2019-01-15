@@ -12,23 +12,30 @@ import inview from './inview';
 @Component
 export default class SeeLoading extends Vue {
     @Prop({ default: 'unrequest' }) pullUpstatus!: string;
-    timer: number = 0;
+    timer: any = 0;
 
-    mounted () {
-        this.timer = setInterval(() => {
-            let isSee = inview(this.$el);
-            if (isSee &&
-                this.pullUpstatus !== 'requesting' &&
-                this.pullUpstatus !== 'done' &&
-                this.pullUpstatus !== 'error'
-            ) {
-                return this.$emit('pullUp');
-            }
-        }, 1000);
-    }
-    reload () {
-        this.$emit('pullUp');
-    }
+    async mounted() {
+		await this.onSee();
+		this.timer = setInterval(this.onSee, 500);
+	}
+	async reload() {
+		await this.$emit('pullUp');
+		this.timer = setInterval(this.onSee, 500);
+	}
+	onSee() {
+		let isSee = inview(this.$el, {});
+		if (
+			isSee &&
+			this.pullUpstatus !== 'requesting' &&
+			this.pullUpstatus !== 'done' &&
+			this.pullUpstatus !== 'error'
+		) {
+			this.$emit('pullUp');
+		}
+		if (this.pullUpstatus === 'error') {
+			clearInterval(this.timer);
+		}
+	}
     beforeDestroy () {
         clearInterval(this.timer);
     }
