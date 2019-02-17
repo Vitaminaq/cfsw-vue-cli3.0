@@ -1,6 +1,6 @@
 # myts
 
-基于vue-cli2.0的typescript+vuex+ssr的cfsw重构，项目直接拿之前入门vue的老项目改的，由于vue-cli 2.0的ssr对于typescript不太友好，只是简单的展示一下ssr的实现方法，项目基于[vue官方实例](https://github.com/vuejs/vue-hackernews-2.0)，对此的理解，项目都有注释。
+基于vue-cli2.0的typescript+vuex+ssr+pwa(离线应用技术)的cfsw重构，项目直接拿之前入门vue的老项目改的，由于vue-cli 2.0的ssr对于typescript不太友好，只是简单的展示一下ssr的实现方法，项目基于[vue官方实例](https://github.com/vuejs/vue-hackernews-2.0)，对此的理解，项目都有注释。
 ### 前端
  * 基于vue-cli3.0的typvuex-class,请移步[master分支](https://github.com/Vitaminaq/cfsw-vue-cli3.0)。
  * 基于react+redux+typescript的项目重构,请移步[react-ts](https://github.com/Vitaminaq/react-cfsw)。
