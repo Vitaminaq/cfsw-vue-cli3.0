@@ -1,78 +1,52 @@
 <template>
-	<div class="artic-list-item" @click="toDetail">
+	<div class="list-item">
 		<div class="list-content">
 			<div class="artic-content">
 				<div class="userImg"><img :src="baseUrl" /></div>
 				<div class="author">
-					<div class="title">{{ dataItem.title }}</div>
+					<div class="title">{{ item.title }}</div>
 					<div class="detail">
-						<span class="authorname">{{ dataItem.nickname }}</span>
+						<span class="authorname">{{ item.nickname }}</span>
 						<span class="publishtime">{{
-							time(dataItem.creatAt)
+							time(item.creatAt)
 						}}</span>
 					</div>
 					<div class="oparatenum">
 						<span class="icon left">
 							<svg-icon name="view" />
 						</span>
-						<span class="num">{{ dataItem.viewnum }}</span>
+						<span class="num">{{ item.viewnum }}</span>
 						<span class="icon"> <svg-icon name="comment" /> </span>
-						<span class="num">{{ dataItem.commentnum }}</span>
+						<span class="num">{{ item.commentnum }}</span>
 						<span class="icon right">
 							<svg-icon name="click" />
 						</span>
-						<span class="num">{{ dataItem.clicknum }}</span>
+						<span class="num">{{ item.clicknum }}</span>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="test" v-html="dataItem.show"></div>
 	</div>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Time } from '@src/common/comjs';
 import config from '@src/config';
-
 @Component
 export default class ArticList extends Vue {
-	@Prop({ default: () => {} }) rootOptions!: any;
-	@Prop({ default: () => {} }) heightFeild!: any;
-	@Prop({ default: '' }) data!: any;
-	item: any = '';
-
+	@Prop({ default: () => {} }) item!: Loader.ListItem;
 	get baseUrl() {
-		if (!this.dataItem) return;
-		return `${config.BASE_URL}${this.dataItem.headimg}`;
-	}
-	get dataItem() {
-		if (!!this.item) return this.item;
-		return this.data;
+		return `${config.BASE_URL}${this.item.headimg}`;
 	}
 	time(creatAt: string) {
 		return Time(Number(creatAt));
 	}
-	getItem(item: any) {
-		this.item = item;
-	}
-
-	toDetail() {
-		this.rootOptions.router.push({
-			name: 'detail',
-			query: { id: this.dataItem.articId }
-		});
-	}
 }
 </script>
-<style lang="less">
-.artic-list-item {
+<style lang="less" scoped>
+.list-item {
 	width: 100%;
 	padding-top: 10px;
-
-	.test {
-		height: auto;
-	}
-
 	.list-content {
 		width: 90%;
 		margin: 0 auto;
@@ -88,7 +62,6 @@ export default class ArticList extends Vue {
 			align-items: center;
 			text-align: left;
 			padding: 5px 0 10px 0;
-
 			.userImg {
 				padding-top: 10px;
 				img {
@@ -102,7 +75,6 @@ export default class ArticList extends Vue {
 				font-size: 14px;
 				padding-top: 10px;
 				margin: 0 10px;
-
 				.title {
 					margin-bottom: 5px;
 					font-size: 16px;
@@ -111,13 +83,11 @@ export default class ArticList extends Vue {
 					text-overflow: ellipsis;
 					white-space: nowrap;
 				}
-
 				.detail {
 					color: #adadad;
 					display: flex;
 					justify-content: flex-start;
 					align-items: flex-end;
-
 					.authorname {
 						width: auto;
 						font-size: 12px;
@@ -125,7 +95,6 @@ export default class ArticList extends Vue {
 						text-overflow: ellipsis;
 						white-space: nowrap;
 					}
-
 					.publishtime {
 						width: auto;
 						margin-left: 10px;
@@ -147,7 +116,6 @@ export default class ArticList extends Vue {
 			margin-top: 8px;
 			font-size: 12px;
 			color: #adadad;
-
 			.icon-symbol {
 				height: 0.4rem;
 				width: 0.4rem;
@@ -158,11 +126,9 @@ export default class ArticList extends Vue {
 			// 	width: 33%;
 			// 	padding-bottom: 0.1rem;
 			// 	text-align: center;
-
 			// 	&.left {
 			// 		text-align: left;
 			// 	}
-
 			// 	&.right {
 			// 		text-align: right;
 			// 	}

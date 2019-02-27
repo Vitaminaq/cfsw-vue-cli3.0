@@ -1,7 +1,7 @@
 declare namespace Detail {
 	namespace ArticDetail {
 		export interface RequestParams {
-			id: string;
+			id: string | string[];
 		}
 		export interface Click {
 			name: Array<string>;

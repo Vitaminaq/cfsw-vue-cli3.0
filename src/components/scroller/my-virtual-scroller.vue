@@ -46,27 +46,15 @@ export default class MyVirtualScroller extends Vue {
 		if (!this.virtualScroller) {
 			this.init();
 		} else {
-			this.localList = val.map((item: any) => {
-				if (item.articId % 2 > 0) {
-					item.show = '<div>1234556668</div>';
-				} else {
-					item.show = '';
-				}
-				return item;
-			});
+			this.localList = val;
 			this.virtualScroller.itemSource = ItemSource.fromArray(
 				this.localList,
 				(c: any) => {
 					return c;
 				}
 			);
-			console.log(this.localList);
 			// this.virtualScroller.itemsChanged();
 		}
-	}
-	@Watch('pullUpstatus')
-	onchangestatus(val: any) {
-		console.log(val);
 	}
 
 	async mounted() {

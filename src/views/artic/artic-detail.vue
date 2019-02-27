@@ -86,7 +86,10 @@
 					</div>
 				</div>
 				<div v-else id="commentdiv">
-					<img id="motion" src="../assets/image/detail/input.png" />
+					<img
+						id="motion"
+						src="../../assets/image/detail/input.png"
+					/>
 					<input
 						id="input2"
 						v-model="commentmsg"
@@ -111,7 +114,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Time, timeFromNow, timestampToDateTime } from '@src/common/comjs';
-import CommentList from '@src/components/detail/comment-list.vue';
+import CommentList from '@src/components/artic/comment-list.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
 import config from '@src/config';
 
@@ -138,7 +141,10 @@ export default class Detail extends Vue {
 	};
 
 	get id(): string {
-		return this.$route.query.id;
+		const id = this.$route.query.id;
+		if (!id) return '1';
+		if (id[0]) return id[0];
+		return id as string;
 	}
 	get articDetail() {
 		return this.$vuexClass.detail.articDetail;

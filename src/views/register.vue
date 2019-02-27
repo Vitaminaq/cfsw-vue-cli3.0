@@ -5,7 +5,7 @@
 			<div id="tx">
 				<img
 					v-if="!headerImg"
-					src="../assets/man.png"
+					src="../assets/head_img.svg"
 					@click="clickUpload"
 				/>
 				<img v-else :src="headerImg" @click="clickUpload" />
