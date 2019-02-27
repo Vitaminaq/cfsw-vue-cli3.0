@@ -76,7 +76,8 @@ export default class login extends Vue {
 
 	mounted() {
 		if (!this.$route.query.nickname) return;
-		this.nickname = this.$route.query.nickname;
+		const nickname = this.$route.query.nickname;
+		this.nickname = Array.isArray(nickname) ? nickname[0] : nickname ;
 		this.getUserHeaderImg();
 	}
 	async getUserHeaderImg(): Promise<this> {
@@ -104,8 +105,9 @@ export default class login extends Vue {
 		}, 1000);
 		if (this.loginModule.res.code !== 0)
 			return (this as any).$toast(this.loginModule.res.data);
-		const from = this.$route.query.from || '/chatroom';
-		return this.$router.push({ path: from });
+			const from  = this.$route.query.from;
+		const to = from && Array.isArray(from) ? from[0] : from || '/chatroom';
+		return this.$router.push({ path: to });
 	}
 	close() {
 		return this.$router.go(-1);
