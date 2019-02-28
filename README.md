@@ -42,3 +42,5 @@ git add . + git cz
 如果使用的是vscode编辑器，我有配置.vscode工作区，下载Vetur，Prettier-Code formatter以及ESLint插件即可开启保存自动修复功能。
 #### 后台地址
 [https://github.com/Vitaminaq/node-mysql](https://github.com/Vitaminaq/node-mysql)
+#### tips
+该分支可能有些模块跑不起来，因为被我用于插件开发实验了，改得零零散散的，还望见谅。
