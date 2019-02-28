@@ -18,15 +18,17 @@
 				</template>
 			</scroller>
 
-			<!-- <my-virtual-scroller
-				:pull-down-status="pullDownStatus"
-				@pullUp="pullUp"
-				:pull-upstatus="pullUpStatus"
-				:list-item-component="ArticList"
-				@dropDown="dropDown"
-				:list="list"
-			>
-			</my-virtual-scroller> -->
+			<!--
+				<my-virtual-scroller
+					:pull-down-status="pullDownStatus"
+					@pullUp="pullUp"
+					:pull-upstatus="pullUpStatus"
+					:list-item-component="ArticList"
+					@dropDown="dropDown"
+					:list="list"
+				>
+				</my-virtual-scroller>
+			-->
 		</div>
 		<footer-content />
 	</div>

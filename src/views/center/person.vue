@@ -6,18 +6,20 @@
 		</div>
 		<div class="topcut" />
 		<ul class="listit">
-			<!-- <li class="lih">
-				<img id="ed" src="../../assets/person/selected.png" />
-				<div class="litxt">我的积分</div>
-			</li>
-			<li class="lih">
-				<img src="../../assets/person/help.png" />
-				<div class="litxt">我的收藏</div>
-			</li>
-			<li class="lih">
-				<img src="../../assets/person/phone.png" />
-				<div class="litxt">联系客服</div>
-			</li> -->
+			<!--
+				<li class="lih">
+					<img id="ed" src="../../assets/person/selected.png" />
+					<div class="litxt">我的积分</div>
+				</li>
+				<li class="lih">
+					<img src="../../assets/person/help.png" />
+					<div class="litxt">我的收藏</div>
+				</li>
+				<li class="lih">
+					<img src="../../assets/person/phone.png" />
+					<div class="litxt">联系客服</div>
+				</li>
+			-->
 		</ul>
 		<footer-content />
 	</div>
