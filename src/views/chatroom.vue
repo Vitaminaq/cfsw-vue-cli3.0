@@ -2,7 +2,7 @@
 	<div class="chatroom">
 		<logo-header />
 		<div class="wrapper">
-			<scroller
+			<!-- <scroller
 				:pull-down-status="pullDownStatus"
 				@pullUp="pullUp"
 				:pull-upstatus="pullUpStatus"
@@ -16,7 +16,8 @@
 						@click.native="todetail(item.articId)"
 					/>
 				</template>
-			</scroller>
+			</scroller> -->
+			<VirtualPool :items="list" :minHeight="80" />
 
 			<!--
 				<my-virtual-scroller
@@ -41,6 +42,7 @@ import MyVirtualScroller from '@src/components/scroller/my-virtual-scroller.vue'
 import ArticList from '@src/components/artic-list/artic-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
+import VirtualPool from '@src/lib/vue-virtual-scroll/virtual-pool.vue';
 
 @Component({
 	components: {
@@ -48,7 +50,8 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 		FooterContent,
 		LogoHeader,
 		MyVirtualScroller,
-		ArticList
+		ArticList,
+		VirtualPool
 	}
 })
 export default class ChatRoom extends Vue {
@@ -66,7 +69,117 @@ export default class ChatRoom extends Vue {
 		return this.articList.pullUpStatus;
 	}
 	get list() {
-		return this.articList.list;
+		// return this.articList.list;
+		return [
+			{
+				articId: 1,
+				clicknum: 0,
+				commentnum: 0,
+				creatAt: '1550911935818',
+				headimg: '/static/images/大飞哥.png',
+				msg: '热帖热帖',
+				title: '的方式',
+				uid: 2,
+				updateAt: null,
+				viewnum: 44
+			},
+			{
+				articId: 2,
+				clicknum: 0,
+				commentnum: 0,
+				creatAt: '1550911935818',
+				headimg: '/static/images/大飞哥.png',
+				msg: '热帖热帖',
+				title: '的方式',
+				uid: 2,
+				updateAt: null,
+				viewnum: 44
+			},
+			{
+				articId: 3,
+				clicknum: 0,
+				commentnum: 0,
+				creatAt: '1550911935818',
+				headimg: '/static/images/大飞哥.png',
+				msg: '热帖热帖',
+				title: '的方式',
+				uid: 2,
+				updateAt: null,
+				viewnum: 44
+			},
+			{
+				articId: 4,
+				clicknum: 0,
+				commentnum: 0,
+				creatAt: '1550911935818',
+				headimg: '/static/images/大飞哥.png',
+				msg: '热帖热帖',
+				title: '的方式',
+				uid: 2,
+				updateAt: null,
+				viewnum: 44
+			},
+			{
+				articId: 5,
+				clicknum: 0,
+				commentnum: 0,
+				creatAt: '1550911935818',
+				headimg: '/static/images/大飞哥.png',
+				msg: '热帖热帖',
+				title: '的方式',
+				uid: 2,
+				updateAt: null,
+				viewnum: 44
+			},
+			{
+				articId: 6,
+				clicknum: 0,
+				commentnum: 0,
+				creatAt: '1550911935818',
+				headimg: '/static/images/大飞哥.png',
+				msg: '热帖热帖',
+				title: '的方式',
+				uid: 2,
+				updateAt: null,
+				viewnum: 44
+			},
+			{
+				articId: 7,
+				clicknum: 0,
+				commentnum: 0,
+				creatAt: '1550911935818',
+				headimg: '/static/images/大飞哥.png',
+				msg: '热帖热帖',
+				title: '的方式',
+				uid: 2,
+				updateAt: null,
+				viewnum: 44
+			},
+			{
+				articId: 8,
+				clicknum: 0,
+				commentnum: 0,
+				creatAt: '1550911935818',
+				headimg: '/static/images/大飞哥.png',
+				msg: '热帖热帖',
+				title: '的方式',
+				uid: 2,
+				updateAt: null,
+				viewnum: 44
+			},
+			{
+				articId: 9,
+				clicknum: 0,
+				commentnum: 0,
+				creatAt: '1550911935818',
+				headimg: '/static/images/大飞哥.png',
+				msg: '热帖热帖',
+				title: '的方式',
+				uid: 2,
+				updateAt: null,
+				viewnum: 44
+			}
+		];
 	}
 	get ArticList() {
 		return ArticList;
