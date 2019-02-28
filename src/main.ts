@@ -13,6 +13,11 @@ import LocalToast from '@src/components/toast/toast';
 // import 'animate.min.css';
 import './registerServiceWorker';
 import VueHtml5Editor from 'vue-html5-editor';
+import VueImgLazyLoad from 'vue-images-lazy-load';
+// import VueImgLazyLoad from '@src/lib/vue-img-lazy-load-common.js';
+// // // import VueDomLazyLoad from '@src/lib/vue-dom-lazy-load';
+
+Vue.use(VueImgLazyLoad);
 const options = {
 	showModuleName: true,
 	// 自定义各个图标的class，默认使用的是font-awesome提供的图标
@@ -111,6 +116,7 @@ class LocalVue extends Vue {
 		this.$mount('#app');
 		svgSprite(); // 注入svg-sprite
 		Vue.prototype.myrouter = this.$router;
+		(window as any).app = this;
 	}
 }
 export default new LocalVue();

@@ -2,7 +2,14 @@
 	<div class="list-item">
 		<div class="list-content">
 			<div class="artic-content">
-				<div class="userImg"><img :src="baseUrl" /></div>
+				<div class="userImg">
+					<img
+						:src="baseUrl"
+						v-img-lazy-load="{
+							url: `https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2097124721,3074829049&fm=26&gp=0.jpg`
+						}"
+					/>
+				</div>
 				<div class="author">
 					<div class="title">{{ item.title }}</div>
 					<div class="detail">
@@ -32,7 +39,13 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Time } from '@src/common/comjs';
 import config from '@src/config';
-@Component
+// import { directive } from '@src/lib/vue-img-lazy-load-common.js';
+
+@Component({
+	// directives: {
+	// 	'img-lazy-load': directive
+	// }
+})
 export default class ArticList extends Vue {
 	@Prop({ default: () => {} }) item!: Loader.ListItem;
 	get baseUrl() {
