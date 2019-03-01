@@ -2,21 +2,23 @@
 	<div class="chatroom">
 		<logo-header />
 		<div class="wrapper">
-			<!-- <scroller
-				:pull-down-status="pullDownStatus"
-				@pullUp="pullUp"
-				:pull-upstatus="pullUpStatus"
-				@dropDown="dropDown"
-				:list="list"
-				:minItemHeight="minItemHeight"
-			>
-				<template slot-scope="{ item }">
-					<artic-list
-						:item="item"
-						@click.native="todetail(item.articId)"
-					/>
-				</template>
-			</scroller> -->
+			<!--
+				<scroller
+					:pull-down-status="pullDownStatus"
+					@pullUp="pullUp"
+					:pull-upstatus="pullUpStatus"
+					@dropDown="dropDown"
+					:list="list"
+					:minItemHeight="minItemHeight"
+				>
+					<template slot-scope="{ item }">
+						<artic-list
+							:item="item"
+							@click.native="todetail(item.articId)"
+						/>
+					</template>
+				</scroller>
+			-->
 			<VirtualPool :items="list" :minHeight="80" />
 
 			<!--

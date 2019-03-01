@@ -8,11 +8,22 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component<VirtualPool>({})
 export default class VirtualPool extends Vue {
-    @Prop({ default: () => {} }) items!: any;
+    @Prop({ default: () => [] }) items!: Array<any>;
     @Prop({ default: 0 }) minHeight!: number | string;
 
     useDoms: any = [];
 
+    get virtualList() {
+        let arr:any = [];
+        this.items.forEach((item) => {
+            arr.push({
+                item,
+                height: this.minHeight,
+                id: item.articId
+            })
+        })
+        return arr;
+    }
     async mounted() {
         await this.$nextTick();
         const virtualPool: any = Array.isArray(this.$refs.virtualPool) ?

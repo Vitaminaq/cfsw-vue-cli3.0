@@ -61,11 +61,11 @@
 						type="text"
 						name=""
 						placeholder="说点什么..."
-						@focus="sayit()"
+						@focus="sayit();"
 					/>
 					<div
 						class="operate-artic oprate-click"
-						@click="agreeAuthors()"
+						@click="agreeAuthors();"
 					>
 						<svg-icon
 							name="click"
@@ -97,7 +97,7 @@
 						type="text"
 						name=""
 						placeholder="可使用输入法自带表情"
-						@keyup="filter()"
+						@keyup="filter();"
 					/>
 					<my-button
 						:disabled="button.disabled"

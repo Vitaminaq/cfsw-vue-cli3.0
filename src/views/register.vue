@@ -13,7 +13,7 @@
 					id="file"
 					ref="uploadFile"
 					type="file"
-					@change="upload($event)"
+					@change="upload($event);"
 				/>
 			</div>
 			<div class="inputdiv">
