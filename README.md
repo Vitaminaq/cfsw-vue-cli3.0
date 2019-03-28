@@ -4,6 +4,7 @@
 ### 前端
  * 基于vue-cli3.0的typvuex-class,请移步[master分支](https://github.com/Vitaminaq/cfsw-vue-cli3.0)。
  * 基于react+redux+typescript的项目重构,请移步[react-ts](https://github.com/Vitaminaq/react-cfsw)。
+ * 基于react+next+redux+ts的ssr,请移步[react-next-ssr](https://github.com/Vitaminaq/react-cfsw/tree/next-ssr)。
 ### 后台
  * [node+mysql](https://github.com/Vitaminaq/node-mysql)。
 ## Build Setup
