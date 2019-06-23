@@ -3,7 +3,7 @@ interface Config {
 }
 
 const CONFIG:Config = {
-    BASE_URL: 'http://127.0.0.1:3005'
+    BASE_URL: 'http://129.28.167.2:3005'
 }
 
 export default CONFIG;
