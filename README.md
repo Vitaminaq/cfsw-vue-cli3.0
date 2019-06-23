@@ -2,6 +2,7 @@
  * 基于vue-cli 2.0的srr(服务端渲染)位于[ssr-vue-cli-2.0](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/ssr-vue-cli-2.0)分支
  * 基于react+redux+typescript的项目重构,请移步[react-ts](https://github.com/Vitaminaq/react-cfsw)。
  * 基于react+next+redux+ts的ssr,请移步[react-next-ssr](https://github.com/Vitaminaq/react-cfsw/tree/next-ssr)。
+ * 基于flutter的移动app重构,请移步[flutter-cfsw](https://github.com/Vitaminaq/flutter-cfsw)。
 ## Build Setup
 项目正在开发中，界面没怎么设计，随便撸了下，欢迎大家加入讨论。
 
