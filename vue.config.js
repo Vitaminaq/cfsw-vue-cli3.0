@@ -1,4 +1,5 @@
 const config = require('./config/config.local');
+const SSrPlugin = require('./packages/vue-ssr');
 const path = require('path');
 
 module.exports = {
@@ -12,6 +13,9 @@ module.exports = {
 			'@src': path.resolve(__dirname, './src')
 		};
 	},
+	// pluginOptions: {
+	// 	SSrPlugin
+	// },
 	css: {
 		loaderOptions: {
 			postcss: {
