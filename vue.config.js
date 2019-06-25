@@ -1,6 +1,10 @@
 const config = require('./config/config.local');
-const SSrPlugin = require('./packages/vue-ssr');
 const path = require('path');
+
+console.log(
+	process.env.NODE_TYPE,
+	'============================================='
+);
 
 module.exports = {
 	baseUrl: config.baseUrl,
@@ -12,10 +16,12 @@ module.exports = {
 			vue$: 'vue/dist/vue.esm.js',
 			'@src': path.resolve(__dirname, './src')
 		};
+		webpackConfig.entry = './src/entry-client.ts';
+		console.log(webpackConfig, 'ttttttttttttttttttttttttttttttt');
 	},
-	// pluginOptions: {
-	// 	SSrPlugin
-	// },
+	chainWebpack: (config) => {
+		console.log(config, 'wwwwwwwwwwwwwwww');
+	},
 	css: {
 		loaderOptions: {
 			postcss: {

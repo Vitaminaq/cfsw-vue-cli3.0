@@ -8,6 +8,12 @@ module.exports = (api, projectOptions) => {
 	);
 	api.chainWebpack((webpackConfig) => {
 		// 通过 webpack-chain 修改 webpack 配置
+		// Default entry
+		webpackConfig
+			.entry('app')
+			.clear()
+			.add(config.entry('client'));
+		webpackConfig.modes.test = 'test';
 		console.log(webpackConfig, 'oooooooooooooooooooooooooooo');
 	});
 
@@ -23,12 +29,23 @@ module.exports = (api, projectOptions) => {
 			description: 'build for production (SSR)'
 		},
 		(args) => {
-			// 注册 `vue-cli-service test`
+			api.chainWebpack();
+			console.log(args, 'kkkkkkkkkkkkkkkkkkkkkkkkkkk');
+		}
+	);
+	api.registerCommand(
+		'ssr:serve',
+		{
+			description: 'build for production (SSR)'
+		},
+		(args) => {
+			api.chainWebpack();
 			console.log(args, 'kkkkkkkkkkkkkkkkkkkkkkkkkkk');
 		}
 	);
 };
 module.exports.defaultModes = {
-	'ssr:build': 'production',
-	'ssr:serve': 'development'
+	// 该环境参数会传入webpack modes对象里，如modes: {'ssr:build': 'production'}
+	'ssr:b': 'production',
+	'ssr:s': 'development'
 };
