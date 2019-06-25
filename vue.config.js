@@ -17,6 +17,10 @@ module.exports = {
 			'@src': path.resolve(__dirname, './src')
 		};
 		webpackConfig.entry = './src/entry-client.ts';
+		webpackConfig.plugins.delete('hmr');
+		webpackConfig.plugins.delete('preload');
+		webpackConfig.plugins.delete('prefetch');
+
 		console.log(webpackConfig, 'ttttttttttttttttttttttttttttttt');
 	},
 	chainWebpack: (config) => {

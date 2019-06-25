@@ -1,38 +1,7 @@
 <template>
 	<div class="chatroom">
 		<logo-header />
-		<div class="wrapper">
-			<!--
-				<scroller
-					:pull-down-status="pullDownStatus"
-					@pullUp="pullUp"
-					:pull-upstatus="pullUpStatus"
-					@dropDown="dropDown"
-					:list="list"
-					:minItemHeight="minItemHeight"
-				>
-					<template slot-scope="{ item }">
-						<artic-list
-							:item="item"
-							@click.native="todetail(item.articId)"
-						/>
-					</template>
-				</scroller>
-			-->
-			<VirtualPool :items="list" :minHeight="80" />
-
-			<!--
-				<my-virtual-scroller
-					:pull-down-status="pullDownStatus"
-					@pullUp="pullUp"
-					:pull-upstatus="pullUpStatus"
-					:list-item-component="ArticList"
-					@dropDown="dropDown"
-					:list="list"
-				>
-				</my-virtual-scroller>
-			-->
-		</div>
+		<div class="wrapper"></div>
 		<footer-content />
 	</div>
 </template>
@@ -40,20 +9,16 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { Time } from '@src/common/comjs';
 import Scroller from '@src/components/scroller/scroller.vue';
-import MyVirtualScroller from '@src/components/scroller/my-virtual-scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
-import VirtualPool from '@src/lib/vue-virtual-scroll/virtual-pool.vue';
 
 @Component({
 	components: {
 		Scroller,
 		FooterContent,
 		LogoHeader,
-		MyVirtualScroller,
-		ArticList,
-		VirtualPool
+		ArticList
 	}
 })
 export default class ChatRoom extends Vue {
