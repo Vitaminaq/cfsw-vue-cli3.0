@@ -7,16 +7,18 @@ export interface Context {
 }
 
 class EntryServer extends LocalVue {
-	public constructor() {
+	context: Context;
+	public constructor(context: Context) {
 		super();
+		this.context = context;
 	}
-	public init(context: Context) {
+	public init() {
 		return new Promise((resolve, reject) => {
-			const { app, router, store } = this;
+			const { app, router, store, context } = this;
 
 			const { url } = context;
 			const { fullPath } = router.resolve(url).route;
-
+			console.log(context.url, fullPath, 'ddddddddddddddddddddddddddd');
 			// 判断req里的请求地址是否等于当前路由
 			if (fullPath !== url) {
 				return reject({ url: fullPath });
@@ -45,6 +47,10 @@ class EntryServer extends LocalVue {
 					.then(() => {
 						// 把服务端请求到的数据，注入windows中的__INITIAL_STATE__中，便于客户端接管vuex store
 						context.state = store.state;
+						// console.log(
+						// 	app,
+						// 	'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii'
+						// );
 						resolve(app);
 					})
 					.catch(reject);
@@ -53,4 +59,4 @@ class EntryServer extends LocalVue {
 	}
 }
 
-export default (context: Context) => new EntryServer().init(context);
+export default (context: Context) => new EntryServer(context).init();

@@ -176,6 +176,9 @@ export default class ChatRoom extends Vue {
 		}
 		(this as any).$toast(this.view.res.data);
 	}
+	render(createElement: any) {
+		return createElement('h1', '5496787');
+	}
 	beforeDestroy() {
 		if (this.$route.name === 'publish') {
 			this.articList.$clearData();

@@ -1,133 +1,163 @@
-const path = require('path')
-const MFS = require('memory-fs')
-const webpack = require('webpack')
-const chalk = require('chalk')
+const path = require('path');
+const MFS = require('memory-fs');
+const webpack = require('webpack');
+const chalk = require('chalk');
 
-const config = require('./config')
+const config = require('./config');
 
-module.exports.setupDevServer = ({ server, templatePath, onUpdate }) => new Promise((resolve, reject) => {
-  const service = config.service
-  if (!service) {
-    reject(new Error('No cli-service available. Make sure you ran the command with `vue-cli-service`.'))
-    return
-  }
+module.exports.setupDevServer = ({ server, templatePath, onUpdate }) =>
+	new Promise((resolve, reject) => {
+		const service = config.service;
+		if (!service) {
+			reject(
+				new Error(
+					'No cli-service available. Make sure you ran the command with `vue-cli-service`.'
+				)
+			);
+			return;
+		}
 
-  // Read file in real or virtual file systems
-  const readFile = (fs, file) => {
-    try {
-      return fs.readFileSync(path.join(clientConfig.output.path, file), 'utf-8')
-    } catch (e) {}
-  }
+		// Read file in real or virtual file systems
+		const readFile = (fs, file) => {
+			try {
+				return fs.readFileSync(
+					path.join(clientConfig.output.path, file),
+					'utf-8'
+				);
+			} catch (e) {}
+		};
 
-  const { getWebpackConfigs } = require('./webpack')
-  const [clientConfig, serverConfig] = getWebpackConfigs(service)
+		const { getWebpackConfigs } = require('./webpack');
+		const [clientConfig, serverConfig] = getWebpackConfigs(service);
+		console.log(
+			clientConfig,
+			'ooooooooooooooooooooooooooooooooooooooooooo'
+		);
 
-  let serverBundle
-  let template
-  let clientManifest
+		let serverBundle;
+		let template;
+		let clientManifest;
 
-  let firstRun = true
-  let copied = ''
-  const url = `http://localhost:${config.port}`
+		let firstRun = true;
+		let copied = '';
+		const url = `http://localhost:${config.port}`;
 
-  const update = () => {
-    if (serverBundle && clientManifest) {
-      resolve()
-      onUpdate({
-        serverBundle,
-      }, {
-        template,
-        clientManifest,
-      })
-    }
-  }
+		const update = () => {
+			if (serverBundle && clientManifest) {
+				resolve();
+				onUpdate(
+					{
+						serverBundle
+					},
+					{
+						template,
+						clientManifest
+					}
+				);
+			}
+		};
 
-  // modify client config to work with hot middleware
-  clientConfig.entry.app = ['webpack-hot-middleware/client', ...clientConfig.entry.app]
-  clientConfig.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-  )
+		// modify client config to work with hot middleware
+		clientConfig.entry.app = [
+			'webpack-hot-middleware/client',
+			...clientConfig.entry.app
+		];
+		clientConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-  // dev middleware
-  const clientCompiler = webpack(clientConfig)
-  const devMiddleware = require('webpack-dev-middleware')(clientCompiler, {
-    publicPath: clientConfig.output.publicPath,
-    noInfo: true,
-    stats: 'none',
-    logLevel: 'error',
-    index: false,
-  })
-  server.use(devMiddleware)
+		// dev middleware
+		const clientCompiler = webpack(clientConfig);
+		const devMiddleware = require('webpack-dev-middleware')(
+			clientCompiler,
+			{
+				publicPath: clientConfig.output.publicPath,
+				noInfo: true,
+				stats: 'none',
+				logLevel: 'error',
+				index: false
+			}
+		);
+		server.use(devMiddleware);
 
-  clientCompiler.hooks.done.tap('cli ssr', async stats => {
-    const jsonStats = stats.toJson()
-    if (stats.hasErrors()) {
-      console.log(chalk.red('Client errors'))
-      jsonStats.errors.forEach(err => console.error(err))
-    }
-    if (stats.hasWarnings()) {
-      console.log(chalk.yellow('Client warnings'))
-      jsonStats.warnings.forEach(err => console.warn(err))
-    }
-    if (stats.hasErrors()) return
-    clientManifest = JSON.parse(readFile(
-      devMiddleware.fileSystem,
-      'vue-ssr-client-manifest.json'
-    ))
+		clientCompiler.hooks.done.tap('cli ssr', async (stats) => {
+			const jsonStats = stats.toJson();
+			if (stats.hasErrors()) {
+				console.log(chalk.red('Client errors'));
+				jsonStats.errors.forEach((err) => console.error(err));
+			}
+			if (stats.hasWarnings()) {
+				console.log(chalk.yellow('Client warnings'));
+				jsonStats.warnings.forEach((err) => console.warn(err));
+			}
+			if (stats.hasErrors()) return;
+			clientManifest = JSON.parse(
+				readFile(
+					devMiddleware.fileSystem,
+					'vue-ssr-client-manifest.json'
+				)
+			);
 
-    // HTML Template
-    template = devMiddleware.fileSystem.readFileSync(templatePath, 'utf8')
+			// HTML Template
+			template = devMiddleware.fileSystem.readFileSync(
+				templatePath,
+				'utf8'
+			);
 
-    update()
-    onCompilationCompleted()
-  })
+			update();
+			onCompilationCompleted();
+		});
 
-  clientCompiler.hooks.failed.tap('cli ssr', (error) => {
-    console.log(chalk.red('Client compilation failed'))
-    console.error(error)
-  })
+		clientCompiler.hooks.failed.tap('cli ssr', (error) => {
+			console.log(chalk.red('Client compilation failed'));
+			console.error(error);
+		});
 
-  // hot module replacement middleware
-  server.use(require('webpack-hot-middleware')(clientCompiler, { heartbeat: 5000 }))
+		// hot module replacement middleware
+		server.use(
+			require('webpack-hot-middleware')(clientCompiler, {
+				heartbeat: 5000
+			})
+		);
 
-  // watch and update server renderer
-  const serverCompiler = webpack(serverConfig)
-  const serverMfs = new MFS()
-  serverCompiler.outputFileSystem = serverMfs
-  serverCompiler.watch({}, (err, stats) => {
-    if (err) {
-      console.log(chalk.red('Server critical error'))
-      throw err
-    }
-    const jsonStats = stats.toJson()
-    if (stats.hasErrors()) {
-      console.log(chalk.red('Server errors'))
-      jsonStats.errors.forEach(err => console.error(err))
-    }
-    if (stats.hasWarnings()) {
-      console.log(chalk.yellow('Server warnings'))
-      jsonStats.warnings.forEach(err => console.warn(err))
-    }
-    if (stats.hasErrors()) return
-    // read bundle generated by vue-ssr-webpack-plugin
-    serverBundle = JSON.parse(readFile(serverMfs, 'vue-ssr-server-bundle.json'))
-    update()
-    onCompilationCompleted()
-  })
+		// watch and update server renderer
+		const serverCompiler = webpack(serverConfig);
+		const serverMfs = new MFS();
+		serverCompiler.outputFileSystem = serverMfs;
+		serverCompiler.watch({}, (err, stats) => {
+			if (err) {
+				console.log(chalk.red('Server critical error'));
+				throw err;
+			}
+			const jsonStats = stats.toJson();
+			if (stats.hasErrors()) {
+				console.log(chalk.red('Server errors'));
+				jsonStats.errors.forEach((err) => console.error(err));
+			}
+			if (stats.hasWarnings()) {
+				console.log(chalk.yellow('Server warnings'));
+				jsonStats.warnings.forEach((err) => console.warn(err));
+			}
+			if (stats.hasErrors()) return;
+			// read bundle generated by vue-ssr-webpack-plugin
+			serverBundle = JSON.parse(
+				readFile(serverMfs, 'vue-ssr-server-bundle.json')
+			);
+			update();
+			onCompilationCompleted();
+		});
 
-  function onCompilationCompleted () {
-    if (firstRun) {
-      firstRun = false
-      require('clipboardy').write(url)
-      copied = chalk.dim('(copied to clipboard)')
-    } else {
-      copied = ''
-    }
+		function onCompilationCompleted() {
+			if (firstRun) {
+				firstRun = false;
+				require('clipboardy').write(url);
+				copied = chalk.dim('(copied to clipboard)');
+			} else {
+				copied = '';
+			}
 
-    setTimeout(() => {
-      console.log()
-      console.log(`  App running at:`)
-      console.log(`  - Local:   ${chalk.cyan(url)} ${copied}`)
-    })
-  }
-})
+			setTimeout(() => {
+				console.log();
+				console.log(`  App running at:`);
+				console.log(`  - Local:   ${chalk.cyan(url)} ${copied}`);
+			});
+		}
+	});

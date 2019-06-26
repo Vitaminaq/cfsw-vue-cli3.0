@@ -121,7 +121,7 @@ interface LocalComponentOptions extends ComponentOptions<Vue> {
 // export default new LocalVue();
 
 export default class LocalVue extends Vue {
-	public app: Vue;
+	public app: this;
 	public store: localStore;
 	public router: localRouter;
 	constructor() {

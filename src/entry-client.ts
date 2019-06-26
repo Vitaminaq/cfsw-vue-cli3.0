@@ -43,6 +43,9 @@ Vue.mixin({
 class EntryServer extends LocalVue {
 	public constructor() {
 		super();
+		console.log('oooooooooooooooooooooooooooo');
+		this.initState();
+		this.onRouteReady();
 	}
 	public initState() {
 		// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
@@ -82,7 +85,8 @@ class EntryServer extends LocalVue {
 	}
 }
 
-export default new EntryServer();
+new EntryServer();
+// export default new EntryServer();
 
 declare global {
 	interface Window {
