@@ -16,7 +16,9 @@ const PersonalCenter = () =>
 const ArticDetail = () =>
 	import(/* webpackChunkName: "artic" */ '@src/views/artic/artic-detail.vue');
 const ArticComment = () =>
-	import(/* webpackChunkName: "artic" */ '@src/views/artic/artic-comment.vue');
+	import(
+		/* webpackChunkName: "artic" */ '@src/views/artic/artic-comment.vue'
+	);
 import { CreateElement } from 'vue';
 
 const RouteView = {
@@ -44,11 +46,11 @@ const RorterList: Array<RouteConfig> = [
 		redirect: 'chatroom',
 		component: Home
 	},
-	{
-		path: '/chatroom',
-		name: 'chatroom',
-		component: Home
-	},
+	// {
+	// 	path: '/chatroom',
+	// 	name: 'chatroom',
+	// 	component: Home
+	// },
 	{
 		path: '/publish',
 		name: 'publish',

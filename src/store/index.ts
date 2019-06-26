@@ -13,6 +13,7 @@ Vue.use(Vuex);
 
 export class BaseVuexClass extends VuexClass {
 	readonly namespaced: boolean = true;
+	plugins: Array<any>;
 	chatRoom: ChatRoom;
 	detail: Detail;
 	publish: Publish;

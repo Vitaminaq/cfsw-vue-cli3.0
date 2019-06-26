@@ -1,11 +1,6 @@
 const config = require('./config/config.local');
 const path = require('path');
 
-console.log(
-	process.env.NODE_TYPE,
-	'============================================='
-);
-
 module.exports = {
 	baseUrl: config.baseUrl,
 	lintOnSave: process.env.NODE_ENV !== 'production',
@@ -16,12 +11,6 @@ module.exports = {
 			vue$: 'vue/dist/vue.esm.js',
 			'@src': path.resolve(__dirname, './src')
 		};
-		webpackConfig.entry = './src/entry-client.ts';
-		webpackConfig.plugins.delete('hmr');
-		webpackConfig.plugins.delete('preload');
-		webpackConfig.plugins.delete('prefetch');
-
-		console.log(webpackConfig, 'ttttttttttttttttttttttttttttttt');
 	},
 	chainWebpack: (config) => {
 		console.log(config, 'wwwwwwwwwwwwwwww');

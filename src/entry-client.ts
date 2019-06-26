@@ -1,5 +1,5 @@
 import Vue from 'vue';
-// import 'es6-promise/auto';
+import 'es6-promise/auto';
 import LocalVue from './main';
 // import 'vue2-toast/lib/toast.css';
 // import Toast from 'vue2-toast';

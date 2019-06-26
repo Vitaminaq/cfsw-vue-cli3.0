@@ -61,11 +61,11 @@
 						type="text"
 						name=""
 						placeholder="说点什么..."
-						@focus="sayit();"
+						@focus="sayit()"
 					/>
 					<div
 						class="operate-artic oprate-click"
-						@click="agreeAuthors();"
+						@click="agreeAuthors()"
 					>
 						<svg-icon
 							name="click"
@@ -97,7 +97,7 @@
 						type="text"
 						name=""
 						placeholder="可使用输入法自带表情"
-						@keyup="filter();"
+						@keyup="filter()"
 					/>
 					<my-button
 						:disabled="button.disabled"
@@ -117,6 +117,7 @@ import { Time, timeFromNow, timestampToDateTime } from '@src/common/comjs';
 import CommentList from '@src/components/artic/comment-list.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
 import config from '@src/config';
+import { getQueryParams } from '@src/services/publics';
 
 @Component({
 	components: {
@@ -140,11 +141,8 @@ export default class Detail extends Vue {
 		}
 	};
 
-	get id(): string {
-		const id = this.$route.query.id;
-		if (!id) return '1';
-		if (id[0]) return id[0];
-		return id as string;
+	get id(): string | null {
+		return getQueryParams(this.$route.query.id);
 	}
 	get articDetail() {
 		return this.$vuexClass.detail.articDetail;
@@ -191,15 +189,15 @@ export default class Detail extends Vue {
 		// }
 	}
 	async getData(): Promise<this> {
+		const { id } = this;
+		if (!id) return this;
 		let params: Detail.ArticDetail.RequestParams = {
-			id: this.id
+			id
 		};
 		this.articDetail.$assignParams(params);
 		await this.articDetail.getArticDetail();
-		this.articMessage = this.articDetail.dataStore[this.id].articMessage;
-		this.headImg = `${config.BASE_URL}${
-			this.articDetail.dataStore[this.id].articMessage.headimg
-		}`;
+		this.articMessage = this.articDetail.dataStore[id].articMessage;
+		this.headImg = `${config.BASE_URL}${this.articDetail.dataStore[id].articMessage.headimg}`;
 		// this.articMessage.msg = this.articMessage.msg.replace(/ /g, '&nbsp;');
 		return this;
 	}
@@ -223,6 +221,7 @@ export default class Detail extends Vue {
 		return timestampToDateTime(time);
 	}
 	async commentit(): Promise<this> {
+		if (!this.id) return this;
 		let params = {
 			articId: this.id,
 			msg: this.commentmsg
@@ -243,12 +242,12 @@ export default class Detail extends Vue {
 			return this;
 		}
 		await this.getData();
-		// Toast('', this.commentData.mes);
 		this.commentmsg = '';
 		this.hidshow = true;
 		return this;
 	}
 	async agreeAuthors(): Promise<this> {
+		if (!this.id) return this;
 		let params = {
 			id: this.id
 		};
@@ -275,6 +274,7 @@ export default class Detail extends Vue {
 		return this;
 	}
 	async agreeit(commentId: number, index: number): Promise<this> {
+		if (!this.id) return this;
 		let params = {
 			id: this.id,
 			commentId: commentId

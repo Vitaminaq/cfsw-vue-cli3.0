@@ -45,10 +45,10 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { Button } from '@src/components/mybutton/mybutton.vue';
 import config from '@src/config';
+import { getQueryParams } from '@src/services/publics';
 
 @Component
 export default class login extends Vue {
-	nickname: string | string[] = '';
 	password: string = '';
 
 	button: Button = {
@@ -73,24 +73,32 @@ export default class login extends Vue {
 		if (!this.headerImgUrl) return;
 		return `${config.BASE_URL}${this.headerImgUrl}`;
 	}
+	get nickname(): string | null {
+		return getQueryParams(this.$route.query.nickname);
+	}
+	get from(): string | null {
+		return getQueryParams(this.$route.query.from);
+	}
 
 	mounted() {
-		if (!this.$route.query.nickname) return;
-		const nickname = this.$route.query.nickname;
-		this.nickname = Array.isArray(nickname) ? nickname[0] : nickname;
+		if (!this.nickname) return;
 		this.getUserHeaderImg();
 	}
 	async getUserHeaderImg(): Promise<this> {
+		const { nickname } = this;
+		if (!nickname) return this;
 		const params = {
-			nickname: this.nickname
+			nickname
 		};
 		this.userHeaderImg.$assignParams(params);
 		await this.userHeaderImg.getUserHeaderImg();
 		return this;
 	}
 	async login() {
+		const { nickname } = this;
+		if (!nickname) return this;
 		const params = {
-			nickname: this.nickname,
+			nickname,
 			password: this.password
 		};
 		if ((this as any).isEmpty(params)) {
@@ -105,8 +113,7 @@ export default class login extends Vue {
 		}, 1000);
 		if (this.loginModule.res.code !== 0)
 			return (this as any).$toast(this.loginModule.res.data);
-		const from = this.$route.query.from;
-		const to = from && Array.isArray(from) ? from[0] : from || '/chatroom';
+		const to = this.from ? this.from : '/chatroom';
 		return this.$router.push({ path: to });
 	}
 	close() {

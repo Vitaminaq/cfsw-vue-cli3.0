@@ -12,23 +12,24 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import CommentList from '@src/components/artic/comment-list.vue';
+import { getQueryParams } from '@src/services/publics';
+
 @Component({
 	components: {
 		CommentList
 	}
 })
 export default class ArticComment extends Vue {
-	get id(): string {
-		const id = this.$route.query.id;
-		if (!id) return '1';
-		if (id[0]) return id[0];
-		return id as string;
+	get id(): string | null {
+		return getQueryParams(this.$route.query.id);
 	}
 	get articDetail() {
 		return this.$vuexClass.detail.articDetail;
 	}
 	get data() {
-		return this.articDetail.state.dataStore[this.id];
+		const { id } = this;
+		if (!id) return '';
+		return this.articDetail.state.dataStore[id];
 	}
 
 	mounted() {
