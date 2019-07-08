@@ -12,9 +12,7 @@ module.exports = {
 			'@src': path.resolve(__dirname, './src')
 		};
 	},
-	chainWebpack: (config) => {
-		console.log(config, 'wwwwwwwwwwwwwwww');
-	},
+	chainWebpack: (config) => {},
 	css: {
 		loaderOptions: {
 			postcss: {

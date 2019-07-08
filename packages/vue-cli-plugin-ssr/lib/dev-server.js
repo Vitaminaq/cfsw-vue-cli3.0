@@ -29,10 +29,6 @@ module.exports.setupDevServer = ({ server, templatePath, onUpdate }) =>
 
 		const { getWebpackConfigs } = require('./webpack');
 		const [clientConfig, serverConfig] = getWebpackConfigs(service);
-		console.log(
-			clientConfig,
-			'ooooooooooooooooooooooooooooooooooooooooooo'
-		);
 
 		let serverBundle;
 		let template;

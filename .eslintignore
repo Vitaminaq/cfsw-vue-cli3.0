@@ -11,3 +11,4 @@ lib/*
 src/lib/*
 README.md
 src/commom/com-style.css
+src/index.html

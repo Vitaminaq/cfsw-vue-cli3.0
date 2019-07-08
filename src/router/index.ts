@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import VueRouter from 'vue-router';
 import Routers from './routers';
 import Cookies from 'js-cookie';
 // (Router as any).prototype.goBack = function() {
@@ -9,14 +9,14 @@ import Cookies from 'js-cookie';
 
 import { RouterOptions } from 'vue-router';
 
-Vue.use(Router);
+Vue.use(VueRouter);
 const options: RouterOptions = {
 	mode: 'history',
 	routes: Routers,
 	fallback: false
 };
 
-class LocalRouter extends Router {
+class Router extends VueRouter {
 	constructor() {
 		super(options);
 		this.beforeEach((to, from, next) => {
@@ -29,4 +29,4 @@ class LocalRouter extends Router {
 		});
 	}
 }
-export default LocalRouter;
+export default Router;

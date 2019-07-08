@@ -1,7 +1,8 @@
 import Vue, { CreateElement, ComponentOptions } from 'vue';
 import App from './App.vue';
-import localRouter from './router';
+import Router from './router';
 import localStore, { BaseVuexClass } from './store';
+import { Component } from 'vue-property-decorator';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
 import VueRescroll from 'vue-rescroll';
@@ -120,27 +121,47 @@ interface LocalComponentOptions extends ComponentOptions<Vue> {
 // }
 // export default new LocalVue();
 
-export default class LocalVue extends Vue {
-	public app: this;
-	public store: localStore;
-	public router: localRouter;
-	constructor() {
-		const store = new localStore();
-		const router = new localRouter();
-		const option: LocalComponentOptions = {
-			router,
-			store,
-			vuexClass: store.baseVuexClass,
-			render: (h: CreateElement) => h(App)
-		};
-		super(option);
-		this.app = this;
-		this.store = store;
-		this.router = router;
-		// this.$mount('#app');
-		// svgSprite(); // 注入svg-sprite
-		// Vue.prototype.myrouter = this.$router;
-		// (window as any).app = this;
-	}
+// @Component
+// export default class LocalVue extends Vue {
+// 	public app: this;
+// 	public store: localStore;
+// 	public router: Router;
+// 	constructor() {
+// 		const store = new localStore();
+// 		const router = new Router();
+// 		// const option: LocalComponentOptions = {
+// 		// 	router,
+// 		// 	store,
+// 		// 	vuexClass: store.baseVuexClass,
+// 		// 	render: (h: CreateElement) => h(App)
+// 		// };
+// 		super({
+// 			router,
+// 			store,
+// 			vuexClass: store.baseVuexClass,
+// 			render: (h: CreateElement) => h(App)
+// 		});
+// 		this.app = this;
+// 		this.store = store;
+// 		this.router = router;
+// 		// this.$mount('#app');
+// 		// svgSprite(); // 注入svg-sprite;
+// 		// (window as any).app = this;
+// 	}
+// 	// public render(h: CreateElement) {
+// 	// 	return h(App);
+// 	// }
+// }
+
+export default function createApp() {
+	const store = new localStore();
+	const router = new Router();
+	// sync(store, router);
+
+	const app = new Vue({
+		router,
+		store,
+		render: (h) => h(App)
+	});
+	return { app, router, store };
 }
-// export default new LocalVue();

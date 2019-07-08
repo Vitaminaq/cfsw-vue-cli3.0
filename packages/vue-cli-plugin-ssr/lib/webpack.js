@@ -18,6 +18,8 @@ exports.chainWebpack = (webpackConfig) => {
 	webpackConfig.plugins.delete('preload');
 	webpackConfig.plugins.delete('prefetch');
 	webpackConfig.plugins.delete('progress');
+
+	// webpack 进程遇到错误代码将不会退出
 	if (!isProd) webpackConfig.plugins.delete('no-emit-on-errors');
 
 	if (!isClient) {

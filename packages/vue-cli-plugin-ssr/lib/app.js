@@ -80,13 +80,17 @@ module.exports = (app, options) => {
 		// Serve static files
 		app.use(compression({ threshold: 0 }));
 		app.use(favicon(config.favicon));
+
 		if (config.api.hasPlugin('pwa')) {
 			app.use(
 				'/service-worker.js',
 				serve(config.serviceWorkerPath, true)
 			);
 		}
+
+		// 把打不好的文件转成静态资源
 		const serveStaticFiles = serve(config.distPath, true);
+		// 拒绝访问index.html模板文件
 		app.use((req, res, next) => {
 			if (/index\.html/g.test(req.path)) {
 				next();
@@ -95,6 +99,7 @@ module.exports = (app, options) => {
 			}
 		});
 
+		// 额外配置
 		if (config.extendServer) {
 			config.extendServer(app);
 		}

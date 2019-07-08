@@ -1,19 +1,19 @@
 <template>
-	<div id="app">
-		<transition
+	<div>
+		<!-- <transition
 			name="tranAni"
 			:enter-active-class="enterClass"
 			:leave-active-class="leaveClass"
-		>
-			<router-view class="child-view" />
-		</transition>
+		> -->
+		<router-view class="child-view" />
+		<!-- </transition> -->
 	</div>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { Route } from 'vue-router';
 
-@Component
+@Component<App>({})
 export default class App extends Vue {
 	enterClass: string = '';
 	leaveClass: string = '';
