@@ -1,5 +1,6 @@
 const path = require('path');
 const MFS = require('memory-fs');
+const fs = require('fs');
 const webpack = require('webpack');
 const chalk = require('chalk');
 
@@ -86,17 +87,11 @@ module.exports.setupDevServer = ({ server, templatePath, onUpdate }) =>
 			}
 			if (stats.hasErrors()) return;
 			clientManifest = JSON.parse(
-				readFile(
-					devMiddleware.fileSystem,
-					'vue-ssr-client-manifest.json'
-				)
+				readFile(fs, 'vue-ssr-client-manifest.json')
 			);
 
 			// HTML Template
-			template = devMiddleware.fileSystem.readFileSync(
-				templatePath,
-				'utf8'
-			);
+			template = fs.readFileSync(templatePath, 'utf8');
 
 			update();
 			onCompilationCompleted();

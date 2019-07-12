@@ -40,7 +40,7 @@ function createRenderer(bundle, options) {
 
 let renderer;
 let readyPromise;
-const templatePath = resolve('./src/index.template.html');
+const templatePath = resolve('./src/index.html');
 if (isProd) {
 	const template = fs.readFileSync(templatePath, 'utf-8');
 	const bundle = require('./dist/vue-ssr-server-bundle.json');

@@ -6,10 +6,18 @@ module.exports = (api, options) => {
 	Object.assign(
 		config,
 		defaultConfig(api, options),
-		options.pluginOptions && options.pluginOptions.ssr
+		options.pluginOptions && options.pluginOptions.ssr,
+		{
+			templatePath: '/home/dafeige/work/vue/cfsw/public/index.html'
+		}
 	);
 
+	console.log(
+		config.templatePath,
+		'=============================================='
+	);
 	config.api = api;
+
 	const service = (config.service = api.service);
 
 	api.chainWebpack((webpackConfig) => {
@@ -21,6 +29,7 @@ module.exports = (api, options) => {
 				.add(config.entry('client'));
 		} else {
 			const { chainWebpack } = require('./lib/webpack');
+			// 不同环境使用不同配置
 			chainWebpack(webpackConfig);
 		}
 	});
@@ -46,10 +55,10 @@ module.exports = (api, options) => {
 			const onCompilationComplete = (err, stats) => {
 				if (err) {
 					// eslint-disable-next-line
-        console.error(err.stack || err)
+                    console.error(err.stack || err)
 					if (err.details) {
 						// eslint-disable-next-line
-          console.error(err.details)
+                        console.error(err.details)
 					}
 					return;
 				}
@@ -67,7 +76,7 @@ module.exports = (api, options) => {
 
 				try {
 					// eslint-disable-next-line
-        console.log(formatStats(stats, options.outputDir, api));
+                    console.log(formatStats(stats, options.outputDir, api));
 				} catch (e) {}
 			};
 

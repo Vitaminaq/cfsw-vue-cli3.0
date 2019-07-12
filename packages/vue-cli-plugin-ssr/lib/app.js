@@ -88,7 +88,7 @@ module.exports = (app, options) => {
 			);
 		}
 
-		// 把打不好的文件转成静态资源
+		// 把打包好的文件转成静态资源
 		const serveStaticFiles = serve(config.distPath, true);
 		// 拒绝访问index.html模板文件
 		app.use((req, res, next) => {
