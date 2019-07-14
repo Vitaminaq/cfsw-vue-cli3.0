@@ -102,58 +102,29 @@ import VueImgLazyLoad from 'vue-images-lazy-load';
 interface LocalComponentOptions extends ComponentOptions<Vue> {
 	vuexClass?: BaseVuexClass;
 }
-// class LocalVue extends Vue {
-// 	constructor() {
-// 		const store = new localStore();
-// 		const router = new localRouter();
-// 		const option: LocalComponentOptions = {
-// 			router,
-// 			store,
-// 			vuexClass: store.baseVuexClass,
-// 			render: (h: CreateElement) => h(App)
-// 		};
-// 		super(option);
-// 		this.$mount('#app');
-// 		svgSprite(); // 注入svg-sprite
-// 		Vue.prototype.myrouter = this.$router;
-// 		(window as any).app = this;
-// 	}
-// }
-// export default new LocalVue();
 
-// @Component
-// export default class LocalVue extends Vue {
-// 	public app: this;
-// 	public store: localStore;
-// 	public router: Router;
-// 	constructor() {
-// 		const store = new localStore();
-// 		const router = new Router();
-// 		// const option: LocalComponentOptions = {
-// 		// 	router,
-// 		// 	store,
-// 		// 	vuexClass: store.baseVuexClass,
-// 		// 	render: (h: CreateElement) => h(App)
-// 		// };
-// 		super({
-// 			router,
-// 			store,
-// 			vuexClass: store.baseVuexClass,
-// 			render: (h: CreateElement) => h(App)
-// 		});
-// 		this.app = this;
-// 		this.store = store;
-// 		this.router = router;
-// 		// this.$mount('#app');
-// 		// svgSprite(); // 注入svg-sprite;
-// 		// (window as any).app = this;
-// 	}
-// 	// public render(h: CreateElement) {
-// 	// 	return h(App);
-// 	// }
-// }
+export default class Main extends Vue {
+	public app: this;
+	public store: localStore;
+	public router: Router;
+	constructor() {
+		const store = new localStore();
+		const router = new Router();
+		const options: LocalComponentOptions = {
+			router,
+			store,
+			vuexClass: store.baseVuexClass,
+			render: (h: CreateElement) => h(App)
+		};
+		super(options);
+		this.app = this;
+		this.store = store;
+		this.router = router;
+		// (window as any).app = this;
+	}
+}
 
-export default function createApp() {
+export function createApp() {
 	const store = new localStore();
 	const router = new Router();
 	// sync(store, router);
@@ -161,6 +132,7 @@ export default function createApp() {
 	const app = new Vue({
 		router,
 		store,
+		vuexClass: store.baseVuexClass,
 		render: (h) => h(App)
 	});
 	return { app, router, store };

@@ -3,14 +3,9 @@ const defaultConfig = require('./lib/default-config');
 
 module.exports = (api, options) => {
 	// Config
-	Object.assign(
-		config,
-		defaultConfig(api, options),
-		options.pluginOptions && options.pluginOptions.ssr,
-		{
-			templatePath: '/home/dafeige/work/vue/cfsw/public/index.html'
-		}
-	);
+	Object.assign(config, defaultConfig(api, options), {
+		templatePath: '/home/dafeige/work/vue/cfsw/public/index.html'
+	});
 
 	console.log(
 		config.templatePath,

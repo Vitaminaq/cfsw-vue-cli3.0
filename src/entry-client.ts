@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import 'es6-promise/auto';
-import createApp from './main';
+import LocalVue from './main';
 // import 'vue2-toast/lib/toast.css';
 // import Toast from 'vue2-toast';
 // import svgSprite from '@src/common/svg-sprite';
@@ -40,20 +40,19 @@ Vue.mixin({
 	}
 });
 
-class EntryClient {
+class EntryClient extends LocalVue {
 	public constructor() {
-		// super();
-		// console.log('oooooooooooooooooooooooooooo');
-		// this.initState();
+		super();
+		this.initState();
 		this.onRouteReady();
 	}
-	// public initState() {
-	// 	// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
-	// 	window.__INITIAL_STATE__ &&
-	// 		this.store.replaceState(window.__INITIAL_STATE__);
-	// }
+	public initState() {
+		// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
+		window.__INITIAL_STATE__ &&
+			this.store.replaceState(window.__INITIAL_STATE__);
+	}
 	public onRouteReady() {
-		const { router, app, store } = createApp();
+		const { router, app, store } = this;
 		window.__INITIAL_STATE__ &&
 			store.replaceState(window.__INITIAL_STATE__);
 		router.onReady(() => {

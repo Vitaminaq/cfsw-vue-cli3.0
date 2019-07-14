@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="app">
 		<!-- <transition
 			name="tranAni"
 			:enter-active-class="enterClass"

@@ -35,7 +35,7 @@ module.exports = (app, options) => {
 				maxAge: 1000 * 60 * 15
 			}),
 			runInNewContext: false,
-			inject: false,
+			inject: true, // 给模板文件自动注入各种依赖文件
 			directives
 		};
 
