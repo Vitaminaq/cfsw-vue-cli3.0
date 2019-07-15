@@ -4,11 +4,13 @@ export interface Context {
 	title: string;
 	url: string;
 	state: any;
+	appConfig: any;
 }
 
 class EntryServer {
 	context: Context;
 	public constructor(context: Context) {
+		console.log(context.appConfig, 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
 		// super();
 		this.context = context;
 	}

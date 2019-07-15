@@ -21,21 +21,9 @@ module.exports = {
 			vue$: 'vue/dist/vue.esm.js',
 			'@src': path.resolve(__dirname, './src')
 		};
-		// webpackConfig.module.rules = [
-		// 	...webpackConfig.module.rules,
-		// 	{
-		// 		test: /\.(c|le)ss$/,
-		// 		loader: 'vue-style-loader'
-		// 	}
-		// ];
-		console.log(webpackConfig.plugins, 'ooooooooooooooooooooooooooooo');
 	},
 	chainWebpack: (config) => {
 		config.plugin('RemovePwaHtmlPlugin').use(RemovePwaHtmlPlugin);
-		// config.module
-		// 	.rule(/\.(c|le)ss$/)
-		// 	.use('vue-style-loader')
-		// 	.loader('vue-style-loader');
 	},
 	css: {
 		loaderOptions: {

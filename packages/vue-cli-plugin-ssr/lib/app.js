@@ -4,6 +4,7 @@ const fs = require('fs');
 const favicon = require('serve-favicon');
 const LRU = require('lru-cache');
 const compression = require('compression');
+const appConfig = require('../../../config/index');
 
 const config = require('./config');
 
@@ -112,6 +113,7 @@ module.exports = (app, options) => {
 				req,
 				url: req.url,
 				title: config.defaultTitle,
+				appConfig: appConfig(), // 传入基础配置
 				httpCode: 200
 			};
 			renderer.renderToString(context, (err, html) => {

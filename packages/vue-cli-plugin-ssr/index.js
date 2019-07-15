@@ -6,11 +6,6 @@ module.exports = (api, options) => {
 	Object.assign(config, defaultConfig(api, options), {
 		templatePath: '/home/dafeige/work/vue/cfsw/public/index.html'
 	});
-
-	console.log(
-		config.templatePath,
-		'=============================================='
-	);
 	config.api = api;
 
 	const service = (config.service = api.service);
