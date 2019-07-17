@@ -1,28 +1,11 @@
 <template>
 	<div ref="my_scroll" class="my_scroll">
-		<DynamicScroller
-			:items="list"
-			:min-item-height="minItemHeight"
-			keyField="articId"
-			class="scroller"
-		>
-			<template slot-scope="{ item, index, active }">
-				<DynamicScrollerItem
-					:item="item"
-					:active="active"
-					:size-dependencies="[item.msg]"
-					:data-index="index"
-					:data-active="active"
-				>
-					<slot :item="item" />
-				</DynamicScrollerItem>
-			</template>
-			<see-loading
-				slot="after-container"
-				:pull-upstatus="pullUpstatus"
-				@pullUp="pullUp"
-			/>
-		</DynamicScroller>
+		<!-- <down-loading :isShow="isShow" :height="height" /> -->
+		<slot></slot>
+		<see-loading
+			@pullUp="pullUp"
+			:pullUpstatus="pullUpstatus"
+		></see-loading>
 		<div class="operate-btn operate-ctr" @click="toggleBtn">
 			<svg-icon name="operate" />
 		</div>
@@ -66,7 +49,7 @@ export default class Scroller extends Vue {
 	@Prop() pullUpstatus!: string;
 	@Prop() pullDownStatus!: string;
 	@Prop({ default: () => {} }) list!: any;
-	@Prop({ default: '' }) minItemHeight!: string | number;
+	@Prop({ default: '40px' }) height!: string | number;
 	toggle: boolean = false;
 	pullUp() {
 		this.$emit('pullUp');

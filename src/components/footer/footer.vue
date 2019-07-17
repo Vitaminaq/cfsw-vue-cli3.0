@@ -1,13 +1,15 @@
 <template>
-	<footer class="footer">
-		<router-link
-			v-for="item in list"
-			:key="item.name"
-			:to="{ name: item.toPathName }"
-			:class="nowRouter !== item.toPathName ? 'leave' : ''"
-		>
-			<svg-icon :name="item.name" />
-		</router-link>
+	<footer>
+		<div class="footer">
+			<router-link
+				v-for="item in list"
+				:key="item.name"
+				:to="{ name: item.toPathName }"
+				:class="nowRouter !== item.toPathName ? 'leave' : ''"
+			>
+				<svg-icon :name="item.name" />
+			</router-link>
+		</div>
 	</footer>
 </template>
 <script lang="ts">
@@ -40,11 +42,19 @@ export default class FooterContent extends Vue {
 }
 </script>
 <style lang="less" scoped>
+footer::before {
+	content: '';
+	display: block;
+	position: relative;
+	height: 50px;
+	width: 100%;
+	background-color: #fff;
+}
 .footer {
 	position: fixed;
 	left: 0;
 	bottom: 0;
-	height: 1.4rem;
+	height: 50px;
 	width: 100%;
 	z-index: 9999;
 	display: flex;

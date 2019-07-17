@@ -32,7 +32,7 @@ class LocalToast extends Vue {
 			}
 		});
 		let el: Element = this.$mount().$el;
-		document.body.appendChild(el);
+		// document.body.appendChild(el);
 	}
 }
 export interface LocalToastOptions {

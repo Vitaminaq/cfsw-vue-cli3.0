@@ -1,8 +1,25 @@
 <template>
 	<div class="chatroom">
 		<logo-header />
-		<div class="wrapper"></div>
-		<footer-content />
+		<div class="wrapper">
+			<scroller
+				@dropDown="dropDown"
+				@pullUp="pullUp"
+				:pullUpstatus="pullUpStatus"
+				:pullDownStatus="pullDownStatus"
+				v-rescroll="{ name: 'chatroom' }"
+			>
+				<ul v-if="list.length">
+					<artic-list
+						v-for="(item, key) in list"
+						:key="key"
+						:item="item"
+						@click.native="todetail(item.articId)"
+					/>
+				</ul>
+			</scroller>
+		</div>
+		<FooterContent />
 	</div>
 </template>
 <script lang="ts">
@@ -22,7 +39,6 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 	}
 })
 export default class ChatRoom extends Vue {
-	minItemHeight: string | number = 110;
 	get articList() {
 		return this.$vuexClass.chatRoom.articList;
 	}
@@ -176,9 +192,6 @@ export default class ChatRoom extends Vue {
 		}
 		(this as any).$toast(this.view.res.data);
 	}
-	render(createElement: any) {
-		return createElement('h1', '5496787');
-	}
 	beforeDestroy() {
 		if (this.$route.name === 'publish') {
 			this.articList.$clearData();
@@ -193,7 +206,7 @@ export default class ChatRoom extends Vue {
 
 	.wrapper {
 		position: relative;
-		height: 610px;
+		max-height: 100%;
 		overflow-y: hidden;
 		background-color: #f7f7f7;
 	}

@@ -3,17 +3,16 @@ import App from './App.vue';
 import Router from './router';
 import localStore, { BaseVuexClass } from './store';
 import { Component } from 'vue-property-decorator';
-import MyButton from '@src/components/mybutton';
-import SvgIcon from '@src/components/svg';
-import VueRescroll from 'vue-rescroll';
+// import MyButton from '@src/components/mybutton';
+// import SvgIcon from '@src/components/svg';
+// import VueRescroll from 'vue-rescroll';
 // import VueVirtualScroller from 'vue-virtual-scroller';
-import Cookies from 'js-cookie';
-import svgSprite from '@src/lib/svg-sprite';
-import LocalToast from '@src/components/toast/toast';
-// import 'animate.min.css';
-import './registerServiceWorker';
-import VueHtml5Editor from 'vue-html5-editor';
-import VueImgLazyLoad from 'vue-images-lazy-load';
+// import Cookies from 'js-cookie';
+// import svgSprite from '@src/lib/svg-sprite';
+// import LocalToast from '@src/components/toast/toast';
+// import './registerServiceWorker';
+// import VueHtml5Editor from 'vue-html5-editor';
+// import VueImgLazyLoad from 'vue-images-lazy-load';
 // import VueImgLazyLoad from '@src/lib/vue-img-lazy-load-common.js';
 // // // import VueDomLazyLoad from '@src/lib/vue-dom-lazy-load';
 
@@ -103,7 +102,14 @@ interface LocalComponentOptions extends ComponentOptions<Vue> {
 	vuexClass?: BaseVuexClass;
 }
 
-export default class Main extends Vue {
+@Component<BaseComponents>({})
+class BaseComponents extends Vue {
+	public render(h: CreateElement) {
+		return h(App);
+	}
+}
+
+export default class Main extends BaseComponents {
 	public app: this;
 	public store: localStore;
 	public router: Router;
@@ -113,27 +119,11 @@ export default class Main extends Vue {
 		const options: LocalComponentOptions = {
 			router,
 			store,
-			vuexClass: store.baseVuexClass,
-			render: (h: CreateElement) => h(App)
+			vuexClass: store.baseVuexClass
 		};
 		super(options);
 		this.app = this;
 		this.store = store;
 		this.router = router;
-		// (window as any).app = this;
 	}
-}
-
-export function createApp() {
-	const store = new localStore();
-	const router = new Router();
-	// sync(store, router);
-
-	const app = new Vue({
-		router,
-		store,
-		vuexClass: store.baseVuexClass,
-		render: (h) => h(App)
-	});
-	return { app, router, store };
 }

@@ -3,12 +3,12 @@
 		<div class="list-content">
 			<div class="artic-content">
 				<div class="userImg">
-					<img
+					<!-- <img
 						:src="baseUrl"
 						v-img-lazy-load="{
 							url: `https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2097124721,3074829049&fm=26&gp=0.jpg`
 						}"
-					/>
+					/> -->
 				</div>
 				<div class="author">
 					<div class="title">{{ item.title }}</div>

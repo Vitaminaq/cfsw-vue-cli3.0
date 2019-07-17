@@ -8,9 +8,6 @@
     "test": "yarn run lint",
     "lint": "eslint ."
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "main": "index.js",
   "dependencies": {
     "chalk": "^2.4.1",
@@ -33,7 +30,9 @@
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^2.6.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "ip": "^1.1.5"
+  },
   "peerDependencies": {
     "@vue/cli-service": "^3.8.4",
     "@vue/cli-shared-utils": "^3.8.0",

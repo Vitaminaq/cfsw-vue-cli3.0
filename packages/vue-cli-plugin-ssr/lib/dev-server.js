@@ -3,6 +3,7 @@ const MFS = require('memory-fs');
 const fs = require('fs');
 const webpack = require('webpack');
 const chalk = require('chalk');
+const ip = require('ip');
 
 const config = require('./config');
 
@@ -37,7 +38,7 @@ module.exports.setupDevServer = ({ server, templatePath, onUpdate }) =>
 
 		let firstRun = true;
 		let copied = '';
-		const url = `http://localhost:${config.port}`;
+		const url = `http://${ip.address()}:${config.port}`;
 
 		const update = () => {
 			if (serverBundle && clientManifest) {
@@ -87,7 +88,10 @@ module.exports.setupDevServer = ({ server, templatePath, onUpdate }) =>
 			}
 			if (stats.hasErrors()) return;
 			clientManifest = JSON.parse(
-				readFile(fs, 'vue-ssr-client-manifest.json')
+				readFile(
+					devMiddleware.fileSystem,
+					'vue-ssr-client-manifest.json'
+				)
 			);
 
 			// HTML Template

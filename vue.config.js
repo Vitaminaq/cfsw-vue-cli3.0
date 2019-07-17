@@ -1,5 +1,6 @@
 const config = require('./config/config.local');
 const path = require('path');
+const SvgSpritePlugin = require('./lib/svg-sprite-plugin');
 
 class RemovePwaHtmlPlugin {
 	apply(compiler) {
@@ -24,6 +25,11 @@ module.exports = {
 	},
 	chainWebpack: (config) => {
 		config.plugin('RemovePwaHtmlPlugin').use(RemovePwaHtmlPlugin);
+		// config.plugin('SvgSpritePlugin').use(
+		// 	new SvgSpritePlugin({
+		// 		paths: [path.resolve(__dirname, './lib/svg-sprite.js')]
+		// 	})
+		// );
 	},
 	css: {
 		loaderOptions: {
