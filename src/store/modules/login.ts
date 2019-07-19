@@ -1,6 +1,7 @@
 import LoginApi from '@src/api/login';
 import BaseLoaderData from '@src/common/base-loader-data';
 import VuexClass from 'vuex-class.js';
+import { LocalAxiosOptions } from '@src/common/http';
 
 class GetUserHeaderImg extends BaseLoaderData<
 	API.Login.UserHeaderImg.RequestParams,
@@ -33,19 +34,21 @@ class UserLogin extends BaseLoaderData<
 
 class Login extends VuexClass {
 	readonly namespaced: boolean = true;
-	getUserHeaderImg: GetUserHeaderImg;
-	userLogin: UserLogin;
-	modules: {
+	public getUserHeaderImg: GetUserHeaderImg;
+	public userLogin: UserLogin;
+	public api: LoginApi;
+	public modules: {
 		getUserHeaderImg: GetUserHeaderImg;
 		userLogin: UserLogin;
 	};
-	constructor() {
-		super(new LoginApi());
-		Object.defineProperty(this, 'api', {
-			enumerable: true
-		});
-		this.getUserHeaderImg = new GetUserHeaderImg(new LoginApi());
-		this.userLogin = new UserLogin(new LoginApi());
+	public constructor({ appConfig }: LocalAxiosOptions) {
+		super();
+		// Object.defineProperty(this, 'api', {
+		// 	enumerable: true
+		// });
+		this.api = new LoginApi({ appConfig });
+		this.getUserHeaderImg = new GetUserHeaderImg(this.api);
+		this.userLogin = new UserLogin(this.api);
 		this.modules = {
 			getUserHeaderImg: this.getUserHeaderImg,
 			userLogin: this.userLogin

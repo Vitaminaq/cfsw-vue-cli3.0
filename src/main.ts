@@ -1,10 +1,11 @@
 import Vue, { CreateElement, ComponentOptions } from 'vue';
 import App from './App.vue';
 import Router from './router';
-import localStore, { BaseVuexClass } from './store';
+import Store, { BaseVuexClass } from './store';
 import { Component } from 'vue-property-decorator';
-// import MyButton from '@src/components/mybutton';
-// import SvgIcon from '@src/components/svg';
+import BaseConfig from './config';
+import MyButton from '@src/components/mybutton';
+import SvgIcon from '@src/components/svg';
 // import VueRescroll from 'vue-rescroll';
 // import VueVirtualScroller from 'vue-virtual-scroller';
 // import Cookies from 'js-cookie';
@@ -87,9 +88,9 @@ import { Component } from 'vue-property-decorator';
 // 	}
 // });
 
-// Vue.use(MyButton);
+Vue.use(MyButton);
 // Vue.use(VueRescroll);
-// Vue.use(SvgIcon);
+Vue.use(SvgIcon);
 // Vue.use(VueVirtualScroller);
 // Vue.use(LocalToast);
 
@@ -109,12 +110,16 @@ class BaseComponents extends Vue {
 	}
 }
 
+export interface MainOptions {
+	appConfig: BaseConfig;
+}
+
 export default class Main extends BaseComponents {
 	public app: this;
-	public store: localStore;
+	public store: Store;
 	public router: Router;
-	constructor() {
-		const store = new localStore();
+	constructor({ appConfig }: MainOptions) {
+		const store = new Store({ appConfig });
 		const router = new Router();
 		const options: LocalComponentOptions = {
 			router,

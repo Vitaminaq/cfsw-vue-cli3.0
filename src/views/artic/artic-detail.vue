@@ -197,7 +197,9 @@ export default class Detail extends Vue {
 		this.articDetail.$assignParams(params);
 		await this.articDetail.getArticDetail();
 		this.articMessage = this.articDetail.dataStore[id].articMessage;
-		this.headImg = `${config.BASE_URL}${this.articDetail.dataStore[id].articMessage.headimg}`;
+		this.headImg = `${''}${
+			this.articDetail.dataStore[id].articMessage.headimg
+		}`;
 		// this.articMessage.msg = this.articMessage.msg.replace(/ /g, '&nbsp;');
 		return this;
 	}

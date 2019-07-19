@@ -48,8 +48,12 @@ import config from '@src/config';
 })
 export default class ArticList extends Vue {
 	@Prop({ default: () => {} }) item!: Loader.ListItem;
+
+	get appConfig() {
+		return this.$vuexClass.publics.state.appConfig;
+	}
 	get baseUrl() {
-		return `${config.BASE_URL}${this.item.headimg}`;
+		return `${this.appConfig}${this.item.headimg}`;
 	}
 	time(creatAt: string) {
 		return Time(Number(creatAt));

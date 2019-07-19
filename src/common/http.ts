@@ -1,11 +1,15 @@
 import axios from 'axios';
-import config from '@src/config';
+import BaseConfig from '@src/config';
+
+export interface LocalAxiosOptions {
+	appConfig: BaseConfig;
+}
 
 class LocalAxios {
 	public axios: any;
-	constructor() {
+	constructor({ appConfig }: LocalAxiosOptions) {
 		this.axios = axios.create({
-			baseURL: config.BASE_URL,
+			baseURL: appConfig.BASE_API,
 			timeout: 5000,
 			withCredentials: true,
 			headers: {

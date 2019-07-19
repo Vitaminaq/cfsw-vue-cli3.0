@@ -1,9 +1,6 @@
-interface Config {
-	BASE_URL: string;
+interface BaseConfig {
+	BASE_PATH: string;
+	BASE_API: string;
 }
 
-const CONFIG: Config = {
-	BASE_URL: 'http://192.168.0.101:3005'
-};
-
-export default CONFIG;
+export default BaseConfig;

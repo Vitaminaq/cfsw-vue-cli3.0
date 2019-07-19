@@ -30,7 +30,7 @@ export default class CommentList extends Vue {
 	@Prop({ default: () => {} }) item!: Detail.ArticDetail.Commentxt;
 
 	get headImgUrl() {
-		return `${config.BASE_URL}${this.item.headimg}`;
+		return `${''}${this.item.headimg}`;
 	}
 	get isClicked() {
 		return this.item.isClickComment;

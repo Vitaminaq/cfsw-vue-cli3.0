@@ -40,7 +40,7 @@ import config from '@src/config';
 })
 export default class Person extends Vue {
 	get headimg() {
-		return `${config.BASE_URL}${Cookies.get('headimg')}`;
+		return `${''}${Cookies.get('headimg')}`;
 	}
 	get nickname() {
 		return Cookies.get('nickname');

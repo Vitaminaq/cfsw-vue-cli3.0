@@ -1,6 +1,14 @@
 import { BaseAxios } from '@src/api/index';
+import BaseConfig from '@src/config';
+
+interface LoginApiOptions {
+	appConfig: BaseConfig;
+}
 
 export default class LoginApi extends BaseAxios {
+	constructor({ appConfig }: LoginApiOptions) {
+		super({ appConfig });
+	}
 	getUserHeaderImg(
 		params: API.Login.UserHeaderImg.RequestParams
 	): Promise<API.Login.UserHeaderImg.Response> {

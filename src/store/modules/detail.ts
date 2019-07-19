@@ -1,6 +1,7 @@
 import DetailApi from '@src/api/detail';
 import VuexClass from 'vuex-class.js';
 import BaseLoaderData from '@src/common/base-loader-data';
+import BaseConfig from '@src/config';
 
 /**
  * 缓存数据类
@@ -137,12 +138,17 @@ class AgreeComment extends BaseLoaderData<
 	}
 }
 
+interface DetailOptions {
+	appConfig: BaseConfig;
+}
+
 class Detail extends VuexClass {
 	articDetail: ArticDetail;
 	getUserComment: GetUserComment;
 	userComment: UserComment;
 	agreeAuthor: AgreeAuthor;
 	agreeComment: AgreeComment;
+	public api: DetailApi;
 	modules: {
 		articDetail: ArticDetail;
 		userComment: UserComment;
@@ -150,13 +156,14 @@ class Detail extends VuexClass {
 		agreeComment: AgreeComment;
 		getUserComment: GetUserComment;
 	};
-	constructor() {
-		super(new DetailApi());
-		(this.articDetail = new ArticDetail(new DetailApi())),
-			(this.getUserComment = new GetUserComment(new DetailApi()));
-		(this.userComment = new UserComment(new DetailApi())),
-			(this.agreeAuthor = new AgreeAuthor(new DetailApi())),
-			(this.agreeComment = new AgreeComment(new DetailApi()));
+	constructor({ appConfig }: DetailOptions) {
+		super();
+		this.api = new DetailApi({ appConfig });
+		(this.articDetail = new ArticDetail(this.api)),
+			(this.getUserComment = new GetUserComment(this.api));
+		(this.userComment = new UserComment(this.api)),
+			(this.agreeAuthor = new AgreeAuthor(this.api)),
+			(this.agreeComment = new AgreeComment(this.api));
 		this.modules = {
 			articDetail: this.articDetail,
 			userComment: this.userComment,

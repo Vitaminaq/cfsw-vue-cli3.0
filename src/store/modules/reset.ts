@@ -1,10 +1,11 @@
 import ResetApi from '@src/api/reset';
 import BaseLoaderData from '@src/common/base-loader-data';
+import { LocalAxiosOptions } from '@src/common/http';
 
 class UserReset extends BaseLoaderData<Reset.RequestParams, string> {
 	readonly namespaced: boolean = true;
-	constructor() {
-		super(new ResetApi());
+	constructor({ appConfig }: LocalAxiosOptions) {
+		super(new ResetApi({ appConfig }));
 	}
 	state: Reset.State = {
 		params: {

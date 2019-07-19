@@ -1,6 +1,14 @@
 import { BaseAxios } from '.';
+import BaseConfig from '@src/config';
+
+interface DetailApiOptions {
+	appConfig: BaseConfig;
+}
 
 export default class DetailApi extends BaseAxios {
+	constructor({ appConfig }: DetailApiOptions) {
+		super({ appConfig });
+	}
 	getDetail(
 		params: Detail.ArticDetail.RequestParams
 	): Promise<Detail.ArticDetail.Response> {

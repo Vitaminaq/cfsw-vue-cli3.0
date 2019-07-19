@@ -1,16 +1,17 @@
 import Main from './main';
+import BaseConfig from './config';
 
 export interface Context {
 	title: string;
 	url: string;
 	state: any;
-	appConfig: any;
+	appConfig: BaseConfig;
 }
 
 class EntryServer extends Main {
 	context: Context;
 	public constructor(context: Context) {
-		super();
+		super({ appConfig: context.appConfig });
 		this.context = context;
 	}
 	public init() {
@@ -47,11 +48,13 @@ class EntryServer extends Main {
 				)
 					.then(() => {
 						// 把服务端请求到的数据，注入windows中的__INITIAL_STATE__中，便于客户端接管vuex store
-						context.state = store.state;
+						context.state = {
+							store: store.state,
+							appConfig: context.appConfig
+						};
 						resolve(app);
 					})
 					.catch(reject);
-				// return resolve(app);
 			}, reject);
 		});
 	}

@@ -1,10 +1,16 @@
 import PublishApi from '@src/api/publish';
 import BaseLoaderData from '@src/common/base-loader-data';
+import BaseConfig from '@src/config';
 
-class userPublish extends BaseLoaderData<Publish.RequestParams, string> {
+interface PublishOptions {
+	appConfig: BaseConfig;
+}
+
+class Publish extends BaseLoaderData<Publish.RequestParams, string> {
 	readonly namespaced: boolean = true;
-	constructor() {
-		super(new PublishApi());
+	// public api: PublishApi;
+	constructor({ appConfig }: PublishOptions) {
+		super(new PublishApi({ appConfig }));
 	}
 	// public readonly state: Publish.State = {
 	// 	params: {
@@ -34,4 +40,4 @@ class userPublish extends BaseLoaderData<Publish.RequestParams, string> {
 	}
 }
 
-export default userPublish;
+export default Publish;

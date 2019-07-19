@@ -1,23 +1,11 @@
 import Vue from 'vue';
 import 'es6-promise/auto';
 import Main from './main';
-// import 'vue2-toast/lib/toast.css';
 import { Route } from 'vue-router';
-import MyButton from '@src/components/mybutton';
-import SvgIcon from '@src/components/svg';
 import VueRescroll from 'vue-rescroll';
-// const isDev = process.env.NODE_ENV !== 'production';
+import BaseConfig from './config';
 
-Vue.use(MyButton);
 Vue.use(VueRescroll);
-Vue.use(SvgIcon);
-
-// Vue.use(Toast, {
-// 	defaultType: 'bottom',
-// 	duration: 1000,
-// 	wordWrap: true,
-// 	width: '170px'
-// });
 
 /**
  * 当组件复用时，触发asyncData钩子，重新请求数据
@@ -40,13 +28,16 @@ Vue.use(SvgIcon);
 
 class EntryClient extends Main {
 	public constructor() {
-		super();
+		super({
+			appConfig: window.__INITIAL_STATE__.appConfig || ''
+		});
 		this.initState();
 	}
 	public initState() {
 		// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
 		window.__INITIAL_STATE__ &&
-			this.store.replaceState(window.__INITIAL_STATE__);
+			this.store.replaceState(window.__INITIAL_STATE__.store);
+		Vue.prototype.$appConfig = window.__INITIAL_STATE__.appConfig;
 	}
 	public getPageData() {
 		const { router, store } = this;
@@ -98,5 +89,11 @@ declare global {
 	interface Window {
 		__INITIAL_STATE__: any;
 		app: EntryClient;
+	}
+}
+
+declare module 'vue/types/vue' {
+	interface Vue {
+		$appConfig: BaseConfig;
 	}
 }

@@ -7,55 +7,66 @@ import Reset from './modules/reset';
 import ChatRoom from './modules/chatroom';
 import Publish from './modules/publish';
 import Detail from './modules/detail';
+import Publics from './modules/publics';
+import BaseConfig from '@src/config';
 
 Vue.use(VuexClass);
 Vue.use(Vuex);
 
 export class BaseVuexClass extends VuexClass {
-	readonly namespaced: boolean = true;
-	plugins: Array<any>;
-	chatRoom: ChatRoom;
-	detail: Detail;
-	publish: Publish;
-	login: Login;
-	reset: Reset;
-	register: Register;
-	modules: {
+	public readonly namespaced: boolean = true;
+	public plugins: Array<any>;
+	public chatRoom: ChatRoom;
+	public detail: Detail;
+	public publish: Publish;
+	public login: Login;
+	public reset: Reset;
+	public register: Register;
+	public publics: Publics;
+	public modules: {
 		chatRoom: ChatRoom;
 		detail: Detail;
 		publish: Publish;
 		login: Login;
 		reset: Reset;
 		register: Register;
+		publics: Publics;
 	};
-	constructor() {
+	constructor({ appConfig }: StoreOptions) {
 		super();
 		this.plugins = [VuexClass.init()];
-		this.chatRoom = new ChatRoom();
-		this.detail = new Detail();
-		this.publish = new Publish();
-		this.login = new Login();
-		this.reset = new Reset();
-		this.register = new Register();
+		this.chatRoom = new ChatRoom({ appConfig });
+		this.detail = new Detail({ appConfig });
+		this.publish = new Publish({ appConfig });
+		this.login = new Login({ appConfig });
+		this.reset = new Reset({ appConfig });
+		this.register = new Register({ appConfig });
+		this.publics = new Publics({ appConfig });
 		this.modules = {
 			login: this.login,
 			chatRoom: this.chatRoom,
 			detail: this.detail,
 			publish: this.publish,
 			reset: this.reset,
-			register: this.register
+			register: this.register,
+			publics: this.publics
 		};
 	}
 }
-class LocalStore extends Vuex.Store<BaseVuexClass> {
-	baseVuexClass: BaseVuexClass;
-	constructor() {
-		const baseVuexClass = new BaseVuexClass();
+
+export interface StoreOptions {
+	appConfig: BaseConfig;
+}
+
+class Store extends Vuex.Store<BaseVuexClass> {
+	public baseVuexClass: BaseVuexClass;
+	constructor({ appConfig }: StoreOptions) {
+		const baseVuexClass = new BaseVuexClass({ appConfig });
 		super(baseVuexClass);
 		this.baseVuexClass = baseVuexClass;
 	}
 }
-export default LocalStore;
+export default Store;
 
 declare module 'vue/types/vue' {
 	interface Vue {

@@ -52,7 +52,6 @@ export default class ChatRoom extends Vue {
 		return this.articList.pullUpStatus;
 	}
 	get list() {
-		// return this.articList.list;
 		return [
 			{
 				articId: 1,
@@ -168,6 +167,9 @@ export default class ChatRoom extends Vue {
 		return ArticList;
 	}
 
+	// created() {
+	// 	console.log(this.$isServer, 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+	// }
 	async pullUp() {
 		return this.articList.pullUp();
 	}

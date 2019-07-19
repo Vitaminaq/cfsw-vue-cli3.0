@@ -71,7 +71,7 @@ export default class login extends Vue {
 	}
 	get url() {
 		if (!this.headerImgUrl) return;
-		return `${config.BASE_URL}${this.headerImgUrl}`;
+		return `${''}${this.headerImgUrl}`;
 	}
 	get nickname(): string | null {
 		return getQueryParams(this.$route.query.nickname);
