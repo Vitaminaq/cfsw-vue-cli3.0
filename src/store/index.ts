@@ -58,18 +58,27 @@ export interface StoreOptions {
 	appConfig: BaseConfig;
 }
 
-class Store extends Vuex.Store<BaseVuexClass> {
+class BaseStore extends Vuex.Store<BaseVuexClass['getters']> {
 	public baseVuexClass: BaseVuexClass;
 	constructor({ appConfig }: StoreOptions) {
 		const baseVuexClass = new BaseVuexClass({ appConfig });
 		super(baseVuexClass);
 		this.baseVuexClass = baseVuexClass;
 	}
+	get chatRoom() {
+		return this.baseVuexClass.chatRoom;
+	}
 }
-export default Store;
+export default BaseStore;
 
 declare module 'vue/types/vue' {
 	interface Vue {
 		$vuexClass: BaseVuexClass;
+	}
+}
+
+declare module Vuex {
+	interface Store {
+		chatRoom: ChatRoom;
 	}
 }

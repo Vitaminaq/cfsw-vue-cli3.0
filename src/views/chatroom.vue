@@ -29,6 +29,7 @@ import Scroller from '@src/components/scroller/scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
+import { mapGetters } from 'vuex';
 
 @Component({
 	components: {
@@ -167,9 +168,9 @@ export default class ChatRoom extends Vue {
 		return ArticList;
 	}
 
-	// created() {
-	// 	console.log(this.$isServer, 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
-	// }
+	mounted() {
+		console.log((this as any).$easyStore, 'wwwwwwwwwwwwwwwwwwwwwwwwwww');
+	}
 	async pullUp() {
 		return this.articList.pullUp();
 	}

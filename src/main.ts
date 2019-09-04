@@ -6,6 +6,7 @@ import { Component } from 'vue-property-decorator';
 import BaseConfig from './config';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
+import EasyStore from '@src/test/index';
 // import VueRescroll from 'vue-rescroll';
 // import VueVirtualScroller from 'vue-virtual-scroller';
 // import Cookies from 'js-cookie';
@@ -101,6 +102,8 @@ Vue.use(SvgIcon);
 // });
 interface LocalComponentOptions extends ComponentOptions<Vue> {
 	vuexClass?: BaseVuexClass;
+	basestore?: Store;
+	easyStore?: any;
 }
 
 @Component<BaseComponents>({})
@@ -124,7 +127,9 @@ export default class Main extends BaseComponents {
 		const options: LocalComponentOptions = {
 			router,
 			store,
-			vuexClass: store.baseVuexClass
+			basestore: store,
+			vuexClass: store.baseVuexClass,
+			easyStore: new EasyStore()
 		};
 		super(options);
 		this.app = this;
