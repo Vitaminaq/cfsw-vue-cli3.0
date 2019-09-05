@@ -8,7 +8,7 @@
     "build:client": "cross-env NODE_TYPE=client vue-cli-service build",
     "build:server": "cross-env NODE_TYPE=server vue-cli-service build",
     "build": "vue-cli-service ssr:build",
-    "lint": "vue-cli-service lint",
+    "lint": "eslint --fix --ext .ts,.js,.vue",
     "remove": "rm -rf node_modules package-lock.json yarn-lock.json && yarn"
   },
   "config": {
