@@ -8,8 +8,9 @@ class TestStore extends Store {
 	public params1: number = 2;
 	public params2: number = 3;
 	public params4: number = 4;
-	constructor() {
+	public constructor() {
 		super();
+		console.log(this);
 	}
 	public count() {
 		return this.params++;

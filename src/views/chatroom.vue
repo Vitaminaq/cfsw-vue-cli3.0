@@ -1,6 +1,7 @@
 <template>
 	<div class="chatroom">
-		<logo-header />
+		<logo-header @click.native="add" />
+		{{ count }}
 		<div class="wrapper">
 			<scroller
 				@dropDown="dropDown"
@@ -167,9 +168,16 @@ export default class ChatRoom extends Vue {
 	get ArticList() {
 		return ArticList;
 	}
+	get count() {
+		return this.$easyStore.params;
+	}
 
 	mounted() {
-		console.log((this as any).$easyStore, 'wwwwwwwwwwwwwwwwwwwwwwwwwww');
+		console.log(this.$easyStore, 'wwwwwwwwwwwwwwwwwwwwwwwwwww');
+	}
+	add() {
+		this.$easyStore.count();
+		console.log(this.$easyStore, this.$easyStore.params);
 	}
 	async pullUp() {
 		return this.articList.pullUp();

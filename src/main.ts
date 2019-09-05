@@ -100,11 +100,6 @@ Vue.use(SvgIcon);
 // 		el.focus();
 // 	}
 // });
-interface LocalComponentOptions extends ComponentOptions<Vue> {
-	vuexClass?: BaseVuexClass;
-	basestore?: Store;
-	easyStore?: any;
-}
 
 @Component<BaseComponents>({})
 class BaseComponents extends Vue {
@@ -124,10 +119,9 @@ export default class Main extends BaseComponents {
 	constructor({ appConfig }: MainOptions) {
 		const store = new Store({ appConfig });
 		const router = new Router();
-		const options: LocalComponentOptions = {
+		const options: ComponentOptions<Vue> = {
 			router,
 			store,
-			basestore: store,
 			vuexClass: store.baseVuexClass,
 			easyStore: new EasyStore()
 		};
@@ -135,5 +129,18 @@ export default class Main extends BaseComponents {
 		this.app = this;
 		this.store = store;
 		this.router = router;
+	}
+}
+
+declare module 'vue/types/vue' {
+	interface Vue {
+		$easyStore: EasyStore;
+	}
+}
+
+declare module 'vue/types/options' {
+	interface ComponentOptions<V extends Vue> {
+		vuexClass?: BaseVuexClass;
+		easyStore?: EasyStore;
 	}
 }

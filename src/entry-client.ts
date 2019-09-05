@@ -83,6 +83,28 @@ const createApp = () => {
 	app.onRouteReady();
 };
 
+class A {
+	constructor() {
+		console.log(this);
+		for (const k in this) {
+			console.log(k);
+		}
+	}
+	print(s: string | number) {
+		console.log(s);
+	}
+}
+
+class B extends A {
+	a = 1;
+	b = 8;
+	a1() {
+		return this.print(this.a);
+	}
+}
+
+new B();
+
 export default createApp();
 
 declare global {
