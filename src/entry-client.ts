@@ -83,7 +83,7 @@ class EntryClient extends Main {
 	public initState() {
 		// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
 		if (window.__INITIAL_STATE__) {
-			this.store = { ...window.__INITIAL_STATE__.store };
+			this.store.replace(window.__INITIAL_STATE__.store);
 		}
 	}
 	public getPageData() {

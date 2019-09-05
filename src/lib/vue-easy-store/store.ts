@@ -17,6 +17,9 @@ export class Store {
 			}
 		});
 	}
+	public replace<S>(store: S) {
+        Object.assign(this, store);
+	}
 }
 
 export function install(_Vue: VueConstructor<Vue>) {

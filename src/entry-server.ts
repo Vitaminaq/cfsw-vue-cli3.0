@@ -32,7 +32,6 @@ class EntryServer extends Main {
 				if (!matchedComponents.length) {
 					return reject({ code: 404 });
 				}
-				console.log(matchedComponents[1], 'ppppp');
 
 				// 如果路由匹配，则触发服务器端asyncData钩子，此钩子便是你组件定义的钩子函数，
 				// 默认写在与methods同级，所以取的是其options，其实可以自行定义其位置，和实现方法

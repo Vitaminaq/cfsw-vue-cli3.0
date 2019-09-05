@@ -117,6 +117,7 @@ import { Time, timeFromNow, timestampToDateTime } from '@src/common/comjs';
 import CommentList from '@src/components/artic/comment-list.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
 import config from '@src/config';
+
 import { getQueryParams } from '@src/services/publics';
 
 @Component<Detail>({
