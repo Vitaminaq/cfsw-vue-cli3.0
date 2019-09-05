@@ -1,5 +1,3 @@
-import VuexClass from 'vuex-class.js';
-
 export interface BaseLoaderResponse {
 	code: number;
 	data?: any;
@@ -20,11 +18,9 @@ export interface BaseLoaderState {
 	pullDownStatus: BaseLoaderRequestStatus;
 	pullUpStatus: BaseLoaderRequestStatus;
 }
-export default abstract class BaseLoader extends VuexClass {
-	readonly namespaced: boolean = true;
+export default abstract class BaseLoader {
 	api: any;
 	constructor(api: any) {
-		super();
 		this.api = api;
 	}
 	public readonly state: BaseLoaderState = {

@@ -50,7 +50,7 @@ export default class ArticList extends Vue {
 	@Prop({ default: () => {} }) item!: Loader.ListItem;
 
 	get appConfig() {
-		return this.$vuexClass.publics.state.appConfig;
+		return this.$store.publics.state.appConfig;
 	}
 	get baseUrl() {
 		return `${this.appConfig}${this.item.headimg}`;

@@ -1,6 +1,5 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
-import VuexClass from 'vuex-class.js';
+import VueEasy from '@src/lib/vue-easy-store';
 import Login from './modules/login';
 import Register from './modules/register';
 import Reset from './modules/reset';
@@ -10,12 +9,12 @@ import Detail from './modules/detail';
 import Publics from './modules/publics';
 import BaseConfig from '@src/config';
 
-Vue.use(VuexClass);
-Vue.use(Vuex);
+Vue.use(VueEasy);
+export interface StoreOptions {
+	appConfig: BaseConfig;
+}
 
-export class BaseVuexClass extends VuexClass {
-	public readonly namespaced: boolean = true;
-	public plugins: Array<any>;
+class BaseStore extends VueEasy.Store {
 	public chatRoom: ChatRoom;
 	public detail: Detail;
 	public publish: Publish;
@@ -23,18 +22,8 @@ export class BaseVuexClass extends VuexClass {
 	public reset: Reset;
 	public register: Register;
 	public publics: Publics;
-	public modules: {
-		chatRoom: ChatRoom;
-		detail: Detail;
-		publish: Publish;
-		login: Login;
-		reset: Reset;
-		register: Register;
-		publics: Publics;
-	};
 	constructor({ appConfig }: StoreOptions) {
 		super();
-		this.plugins = [VuexClass.init()];
 		this.chatRoom = new ChatRoom({ appConfig });
 		this.detail = new Detail({ appConfig });
 		this.publish = new Publish({ appConfig });
@@ -42,34 +31,20 @@ export class BaseVuexClass extends VuexClass {
 		this.reset = new Reset({ appConfig });
 		this.register = new Register({ appConfig });
 		this.publics = new Publics({ appConfig });
-		this.modules = {
-			login: this.login,
-			chatRoom: this.chatRoom,
-			detail: this.detail,
-			publish: this.publish,
-			reset: this.reset,
-			register: this.register,
-			publics: this.publics
-		};
+		this.init();
 	}
 }
 
-export interface StoreOptions {
-	appConfig: BaseConfig;
-}
-
-class Store extends Vuex.Store<BaseVuexClass> {
-	public baseVuexClass: BaseVuexClass;
-	constructor({ appConfig }: StoreOptions) {
-		const baseVuexClass = new BaseVuexClass({ appConfig });
-		super(baseVuexClass);
-		this.baseVuexClass = baseVuexClass;
-	}
-}
-export default Store;
+export default BaseStore;
 
 declare module 'vue/types/vue' {
 	interface Vue {
-		$vuexClass: BaseVuexClass;
+		$store: BaseStore;
+	}
+}
+
+declare module 'vue/types/options' {
+	interface ComponentOptions<V extends Vue> {
+		store?: BaseStore;
 	}
 }

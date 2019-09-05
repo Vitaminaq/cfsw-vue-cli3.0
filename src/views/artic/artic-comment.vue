@@ -24,7 +24,7 @@ export default class ArticComment extends Vue {
 		return getQueryParams(this.$route.query.id);
 	}
 	get articDetail() {
-		return this.$vuexClass.detail.articDetail;
+		return this.$store.detail.articDetail;
 	}
 	get data() {
 		const { id } = this;

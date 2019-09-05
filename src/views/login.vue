@@ -61,13 +61,13 @@ export default class login extends Vue {
 	};
 
 	get userHeaderImg() {
-		return this.$vuexClass.login.getUserHeaderImg;
+		return this.$store.login.getUserHeaderImg;
 	}
 	get headerImgUrl() {
 		return this.userHeaderImg.res.data.headimg;
 	}
 	get loginModule() {
-		return this.$vuexClass.login.userLogin;
+		return this.$store.login.userLogin;
 	}
 	get url() {
 		if (!this.headerImgUrl) return;

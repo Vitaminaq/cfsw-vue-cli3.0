@@ -1,6 +1,7 @@
 <template>
 	<div class="chatroom">
-		<logo-header />
+		<logo-header @click.native="addCount" />
+		{{ count }}
 		<div class="wrapper">
 			<scroller
 				@dropDown="dropDown"
@@ -40,10 +41,13 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 })
 export default class ChatRoom extends Vue {
 	get articList() {
-		return this.$vuexClass.chatRoom.articList;
+		return this.$store.chatRoom.articList;
+	}
+	get count() {
+		return this.articList.count;
 	}
 	get view() {
-		return this.$vuexClass.chatRoom.view;
+		return this.$store.chatRoom.view;
 	}
 	get pullDownStatus() {
 		return this.articList.pullDownStatus;
@@ -176,6 +180,9 @@ export default class ChatRoom extends Vue {
 			(this as any).$toast('刷新成功!');
 		}
 		return this;
+	}
+	addCount() {
+		return this.articList.addCount();
 	}
 	async todetail(id: string) {
 		let params: ChatRoom.View.RequestParams = {

@@ -1,6 +1,5 @@
 import LoginApi from '@src/api/login';
 import BaseLoaderData from '@src/common/base-loader-data';
-import VuexClass from 'vuex-class.js';
 import { LocalAxiosOptions } from '@src/common/http';
 
 class GetUserHeaderImg extends BaseLoaderData<
@@ -32,7 +31,7 @@ class UserLogin extends BaseLoaderData<
 	}
 }
 
-class Login extends VuexClass {
+class Login {
 	readonly namespaced: boolean = true;
 	public getUserHeaderImg: GetUserHeaderImg;
 	public userLogin: UserLogin;
@@ -42,7 +41,6 @@ class Login extends VuexClass {
 		userLogin: UserLogin;
 	};
 	public constructor({ appConfig }: LocalAxiosOptions) {
-		super();
 		// Object.defineProperty(this, 'api', {
 		// 	enumerable: true
 		// });

@@ -145,7 +145,7 @@ export default class Detail extends Vue {
 		return getQueryParams(this.$route.query.id);
 	}
 	get articDetail() {
-		return this.$vuexClass.detail.articDetail;
+		return this.$store.detail.articDetail;
 	}
 	// get headImg() {
 	// 	if (
@@ -160,13 +160,13 @@ export default class Detail extends Vue {
 	// 	}`;
 	// }
 	get agreeAuthor() {
-		return this.$vuexClass.detail.agreeAuthor;
+		return this.$store.detail.agreeAuthor;
 	}
 	get userComment() {
-		return this.$vuexClass.detail.userComment;
+		return this.$store.detail.userComment;
 	}
 	get agreeComment() {
-		return this.$vuexClass.detail.agreeComment;
+		return this.$store.detail.agreeComment;
 	}
 	get moreComment() {
 		const { articMessage } = this;

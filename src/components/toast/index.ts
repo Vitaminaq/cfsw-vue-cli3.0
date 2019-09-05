@@ -1,5 +1,5 @@
-declare module 'vue' {
-    interface Vue {
-        $toast: any;
-    }
-}
+// declare module 'vue' {
+//     interface Vue {
+//         $toast: any;
+//     }
+// }

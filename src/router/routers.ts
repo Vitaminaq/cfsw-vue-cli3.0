@@ -38,9 +38,9 @@ const RorterList: Array<RouteConfig> = [
 		name: 'register',
 		component: Register
 	},
-	// /**
-	//  * 首页
-	//  */
+	/**
+	 * 首页
+	 */
 	// {
 	// 	path: '/',
 	// 	redirect: 'chatroom',
