@@ -45,7 +45,7 @@ export default class publish extends Vue {
 	disable: boolean = false;
 
 	get publish() {
-		return this.$vuexClass.publish;
+		return this.$store.publish;
 	}
 
 	async publishIt() {

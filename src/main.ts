@@ -1,12 +1,11 @@
 import Vue, { CreateElement, ComponentOptions } from 'vue';
 import App from './App.vue';
 import Router from './router';
-import Store, { BaseVuexClass } from './store';
+import Store from './store';
 import { Component } from 'vue-property-decorator';
 import BaseConfig from './config';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
-import EasyStore from '@src/test/index';
 // import VueRescroll from 'vue-rescroll';
 // import VueVirtualScroller from 'vue-virtual-scroller';
 // import Cookies from 'js-cookie';
@@ -118,29 +117,15 @@ export default class Main extends BaseComponents {
 	public router: Router;
 	constructor({ appConfig }: MainOptions) {
 		const store = new Store({ appConfig });
+		console.log(store, 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
 		const router = new Router();
 		const options: ComponentOptions<Vue> = {
 			router,
-			store,
-			vuexClass: store.baseVuexClass,
-			easyStore: new EasyStore()
+			store
 		};
 		super(options);
 		this.app = this;
 		this.store = store;
 		this.router = router;
-	}
-}
-
-declare module 'vue/types/vue' {
-	interface Vue {
-		$easyStore: EasyStore;
-	}
-}
-
-declare module 'vue/types/options' {
-	interface ComponentOptions<V extends Vue> {
-		vuexClass?: BaseVuexClass;
-		easyStore?: EasyStore;
 	}
 }

@@ -49,7 +49,7 @@ class EntryServer extends Main {
 					.then(() => {
 						// 把服务端请求到的数据，注入windows中的__INITIAL_STATE__中，便于客户端接管vuex store
 						context.state = {
-							store: store.state,
+							store: store,
 							appConfig: context.appConfig
 						};
 						resolve(app);

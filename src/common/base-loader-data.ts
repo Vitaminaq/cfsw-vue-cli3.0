@@ -1,10 +1,6 @@
-import VuexClass from 'vuex-class.js';
-
-class BaseVuexClass<P, D> extends VuexClass {
-	readonly namespaced: boolean = true;
+class BaseVuexClass<P, D> {
 	api: any;
 	constructor(api: any) {
-		super();
 		this.api = api;
 	}
 	public readonly state: API.APIBaseStoreState<P, D> = {

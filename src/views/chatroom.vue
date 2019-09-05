@@ -1,7 +1,6 @@
 <template>
 	<div class="chatroom">
-		<logo-header @click.native="add" />
-		{{ count }}
+		<logo-header />
 		<div class="wrapper">
 			<scroller
 				@dropDown="dropDown"
@@ -30,7 +29,6 @@ import Scroller from '@src/components/scroller/scroller.vue';
 import ArticList from '@src/components/artic-list/artic-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
-import { mapGetters } from 'vuex';
 
 @Component({
 	components: {
@@ -42,10 +40,10 @@ import { mapGetters } from 'vuex';
 })
 export default class ChatRoom extends Vue {
 	get articList() {
-		return this.$vuexClass.chatRoom.articList;
+		return this.$store.chatRoom.articList;
 	}
 	get view() {
-		return this.$vuexClass.chatRoom.view;
+		return this.$store.chatRoom.view;
 	}
 	get pullDownStatus() {
 		return this.articList.pullDownStatus;
@@ -168,17 +166,7 @@ export default class ChatRoom extends Vue {
 	get ArticList() {
 		return ArticList;
 	}
-	get count() {
-		return this.$easyStore.params;
-	}
 
-	mounted() {
-		console.log(this.$easyStore, 'wwwwwwwwwwwwwwwwwwwwwwwwwww');
-	}
-	add() {
-		this.$easyStore.count();
-		console.log(this.$easyStore, this.$easyStore.params);
-	}
 	async pullUp() {
 		return this.articList.pullUp();
 	}

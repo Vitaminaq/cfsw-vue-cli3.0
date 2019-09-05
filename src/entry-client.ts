@@ -35,9 +35,9 @@ class EntryClient extends Main {
 	}
 	public initState() {
 		// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
-		window.__INITIAL_STATE__ &&
-			this.store.replaceState(window.__INITIAL_STATE__.store);
-		Vue.prototype.$appConfig = window.__INITIAL_STATE__.appConfig;
+		if (window.__INITIAL_STATE__) {
+			this.store = { ...window.__INITIAL_STATE__.store };
+		}
 	}
 	public getPageData() {
 		const { router, store } = this;
@@ -82,28 +82,6 @@ const createApp = () => {
 	window.app = app;
 	app.onRouteReady();
 };
-
-class A {
-	constructor() {
-		console.log(this);
-		for (const k in this) {
-			console.log(k);
-		}
-	}
-	print(s: string | number) {
-		console.log(s);
-	}
-}
-
-class B extends A {
-	a = 1;
-	b = 8;
-	a1() {
-		return this.print(this.a);
-	}
-}
-
-new B();
 
 export default createApp();
 

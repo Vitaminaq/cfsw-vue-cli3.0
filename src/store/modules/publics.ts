@@ -1,14 +1,12 @@
 import { LocalAxiosOptions } from '@src/common/http';
-import VuexClass from 'vuex-class.js';
 
 export interface PublicState {
 	appConfig: LocalAxiosOptions | null;
 }
 
-class Publics extends VuexClass {
+class Publics {
 	public readonly namespaced: boolean = true;
 	public constructor({ appConfig }: LocalAxiosOptions) {
-		super();
 		Object.assign(this.state, { appConfig });
 	}
 	public state: PublicState = {

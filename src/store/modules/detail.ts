@@ -1,5 +1,4 @@
 import DetailApi from '@src/api/detail';
-import VuexClass from 'vuex-class.js';
 import BaseLoaderData from '@src/common/base-loader-data';
 import BaseConfig from '@src/config';
 
@@ -142,35 +141,20 @@ interface DetailOptions {
 	appConfig: BaseConfig;
 }
 
-class Detail extends VuexClass {
+class Detail {
 	articDetail: ArticDetail;
 	getUserComment: GetUserComment;
 	userComment: UserComment;
 	agreeAuthor: AgreeAuthor;
 	agreeComment: AgreeComment;
 	public api: DetailApi;
-	modules: {
-		articDetail: ArticDetail;
-		userComment: UserComment;
-		agreeAuthor: AgreeAuthor;
-		agreeComment: AgreeComment;
-		getUserComment: GetUserComment;
-	};
 	constructor({ appConfig }: DetailOptions) {
-		super();
 		this.api = new DetailApi({ appConfig });
 		(this.articDetail = new ArticDetail(this.api)),
 			(this.getUserComment = new GetUserComment(this.api));
 		(this.userComment = new UserComment(this.api)),
 			(this.agreeAuthor = new AgreeAuthor(this.api)),
 			(this.agreeComment = new AgreeComment(this.api));
-		this.modules = {
-			articDetail: this.articDetail,
-			userComment: this.userComment,
-			agreeAuthor: this.agreeAuthor,
-			agreeComment: this.agreeComment,
-			getUserComment: this.getUserComment
-		};
 	}
 }
 export default Detail;

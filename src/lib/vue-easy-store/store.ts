@@ -1,30 +1,46 @@
-import Vue, { PluginFunction, VueConstructor } from 'vue';
+import Vue, { VueConstructor } from 'vue';
+
+import { hasObservable, isNotPro } from './utils';
 
 let localVue: VueConstructor<Vue> | null = null;
+
 export class Store {
-	public constructor() {
+    protected  _vm: Vue | null = null;
+
+	public init() {
         if (!localVue) throw Error('please Vue.use() install it');
-        localVue.observable(this);
-	}
-	public subscrib() {
-		console.log('订阅成功');
+        if (hasObservable(localVue)) 
+        return localVue.observable(this);
+        const that = this;
+        this._vm = new localVue({
+            data: {
+                $$state: that
+            }
+        })
 	}
 }
 
 export function install(_Vue: VueConstructor<Vue>) {
 	if (localVue && _Vue === localVue) {
-		if (process.env.NODE_ENV !== 'production') {
-			console.error('vue-easy-store already installed');
-		}
-		return;
+		return isNotPro && console.error('vue-easy-store already installed');	
 	}
-	localVue = _Vue;
-	Object.defineProperty(_Vue.prototype, '$easyStore', {
-		get(this) {
-			return this.$root.$options.easyStore;
+    localVue = _Vue;
+    if (!('$store' in _Vue.prototype)) {
+        Object.defineProperty(_Vue.prototype, '$store', {
+		get() {
+            if (hasObservable(_Vue)) return this.$root.$options.store;
+            return this.$root.$options.store._vm.$data.$$state;
 		},
 		set() {
-			console.error('no modification allowed');
+			isNotPro && console.error('no modification allowed');
+		}
+	});
+    }
+	_Vue.mixin({
+		beforeDestroy() {
+			if ((this as any).$options.store) {
+				delete (this as any).$options.store;
+			}
 		}
 	});
 }
