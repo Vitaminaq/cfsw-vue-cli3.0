@@ -119,10 +119,17 @@ import GeneralHeader from '@src/components/header/general-header.vue';
 import config from '@src/config';
 import { getQueryParams } from '@src/services/publics';
 
-@Component({
+@Component<Detail>({
 	components: {
 		CommentList,
 		GeneralHeader
+	},
+	asyncData: ({ store, route }) => {
+		let params: Detail.ArticDetail.RequestParams = {
+			id: (route as any).query.id
+		};
+		store.detail.articDetail.$assignParams(params);
+		return store.detail.articDetail.getArticDetail();
 	}
 })
 export default class Detail extends Vue {

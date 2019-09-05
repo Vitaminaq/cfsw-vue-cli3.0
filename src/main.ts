@@ -1,5 +1,6 @@
 import Vue, { CreateElement, ComponentOptions } from 'vue';
 import App from './App.vue';
+import { Route } from 'vue-router';
 import Router from './router';
 import Store from './store';
 import { Component } from 'vue-property-decorator';
@@ -94,12 +95,6 @@ Vue.use(SvgIcon);
 // Vue.use(VueVirtualScroller);
 // Vue.use(LocalToast);
 
-// Vue.directive('focus', {
-// 	inserted: function(el) {
-// 		el.focus();
-// 	}
-// });
-
 @Component<BaseComponents>({})
 class BaseComponents extends Vue {
 	public render(h: CreateElement) {
@@ -126,5 +121,16 @@ export default class Main extends BaseComponents {
 		this.app = this;
 		this.store = store;
 		this.router = router;
+	}
+}
+
+interface AsyncDataOption {
+	store: Store;
+	route: Route;
+}
+
+declare module 'vue/types/options' {
+	interface ComponentOptions<V extends Vue> {
+		asyncData?: (options: AsyncDataOption) => Promise<any> | void;
 	}
 }

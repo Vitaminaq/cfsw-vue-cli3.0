@@ -56,116 +56,117 @@ export default class ChatRoom extends Vue {
 		return this.articList.pullUpStatus;
 	}
 	get list() {
-		return [
-			{
-				articId: 1,
-				clicknum: 0,
-				commentnum: 0,
-				creatAt: '1550911935818',
-				headimg: '/static/images/大飞哥.png',
-				msg: '热帖热帖',
-				title: '的方式',
-				uid: 2,
-				updateAt: null,
-				viewnum: 44
-			},
-			{
-				articId: 2,
-				clicknum: 0,
-				commentnum: 0,
-				creatAt: '1550911935818',
-				headimg: '/static/images/大飞哥.png',
-				msg: '热帖热帖',
-				title: '的方式',
-				uid: 2,
-				updateAt: null,
-				viewnum: 44
-			},
-			{
-				articId: 3,
-				clicknum: 0,
-				commentnum: 0,
-				creatAt: '1550911935818',
-				headimg: '/static/images/大飞哥.png',
-				msg: '热帖热帖',
-				title: '的方式',
-				uid: 2,
-				updateAt: null,
-				viewnum: 44
-			},
-			{
-				articId: 4,
-				clicknum: 0,
-				commentnum: 0,
-				creatAt: '1550911935818',
-				headimg: '/static/images/大飞哥.png',
-				msg: '热帖热帖',
-				title: '的方式',
-				uid: 2,
-				updateAt: null,
-				viewnum: 44
-			},
-			{
-				articId: 5,
-				clicknum: 0,
-				commentnum: 0,
-				creatAt: '1550911935818',
-				headimg: '/static/images/大飞哥.png',
-				msg: '热帖热帖',
-				title: '的方式',
-				uid: 2,
-				updateAt: null,
-				viewnum: 44
-			},
-			{
-				articId: 6,
-				clicknum: 0,
-				commentnum: 0,
-				creatAt: '1550911935818',
-				headimg: '/static/images/大飞哥.png',
-				msg: '热帖热帖',
-				title: '的方式',
-				uid: 2,
-				updateAt: null,
-				viewnum: 44
-			},
-			{
-				articId: 7,
-				clicknum: 0,
-				commentnum: 0,
-				creatAt: '1550911935818',
-				headimg: '/static/images/大飞哥.png',
-				msg: '热帖热帖',
-				title: '的方式',
-				uid: 2,
-				updateAt: null,
-				viewnum: 44
-			},
-			{
-				articId: 8,
-				clicknum: 0,
-				commentnum: 0,
-				creatAt: '1550911935818',
-				headimg: '/static/images/大飞哥.png',
-				msg: '热帖热帖',
-				title: '的方式',
-				uid: 2,
-				updateAt: null,
-				viewnum: 44
-			},
-			{
-				articId: 9,
-				clicknum: 0,
-				commentnum: 0,
-				creatAt: '1550911935818',
-				headimg: '/static/images/大飞哥.png',
-				msg: '热帖热帖',
-				title: '的方式',
-				uid: 2,
-				updateAt: null,
-				viewnum: 44
-			}
-		];
+		return this.articList.list;
+		// return [
+		// 	{
+		// 		articId: 1,
+		// 		clicknum: 0,
+		// 		commentnum: 0,
+		// 		creatAt: '1550911935818',
+		// 		headimg: '/static/images/大飞哥.png',
+		// 		msg: '热帖热帖',
+		// 		title: '的方式',
+		// 		uid: 2,
+		// 		updateAt: null,
+		// 		viewnum: 44
+		// 	},
+		// 	{
+		// 		articId: 2,
+		// 		clicknum: 0,
+		// 		commentnum: 0,
+		// 		creatAt: '1550911935818',
+		// 		headimg: '/static/images/大飞哥.png',
+		// 		msg: '热帖热帖',
+		// 		title: '的方式',
+		// 		uid: 2,
+		// 		updateAt: null,
+		// 		viewnum: 44
+		// 	},
+		// 	{
+		// 		articId: 3,
+		// 		clicknum: 0,
+		// 		commentnum: 0,
+		// 		creatAt: '1550911935818',
+		// 		headimg: '/static/images/大飞哥.png',
+		// 		msg: '热帖热帖',
+		// 		title: '的方式',
+		// 		uid: 2,
+		// 		updateAt: null,
+		// 		viewnum: 44
+		// 	},
+		// 	{
+		// 		articId: 4,
+		// 		clicknum: 0,
+		// 		commentnum: 0,
+		// 		creatAt: '1550911935818',
+		// 		headimg: '/static/images/大飞哥.png',
+		// 		msg: '热帖热帖',
+		// 		title: '的方式',
+		// 		uid: 2,
+		// 		updateAt: null,
+		// 		viewnum: 44
+		// 	},
+		// 	{
+		// 		articId: 5,
+		// 		clicknum: 0,
+		// 		commentnum: 0,
+		// 		creatAt: '1550911935818',
+		// 		headimg: '/static/images/大飞哥.png',
+		// 		msg: '热帖热帖',
+		// 		title: '的方式',
+		// 		uid: 2,
+		// 		updateAt: null,
+		// 		viewnum: 44
+		// 	},
+		// 	{
+		// 		articId: 6,
+		// 		clicknum: 0,
+		// 		commentnum: 0,
+		// 		creatAt: '1550911935818',
+		// 		headimg: '/static/images/大飞哥.png',
+		// 		msg: '热帖热帖',
+		// 		title: '的方式',
+		// 		uid: 2,
+		// 		updateAt: null,
+		// 		viewnum: 44
+		// 	},
+		// 	{
+		// 		articId: 7,
+		// 		clicknum: 0,
+		// 		commentnum: 0,
+		// 		creatAt: '1550911935818',
+		// 		headimg: '/static/images/大飞哥.png',
+		// 		msg: '热帖热帖',
+		// 		title: '的方式',
+		// 		uid: 2,
+		// 		updateAt: null,
+		// 		viewnum: 44
+		// 	},
+		// 	{
+		// 		articId: 8,
+		// 		clicknum: 0,
+		// 		commentnum: 0,
+		// 		creatAt: '1550911935818',
+		// 		headimg: '/static/images/大飞哥.png',
+		// 		msg: '热帖热帖',
+		// 		title: '的方式',
+		// 		uid: 2,
+		// 		updateAt: null,
+		// 		viewnum: 44
+		// 	},
+		// 	{
+		// 		articId: 9,
+		// 		clicknum: 0,
+		// 		commentnum: 0,
+		// 		creatAt: '1550911935818',
+		// 		headimg: '/static/images/大飞哥.png',
+		// 		msg: '热帖热帖',
+		// 		title: '的方式',
+		// 		uid: 2,
+		// 		updateAt: null,
+		// 		viewnum: 44
+		// 	}
+		// ];
 	}
 	get ArticList() {
 		return ArticList;

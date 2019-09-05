@@ -59,9 +59,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
-@Component<Reset>({
-
-})
+@Component<Reset>({})
 export default class Reset extends Vue {
 	nickname: string = '';
 	name: string = '';

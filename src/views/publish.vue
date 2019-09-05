@@ -53,17 +53,17 @@ export default class publish extends Vue {
 			title: this.title,
 			msg: this.artic
 		};
-		if ((this as any).isEmpty(params)) {
-			(this as any).$toast('请填写完整信息!');
-			return;
-		}
+		// if ((this as any).isEmpty(params)) {
+		// 	(this as any).$toast('请填写完整信息!');
+		// 	return;
+		// }
 		this.disable = true;
 		this.publish.$assignParams(params);
 		await this.publish.userPublish();
 		this.disable = false;
-		if (this.publish.res.code !== 0) {
-			return (this as any).$toast(this.publish.res.data);
-		}
+		// if (this.publish.res.code !== 0) {
+		// 	return (this as any).$toast(this.publish.res.data);
+		// }
 		this.publish.$clearData();
 		return this.$router.push({ name: 'chatroom' });
 	}

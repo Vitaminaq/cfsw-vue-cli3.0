@@ -50,6 +50,7 @@ import { getQueryParams } from '@src/services/publics';
 @Component
 export default class login extends Vue {
 	password: string = '';
+	nickname: string = '';
 
 	button: Button = {
 		disabled: false,
@@ -73,7 +74,7 @@ export default class login extends Vue {
 		if (!this.headerImgUrl) return;
 		return `${''}${this.headerImgUrl}`;
 	}
-	get nickname(): string | null {
+	get nn(): string | null {
 		return getQueryParams(this.$route.query.nickname);
 	}
 	get from(): string | null {
@@ -81,7 +82,7 @@ export default class login extends Vue {
 	}
 
 	mounted() {
-		if (!this.nickname) return;
+		if (!this.nn) return;
 		this.getUserHeaderImg();
 	}
 	async getUserHeaderImg(): Promise<this> {
@@ -101,19 +102,19 @@ export default class login extends Vue {
 			nickname,
 			password: this.password
 		};
-		if ((this as any).isEmpty(params)) {
-			(this as any).$toast('请填写完整信息!');
-			return;
-		}
+		// if ((this as any).isEmpty(params)) {
+		// 	(this as any).$toast('请填写完整信息!');
+		// 	return;
+		// }
 		this.loginModule.$assignParams(params);
 		this.button.disabled = true;
 		await this.loginModule.userLogin();
 		setTimeout(() => {
 			this.button.disabled = false;
 		}, 1000);
-		if (this.loginModule.res.code !== 0)
-			return (this as any).$toast(this.loginModule.res.data);
-		const to = this.from ? this.from : '/chatroom';
+		// if (this.loginModule.res.code !== 0)
+		// 	return (this as any).$toast(this.loginModule.res.data);
+		const to = this.from ? this.from : '/';
 		return this.$router.push({ path: to });
 	}
 	close() {

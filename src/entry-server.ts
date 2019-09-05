@@ -16,8 +16,7 @@ class EntryServer extends Main {
 	}
 	public init() {
 		return new Promise((resolve, reject) => {
-			const { app, router, store } = this;
-			const { context } = this;
+			const { app, router, store, context } = this;
 
 			const { url } = context;
 			const { fullPath } = router.resolve(url).route;
@@ -33,12 +32,14 @@ class EntryServer extends Main {
 				if (!matchedComponents.length) {
 					return reject({ code: 404 });
 				}
+				console.log(matchedComponents[1], 'ppppp');
+
 				// 如果路由匹配，则触发服务器端asyncData钩子，此钩子便是你组件定义的钩子函数，
 				// 默认写在与methods同级，所以取的是其options，其实可以自行定义其位置，和实现方法
 				// 可以在这里对钩子重写，使之拥有更多功能
 				Promise.all(
 					matchedComponents.map((Component: any) => {
-						if (Component.options.asyncData) {
+						if (Component.options && Component.options.asyncData) {
 							return Component.options.asyncData({
 								store,
 								route: router.currentRoute
