@@ -1,6 +1,6 @@
 const config = require('./config/config.local');
 const path = require('path');
-const SvgSpritePlugin = require('./lib/svg-sprite-plugin');
+// const SvgSpritePlugin = require('./lib/svg-sprite-plugin');
 
 class RemovePwaHtmlPlugin {
 	apply(compiler) {
@@ -16,6 +16,7 @@ module.exports = {
 	// baseUrl: config.baseUrl,
 	lintOnSave: process.env.NODE_ENV !== 'production',
 	productionSourceMap: false,
+	// templatePath: path.resolve(__dirname, './public/index.html'),
 	configureWebpack(webpackConfig) {
 		webpackConfig.resolve.extensions = ['.vue', '.js', '.ts', 'jsx', 'tsx'];
 		webpackConfig.resolve.alias = {
@@ -39,6 +40,9 @@ module.exports = {
 				]
 			}
 		}
+	},
+	pluginOptions: {
+		templatePath: path.resolve(__dirname, './public/index.html')
 	},
 	devServer: {
 		port: 8090

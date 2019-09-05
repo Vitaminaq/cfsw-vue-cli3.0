@@ -167,9 +167,6 @@ export default class ChatRoom extends Vue {
 		return ArticList;
 	}
 
-	// created() {
-	// 	console.log(this.$isServer, 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
-	// }
 	async pullUp() {
 		return this.articList.pullUp();
 	}
