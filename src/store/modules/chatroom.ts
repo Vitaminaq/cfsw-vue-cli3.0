@@ -4,9 +4,12 @@ import BaseLoaderData from '@src/common/base-loader-data';
 import BaseConfig from '@src/config';
 
 class ArticList extends BaseLoaderList {
-	readonly namespaced: boolean = true;
+	public count: number = 0;
 	getListBaseAjaxMethod(): Promise<Loader.Response> {
 		return this.api.getArtic(this.state.params);
+	}
+	public addCount() {
+		return this.count++;
 	}
 }
 class View extends BaseLoaderData<ChatRoom.View.RequestParams, string> {

@@ -117,7 +117,6 @@ export default class Main extends BaseComponents {
 	public router: Router;
 	constructor({ appConfig }: MainOptions) {
 		const store = new Store({ appConfig });
-		console.log(store, 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
 		const router = new Router();
 		const options: ComponentOptions<Vue> = {
 			router,
