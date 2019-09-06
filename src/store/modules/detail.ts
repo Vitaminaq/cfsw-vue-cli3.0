@@ -62,12 +62,14 @@ class ArticDetail extends BaseLoaderData<
 	$RequestSuccess(res: Detail.ArticDetail.Response): this {
 		if (res.code === 0 && res.data) {
 			this.state.requestStatus = 'success';
-			if (!this.state.dataStore[res.data.articId]) {
-				this.state.dataStore[res.data.articId] = new SaveData();
-			}
-			this.state.dataStore[res.data.articId].saveArticMessage({
-				...res.data
-			});
+			// if (!this.state.dataStore[res.data.articId]) {
+			// 	this.state.dataStore[res.data.articId] = new SaveData();
+			// }
+			// this.state.dataStore[res.data.articId].saveArticMessage({
+			// 	...res.data
+			// });
+			console.log(res, 'ooooooooooooooooooo');
+			this.state.res = { ...res };
 		} else {
 			this.state.requestStatus = 'error';
 		}

@@ -1,6 +1,6 @@
 import Vue, { VueConstructor } from 'vue';
 
-import { hasObservable, isNotPro } from './utils';
+import { hasObservable, isNotPro, mergeStore } from './utils';
 
 let localVue: VueConstructor<Vue> | null = null;
 
@@ -17,8 +17,14 @@ export class Store {
 			}
 		});
 	}
-	public replace<S>(store: S) {
-        Object.assign(this, store);
+	public replace(store: any) {
+		// console.log(this, 'Wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
+		// const r = Object.assign({}, store, this);
+		// console.log(r, 'ooooooooooooooooooooooooo')
+		// r.__proto__ = (this as any).__proto__;
+		// Object.assign(this, r);
+		mergeStore(store, this);
+		console.log('暂时不支持ssr状态接管');
 	}
 }
 

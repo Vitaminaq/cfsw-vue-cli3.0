@@ -32,7 +32,6 @@ class View extends BaseLoaderData<ChatRoom.View.RequestParams, string> {
 export interface ChatRoomOptions {
 	appConfig: BaseConfig;
 }
-
 class ChatRoom {
 	public api: ChatRoomApi;
 	articList: ArticList;

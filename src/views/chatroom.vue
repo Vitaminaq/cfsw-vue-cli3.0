@@ -10,7 +10,7 @@
 				:pullDownStatus="pullDownStatus"
 				v-rescroll="{ name: 'chatroom' }"
 			>
-				<ul v-if="list.length">
+				<ul v-if="list && list.length">
 					<artic-list
 						v-for="(item, key) in list"
 						:key="key"
@@ -170,6 +170,10 @@ export default class ChatRoom extends Vue {
 	}
 	get ArticList() {
 		return ArticList;
+	}
+
+	mounted() {
+		console.log(this.$store.chatRoom.articList);
 	}
 
 	async pullUp() {

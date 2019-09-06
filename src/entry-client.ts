@@ -5,8 +5,11 @@ import { Route } from 'vue-router';
 import VueRescroll from 'vue-rescroll';
 import BaseConfig from './config';
 import VueHtml5Editor from 'vue-html5-editor';
+import VueImgLazyLoad from 'vue-images-lazy-load';
 
 Vue.use(VueRescroll);
+Vue.use(VueImgLazyLoad);
+
 const options = {
 	showModuleName: true,
 	// 自定义各个图标的class，默认使用的是font-awesome提供的图标
