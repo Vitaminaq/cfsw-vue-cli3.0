@@ -18,13 +18,7 @@ export class Store {
 		});
 	}
 	public replace(store: any) {
-		// console.log(this, 'Wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
-		// const r = Object.assign({}, store, this);
-		// console.log(r, 'ooooooooooooooooooooooooo')
-		// r.__proto__ = (this as any).__proto__;
-		// Object.assign(this, r);
-		mergeStore(store, this);
-		console.log('暂时不支持ssr状态接管');
+		mergeStore(this, store);
 	}
 }
 

@@ -8,16 +8,16 @@
 		@click="control"
 	>
 		<general-header :header-title="headerTitle" back-path-name="chatroom" />
-		<div v-if="!!articMessage" id="detailcontent">
-			<h1>{{ articMessage.title }}</h1>
+		<div v-if="!!detailData" id="detailcontent">
+			<h1>{{ detailData.title }}</h1>
 			<div class="author">
 				<div class="author-headimg"><img :src="headImg" /></div>
-				<span class="name">{{ articMessage.nickname }}</span>
+				<span class="name">{{ detailData.nickname }}</span>
 				<span class="time">{{
-					timestampToDateTime(Number(articMessage.creatAt))
+					timestampToDateTime(Number(detailData.creatAt))
 				}}</span>
 			</div>
-			<div id="artic" v-html="articMessage.msg"></div>
+			<div id="artic" v-html="detailData.msg"></div>
 			<div id="comment">
 				<div id="commentitle">评论区</div>
 				<div class="commentul">
@@ -25,15 +25,15 @@
 						name="list"
 						tag="ul"
 						v-if="
-							articMessage &&
-								articMessage.commentList &&
-								articMessage.commentList.length > 0
+							detailData &&
+								detailData.commentList &&
+								detailData.commentList.length > 0
 						"
 						enter-active-class="animated rollIn"
 						leave-active-class="animated rollOut"
 					>
 						<comment-list
-							v-for="(item, index) in articMessage.commentList"
+							v-for="(item, index) in detailData.commentList"
 							:key="item.commentId"
 							:index="index"
 							:item="item"
@@ -69,16 +69,16 @@
 					>
 						<svg-icon
 							name="click"
-							:class="articMessage.isClick ? 'oprated' : ''"
+							:class="detailData.isClick ? 'oprated' : ''"
 						/>
 						<span class="agreeau-num">{{
-							articMessage.clicknum
+							detailData.clicknum
 						}}</span>
 					</div>
 					<div class="operate-artic" @click="toButtom">
 						<svg-icon name="comment" />
 						<span class="agreeau-num">{{
-							articMessage.commentnum
+							detailData.commentnum
 						}}</span>
 					</div>
 					<div class="operate-comment">
@@ -155,18 +155,9 @@ export default class Detail extends Vue {
 	get articDetail() {
 		return this.$store.detail.articDetail;
 	}
-	// get headImg() {
-	// 	if (
-	// 		!this.articDetail ||
-	// 		!this.articDetail.dataStore ||
-	// 		!this.articDetail.dataStore[this.id] ||
-	// 		!this.articDetail.dataStore[this.id].articMessage
-	// 	)
-	// 		return 'dsfd';
-	// 	return `${config.BASE_URL}${
-	// 		this.articDetail.dataStore[this.id].articMessage.headimg
-	// 	}`;
-	// }
+	get detailData() {
+		return this.articDetail.data;
+	}
 	get agreeAuthor() {
 		return this.$store.detail.agreeAuthor;
 	}
@@ -184,17 +175,8 @@ export default class Detail extends Vue {
 		return len > 4;
 	}
 
-	async created() {
-		// if (!this.articDetail.dataStore[this.id]) {
-		// 	await this.getData();
-		// } else {
-		// 	this.articMessage = this.articDetail.dataStore[
-		// 		this.id
-		// 	].articMessage;
-		// 	this.headImg = `${config.BASE_URL}${
-		// 		this.articDetail.dataStore[this.id].articMessage.headimg
-		// 	}`;
-		// }
+	mounted() {
+		console.log(this.articDetail);
 	}
 	async getData(): Promise<this> {
 		const { id } = this;

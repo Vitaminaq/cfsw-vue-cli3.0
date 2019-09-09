@@ -9121,6 +9121,11 @@ vue-images-lazy-load@^1.0.9:
   resolved "https://registry.yarnpkg.com/vue-images-lazy-load/-/vue-images-lazy-load-1.0.10.tgz#723d93ce87c32354c1f3c304d92099ceb9e6f1ee"
   integrity sha512-ZhhSmxbRlIH/VgYvbBkcjLUZrlyJYFDzVU9vK5Jvc0t0BOIj6J20kGaPgjYwwc9r3uIKYfLnN4l0vOJTnwOcaA==
 
+vue-lazy-store@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vue-lazy-store/-/vue-lazy-store-1.0.0.tgz#f3743c3471964b0df593183c92ea7d23f5cce846"
+  integrity sha512-KBCT0k0PB9eDMNMLJTrfo4ZEfKs+mItu9Hig3F/HUFIJCgBsBG7Qk2H4h+OKi06vKsNX6PNKEzz2FHRmL2410g==
+
 vue-loader@^15.7.0:
   version "15.7.1"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.7.1.tgz#6ccacd4122aa80f69baaac08ff295a62e3aefcfd"

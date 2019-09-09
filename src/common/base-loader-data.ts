@@ -14,6 +14,10 @@ class BaseVuexClass<P, D> {
 	get res(): API.APIBaseResponse<D> {
 		return this.state.res;
 	}
+	get data() {
+		const { data } = this.res;
+		return data ? data : null;
+	}
 	get requestStatus(): Loader.RequestStatus {
 		return this.state.requestStatus;
 	}

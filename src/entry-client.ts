@@ -60,21 +60,21 @@ Vue.directive('focus', {
 /**
  * 当组件复用时，触发asyncData钩子，重新请求数据
  */
-// Vue.mixin({
-// 	beforeRouteUpdate(to: any, from: any, next: any) {
-// 		const { asyncData } = (this as any).$options;
-// 		if (asyncData) {
-// 			asyncData({
-// 				store: (this as any).$store,
-// 				route: to
-// 			})
-// 				.then(next)
-// 				.catch(next);
-// 		} else {
-// 			next();
-// 		}
-// 	}
-// });
+Vue.mixin({
+	beforeRouteUpdate(to: any, from: any, next: any) {
+		const { asyncData } = (this as any).$options;
+		if (asyncData) {
+			asyncData({
+				store: (this as any).$store,
+				route: to
+			})
+				.then(next)
+				.catch(next);
+		} else {
+			next();
+		}
+	}
+});
 
 class EntryClient extends Main {
 	public constructor() {
@@ -82,6 +82,7 @@ class EntryClient extends Main {
 			appConfig: window.__INITIAL_STATE__.appConfig || ''
 		});
 		this.initState();
+		this.getPageData();
 	}
 	public initState() {
 		// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
@@ -98,7 +99,11 @@ class EntryClient extends Main {
 				let diffed = false;
 				// 校验to的路由地址和from的路由地址是否相等，如果不相等则在客户端触发asyncData钩子
 				const activated = matched.filter((c: any, i: any) => {
-					return diffed || (diffed = prevMatched[i] !== c);
+					return (
+						(diffed || (diffed = prevMatched[i] !== c)) &&
+						c.options &&
+						typeof c.options.asyncData === 'function'
+					);
 				});
 				const asyncDataHooks = activated
 					.map((c: any) => c.options.asyncData)

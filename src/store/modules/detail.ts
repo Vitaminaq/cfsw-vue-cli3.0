@@ -68,7 +68,6 @@ class ArticDetail extends BaseLoaderData<
 			// this.state.dataStore[res.data.articId].saveArticMessage({
 			// 	...res.data
 			// });
-			console.log(res, 'ooooooooooooooooooo');
 			this.state.res = { ...res };
 		} else {
 			this.state.requestStatus = 'error';

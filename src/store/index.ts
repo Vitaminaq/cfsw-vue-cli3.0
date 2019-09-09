@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueEasy from '@src/lib/vue-easy-store';
+import VueEasy from 'vue-lazy-store';
 import Login from './modules/login';
 import Register from './modules/register';
 import Reset from './modules/reset';
