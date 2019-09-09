@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueEasy from 'vue-lazy-store';
+import VueLazy from 'vue-lazy-store';
 import Login from './modules/login';
 import Register from './modules/register';
 import Reset from './modules/reset';
@@ -9,12 +9,12 @@ import Detail from './modules/detail';
 import Publics from './modules/publics';
 import BaseConfig from '@src/config';
 
-Vue.use(VueEasy);
+Vue.use(VueLazy);
 export interface StoreOptions {
 	appConfig: BaseConfig;
 }
 
-class BaseStore extends VueEasy.Store {
+class BaseStore extends VueLazy.Store {
 	public chatRoom: ChatRoom;
 	public detail: Detail;
 	public publish: Publish;
