@@ -1,7 +1,6 @@
 <template>
 	<div class="chatroom">
 		<logo-header @click.native="addCount" />
-		{{ count }}
 		<div class="wrapper">
 			<scroller
 				@dropDown="dropDown"
@@ -40,168 +39,41 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 	}
 })
 export default class ChatRoom extends Vue {
-	get articList() {
+	public get articList() {
 		return this.$store.chatRoom.articList;
 	}
-	get count() {
-		return this.articList.count;
-	}
-	get view() {
-		return this.$store.chatRoom.view;
-	}
-	get pullDownStatus() {
+	public get pullDownStatus() {
 		return this.articList.pullDownStatus;
 	}
-	get pullUpStatus() {
+	public get pullUpStatus() {
 		return this.articList.pullUpStatus;
 	}
-	get list() {
+	public get list() {
 		return this.articList.list;
-		// return [
-		// 	{
-		// 		articId: 1,
-		// 		clicknum: 0,
-		// 		commentnum: 0,
-		// 		creatAt: '1550911935818',
-		// 		headimg: '/static/images/大飞哥.png',
-		// 		msg: '热帖热帖',
-		// 		title: '的方式',
-		// 		uid: 2,
-		// 		updateAt: null,
-		// 		viewnum: 44
-		// 	},
-		// 	{
-		// 		articId: 2,
-		// 		clicknum: 0,
-		// 		commentnum: 0,
-		// 		creatAt: '1550911935818',
-		// 		headimg: '/static/images/大飞哥.png',
-		// 		msg: '热帖热帖',
-		// 		title: '的方式',
-		// 		uid: 2,
-		// 		updateAt: null,
-		// 		viewnum: 44
-		// 	},
-		// 	{
-		// 		articId: 3,
-		// 		clicknum: 0,
-		// 		commentnum: 0,
-		// 		creatAt: '1550911935818',
-		// 		headimg: '/static/images/大飞哥.png',
-		// 		msg: '热帖热帖',
-		// 		title: '的方式',
-		// 		uid: 2,
-		// 		updateAt: null,
-		// 		viewnum: 44
-		// 	},
-		// 	{
-		// 		articId: 4,
-		// 		clicknum: 0,
-		// 		commentnum: 0,
-		// 		creatAt: '1550911935818',
-		// 		headimg: '/static/images/大飞哥.png',
-		// 		msg: '热帖热帖',
-		// 		title: '的方式',
-		// 		uid: 2,
-		// 		updateAt: null,
-		// 		viewnum: 44
-		// 	},
-		// 	{
-		// 		articId: 5,
-		// 		clicknum: 0,
-		// 		commentnum: 0,
-		// 		creatAt: '1550911935818',
-		// 		headimg: '/static/images/大飞哥.png',
-		// 		msg: '热帖热帖',
-		// 		title: '的方式',
-		// 		uid: 2,
-		// 		updateAt: null,
-		// 		viewnum: 44
-		// 	},
-		// 	{
-		// 		articId: 6,
-		// 		clicknum: 0,
-		// 		commentnum: 0,
-		// 		creatAt: '1550911935818',
-		// 		headimg: '/static/images/大飞哥.png',
-		// 		msg: '热帖热帖',
-		// 		title: '的方式',
-		// 		uid: 2,
-		// 		updateAt: null,
-		// 		viewnum: 44
-		// 	},
-		// 	{
-		// 		articId: 7,
-		// 		clicknum: 0,
-		// 		commentnum: 0,
-		// 		creatAt: '1550911935818',
-		// 		headimg: '/static/images/大飞哥.png',
-		// 		msg: '热帖热帖',
-		// 		title: '的方式',
-		// 		uid: 2,
-		// 		updateAt: null,
-		// 		viewnum: 44
-		// 	},
-		// 	{
-		// 		articId: 8,
-		// 		clicknum: 0,
-		// 		commentnum: 0,
-		// 		creatAt: '1550911935818',
-		// 		headimg: '/static/images/大飞哥.png',
-		// 		msg: '热帖热帖',
-		// 		title: '的方式',
-		// 		uid: 2,
-		// 		updateAt: null,
-		// 		viewnum: 44
-		// 	},
-		// 	{
-		// 		articId: 9,
-		// 		clicknum: 0,
-		// 		commentnum: 0,
-		// 		creatAt: '1550911935818',
-		// 		headimg: '/static/images/大飞哥.png',
-		// 		msg: '热帖热帖',
-		// 		title: '的方式',
-		// 		uid: 2,
-		// 		updateAt: null,
-		// 		viewnum: 44
-		// 	}
-		// ];
-	}
-	get ArticList() {
-		return ArticList;
 	}
 
-	mounted() {
-		console.log(this.$store.chatRoom.articList);
-	}
-
-	async pullUp() {
+	public async pullUp() {
 		return this.articList.pullUp();
 	}
-	async dropDown(): Promise<this> {
+	public async dropDown(): Promise<this> {
 		await this.articList.pullDown();
 		if (this.pullDownStatus !== 'error') {
 			(this as any).$toast('刷新成功!');
 		}
 		return this;
 	}
-	addCount() {
-		return this.articList.addCount();
-	}
-	async todetail(id: string) {
-		let params: ChatRoom.View.RequestParams = {
-			id: id
-		};
-		this.view.$assignParams(params);
-		await this.view.saveView();
-		if (this.view.res.code === 0) {
-			return this.$router.push({
-				name: 'artic-detail',
-				query: { id: id }
-			});
-		}
-		(this as any).$toast(this.view.res.data);
+	public async todetail(id: string) {
+		// let params: ChatRoom.View.RequestParams = {
+		// 	id: id
+		// };
+		// this.view.$assignParams(params);
+		// await this.view.saveView();
+		// if (this.view.res.code === 0) {
+		return this.$router.push({
+			name: 'artic-detail',
+			query: { id: id }
+		});
+		// }
 	}
 	beforeDestroy() {
 		if (this.$route.name === 'publish') {
@@ -217,7 +89,8 @@ export default class ChatRoom extends Vue {
 
 	.wrapper {
 		position: relative;
-		max-height: 100%;
+		height: 100%;
+		min-width: 60%;
 		overflow-y: hidden;
 		background-color: #f7f7f7;
 	}

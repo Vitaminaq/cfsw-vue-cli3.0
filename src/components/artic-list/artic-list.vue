@@ -3,34 +3,32 @@
 		<div class="list-content">
 			<div class="artic-content">
 				<div class="userImg">
-					<!-- <img
-						:src="baseUrl"
-						v-img-lazy-load="{
-							url: `https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2097124721,3074829049&fm=26&gp=0.jpg`
-						}"
-					/> -->
+					<img :src="baseUrl" />
 				</div>
 				<div class="author">
 					<div class="title">{{ item.title }}</div>
 					<div class="detail">
-						<span class="authorname">{{ item.nickname }}</span>
+						<span class="authorname">{{
+							item.nickname || '大飞哥'
+						}}</span>
 						<span class="publishtime">{{
 							time(item.creatAt)
 						}}</span>
 					</div>
-					<div class="oparatenum">
-						<span class="icon left">
-							<svg-icon name="view" />
-						</span>
-						<span class="num">{{ item.viewnum }}</span>
-						<span class="icon"> <svg-icon name="comment" /> </span>
-						<span class="num">{{ item.commentnum }}</span>
-						<span class="icon right">
-							<svg-icon name="click" />
-						</span>
-						<span class="num">{{ item.clicknum }}</span>
-					</div>
+					<div class="artic-msg-content" v-html="articInfo"></div>
 				</div>
+			</div>
+			<div class="oparatenum">
+				<span class="icon left">
+					<svg-icon name="view" />
+				</span>
+				<span class="num">{{ item.viewnum }}</span>
+				<span class="icon"> <svg-icon name="comment" /> </span>
+				<span class="num">{{ item.commentnum }}</span>
+				<span class="icon right">
+					<svg-icon name="click" />
+				</span>
+				<span class="num">{{ item.clicknum }}</span>
 			</div>
 		</div>
 	</div>
@@ -39,21 +37,21 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Time } from '@src/common/comjs';
 import config from '@src/config';
-// import { directive } from '@src/lib/vue-img-lazy-load-common.js';
 
-@Component({
-	// directives: {
-	// 	'img-lazy-load': directive
-	// }
-})
+@Component<ArticList>({})
 export default class ArticList extends Vue {
 	@Prop({ default: () => {} }) item!: Loader.ListItem;
 
-	get appConfig() {
-		return this.$store.publics.state.appConfig;
+	get BASE_API() {
+		return this.$store.publics.BASE_API;
 	}
 	get baseUrl() {
-		return `${this.appConfig}${this.item.headimg}`;
+		return `${this.BASE_API}${this.item.headimg}`;
+	}
+	get articInfo() {
+		const { msg } = this.item;
+		if (msg.length > 80) return `${msg.slice(0, 79)}...`;
+		return msg.slice(0, 80);
 	}
 	time(creatAt: string) {
 		return Time(Number(creatAt));
@@ -63,13 +61,9 @@ export default class ArticList extends Vue {
 <style lang="less" scoped>
 .list-item {
 	width: 100%;
-	padding-top: 10px;
+	padding-top: 15px;
 	.list-content {
-		width: 90%;
-		margin: 0 auto;
-		border-radius: 10px;
-		// prettier-ignore
-		box-shadow: 1PX 1PX 5PX #adadad, -1PX -1PX 5PX #adadad;
+		width: 100%;
 		background-color: #fff;
 		.artic-content {
 			width: 93%;
@@ -96,9 +90,8 @@ export default class ArticList extends Vue {
 					margin-bottom: 5px;
 					font-size: 16px;
 					font-weight: bold;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
+					max-width: 100%;
+					word-break: break-word;
 				}
 				.detail {
 					color: #adadad;
@@ -124,6 +117,11 @@ export default class ArticList extends Vue {
 				}
 			}
 		}
+		.artic-msg-content {
+			word-break: break-word;
+			margin-top: 15px;
+			line-height: 20px !important;
+		}
 		.oparatenum {
 			display: flex;
 			display: -webkit-flex;
@@ -139,17 +137,6 @@ export default class ArticList extends Vue {
 				margin-right: 0.3rem;
 				fill: #adadad;
 			}
-			// .icon {
-			// 	width: 33%;
-			// 	padding-bottom: 0.1rem;
-			// 	text-align: center;
-			// 	&.left {
-			// 		text-align: left;
-			// 	}
-			// 	&.right {
-			// 		text-align: right;
-			// 	}
-			// }
 			.num {
 				width: 33%;
 			}

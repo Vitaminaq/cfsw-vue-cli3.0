@@ -1,19 +1,22 @@
 import { LocalAxiosOptions } from '@src/common/http';
+import BaseConfig from '@src/config';
 
 export interface PublicState {
 	appConfig: LocalAxiosOptions | null;
 }
 
 class Publics {
-	public readonly namespaced: boolean = true;
+	public appConfig: BaseConfig;
 	public constructor({ appConfig }: LocalAxiosOptions) {
-		Object.assign(this.state, { appConfig });
+		this.appConfig = appConfig;
 	}
-	public state: PublicState = {
-		appConfig: null
-	};
+	public get BASE_API(): string {
+		const { appConfig } = this;
+		return appConfig ? appConfig.BASE_API : '';
+	}
+
 	public initState(options: LocalAxiosOptions) {
-		Object.assign(this.state, options);
+		Object.assign(this.appConfig, options);
 	}
 }
 
