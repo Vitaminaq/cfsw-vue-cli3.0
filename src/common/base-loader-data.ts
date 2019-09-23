@@ -1,13 +1,13 @@
-class BaseVuexClass<P, D> {
-	api: any;
-	constructor(api: any) {
+class BaseVuexClass<P, D, A> {
+	api: A;
+	constructor(api: A) {
 		this.api = api;
 	}
 	public readonly state: API.APIBaseStoreState<P, D> = {
 		params: {} as P,
 		res: {
 			code: 0,
-			data: {} as D
+			data: null
 		},
 		requestStatus: 'unrequest'
 	};

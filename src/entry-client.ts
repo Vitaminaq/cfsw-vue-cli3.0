@@ -7,9 +7,6 @@ import BaseConfig from './config';
 import VueHtml5Editor from 'vue-html5-editor';
 import VueImgLazyLoad from 'vue-images-lazy-load';
 
-Vue.use(VueRescroll);
-Vue.use(VueImgLazyLoad);
-
 const options = {
 	showModuleName: true,
 	// 自定义各个图标的class，默认使用的是font-awesome提供的图标
@@ -49,32 +46,14 @@ const options = {
 	language: 'zh-cn',
 	hiddenModules: ['full-screen', 'info']
 };
-Vue.use(VueHtml5Editor, options);
-
-Vue.directive('focus', {
-	inserted: function(el) {
-		el.focus();
-	}
-});
-
-/**
- * 当组件复用时，触发asyncData钩子，重新请求数据
- */
-Vue.mixin({
-	beforeRouteUpdate(to: any, from: any, next: any) {
-		const { asyncData } = (this as any).$options;
-		if (asyncData) {
-			asyncData({
-				store: (this as any).$store,
-				route: to
-			})
-				.then(next)
-				.catch(next);
-		} else {
-			next();
+Vue.use(VueRescroll)
+	.use(VueImgLazyLoad)
+	.use(VueHtml5Editor, options)
+	.directive('focus', {
+		inserted: function(el) {
+			el.focus();
 		}
-	}
-});
+	});
 
 class EntryClient extends Main {
 	public constructor() {
@@ -92,36 +71,22 @@ class EntryClient extends Main {
 	}
 	public getPageData() {
 		const { router, store } = this;
-		router.beforeResolve(
-			async (to: Route, from: Route, next: () => void) => {
-				const matched = router.getMatchedComponents(to);
-				const prevMatched = router.getMatchedComponents(from);
-				let diffed = false;
-				// 校验to的路由地址和from的路由地址是否相等，如果不相等则在客户端触发asyncData钩子
-				const activated = matched.filter((c: any, i: any) => {
-					return (
-						(diffed || (diffed = prevMatched[i] !== c)) &&
-						c.options &&
-						typeof c.options.asyncData === 'function'
-					);
-				});
-				const asyncDataHooks = activated
-					.map((c: any) => c.options.asyncData)
-					.filter((_: any) => _);
-				if (!asyncDataHooks.length) {
-					return next();
-				}
-				await Promise.all(
-					asyncDataHooks.map(
-						async (hook: any) => await hook({ store, route: to })
-					)
+		// 采用路由后置钩子取数据，不阻塞路由跳转
+		router.afterEach(async (to: Route, from: Route) => {
+			const matched = router.getMatchedComponents(to);
+			const activated = matched.filter((c: any, i: any) => {
+				return c.options && typeof c.options.asyncData === 'function';
+			});
+			const asyncDataHooks = activated
+				.map((c: any) => c.options.asyncData)
+				.filter((_: any) => _);
+			if (!asyncDataHooks.length) return;
+			await Promise.all(
+				asyncDataHooks.map(
+					async (hook: any) => await hook({ store, route: to })
 				)
-					.then(() => {
-						next();
-					})
-					.catch(next);
-			}
-		);
+			);
+		});
 	}
 	public onRouteReady() {
 		const { router, app } = this;

@@ -8,7 +8,13 @@
 		@click="control"
 	>
 		<general-header :header-title="headerTitle" back-path-name="chatroom" />
-		<div v-if="!!detailData" id="detailcontent">
+		<img
+			v-if="!detailData"
+			class="blog-loading"
+			src="../../assets/blog_detail_loading.jpeg"
+			alt=""
+		/>
+		<div v-else id="detailcontent">
 			<h1>{{ detailData.title }}</h1>
 			<div class="author">
 				<div class="author-headimg"><img :src="headImg" /></div>
@@ -86,10 +92,10 @@
 					</div>
 				</div>
 				<div v-else id="commentdiv">
-					<img
+					<!-- <img
 						id="motion"
 						src="../../assets/image/detail/input.png"
-					/>
+					/> -->
 					<input
 						id="input2"
 						v-model="commentmsg"
@@ -336,6 +342,10 @@ export default class Detail extends Vue {
 <style lang="less" scoped>
 .list-move {
 	transition: transform 1s;
+}
+.blog-loading {
+	width: 100%;
+	height: 100%;
 }
 #detail {
 	overflow-y: auto;

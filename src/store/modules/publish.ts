@@ -6,7 +6,11 @@ interface PublishOptions {
 	appConfig: BaseConfig;
 }
 
-class Publish extends BaseLoaderData<Publish.RequestParams, string> {
+class Publish extends BaseLoaderData<
+	Publish.RequestParams,
+	string,
+	PublishApi
+> {
 	readonly namespaced: boolean = true;
 	// public api: PublishApi;
 	constructor({ appConfig }: PublishOptions) {
@@ -23,9 +27,6 @@ class Publish extends BaseLoaderData<Publish.RequestParams, string> {
 	// 	},
 	// 	requestStatus: 'unrequest'
 	// };
-	get res(): Publish.Response {
-		return this.state.res;
-	}
 	async userPublish(): Promise<this> {
 		this.$RequestStart();
 		const res = await this.api.userPublish(this.state.params);

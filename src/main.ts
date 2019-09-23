@@ -7,7 +7,6 @@ import { Component } from 'vue-property-decorator';
 import BaseConfig from './config';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
-// import VueRescroll from 'vue-rescroll';
 // import VueVirtualScroller from 'vue-virtual-scroller';
 // import Cookies from 'js-cookie';
 // import svgSprite from '@src/lib/svg-sprite';
@@ -90,7 +89,6 @@ import SvgIcon from '@src/components/svg';
 // });
 
 Vue.use(MyButton);
-// Vue.use(VueRescroll);
 Vue.use(SvgIcon);
 // Vue.use(VueVirtualScroller);
 // Vue.use(LocalToast);

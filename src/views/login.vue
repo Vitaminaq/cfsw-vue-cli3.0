@@ -47,12 +47,13 @@ import { Button } from '@src/components/mybutton/mybutton.vue';
 import config from '@src/config';
 import { getQueryParams } from '@src/services/publics';
 
-@Component
-export default class login extends Vue {
-	password: string = '';
-	nickname: string = '';
+@Component<Login>({})
+export default class Login extends Vue {
+	public password: string = '';
+	public nickname: string = '';
+	public url: string = '';
 
-	button: Button = {
+	public button: Button = {
 		disabled: false,
 		value: '登陆',
 		btnStyle: {
@@ -61,18 +62,8 @@ export default class login extends Vue {
 		}
 	};
 
-	get userHeaderImg() {
-		return this.$store.login.getUserHeaderImg;
-	}
-	get headerImgUrl() {
-		return this.userHeaderImg.res.data.headimg;
-	}
 	get loginModule() {
 		return this.$store.login.userLogin;
-	}
-	get url() {
-		if (!this.headerImgUrl) return;
-		return `${''}${this.headerImgUrl}`;
 	}
 	get nn(): string | null {
 		return getQueryParams(this.$route.query.nickname);
@@ -91,8 +82,9 @@ export default class login extends Vue {
 		const params = {
 			nickname
 		};
-		this.userHeaderImg.$assignParams(params);
-		await this.userHeaderImg.getUserHeaderImg();
+		const r = await this.loginModule.api.getUserHeaderImg(params);
+		if (r.code !== 0 || !r.data) return this;
+		this.url = r.data.headimg;
 		return this;
 	}
 	async login() {

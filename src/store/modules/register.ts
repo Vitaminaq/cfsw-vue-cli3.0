@@ -2,7 +2,11 @@ import RegisterApi from '@src/api/register';
 import BaseLoaderData from '@src/common/base-loader-data';
 import { LocalAxiosOptions } from '@src/common/http';
 
-class UserRegister extends BaseLoaderData<Register.RequestParams, string> {
+class UserRegister extends BaseLoaderData<
+	Register.RequestParams,
+	string,
+	RegisterApi
+> {
 	readonly namespaced: boolean = true;
 	constructor({ appConfig }: LocalAxiosOptions) {
 		super(new RegisterApi({ appConfig }));

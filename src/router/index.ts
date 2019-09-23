@@ -19,14 +19,9 @@ const options: RouterOptions = {
 class Router extends VueRouter {
 	constructor() {
 		super(options);
-		// this.beforeEach((to, from, next) => {
-		// 	if (to.name === 'publish' || to.name === 'PersonalCenter') {
-		// 		if (!Cookies.get('token') || !Cookies.get('nickname')) {
-		// 			this.push({ name: 'login' });
-		// 		}
-		// 	}
-		// 	next();
-		// });
+		this.beforeEach((to, from, next) => {
+			next();
+		});
 	}
 }
 export default Router;

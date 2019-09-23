@@ -19,7 +19,8 @@ class SaveData {
  */
 class ArticDetail extends BaseLoaderData<
 	Detail.ArticDetail.RequestParams,
-	Detail.ArticDetail.Data
+	Detail.ArticDetail.Data,
+	DetailApi
 > {
 	public readonly state: Detail.ArticDetail.State = {
 		params: {
@@ -86,7 +87,8 @@ class ArticDetail extends BaseLoaderData<
  */
 class GetUserComment extends BaseLoaderData<
 	Detail.UserComment.RequestParams,
-	string
+	string,
+	DetailApi
 > {
 	async getUserComment(): Promise<this> {
 		this.$RequestStart();
@@ -100,7 +102,8 @@ class GetUserComment extends BaseLoaderData<
  */
 class UserComment extends BaseLoaderData<
 	Detail.UserComment.RequestParams,
-	string
+	string,
+	DetailApi
 > {
 	async userComment(): Promise<this> {
 		this.$RequestStart();
@@ -114,7 +117,8 @@ class UserComment extends BaseLoaderData<
  */
 class AgreeAuthor extends BaseLoaderData<
 	Detail.AgreeAuthor.RequestParams,
-	string
+	string,
+	DetailApi
 > {
 	async agreeAuthor(): Promise<this> {
 		this.$RequestStart();
@@ -128,7 +132,8 @@ class AgreeAuthor extends BaseLoaderData<
  */
 class AgreeComment extends BaseLoaderData<
 	Detail.AgreeComment.RequestParams,
-	string
+	string,
+	DetailApi
 > {
 	async agreeComment(): Promise<this> {
 		this.$RequestStart();

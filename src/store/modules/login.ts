@@ -4,7 +4,8 @@ import { LocalAxiosOptions } from '@src/common/http';
 
 class GetUserHeaderImg extends BaseLoaderData<
 	API.Login.UserHeaderImg.RequestParams,
-	API.Login.UserHeaderImg.Data
+	API.Login.UserHeaderImg.Data,
+	LoginApi
 > {
 	readonly namespaced: boolean = true;
 	async getUserHeaderImg(): Promise<this> {
@@ -18,7 +19,8 @@ class GetUserHeaderImg extends BaseLoaderData<
 }
 class UserLogin extends BaseLoaderData<
 	API.Login.UserLogin.RequestParams,
-	API.Login.UserLogin.Data
+	API.Login.UserLogin.Data,
+	LoginApi
 > {
 	readonly namespaced: boolean = true;
 	async userLogin(): Promise<this> {

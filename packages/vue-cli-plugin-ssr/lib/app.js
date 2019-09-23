@@ -162,6 +162,7 @@ module.exports = (app, options) => {
 			};
 		}
 		app.get('*', (req, res, next) => {
+			console.log('当前ssr请求路径:', req.url);
 			if (config.skipRequests(req)) {
 				return next();
 			}

@@ -2,33 +2,37 @@
 	<div class="list-item">
 		<div class="list-content">
 			<div class="artic-content">
-				<div class="userImg">
-					<img :src="baseUrl" />
+				<div class="user-img">
+					<img
+						src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3441742992,2765570575&fm=26&gp=0.jpg"
+					/>
 				</div>
 				<div class="author">
 					<div class="title">{{ item.title }}</div>
 					<div class="detail">
-						<span class="authorname">{{
+						<span class="author-name">{{
 							item.nickname || '大飞哥'
 						}}</span>
-						<span class="publishtime">{{
+						<span class="publish-time">{{
 							time(item.creatAt)
 						}}</span>
 					</div>
-					<div class="artic-msg-content" v-html="articInfo"></div>
 				</div>
 			</div>
-			<div class="oparatenum">
-				<span class="icon left">
+			<div class="artic-msg-content" v-html="articInfo"></div>
+			<div class="oparate-num">
+				<div>
 					<svg-icon name="view" />
-				</span>
-				<span class="num">{{ item.viewnum }}</span>
-				<span class="icon"> <svg-icon name="comment" /> </span>
-				<span class="num">{{ item.commentnum }}</span>
-				<span class="icon right">
+					<span class="num">{{ item.viewnum }}</span>
+				</div>
+				<div>
+					<svg-icon name="comment" />
+					<span class="num">{{ item.commentnum }}</span>
+				</div>
+				<div>
 					<svg-icon name="click" />
-				</span>
-				<span class="num">{{ item.clicknum }}</span>
+					<span class="num">{{ item.clicknum }}</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -73,23 +77,24 @@ export default class ArticList extends Vue {
 			align-items: center;
 			text-align: left;
 			padding: 5px 0 10px 0;
-			.userImg {
+			.user-img {
+				flex-grow: 0;
 				padding-top: 10px;
 				img {
-					width: 60px;
-					height: 60px;
-					border-radius: 50%;
+					width: 50px;
+					height: 50px;
+					border-radius: 50px;
 				}
 			}
 			.author {
-				width: 245px;
+				flex-grow: 1;
 				font-size: 14px;
 				padding-top: 10px;
 				margin: 0 10px;
 				.title {
 					margin-bottom: 5px;
 					font-size: 16px;
-					font-weight: bold;
+					font-weight: 500;
 					max-width: 100%;
 					word-break: break-word;
 				}
@@ -98,47 +103,52 @@ export default class ArticList extends Vue {
 					display: flex;
 					justify-content: flex-start;
 					align-items: flex-end;
-					.authorname {
+					.author-name {
 						width: auto;
 						font-size: 12px;
 						overflow: hidden;
 						text-overflow: ellipsis;
 						white-space: nowrap;
 					}
-					.publishtime {
+					.publish-time {
 						width: auto;
 						margin-left: 10px;
 						font-size: 10px;
 						white-space: nowrap;
 					}
 				}
-				.publishtxt {
-					margin-left: 4%;
-				}
 			}
 		}
 		.artic-msg-content {
 			word-break: break-word;
-			margin-top: 15px;
+			margin: 0 15px;
+			font-size: 14px;
 			line-height: 20px !important;
 		}
-		.oparatenum {
+		.oparate-num {
 			display: flex;
-			display: -webkit-flex;
 			justify-content: center;
 			align-items: center;
 			width: 100%;
 			margin-top: 8px;
+			padding-bottom: 4px;
 			font-size: 12px;
 			color: #adadad;
-			.icon-symbol {
-				height: 0.4rem;
-				width: 0.4rem;
-				margin-right: 0.3rem;
-				fill: #adadad;
-			}
-			.num {
-				width: 33%;
+
+			div {
+				flex-grow: 1;
+				text-align: center;
+
+				.icon-symbol {
+					height: 0.4rem;
+					width: 0.4rem;
+					margin-right: 2px;
+					fill: #adadad;
+				}
+				.num {
+					position: relative;
+					top: -2px;
+				}
 			}
 		}
 	}
