@@ -26,9 +26,6 @@ class UserRegister extends BaseLoaderData<
 		},
 		requestStatus: 'unrequest'
 	};
-	get res(): Register.Response {
-		return this.state.res;
-	}
 	public async userRegister(): Promise<this> {
 		this.$RequestStart();
 		const res = await this.api.userRegister(this.state.params);

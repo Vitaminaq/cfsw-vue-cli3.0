@@ -1,7 +1,7 @@
-class BaseVuexClass<P, D, A> {
-	api: A;
+import BaseLoaderClass from './base-loader-class';
+class BaseLoaderData<P, D, A> extends BaseLoaderClass<A> {
 	constructor(api: A) {
-		this.api = api;
+		super(api);
 	}
 	public readonly state: API.APIBaseStoreState<P, D> = {
 		params: {} as P,
@@ -14,9 +14,12 @@ class BaseVuexClass<P, D, A> {
 	get res(): API.APIBaseResponse<D> {
 		return this.state.res;
 	}
-	get data() {
+	get data(): API.APIBaseResponse<D>['data'] {
 		const { data } = this.res;
 		return data ? data : null;
+	}
+	set data(val: API.APIBaseResponse<D>['data']) {
+		this.state.res.data = val;
 	}
 	get requestStatus(): Loader.RequestStatus {
 		return this.state.requestStatus;
@@ -44,4 +47,4 @@ class BaseVuexClass<P, D, A> {
 	}
 }
 
-export default BaseVuexClass;
+export default BaseLoaderData;

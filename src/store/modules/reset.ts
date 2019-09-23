@@ -21,9 +21,6 @@ class UserReset extends BaseLoaderData<Reset.RequestParams, string, ResetApi> {
 		},
 		requestStatus: 'unrequest'
 	};
-	get res(): Reset.Response {
-		return this.state.res;
-	}
 	async userReset(): Promise<this> {
 		this.$RequestStart();
 		const res = await this.api.userReset(this.state.params);

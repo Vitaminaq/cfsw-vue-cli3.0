@@ -119,6 +119,10 @@ export default class Main extends BaseComponents {
 		this.app = this;
 		this.store = store;
 		this.router = router;
+		this.router.beforeEach((to: Route, from: Route, next: any) => {
+			console.log(to, 'wwwwwwwwwwwwwwwwwwwwwww');
+			next();
+		});
 	}
 }
 

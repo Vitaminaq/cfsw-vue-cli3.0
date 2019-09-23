@@ -135,8 +135,10 @@ import { getQueryParams } from '@src/services/publics';
 		let params: Detail.ArticDetail.RequestParams = {
 			id: (route as any).query.id
 		};
-		store.detail.articDetail.$assignParams(params);
-		return store.detail.articDetail.getArticDetail();
+		const { articDetail } = store.detail;
+		articDetail.$clearData();
+		articDetail.$assignParams(params);
+		return articDetail.getArticDetail();
 	}
 })
 export default class Detail extends Vue {
@@ -181,9 +183,6 @@ export default class Detail extends Vue {
 		return len > 4;
 	}
 
-	mounted() {
-		console.log(this.articDetail);
-	}
 	async getData(): Promise<this> {
 		const { id } = this;
 		if (!id) return this;

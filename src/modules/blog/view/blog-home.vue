@@ -1,6 +1,6 @@
 <template>
 	<div class="chatroom">
-		<logo-header @click.native="addCount" />
+		<logo-header />
 		<div class="wrapper">
 			<scroller
 				@dropDown="dropDown"
@@ -63,17 +63,10 @@ export default class ChatRoom extends Vue {
 		return this;
 	}
 	public async todetail(id: string) {
-		// let params: ChatRoom.View.RequestParams = {
-		// 	id: id
-		// };
-		// this.view.$assignParams(params);
-		// await this.view.saveView();
-		// if (this.view.res.code === 0) {
 		return this.$router.push({
 			name: 'artic-detail',
 			query: { id: id }
 		});
-		// }
 	}
 	beforeDestroy() {
 		if (this.$route.name === 'publish') {

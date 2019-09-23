@@ -1,26 +1,30 @@
-import DetailApi from '@src/api/detail';
+import BlogApi from '../api';
+import BaseLoaderClass from '@src/common/base-loader-class';
+import BaseLoaderList from '@src/common/base-loader-list';
 import BaseLoaderData from '@src/common/base-loader-data';
-import BaseConfig from '@src/config';
+import { BaseAxiosOptions } from '@src/api/index';
+
+// ====================  blog-home  ==================
 
 /**
- * 缓存数据类
+ * 获取微博列表
  */
-class SaveData {
-	articMessage: Detail.ArticDetail.Data;
-	constructor() {
-		this.articMessage = {} as Detail.ArticDetail.Data;
-	}
-	saveArticMessage(params: any): this {
-		return Object.assign(this.articMessage, params);
+class BlogList extends BaseLoaderList<any, BlogApi> {
+	public count: number = 0;
+	public getListBaseAjaxMethod(): Promise<Loader.Response> {
+		return this.api.getArtic(this.state.params);
 	}
 }
+
+// ===================  blog-detail  ==================
+
 /**
  * 获取文章详情
  */
-class ArticDetail extends BaseLoaderData<
+class BlogDetail extends BaseLoaderData<
 	Detail.ArticDetail.RequestParams,
 	Detail.ArticDetail.Data,
-	DetailApi
+	BlogApi
 > {
 	public readonly state: Detail.ArticDetail.State = {
 		params: {
@@ -76,7 +80,7 @@ class ArticDetail extends BaseLoaderData<
 		return this;
 	}
 	public $clearData(): this {
-		this.res.data = null;
+		this.data = null;
 		return this;
 	}
 }
@@ -86,7 +90,7 @@ class ArticDetail extends BaseLoaderData<
 class GetUserComment extends BaseLoaderData<
 	Detail.UserComment.RequestParams,
 	string,
-	DetailApi
+	BlogApi
 > {
 	async getUserComment(): Promise<this> {
 		this.$RequestStart();
@@ -101,7 +105,7 @@ class GetUserComment extends BaseLoaderData<
 class UserComment extends BaseLoaderData<
 	Detail.UserComment.RequestParams,
 	string,
-	DetailApi
+	BlogApi
 > {
 	async userComment(): Promise<this> {
 		this.$RequestStart();
@@ -116,7 +120,7 @@ class UserComment extends BaseLoaderData<
 class AgreeAuthor extends BaseLoaderData<
 	Detail.AgreeAuthor.RequestParams,
 	string,
-	DetailApi
+	BlogApi
 > {
 	async agreeAuthor(): Promise<this> {
 		this.$RequestStart();
@@ -131,7 +135,7 @@ class AgreeAuthor extends BaseLoaderData<
 class AgreeComment extends BaseLoaderData<
 	Detail.AgreeComment.RequestParams,
 	string,
-	DetailApi
+	BlogApi
 > {
 	async agreeComment(): Promise<this> {
 		this.$RequestStart();
@@ -141,24 +145,23 @@ class AgreeComment extends BaseLoaderData<
 	}
 }
 
-interface DetailOptions {
-	appConfig: BaseConfig;
-}
+// ==================  blog-common  ==================
 
-class Detail {
-	articDetail: ArticDetail;
-	getUserComment: GetUserComment;
-	userComment: UserComment;
-	agreeAuthor: AgreeAuthor;
-	agreeComment: AgreeComment;
-	public api: DetailApi;
-	constructor({ appConfig }: DetailOptions) {
-		this.api = new DetailApi({ appConfig });
-		(this.articDetail = new ArticDetail(this.api)),
-			(this.getUserComment = new GetUserComment(this.api));
-		(this.userComment = new UserComment(this.api)),
-			(this.agreeAuthor = new AgreeAuthor(this.api)),
-			(this.agreeComment = new AgreeComment(this.api));
+class Blog extends BaseLoaderClass<BlogApi> {
+	public blogList: BlogList;
+	public blogDetail: BlogDetail;
+	public getUserComment: GetUserComment;
+	public userComment: UserComment;
+	public agreeAuthor: AgreeAuthor;
+	public agreeComment: AgreeComment;
+	public constructor({ appConfig }: BaseAxiosOptions) {
+		super(new BlogApi({ appConfig }));
+		this.blogList = new BlogList(this.api);
+		this.blogDetail = new BlogDetail(this.api);
+		this.getUserComment = new GetUserComment(this.api);
+		this.userComment = new UserComment(this.api);
+		this.agreeAuthor = new AgreeAuthor(this.api);
+		this.agreeComment = new AgreeComment(this.api);
 	}
 }
-export default Detail;
+export default Blog;

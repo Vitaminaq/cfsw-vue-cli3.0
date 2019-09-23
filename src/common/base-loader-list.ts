@@ -1,3 +1,5 @@
+import BaseLoaderClass from './base-loader-class';
+
 export interface BaseLoaderResponse {
 	code: number;
 	data?: any;
@@ -12,18 +14,17 @@ export type BaseLoaderRequestStatus =
 	| 'success'
 	| 'error'
 	| 'done';
-export interface BaseLoaderState {
+export interface BaseLoaderState<I> {
 	params: BaseLoaderParams;
-	list: Array<any>;
+	list: I[];
 	pullDownStatus: BaseLoaderRequestStatus;
 	pullUpStatus: BaseLoaderRequestStatus;
 }
-export default abstract class BaseLoader {
-	api: any;
-	constructor(api: any) {
-		this.api = api;
+export default abstract class BaseLoader<I, A> extends BaseLoaderClass<A> {
+	constructor(api: A) {
+		super(api);
 	}
-	public readonly state: BaseLoaderState = {
+	public readonly state: BaseLoaderState<I> = {
 		params: {
 			limit: 9,
 			page: 0
@@ -33,7 +34,7 @@ export default abstract class BaseLoader {
 		pullUpStatus: 'unrequest'
 	};
 	abstract getListBaseAjaxMethod(): Promise<BaseLoaderResponse>;
-	public get list(): Array<any> {
+	public get list(): I[] {
 		const set = new Set(this.state.list);
 		const list = Array.from(set);
 		return list;

@@ -1,7 +1,7 @@
 import LocalAxios from '@src/common/http';
 import BaseConfig from '@src/config';
 
-interface BaseAxiosOptions {
+export interface BaseAxiosOptions {
 	appConfig: BaseConfig;
 }
 
