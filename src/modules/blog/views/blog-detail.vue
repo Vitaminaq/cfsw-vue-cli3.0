@@ -135,9 +135,10 @@ import { getQueryParams } from '@src/services/publics';
 		GeneralHeader
 	},
 	asyncData: ({ store, route }) => {
-		let params: Detail.ArticDetail.RequestParams = {
+		const params: Detail.ArticDetail.RequestParams = {
 			id: (route as any).query.id
 		};
+		console.log(store, 'llllllllllllllllllllllllllllll');
 		const { blogDetail } = store.blog;
 		blogDetail.$clearData();
 		blogDetail.$assignParams(params);

@@ -24,15 +24,15 @@ export default class FooterContent extends Vue {
 	list: Array<routerList> = [
 		{
 			name: 'home',
-			toPathName: 'chatroom'
+			toPathName: 'blog-home'
 		},
 		{
 			name: 'publish',
-			toPathName: 'publish'
+			toPathName: 'blog-home'
 		},
 		{
 			name: 'center',
-			toPathName: 'PersonalCenter'
+			toPathName: 'blog-home'
 		}
 	];
 

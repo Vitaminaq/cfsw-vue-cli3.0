@@ -20,11 +20,7 @@
 			type="text"
 			placeholder="请输入标题"
 		/>
-		<vue-html5-editor
-			:content="artic"
-			:z-index="1"
-			@change="updateData"
-		></vue-html5-editor>
+		<vue-html5-editor :content="artic" :z-index="1" @change="updateData" />
 	</div>
 </template>
 

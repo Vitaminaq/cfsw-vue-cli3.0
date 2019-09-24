@@ -81,6 +81,7 @@ class EntryClient extends Main {
 				.map((c: any) => c.options.asyncData)
 				.filter((_: any) => _);
 			if (!asyncDataHooks.length) return;
+			console.log(store, 'nnnnnnnnnnnnnnnnnnnnnnnnnn');
 			await Promise.all(
 				asyncDataHooks.map(
 					async (hook: any) => await hook({ store, route: to })
