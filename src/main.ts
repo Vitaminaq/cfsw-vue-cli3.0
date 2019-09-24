@@ -7,15 +7,8 @@ import { Component } from 'vue-property-decorator';
 import BaseConfig from './config';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
-// import VueVirtualScroller from 'vue-virtual-scroller';
 // import Cookies from 'js-cookie';
-// import svgSprite from '@src/lib/svg-sprite';
-// import LocalToast from '@src/components/toast/toast';
-// import './registerServiceWorker';
 // import VueHtml5Editor from 'vue-html5-editor';
-// import VueImgLazyLoad from 'vue-images-lazy-load';
-// import VueImgLazyLoad from '@src/lib/vue-img-lazy-load-common.js';
-// // // import VueDomLazyLoad from '@src/lib/vue-dom-lazy-load';
 
 // Vue.use(VueImgLazyLoad);
 // const options = {
@@ -90,8 +83,6 @@ import SvgIcon from '@src/components/svg';
 
 Vue.use(MyButton);
 Vue.use(SvgIcon);
-// Vue.use(VueVirtualScroller);
-// Vue.use(LocalToast);
 
 @Component<BaseComponents>({})
 class BaseComponents extends Vue {
@@ -119,10 +110,6 @@ export default class Main extends BaseComponents {
 		this.app = this;
 		this.store = store;
 		this.router = router;
-		this.router.beforeEach((to: Route, from: Route, next: any) => {
-			console.log(to, 'wwwwwwwwwwwwwwwwwwwwwww');
-			next();
-		});
 	}
 }
 

@@ -3,8 +3,8 @@
 		<div class="login">
 			<div class="close" @click="close"><svg-icon name="close" /></div>
 			<div id="tx">
-				<img v-if="!url" src="../assets/head_img.svg" />
-				<img v-else :src="url" />
+				<!-- <img v-if="!url" src="../assets/head_img.svg" />
+				<img v-else :src="url" /> -->
 			</div>
 			<form class="loginFrom" method="get" action="#" @submit.prevent>
 				<input

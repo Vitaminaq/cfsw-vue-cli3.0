@@ -148,6 +148,7 @@ class AgreeComment extends BaseLoaderData<
 // ==================  blog-common  ==================
 
 class Blog extends BaseLoaderClass<BlogApi> {
+	public static moduleName: string = 'blog';
 	public blogList: BlogList;
 	public blogDetail: BlogDetail;
 	public getUserComment: GetUserComment;
@@ -165,3 +166,9 @@ class Blog extends BaseLoaderClass<BlogApi> {
 	}
 }
 export default Blog;
+
+declare module '@src/store/index' {
+	export default interface BaseStore {
+		blog: Blog;
+	}
+}

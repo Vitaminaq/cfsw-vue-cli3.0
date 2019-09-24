@@ -3,12 +3,12 @@
 		<general-header header-title="注册" back-path-name="login" />
 		<form method="get" action="#" @submit.prevent>
 			<div id="tx">
-				<img
+				<!-- <img
 					v-if="!headerImg"
 					src="../assets/head_img.svg"
 					@click="clickUpload"
 				/>
-				<img v-else :src="headerImg" @click="clickUpload" />
+				<img v-else :src="headerImg" @click="clickUpload" /> -->
 				<input
 					id="file"
 					ref="uploadFile"

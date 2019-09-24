@@ -9,9 +9,11 @@ export interface StoreOptions {
 }
 
 class BaseStore extends VueLazy.Store {
+	public appConfig: BaseConfig;
 	public publics: Publics;
 	constructor({ appConfig }: StoreOptions) {
 		super();
+		this.appConfig = appConfig;
 		this.publics = new Publics({ appConfig });
 		this.init();
 	}

@@ -1,9 +1,9 @@
 const UserLogin = () =>
-	import(/* webpackChunkName: "login" */ '@src/views/user-login.vue');
+	import(/* webpackChunkName: "login" */ '../views/user-login.vue');
 const UserRegister = () =>
-	import(/* webpackChunkName: "register" */ '@src/views/user-register.vue');
+	import(/* webpackChunkName: "register" */ '../views/user-register.vue');
 const UserReset = () =>
-	import(/* webpackChunkName: "reset" */ '@src/views/user-reset.vue');
+	import(/* webpackChunkName: "reset" */ '../views/user-reset.vue');
 
 import { CreateElement } from 'vue';
 

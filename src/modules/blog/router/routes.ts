@@ -1,14 +1,12 @@
+import { baseRouteView } from '@src/router/base-route-view';
+const RouteView = () =>
+	import(/* webpackChunkName: "blog" */ '../store').then(baseRouteView);
 const BlogHome = () =>
 	import(/* webpackChunkName: "blog" */ '../views/blog-home.vue');
 const BlogDetail = () =>
-	import(/* webpackChunkName: "blog" */ '../views/artic/blog-detail.vue');
+	import(/* webpackChunkName: "blog" */ '../views/blog-detail.vue');
 const BlogComment = () =>
-	import(/* webpackChunkName: "blog" */ '../views/artic/blog-comment.vue');
-import { CreateElement } from 'vue';
-
-const RouteView = {
-	render: (h: CreateElement) => h('router-view')
-};
+	import(/* webpackChunkName: "blog" */ '../views/blog-comment.vue');
 
 import { RouteConfig } from 'vue-router';
 
@@ -35,7 +33,7 @@ const routes: Array<RouteConfig> = [
 			 */
 			{
 				path: 'detail',
-				name: 'artic-detail',
+				name: 'blog-detail',
 				component: BlogDetail
 			},
 			/**

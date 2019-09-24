@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import Routers from './routers';
+import routes from './routers';
 
 import { RouterOptions } from 'vue-router';
 
 Vue.use(VueRouter);
 const options: RouterOptions = {
 	mode: 'history',
-	routes: [],
+	routes,
 	fallback: false
 };
 

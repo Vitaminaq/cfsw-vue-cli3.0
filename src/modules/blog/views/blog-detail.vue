@@ -7,11 +7,14 @@
 		ref="detail"
 		@click="control"
 	>
-		<general-header :header-title="headerTitle" back-path-name="chatroom" />
+		<general-header
+			:header-title="headerTitle"
+			back-path-name="blog-home"
+		/>
 		<img
 			v-if="!detailData"
 			class="blog-loading"
-			src="../../assets/blog_detail_loading.jpeg"
+			src="../images/blog_detail_loading.jpeg"
 			alt=""
 		/>
 		<div v-else id="detailcontent">
@@ -135,10 +138,10 @@ import { getQueryParams } from '@src/services/publics';
 		let params: Detail.ArticDetail.RequestParams = {
 			id: (route as any).query.id
 		};
-		const { articDetail } = store.detail;
-		articDetail.$clearData();
-		articDetail.$assignParams(params);
-		return articDetail.getArticDetail();
+		const { blogDetail } = store.blog;
+		blogDetail.$clearData();
+		blogDetail.$assignParams(params);
+		return blogDetail.getArticDetail();
 	}
 })
 export default class Detail extends Vue {
@@ -161,7 +164,7 @@ export default class Detail extends Vue {
 		return getQueryParams(this.$route.query.id);
 	}
 	get articDetail() {
-		return this.$store.detail.articDetail;
+		return this.$store.blog.blogDetail;
 	}
 	get detailData() {
 		return this.articDetail.data;

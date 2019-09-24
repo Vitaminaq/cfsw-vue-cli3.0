@@ -1,7 +1,7 @@
 <template>
 	<div class="chatroom">
 		<logo-header />
-		<div class="wrapper">
+		<div class="wrapper" v-if="articList">
 			<scroller
 				@dropDown="dropDown"
 				@pullUp="pullUp"
@@ -40,7 +40,7 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 })
 export default class ChatRoom extends Vue {
 	public get articList() {
-		return this.$store.chatRoom.articList;
+		return this.$store.blog.blogList;
 	}
 	public get pullDownStatus() {
 		return this.articList.pullDownStatus;
@@ -51,7 +51,6 @@ export default class ChatRoom extends Vue {
 	public get list() {
 		return this.articList.list;
 	}
-
 	public async pullUp() {
 		return this.articList.pullUp();
 	}
@@ -64,7 +63,7 @@ export default class ChatRoom extends Vue {
 	}
 	public async todetail(id: string) {
 		return this.$router.push({
-			name: 'artic-detail',
+			name: 'blog-detail',
 			query: { id: id }
 		});
 	}
@@ -82,7 +81,7 @@ export default class ChatRoom extends Vue {
 
 	.wrapper {
 		position: relative;
-		height: 100%;
+		max-height: 100%;
 		min-width: 60%;
 		overflow-y: hidden;
 		background-color: #f7f7f7;
