@@ -99,7 +99,7 @@ export default class Register extends Vue {
 	};
 
 	get registerModule() {
-		return this.$store.register;
+		return this.$store.user.userRegister;
 	}
 
 	async register() {

@@ -77,7 +77,7 @@ export default class Reset extends Vue {
 	};
 
 	get resetModule() {
-		return this.$store.reset;
+		return this.$store.user.userReset;
 	}
 
 	async reset() {

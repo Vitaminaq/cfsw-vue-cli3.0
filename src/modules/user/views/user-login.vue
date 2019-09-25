@@ -63,7 +63,7 @@ export default class Login extends Vue {
 	};
 
 	get loginModule() {
-		return this.$store.login.userLogin;
+		return this.$store.user.userLogin;
 	}
 	get nn(): string | null {
 		return getQueryParams(this.$route.query.nickname);

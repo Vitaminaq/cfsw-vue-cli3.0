@@ -171,13 +171,13 @@ export default class Detail extends Vue {
 		return this.articDetail.data;
 	}
 	get agreeAuthor() {
-		return this.$store.detail.agreeAuthor;
+		return this.$store.blog.agreeAuthor;
 	}
 	get userComment() {
-		return this.$store.detail.userComment;
+		return this.$store.blog.userComment;
 	}
 	get agreeComment() {
-		return this.$store.detail.agreeComment;
+		return this.$store.blog.agreeComment;
 	}
 	get moreComment() {
 		const { articMessage } = this;

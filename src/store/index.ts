@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueLazy from 'vue-lazy-store';
+import VueLazy from '@src/lib/vue-lazy-store';
 import Publics from './modules/publics';
 import BaseConfig from '@src/config';
 

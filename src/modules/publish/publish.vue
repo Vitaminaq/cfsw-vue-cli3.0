@@ -1,6 +1,6 @@
 <template>
 	<div id="publish">
-		<general-header :header-title="headerTitle">
+		<!-- <general-header :header-title="headerTitle">
 			<button
 				slot="btn"
 				:disabled="disable"
@@ -20,7 +20,7 @@
 			type="text"
 			placeholder="请输入标题"
 		/>
-		<vue-html5-editor :content="artic" :z-index="1" @change="updateData" />
+		<vue-html5-editor :content="artic" :z-index="1" @change="updateData" /> -->
 	</div>
 </template>
 
@@ -40,34 +40,34 @@ export default class publish extends Vue {
 	artic: string = '';
 	disable: boolean = false;
 
-	get publish() {
-		return this.$store.publish;
-	}
+	// get publish() {
+	// 	return this.$store.publish;
+	// }
 
-	async publishIt() {
-		let params = {
-			title: this.title,
-			msg: this.artic
-		};
-		// if ((this as any).isEmpty(params)) {
-		// 	(this as any).$toast('请填写完整信息!');
-		// 	return;
-		// }
-		this.disable = true;
-		this.publish.$assignParams(params);
-		await this.publish.userPublish();
-		this.disable = false;
-		// if (this.publish.res.code !== 0) {
-		// 	return (this as any).$toast(this.publish.res.data);
-		// }
-		this.publish.$clearData();
-		return this.$router.push({ name: 'chatroom' });
-	}
+	// async publishIt() {
+	// 	let params = {
+	// 		title: this.title,
+	// 		msg: this.artic
+	// 	};
+	// 	// if ((this as any).isEmpty(params)) {
+	// 	// 	(this as any).$toast('请填写完整信息!');
+	// 	// 	return;
+	// 	// }
+	// 	this.disable = true;
+	// 	this.publish.$assignParams(params);
+	// 	await this.publish.userPublish();
+	// 	this.disable = false;
+	// 	// if (this.publish.res.code !== 0) {
+	// 	// 	return (this as any).$toast(this.publish.res.data);
+	// 	// }
+	// 	this.publish.$clearData();
+	// 	return this.$router.push({ name: 'chatroom' });
+	// }
 
-	updateData(val: string) {
-		this.artic = val;
-		console.log(this.artic);
-	}
+	// updateData(val: string) {
+	// 	this.artic = val;
+	// 	console.log(this.artic);
+	// }
 }
 </script>
 

@@ -1,24 +1,33 @@
 import Vue, { VueConstructor } from 'vue';
 
-import { hasObservable, isNotPro, mergeStore } from './utils';
+import { isNotPro, mergeStore, defineMoudle, vueObservable } from './utils';
 
 let localVue: VueConstructor<Vue> | null = null;
 
 export class Store {
-	protected _vm: Vue | null = null;
+	public constructor(options?: any) {
+        this.mergeOptions(options);
+	}
+	public mergeOptions(options: any): this {
+		if (!options) return this;
+        Object.keys(options).forEach(k => {
+            (this as any)[k] = options[k];
+		})
+		return this;
+	}
 
+	public addMoudles(modules: any): this {
+		if (!modules || !localVue) return this;
+		defineMoudle(localVue, this, modules);
+		return this;
+	}
 	public init() {
 		if (!localVue) throw Error('please Vue.use() install it');
-		if (hasObservable(localVue)) return localVue.observable(this);
-		const that = this;
-		this._vm = new localVue({
-			data: {
-				$$state: that
-			}
-		});
+		vueObservable(localVue, this);
 	}
-	public replace(store: any) {
+	public replace(store: any): this {
 		mergeStore(this, store);
+		return this;
 	}
 }
 
@@ -30,8 +39,7 @@ export function install(_Vue: VueConstructor<Vue>) {
 	if (!('$store' in _Vue.prototype)) {
 		Object.defineProperty(_Vue.prototype, '$store', {
 			get() {
-				if (hasObservable(_Vue)) return this.$root.$options.store;
-				return this.$root.$options.store._vm.$data.$$state;
+				return this.$root.$options.store;
 			},
 			set() {
 				isNotPro && console.error('no modification allowed');

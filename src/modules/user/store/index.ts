@@ -1,11 +1,15 @@
-import LoginApi from '@src/api/login';
+import UserApi from '../api';
 import BaseLoaderData from '@src/common/base-loader-data';
 import { LocalAxiosOptions } from '@src/common/http';
+// ================  login ===================
 
+/**
+ * 获取用户头像
+ */
 class GetUserHeaderImg extends BaseLoaderData<
 	API.Login.UserHeaderImg.RequestParams,
 	API.Login.UserHeaderImg.Data,
-	LoginApi
+	UserApi
 > {
 	readonly namespaced: boolean = true;
 	async getUserHeaderImg(): Promise<this> {
@@ -17,10 +21,14 @@ class GetUserHeaderImg extends BaseLoaderData<
 		return this;
 	}
 }
+
+/**
+ * 用户登录
+ */
 class UserLogin extends BaseLoaderData<
 	API.Login.UserLogin.RequestParams,
 	API.Login.UserLogin.Data,
-	LoginApi
+	UserApi
 > {
 	readonly namespaced: boolean = true;
 	async userLogin(): Promise<this> {
@@ -33,27 +41,88 @@ class UserLogin extends BaseLoaderData<
 	}
 }
 
-class Login {
-	readonly namespaced: boolean = true;
-	public getUserHeaderImg: GetUserHeaderImg;
-	public userLogin: UserLogin;
-	public api: LoginApi;
-	public modules: {
-		getUserHeaderImg: GetUserHeaderImg;
-		userLogin: UserLogin;
+// ==================  用户注册  =======================
+
+/**
+ * 用户注册
+ */
+class UserRegister extends BaseLoaderData<
+	Register.RequestParams,
+	string,
+	UserApi
+> {
+	state: Register.State = {
+		params: {
+			nickname: '',
+			username: '',
+			password: '',
+			sex: '',
+			age: '',
+			headimg: ''
+		},
+		res: {
+			code: 0,
+			data: ''
+		},
+		requestStatus: 'unrequest'
 	};
-	public constructor({ appConfig }: LocalAxiosOptions) {
-		// Object.defineProperty(this, 'api', {
-		// 	enumerable: true
-		// });
-		this.api = new LoginApi({ appConfig });
-		this.getUserHeaderImg = new GetUserHeaderImg(this.api);
-		this.userLogin = new UserLogin(this.api);
-		this.modules = {
-			getUserHeaderImg: this.getUserHeaderImg,
-			userLogin: this.userLogin
-		};
+	get res(): Register.Response {
+		return this.state.res;
+	}
+	public async userRegister(): Promise<this> {
+		this.$RequestStart();
+		const res = await this.api.userRegister(this.state.params);
+		this.$RequestSuccess(res);
+		return this;
 	}
 }
 
-export default Login;
+class UserReset extends BaseLoaderData<Reset.RequestParams, string, UserApi> {
+	state: Reset.State = {
+		params: {
+			nickname: '',
+			username: '',
+			sex: '',
+			age: '',
+			password: ''
+		},
+		res: {
+			code: 0,
+			data: ''
+		},
+		requestStatus: 'unrequest'
+	};
+	get res(): Reset.Response {
+		return this.state.res;
+	}
+	async userReset(): Promise<this> {
+		this.$RequestStart();
+		const res = await this.api.userReset(this.state.params);
+		this.$RequestSuccess(res);
+		return this;
+	}
+}
+
+class User {
+	public api: UserApi;
+	public static moduleName: string = 'user';
+	public getUserHeaderImg: GetUserHeaderImg;
+	public userLogin: UserLogin;
+	public userRegister: UserRegister;
+	public userReset: UserReset;
+	public constructor({ appConfig }: LocalAxiosOptions) {
+		this.api = new UserApi({ appConfig });
+		this.getUserHeaderImg = new GetUserHeaderImg(this.api);
+		this.userLogin = new UserLogin(this.api);
+		this.userRegister = new UserRegister(this.api);
+		this.userReset = new UserReset(this.api);
+	}
+}
+
+export default User;
+
+declare module '@src/store/index' {
+	export default interface BaseStore {
+		user: User;
+	}
+}

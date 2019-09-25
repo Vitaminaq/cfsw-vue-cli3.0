@@ -70,10 +70,10 @@ class EntryClient extends Main {
 		// }
 	}
 	public getPageData() {
-		const { router, store } = this;
+		const { router, store, app } = this;
 		// 采用路由后置钩子取数据，不阻塞路由跳转
 		router.afterEach(async (to: Route, from: Route) => {
-			const matched = router.getMatchedComponents(to);
+			const matched: any = router.getMatchedComponents(to);
 			const activated = matched.filter((c: any, i: any) => {
 				return c.options && typeof c.options.asyncData === 'function';
 			});
@@ -81,12 +81,12 @@ class EntryClient extends Main {
 				.map((c: any) => c.options.asyncData)
 				.filter((_: any) => _);
 			if (!asyncDataHooks.length) return;
-			console.log(store, 'nnnnnnnnnnnnnnnnnnnnnnnnnn');
 			await Promise.all(
 				asyncDataHooks.map(
 					async (hook: any) => await hook({ store, route: to })
 				)
 			);
+			window.$getInitData = asyncDataHooks;
 		});
 	}
 	public onRouteReady() {
@@ -110,11 +110,13 @@ declare global {
 	interface Window {
 		__INITIAL_STATE__: any;
 		app: EntryClient;
+		$getInitData: any;
 	}
 }
 
 declare module 'vue/types/vue' {
 	interface Vue {
 		$appConfig: BaseConfig;
+		$getPageData: any;
 	}
 }
