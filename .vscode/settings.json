@@ -33,7 +33,7 @@
     ],
     // 使用项目配置规则
     "eslint.options": {
-      "configFile": "./.eslintrc.js"
+      "configFile": "./eslintrc.js"
     },
     "eslint.autoFixOnSave": true,
     // 点击保存时，根据 eslint 规则自定修复，同时集成 prettier 到 eslint 中

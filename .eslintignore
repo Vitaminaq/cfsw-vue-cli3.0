@@ -12,6 +12,3 @@ src/lib/*
 README.md
 src/commom/com-style.css
 src/index.html
-packages/*
-yarn.lock
-**/images

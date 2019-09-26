@@ -113,9 +113,6 @@ app.all(
 		? render
 		: (req, res) => {
 				if (req.method !== 'GET') return next();
-				if (req.url === '/') {
-					req.redirect('/blog/home');
-				}
 				readyPromise.then(() => render(req, res));
 		  }
 );

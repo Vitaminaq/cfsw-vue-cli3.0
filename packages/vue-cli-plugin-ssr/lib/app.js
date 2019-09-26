@@ -162,10 +162,6 @@ module.exports = (app, options) => {
 			};
 		}
 		app.get('*', (req, res, next) => {
-			// if (req.url === '/') {
-			// 	res.redirect('/blog/home');
-			// }
-			console.log('当前ssr请求路径:', req.url);
 			if (config.skipRequests(req)) {
 				return next();
 			}

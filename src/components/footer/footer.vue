@@ -24,15 +24,15 @@ export default class FooterContent extends Vue {
 	list: Array<routerList> = [
 		{
 			name: 'home',
-			toPathName: 'blog-home'
+			toPathName: 'chatroom'
 		},
 		{
 			name: 'publish',
-			toPathName: 'blog-home'
+			toPathName: 'publish'
 		},
 		{
 			name: 'center',
-			toPathName: 'blog-home'
+			toPathName: 'PersonalCenter'
 		}
 	];
 
@@ -62,9 +62,7 @@ footer::before {
 	align-items: center;
 	text-align: center;
 	// prettier-ignore
-	// border-top: solid #adadad 1PX;
-	// prettier-ignore
-	box-shadow: 1PX 1PX 5PX #adadad;
+	border-top: solid #adadad 1PX;
 	background-color: #fff;
 
 	a {

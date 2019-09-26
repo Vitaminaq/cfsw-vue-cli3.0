@@ -1,4 +1,4 @@
-import BaseLoaderClass from './base-loader-class';
+import VuexClass from 'vuex-class.js';
 
 export interface BaseLoaderResponse {
 	code: number;
@@ -14,17 +14,20 @@ export type BaseLoaderRequestStatus =
 	| 'success'
 	| 'error'
 	| 'done';
-export interface BaseLoaderState<I> {
+export interface BaseLoaderState {
 	params: BaseLoaderParams;
-	list: I[];
+	list: Array<any>;
 	pullDownStatus: BaseLoaderRequestStatus;
 	pullUpStatus: BaseLoaderRequestStatus;
 }
-export default abstract class BaseLoader<I, A> extends BaseLoaderClass<A> {
-	constructor(api: A) {
-		super(api);
+export default abstract class BaseLoader extends VuexClass {
+	readonly namespaced: boolean = true;
+	api: any;
+	constructor(api: any) {
+		super();
+		this.api = api;
 	}
-	public readonly state: BaseLoaderState<I> = {
+	public readonly state: BaseLoaderState = {
 		params: {
 			limit: 9,
 			page: 0
@@ -34,7 +37,7 @@ export default abstract class BaseLoader<I, A> extends BaseLoaderClass<A> {
 		pullUpStatus: 'unrequest'
 	};
 	abstract getListBaseAjaxMethod(): Promise<BaseLoaderResponse>;
-	public get list(): I[] {
+	public get list(): Array<any> {
 		const set = new Set(this.state.list);
 		const list = Array.from(set);
 		return list;

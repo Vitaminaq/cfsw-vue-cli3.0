@@ -1,22 +1,21 @@
 import { LocalAxiosOptions } from '@src/common/http';
-import BaseConfig from '@src/config';
+import VuexClass from 'vuex-class.js';
 
 export interface PublicState {
 	appConfig: LocalAxiosOptions | null;
 }
 
-class Publics {
-	public appConfig: BaseConfig;
+class Publics extends VuexClass {
+	public readonly namespaced: boolean = true;
 	public constructor({ appConfig }: LocalAxiosOptions) {
-		this.appConfig = appConfig;
+		super();
+		Object.assign(this.state, { appConfig });
 	}
-	public get BASE_API(): string {
-		const { appConfig } = this;
-		return appConfig ? appConfig.BASE_API : '';
-	}
-
+	public state: PublicState = {
+		appConfig: null
+	};
 	public initState(options: LocalAxiosOptions) {
-		Object.assign(this.appConfig, options);
+		Object.assign(this.state, options);
 	}
 }
 

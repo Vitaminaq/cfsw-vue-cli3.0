@@ -1,14 +1,21 @@
 import Vue, { CreateElement, ComponentOptions } from 'vue';
 import App from './App.vue';
-import { Route } from 'vue-router';
 import Router from './router';
-import Store from './store';
+import Store, { BaseVuexClass } from './store';
 import { Component } from 'vue-property-decorator';
 import BaseConfig from './config';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
+// import VueRescroll from 'vue-rescroll';
+// import VueVirtualScroller from 'vue-virtual-scroller';
 // import Cookies from 'js-cookie';
+// import svgSprite from '@src/lib/svg-sprite';
+// import LocalToast from '@src/components/toast/toast';
+// import './registerServiceWorker';
 // import VueHtml5Editor from 'vue-html5-editor';
+// import VueImgLazyLoad from 'vue-images-lazy-load';
+// import VueImgLazyLoad from '@src/lib/vue-img-lazy-load-common.js';
+// // // import VueDomLazyLoad from '@src/lib/vue-dom-lazy-load';
 
 // Vue.use(VueImgLazyLoad);
 // const options = {
@@ -82,7 +89,20 @@ import SvgIcon from '@src/components/svg';
 // });
 
 Vue.use(MyButton);
+// Vue.use(VueRescroll);
 Vue.use(SvgIcon);
+// Vue.use(VueVirtualScroller);
+// Vue.use(LocalToast);
+
+// Vue.directive('focus', {
+// 	inserted: function(el) {
+// 		el.focus();
+// 	}
+// });
+interface LocalComponentOptions extends ComponentOptions<Vue> {
+	vuexClass?: BaseVuexClass;
+	basestore?: Store;
+}
 
 @Component<BaseComponents>({})
 class BaseComponents extends Vue {
@@ -102,24 +122,15 @@ export default class Main extends BaseComponents {
 	constructor({ appConfig }: MainOptions) {
 		const store = new Store({ appConfig });
 		const router = new Router();
-		const options: ComponentOptions<Vue> = {
+		const options: LocalComponentOptions = {
 			router,
-			store
+			store,
+			basestore: store,
+			vuexClass: store.baseVuexClass
 		};
 		super(options);
 		this.app = this;
 		this.store = store;
 		this.router = router;
-	}
-}
-
-interface AsyncDataOption {
-	store: Store;
-	route: Route;
-}
-
-declare module 'vue/types/options' {
-	interface ComponentOptions<V extends Vue> {
-		asyncData?: (options: AsyncDataOption) => Promise<any> | void;
 	}
 }
