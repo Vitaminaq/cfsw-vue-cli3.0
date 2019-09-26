@@ -92,7 +92,6 @@ class EntryClient extends Main {
 	public onRouteReady() {
 		const { router, app } = this;
 		router.onReady(() => {
-			// this.getPageData();
 			app.$mount('#app'); // 挂在到app上
 		});
 	}

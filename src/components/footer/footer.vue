@@ -62,7 +62,9 @@ footer::before {
 	align-items: center;
 	text-align: center;
 	// prettier-ignore
-	border-top: solid #adadad 1PX;
+	// border-top: solid #adadad 1PX;
+	// prettier-ignore
+	box-shadow: 1PX 1PX 5PX #adadad;
 	background-color: #fff;
 
 	a {

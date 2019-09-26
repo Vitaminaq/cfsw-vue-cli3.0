@@ -16,6 +16,8 @@ module.exports = {
 	// baseUrl: config.baseUrl,
 	lintOnSave: process.env.NODE_ENV !== 'production',
 	productionSourceMap: false,
+	crossorigin: 'anonymous',
+	integrity: true,
 	configureWebpack(webpackConfig) {
 		webpackConfig.resolve.extensions = ['.ts', '.vue', '.js'];
 		webpackConfig.resolve.alias = {

@@ -10,7 +10,7 @@
 				v-rescroll="{ name: 'chatroom' }"
 			>
 				<ul v-if="list && list.length">
-					<artic-list
+					<BlogHomeList
 						v-for="(item, key) in list"
 						:key="key"
 						:item="item"
@@ -26,7 +26,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { Time } from '@src/common/comjs';
 import Scroller from '@src/components/scroller/scroller.vue';
-import ArticList from '@src/components/artic-list/artic-list.vue';
+import BlogHomeList from '../components/blog-home-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
 
@@ -35,7 +35,7 @@ import LogoHeader from '@src/components/header/logo-header.vue';
 		Scroller,
 		FooterContent,
 		LogoHeader,
-		ArticList
+		BlogHomeList
 	}
 })
 export default class ChatRoom extends Vue {

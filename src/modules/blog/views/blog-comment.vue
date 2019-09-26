@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<comment-list
+		<BlogDetailCommentList
 			v-for="(item, index) in data"
 			:key="item.commentId"
 			:index="index"
@@ -11,12 +11,12 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import CommentList from '@src/components/artic/comment-list.vue';
+import BlogDetailCommentList from '../components/blog-detail-comment-list.vue';
 import { getQueryParams } from '@src/services/publics';
 
 @Component({
 	components: {
-		CommentList
+		BlogDetailCommentList
 	}
 })
 export default class ArticComment extends Vue {
@@ -30,10 +30,6 @@ export default class ArticComment extends Vue {
 		const { id } = this;
 		if (!id) return '';
 		return this.articDetail.state.dataStore[id];
-	}
-
-	mounted() {
-		console.log(this.data);
 	}
 }
 </script>

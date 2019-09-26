@@ -41,7 +41,7 @@
 						enter-active-class="animated rollIn"
 						leave-active-class="animated rollOut"
 					>
-						<comment-list
+						<BlogDetailCommentList
 							v-for="(item, index) in detailData.commentList"
 							:key="item.commentId"
 							:index="index"
@@ -123,7 +123,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Time, timeFromNow, timestampToDateTime } from '@src/common/comjs';
-import CommentList from '@src/components/artic/comment-list.vue';
+import BlogDetailCommentList from '../components/blog-detail-comment-list.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
 import config from '@src/config';
 
@@ -131,14 +131,13 @@ import { getQueryParams } from '@src/services/publics';
 
 @Component<Detail>({
 	components: {
-		CommentList,
+		BlogDetailCommentList,
 		GeneralHeader
 	},
 	asyncData: ({ store, route }) => {
 		const params: Detail.ArticDetail.RequestParams = {
 			id: (route as any).query.id
 		};
-		console.log(store, 'llllllllllllllllllllllllllllll');
 		const { blogDetail } = store.blog;
 		blogDetail.$clearData();
 		blogDetail.$assignParams(params);
