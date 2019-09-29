@@ -46,4 +46,4 @@ git add . + git cz
 #### 后台地址
 [https://github.com/Vitaminaq/node-mysql](https://github.com/Vitaminaq/node-mysql)
 #### tips
-该分支可能有些模块跑不起来，因为被我用于插件开发实验了，改得零零散散的，还望见谅。
+该分支可能有些模块跑不起来，因为被我用于插件开发实验了，改得零零散散的，还望见谅。各分支只做技术的实践，产品上没设计。
