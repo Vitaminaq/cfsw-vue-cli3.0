@@ -64,6 +64,7 @@ class EntryClient extends Main {
 		this.getPageData();
 	}
 	public initState() {
+		console.log(window.location.hash);
 		// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
 		// if (window.__INITIAL_STATE__) {
 		// 	this.store.replace(window.__INITIAL_STATE__.store);
@@ -71,6 +72,10 @@ class EntryClient extends Main {
 	}
 	public getPageData() {
 		const { router, store, app } = this;
+		// router.beforeEach((to: any, from: any, next: any) => {
+		// 	console.log(window);
+		// 	next();
+		// });
 		// 采用路由后置钩子取数据，不阻塞路由跳转
 		router.afterEach(async (to: Route, from: Route) => {
 			const matched: any = router.getMatchedComponents(to);

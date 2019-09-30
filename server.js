@@ -10,6 +10,7 @@ const resolve = (file) => path.resolve(__dirname, file);
 const { createBundleRenderer } = require('vue-server-renderer');
 const appConfig = require('./config/index');
 const staticSvgSprite = require('./lib/static-svg-sprite');
+const etag = require('etag');
 
 const isProd = process.env.NODE_ENV === 'production';
 const useMicroCache = process.env.MICRO_CACHE !== 'false';
@@ -48,6 +49,7 @@ const renderer = createRenderer(bundle, {
 	clientManifest
 });
 
+console.log(isProd, 'wwwwwwwwwwwwwwwwwwwwwwwwwwww');
 const serve = (path, cache) =>
 	express.static(resolve(path), {
 		maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
@@ -65,6 +67,8 @@ function render(req, res) {
 
 	res.setHeader('Content-Type', 'text/html');
 	res.setHeader('Server', serverInfo); // 往响应头里添加一些服务端信息
+	res.setHeader('ETag', etag(''));
+	// res.setHeader('Cache-Control', 'max-age=60');
 
 	const handleError = (err) => {
 		if (err.url) {
