@@ -84,12 +84,12 @@ module.exports = (app, options) => {
 		app.use(compression({ threshold: 0 }));
 		app.use(favicon(config.favicon));
 
-		if (config.api.hasPlugin('pwa')) {
-			app.use(
-				'/service-worker.js',
-				serve(config.serviceWorkerPath, true)
-			);
-		}
+		// if (config.api.hasPlugin('pwa')) {
+		// 	app.use(
+		// 		'/service-worker.js',
+		// 		serve(config.serviceWorkerPath, true)
+		// 	);
+		// }
 
 		// 把打包好的文件转成静态资源
 		const serveStaticFiles = serve(config.distPath, true);

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vue-cli-service ssr:serve",
     "serve": "vue-cli-service serve",
+    "start": "PORT=8080 node server.js",
     "build:client": "cross-env NODE_TYPE=client vue-cli-service build",
     "build:server": "cross-env NODE_TYPE=server vue-cli-service build",
     "build": "vue-cli-service ssr:build",
@@ -19,6 +20,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "js-cookie": "^2.2.0",
+    "route-cache": "^0.4.4",
     "vue": "^2.6.10",
     "vue-dom-lazy-load": "^1.0.0",
     "vue-images-lazy-load": "^1.0.9",
