@@ -19,6 +19,7 @@ if (fs.existsSync(path.resolve(__dirname, './config.local.js'))) {
 const config = require(`./config.${env}.js`);
 
 module.exports = () => {
+	console.log(`当前运行环境：${process.env.NODE_ENV}`);
 	console.log(`当前配置环境：${config.ENV}`);
 	console.log('当前基本配置：');
 	console.log('{');

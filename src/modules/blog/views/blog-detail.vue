@@ -4,8 +4,6 @@
 		v-rescroll="{
 			name: `detail${$route.query.id}`
 		}"
-		ref="detail"
-		@click="control"
 	>
 		<general-header
 			:header-title="headerTitle"
@@ -27,116 +25,32 @@
 				}}</span>
 			</div>
 			<div id="artic" v-html="detailData.msg"></div>
-			<div id="comment">
-				<div id="commentitle">评论区</div>
-				<div class="commentul">
-					<transition-group
-						name="list"
-						tag="ul"
-						v-if="
-							detailData &&
-								detailData.commentList &&
-								detailData.commentList.length > 0
-						"
-						enter-active-class="animated rollIn"
-						leave-active-class="animated rollOut"
-					>
-						<BlogDetailCommentList
-							v-for="(item, index) in detailData.commentList"
-							:key="item.commentId"
-							:index="index"
-							:item="item"
-							@agreeit="agreeit"
-						/>
-					</transition-group>
-					<div v-else class="no-message">
-						<svg-icon name="no-message" />
-						<div class="tips">快来评论吧!</div>
-					</div>
-					<div
-						v-if="moreComment"
-						class="more-comment"
-						@click="toComment"
-					>
-						查看更多评论
-					</div>
-					<div id="ulbottom" />
-				</div>
-			</div>
-			<div id="footer">
-				<div v-if="hidshow" class="operate">
-					<input
-						class="input1"
-						type="text"
-						name=""
-						placeholder="说点什么..."
-						@focus="sayit()"
-					/>
-					<div
-						class="operate-artic oprate-click"
-						@click="agreeAuthors()"
-					>
-						<svg-icon
-							name="click"
-							:class="detailData.isClick ? 'oprated' : ''"
-						/>
-						<span class="agreeau-num">{{
-							detailData.clicknum
-						}}</span>
-					</div>
-					<div class="operate-artic" @click="toButtom">
-						<svg-icon name="comment" />
-						<span class="agreeau-num">{{
-							detailData.commentnum
-						}}</span>
-					</div>
-					<div class="operate-comment">
-						<svg-icon name="collection" />
-					</div>
-				</div>
-				<div v-else id="commentdiv">
-					<!-- <img
-						id="motion"
-						src="../../assets/image/detail/input.png"
-					/> -->
-					<input
-						id="input2"
-						v-model="commentmsg"
-						v-focus
-						type="text"
-						name=""
-						placeholder="可使用输入法自带表情"
-						@keyup="filter()"
-					/>
-					<my-button
-						:disabled="button.disabled"
-						:value="button.value"
-						:btn-style="button.btnStyle"
-						@click.native="commentit"
-					/>
-				</div>
-			</div>
+			<BlogDetailComment />
+			<BlogDetailFooter />
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { Time, timeFromNow, timestampToDateTime } from '@src/common/comjs';
-import BlogDetailCommentList from '../components/blog-detail-comment-list.vue';
+import { timestampToDateTime } from '@src/common/comjs';
+import BlogDetailFooter from '../components/blog-detail-comment.vue';
+import BlogDetailComment from '../components/blog-detail-footer.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
-import config from '@src/config';
 
 import { getQueryParams } from '@src/services/publics';
 
-@Component<Detail>({
+@Component<BlogDetail>({
 	components: {
-		BlogDetailCommentList,
-		GeneralHeader
+		BlogDetailComment,
+		GeneralHeader,
+		BlogDetailFooter
 	},
 	asyncData: ({ store, route }) => {
+		const id = getQueryParams(route.query.id);
+		if (!id) return;
 		const params: Detail.ArticDetail.RequestParams = {
-			id: (route as any).query.id
+			id
 		};
 		const { blogDetail } = store.blog;
 		blogDetail.$clearData();
@@ -144,199 +58,19 @@ import { getQueryParams } from '@src/services/publics';
 		return blogDetail.getArticDetail();
 	}
 })
-export default class Detail extends Vue {
-	status: boolean = false;
-	commentmsg: string = '';
-	hidshow: boolean = true;
-	articMessage: Detail.ArticDetail.Data = {} as Detail.ArticDetail.Data;
-	headerTitle: string = '正文';
+export default class BlogDetail extends Vue {
+	headerTitle: string = '微博正文';
 	headImg: string = '';
-	button: MyButton.Button<MyButton.BtnStyle> = {
-		disabled: true,
-		value: '评论',
-		btnStyle: {
-			width: '1.6rem',
-			height: '0.9rem'
-		}
-	};
 
-	get id(): string | null {
+	public get id(): string | null {
 		return getQueryParams(this.$route.query.id);
 	}
-	get articDetail() {
-		return this.$store.blog.blogDetail;
-	}
-	get detailData() {
-		return this.articDetail.data;
-	}
-	get agreeAuthor() {
-		return this.$store.blog.agreeAuthor;
-	}
-	get userComment() {
-		return this.$store.blog.userComment;
-	}
-	get agreeComment() {
-		return this.$store.blog.agreeComment;
-	}
-	get moreComment() {
-		const { articMessage } = this;
-		if (!articMessage.commentList || !articMessage.commentList[0])
-			return false;
-		const len = articMessage.commentList.length || 0;
-		return len > 4;
+	public get detailData() {
+		return this.$store.blog.blogDetail.data;
 	}
 
-	async getData(): Promise<this> {
-		const { id } = this;
-		if (!id) return this;
-		let params: Detail.ArticDetail.RequestParams = {
-			id
-		};
-		this.articDetail.$assignParams(params);
-		await this.articDetail.getArticDetail();
-		this.articMessage = this.articDetail.dataStore[id].articMessage;
-		this.headImg = `${''}${
-			this.articDetail.dataStore[id].articMessage.headimg
-		}`;
-		// this.articMessage.msg = this.articMessage.msg.replace(/ /g, '&nbsp;');
-		return this;
-	}
-	filter(): this {
-		if (this.commentmsg) {
-			this.button.disabled = false;
-			let reg = new RegExp('傻逼', 'g');
-			this.commentmsg = this.commentmsg.replace(reg, '***');
-		} else {
-			this.button.disabled = true;
-		}
-		return this;
-	}
-	time(time: number): string | undefined {
-		return Time(time);
-	}
-	timeFromNow(time: number) {
-		return timeFromNow(time);
-	}
-	timestampToDateTime(time: number) {
+	public timestampToDateTime(time: number): string | undefined {
 		return timestampToDateTime(time);
-	}
-	async commentit(): Promise<this> {
-		if (!this.id) return this;
-		let params = {
-			articId: this.id,
-			msg: this.commentmsg
-		};
-		this.userComment.$assignParams(params);
-		await this.userComment.userComment();
-		if (
-			this.userComment.res.code === 20000 ||
-			this.userComment.res.code === 20001
-		) {
-			this.$router.push({
-				name: 'login',
-				query: {
-					...this.$route.query,
-					from: this.$route.fullPath
-				}
-			});
-			return this;
-		}
-		await this.getData();
-		this.commentmsg = '';
-		this.hidshow = true;
-		return this;
-	}
-	async agreeAuthors(): Promise<this> {
-		if (!this.id) return this;
-		let params = {
-			id: this.id
-		};
-		this.agreeAuthor.$assignParams(params);
-		await this.agreeAuthor.agreeAuthor();
-		if (this.agreeAuthor.res.code === 0) {
-			this.articDetail.$updateArticClick(this.id);
-			return this;
-		}
-		// Toast('', this.A_res.data);
-		if (
-			this.agreeAuthor.res.code === 20000 ||
-			this.agreeAuthor.res.code === 20001
-		) {
-			this.$router.push({
-				name: 'login',
-				query: {
-					...this.$route.query,
-					from: this.$route.fullPath
-				}
-			});
-			return this;
-		}
-		return this;
-	}
-	async agreeit(commentId: number, index: number): Promise<this> {
-		if (!this.id) return this;
-		let params = {
-			id: this.id,
-			commentId: commentId
-		};
-		this.agreeComment.$assignParams(params);
-		await this.agreeComment.agreeComment();
-		if (this.agreeComment.res.code === 0) {
-			this.articDetail.$updateCommentClick({
-				id: this.id,
-				index: index
-			});
-			return this;
-		}
-		if (
-			this.agreeComment.res.code === 20000 ||
-			this.agreeComment.res.code === 20001
-		) {
-			this.$router.push({
-				name: 'login',
-				query: {
-					...this.$route.query,
-					from: this.$route.fullPath
-				}
-			});
-			return this;
-		}
-		return this;
-	}
-	sayit(): this {
-		this.hidshow = false;
-		return this;
-	}
-	control(event: Event): this {
-		if (!event.target) return this;
-		let tag: any = event.target;
-		if (!this.hidshow) {
-			while (
-				tag !== document.getElementById('footer') &&
-				tag !== document.getElementById('detail')
-			) {
-				tag = tag.parentNode;
-			}
-			if (tag !== document.getElementById('footer')) {
-				this.hidshow = true;
-			}
-		}
-		return this;
-	}
-	back(): void {
-		return this.$router.go(-1);
-	}
-	toButtom() {
-		const detailDom = (this as any).$refs.detail;
-		detailDom.scrollTop = detailDom.scrollHeight;
-	}
-	toComment() {
-		this.$router.push({
-			name: 'comment',
-			query: {
-				id: this.id
-			}
-		});
 	}
 }
 </script>
@@ -404,151 +138,6 @@ export default class Detail extends Vue {
 		margin: 0 auto;
 		padding-top: 0.266667rem;
 		padding-bottom: 0.4rem;
-	}
-
-	#comment {
-		text-align: left;
-		height: auto;
-		overflow-y: auto;
-
-		#commentitle {
-			border-top: #adadad solid 0.066667rem;
-			border-bottom: #adadad solid 1px;
-			font-size: 0.5rem;
-			padding-left: 0.533333rem;
-			height: 1.066667rem;
-			margin: 0 auto;
-			line-height: 1.066667rem;
-		}
-
-		.commentul {
-			height: auto;
-			width: 100%;
-			overflow-x: hidden;
-			overflow-y: auto;
-
-			.no-message {
-				width: 100%;
-				height: 220px;
-
-				.icon-symbol {
-					fill: #adadad;
-				}
-
-				.tips {
-					text-align: center;
-					font-size: 16px;
-					color: #adadad;
-				}
-			}
-
-			.more-comment {
-				height: 60px;
-				line-height: 60px;
-				font-size: 18px;
-				color: #adadad;
-				text-align: center;
-			}
-
-			#ulbottom {
-				height: 1.2rem;
-			}
-		}
-	}
-
-	#footer {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		margin: 0;
-		padding: 0;
-		height: 50px;
-		line-height: 50px;
-		// prettier-ignore
-		border-top: solid #adadad 1PX;
-		background-color: #fff;
-		width: 100%;
-		text-align: left;
-		overflow: hidden;
-
-		.operate {
-			display: flex;
-			display: -webkit-flex; /* Safari */
-			justify-content: center;
-			align-items: center;
-
-			.input1 {
-				width: 100%;
-				margin-left: 20px;
-				height: 34px;
-				font-size: 18px;
-				padding-left: 20px;
-				border-radius: 50px;
-			}
-
-			.icon-symbol {
-				width: 20px;
-				height: 20px;
-				fill: #adadad;
-			}
-
-			.operate-artic {
-				display: flex;
-				display: -webkit-flex; /* Safari */
-				justify-content: center;
-				align-items: center;
-				margin-right: 20px;
-
-				&.oprate-click {
-					margin-left: 20px;
-				}
-
-				.oprated {
-					fill: #00dcff;
-				}
-
-				.agreeau-num {
-					margin-left: 4px;
-					font-size: 12px;
-					color: #adadad;
-				}
-			}
-
-			.operate-comment {
-				margin-right: 20px;
-
-				.icon-symbol {
-					position: relative;
-					top: -2px;
-				}
-			}
-		}
-
-		#commentdiv {
-			display: flex;
-			display: -webkit-flex; /* Safari */
-			justify-content: center;
-			align-items: center;
-			padding-top: 0.07rem;
-			overflow: hidden;
-
-			#motion {
-				height: 0.933333rem;
-				width: 0.933333rem;
-				margin-top: 0.1rem;
-			}
-
-			#input2 {
-				width: 65%;
-				height: 0.8rem;
-				border-top: none;
-				border-left: none;
-				border-right: none;
-				font-size: 0.5rem;
-				margin: 0 0.1875rem 0 0.1875rem;
-				border-radius: 0;
-			}
-		}
 	}
 }
 </style>

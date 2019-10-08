@@ -30,19 +30,6 @@ export default class App extends Vue {
 			this.leaveClass = 'animated fadeOut';
 		}
 	}
-	async mounted() {
-		if (!window.$getInitData) return;
-		await this.$nextTick();
-		Promise.all(
-			window.$getInitData.map(
-				async (hook: any) =>
-					await hook({
-						store: this.$store,
-						route: this.$route
-					})
-			)
-		);
-	}
 }
 </script>
 
@@ -54,7 +41,6 @@ export default class App extends Vue {
 #app {
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 	/* text-align: center; */
 	color: #2c3e50;
 	background-color: #fff;

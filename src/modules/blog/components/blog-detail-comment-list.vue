@@ -22,24 +22,23 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Time } from '@src/common/comjs';
-import config from '@src/config';
 
-@Component
-export default class CommentList extends Vue {
-	@Prop({ required: true }) index!: number | string;
-	@Prop({ default: () => {} }) item!: Detail.ArticDetail.Commentxt;
+@Component<BlogDetailCommentList>({})
+export default class BlogDetailCommentList extends Vue {
+	@Prop({ required: true }) public index!: number | string;
+	@Prop({ default: () => {} }) public item!: Detail.ArticDetail.Commentxt;
 
-	get headImgUrl() {
+	public get headImgUrl() {
 		return `${''}${this.item.headimg}`;
 	}
-	get isClicked() {
+	public get isClicked() {
 		return this.item.isClickComment;
 	}
 
-	time(time: number): string | undefined {
+	public time(time: number): string | undefined {
 		return Time(time);
 	}
-	agreeit(commentId: number): this {
+	public agreeit(commentId: number): this {
 		this.$emit('agreeit', commentId, this.index);
 		return this;
 	}

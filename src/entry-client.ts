@@ -6,6 +6,7 @@ import VueRescroll from 'vue-rescroll';
 import BaseConfig from './config';
 import VueHtml5Editor from 'vue-html5-editor';
 import VueImgLazyLoad from 'vue-images-lazy-load';
+import { getRealUrl, getAsyncData } from '@src/services/publics';
 
 const options = {
 	showModuleName: true,
@@ -55,7 +56,7 @@ Vue.use(VueRescroll)
 		}
 	});
 
-class EntryClient extends Main {
+export class EntryClient extends Main {
 	public constructor() {
 		super({
 			appConfig: window.__INITIAL_STATE__.appConfig || ''
@@ -64,34 +65,20 @@ class EntryClient extends Main {
 		this.getPageData();
 	}
 	public initState() {
-		console.log(window.location.hash);
+		// 接管路由
+		getRealUrl(this);
 		// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
 		// if (window.__INITIAL_STATE__) {
 		// 	this.store.replace(window.__INITIAL_STATE__.store);
 		// }
 	}
 	public getPageData() {
-		const { router, store, app } = this;
-		// router.beforeEach((to: any, from: any, next: any) => {
-		// 	console.log(window);
-		// 	next();
-		// });
+		const { router } = this;
 		// 采用路由后置钩子取数据，不阻塞路由跳转
 		router.afterEach(async (to: Route, from: Route) => {
-			const matched: any = router.getMatchedComponents(to);
-			const activated = matched.filter((c: any, i: any) => {
-				return c.options && typeof c.options.asyncData === 'function';
-			});
-			const asyncDataHooks = activated
-				.map((c: any) => c.options.asyncData)
-				.filter((_: any) => _);
-			if (!asyncDataHooks.length) return;
-			await Promise.all(
-				asyncDataHooks.map(
-					async (hook: any) => await hook({ store, route: to })
-				)
-			);
-			window.$getInitData = asyncDataHooks;
+			await this.$nextTick();
+			await getAsyncData(this, to);
+			window.$getInitData = () => getAsyncData(this, to);
 		});
 	}
 	public onRouteReady() {
@@ -114,7 +101,7 @@ declare global {
 	interface Window {
 		__INITIAL_STATE__: any;
 		app: EntryClient;
-		$getInitData: any;
+		$getInitData: () => any;
 	}
 }
 
