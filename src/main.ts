@@ -7,6 +7,7 @@ import { Component } from 'vue-property-decorator';
 import BaseConfig from './config';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
+import GetPageData from '@src/components/get-page-data.vue';
 // import Cookies from 'js-cookie';
 // import VueHtml5Editor from 'vue-html5-editor';
 
@@ -53,33 +54,6 @@ import SvgIcon from '@src/components/svg';
 // Vue.use(VueHtml5Editor, options);
 
 // Vue.config.productionTip = false;
-
-// Vue.mixin({
-// 	methods: {
-// 		isLogin() {
-// 			if (!Cookies.get('token') || !Cookies.get('nickname')) {
-// 				this.$router.push({
-// 					name: 'login',
-// 					query: {
-// 						...this.$route.query,
-// 						from: this.$route.fullPath
-// 					}
-// 				});
-// 			}
-// 			return true;
-// 		},
-// 		// 判断参数是否为空
-// 		isEmpty(params: any) {
-// 			let Arr = [];
-// 			for (const key in params) {
-// 				if (params.hasOwnProperty(key)) {
-// 					Arr.push(params[key]);
-// 				}
-// 			}
-// 			return Arr.includes('');
-// 		}
-// 	}
-// });
 
 Vue.use(MyButton);
 Vue.use(SvgIcon);

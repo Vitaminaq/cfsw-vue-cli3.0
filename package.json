@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development vue-cli-service ssr:serve",
+    "dev": "cross-env NODE_ENV=development vue-cli-service ssr:serve",
     "serve": "vue-cli-service serve",
-    "start": "NODE_ENV=production PORT=8080 node server.js",
+    "start": "cross-env NODE_ENV=production PORT=8080 node server.js",
     "build:client": "cross-env NODE_TYPE=client vue-cli-service build",
     "build:server": "cross-env NODE_TYPE=server vue-cli-service build",
     "build": "vue-cli-service ssr:build",
