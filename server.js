@@ -49,18 +49,22 @@ const renderer = createRenderer(bundle, {
 	clientManifest
 });
 
-const serve = (path, cache) =>
+const serve = (path) =>
 	express.static(resolve(path), {
-		maxAge: cache && isProd ? 60 : 0
-		// 1000 * 60 * 60 * 24 * 30 : 0
+		maxAge: isProd ? 1000 * 60 * 2 : 0
 	});
 
 app.use(compression({ threshold: 0 }));
 // app.use(favicon('./public/logo-48.png'));
-app.use('/', serve('./dist', true));
+app.use('/', serve('./dist'));
 staticSvgSprite(app);
 
-app.use(microcache.cacheSeconds(60, (req) => useMicroCache && req.path));
+app.use(
+	microcache.cacheSeconds(60, (req) => {
+		console.log('命中缓存');
+		return useMicroCache && req.path;
+	})
+);
 
 function render(req, res) {
 	const s = Date.now();
@@ -68,7 +72,7 @@ function render(req, res) {
 	res.setHeader('Content-Type', 'text/html');
 	res.setHeader('Server', serverInfo); // 往响应头里添加一些服务端信息
 	res.setHeader('ETag', etag(''));
-	// res.setHeader('Cache-Control', 'max-age=60');
+	res.setHeader('Cache-Control', 'max-age=60');
 
 	const handleError = (err) => {
 		if (err.url) {
