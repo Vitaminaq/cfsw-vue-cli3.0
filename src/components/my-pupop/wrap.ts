@@ -1,22 +1,24 @@
 import MyPupop from './my-pupop.vue';
 
 export interface ConfirmOptions {
-	icon?: string;
 	message?: string;
+	bgOpacity?: number;
 	buttons?: CreateMyPupupButton[];
 	callback?: () => any;
 }
 
 export interface AlertOptions {
-	icon?: string;
 	message?: string;
+	bgOpacity?: number;
 	btnText?: string;
+	btnColor?: string;
 	callback?: () => any;
 }
 
 export interface LoadingOptions {
 	icon?: string;
 	message?: string;
+	bgOpacity?: number;
 	duration?: number;
 	callback?: () => any;
 }
@@ -29,6 +31,7 @@ export interface ToastOptions {
 
 export interface CreateMyPupupButton {
 	text: string;
+	color?: string;
 	callback?: () => any;
 }
 
@@ -50,10 +53,11 @@ const hasCallback = (propsData: any) => {
 
 export const confirm = (options: ConfirmOptions): Promise<any> => {
 	const { buttons } = options;
-	if (!buttons || buttons.length) {
+	if (!buttons || !buttons.length) {
 		options.buttons = [
 			{
-				text: '确定'
+				text: '确定',
+				color: 'orange'
 			},
 			{
 				text: '取消'

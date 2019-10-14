@@ -3,7 +3,7 @@
 		<div
 			class="my-pupop-bg"
 			:style="{ opacity: bgOpacity }"
-			@click="type !== 'loading' && type !== 'toast' && $emit('close')"
+			@click="!isLoadingOrToast && $emit('close')"
 		></div>
 		<div v-if="type === 'toast' && !icon" class="min-toast">
 			{{ message }}
@@ -11,8 +11,8 @@
 		<div v-else>
 			<div class="my-pupop-content">
 				<div
-					v-if="type === 'loading' || type === 'toast'"
-					class="loading-content"
+					v-if="isLoadingOrToast"
+					:class="['loading-content', message ? '' : 'no-message']"
 				>
 					<img v-if="!icon" src="./images/loading.gif" alt="" />
 					<img
@@ -29,13 +29,18 @@
 						v-for="item in buttons"
 						:key="item.text"
 						class="my-pupop-btn"
-						@click="opetateBtn(item || '')"
+						:style="{ color: item.color }"
+						@click="opetateBtn(item)"
 					>
 						{{ item.text }}
 					</button>
 				</div>
 				<div class="my-pupop-operate" v-if="btnText">
-					<button class="my-pupop-btn" @click="opetateBtn()">
+					<button
+						class="my-pupop-btn"
+						:style="{ color: btnColor }"
+						@click="opetateBtn()"
+					>
 						{{ btnText }}
 					</button>
 				</div>
@@ -45,8 +50,9 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-export interface MyPupupButton {
+export interface VuePupupButton {
 	text: string;
+	color?: string;
 	callback?: () => any;
 }
 
@@ -61,17 +67,22 @@ export default class MyPupup extends Vue {
 	@Prop({
 		default: () => []
 	})
-	public buttons!: MyPupupButton;
+	public buttons!: VuePupupButton;
 	@Prop({ default: () => {} }) public callback!: any;
 	@Prop({ default: '' }) public btnText!: string;
+	@Prop({ default: 'orange' }) public btnColor!: string;
 	@Prop({ default: 500 }) public duration!: number;
 	@Prop({ default: '' }) public icon!: string;
 	@Prop({ default: 0.4 }) public bgOpacity!: number;
 
+	public get isLoadingOrToast() {
+		return this.type === 'loading' || this.type === 'toast';
+	}
+
 	public timer: any = 0;
 
 	public async mounted() {
-		if (this.type === 'loading' || this.type === 'toast') {
+		if (this.isLoadingOrToast) {
 			if (this.callback) {
 				const r = await this.callback();
 				this.$emit('close', r);
@@ -85,7 +96,7 @@ export default class MyPupup extends Vue {
 		}
 	}
 
-	public async opetateBtn(btn: MyPupupButton) {
+	public async opetateBtn(btn?: VuePupupButton) {
 		if (!btn && !this.callback) {
 			this.$emit('close', null);
 			return;
@@ -96,6 +107,7 @@ export default class MyPupup extends Vue {
 			this.$emit('close', r);
 			return;
 		}
+		if (!btn) return;
 		const { text, callback } = btn;
 		if (callback) {
 			r = await callback();
@@ -156,6 +168,9 @@ export default class MyPupup extends Vue {
 
 		.loading-content {
 			text-align: center;
+			&.no-message {
+				margin-bottom: 15px;
+			}
 			img {
 				height: 40px;
 				width: 40px;

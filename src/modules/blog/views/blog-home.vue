@@ -74,7 +74,8 @@ export default class ChatRoom extends Vue {
 		}
 	}
 	public async test() {
-		// await this.$pupop.confirm({
+		// const r = await this.$pupop.confirm({
+		// 	message: '确定删除此信息',
 		// 	buttons: [
 		// 		{
 		// 			text: '取消',
@@ -97,12 +98,12 @@ export default class ChatRoom extends Vue {
 		// 		return this.$store.blog.blogList.getListBaseAjaxMethod();
 		// 	}
 		// });
-		// const r = await this.$pupop.loading({
-		// 	message: '加载中...',
-		// 	duration: 2000
-		// });
-		// console.log(r, 'hhhhhhhhhhhhhhhhhhhhhhhh');
-		this.$pupop.toast('加载成功', 1000);
+		const r = await this.$pupop.loading({
+			// message: '加载中...',
+			duration: 2000
+		});
+		console.log(r, 'hhhhhhhhhhhhhhhhhhhhhhhh');
+		// this.$pupop.toast('加载成功', 1000);
 	}
 }
 </script>
