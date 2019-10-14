@@ -1,12 +1,6 @@
 <template>
 	<div id="app">
-		<!-- <transition
-			name="tranAni"
-			:enter-active-class="enterClass"
-			:leave-active-class="leaveClass"
-		> -->
-		<router-view class="child-view" />
-		<!-- </transition> -->
+		<router-view />
 	</div>
 </template>
 <script lang="ts">
@@ -14,23 +8,7 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { Route } from 'vue-router';
 
 @Component<App>({})
-export default class App extends Vue {
-	enterClass: string = '';
-	leaveClass: string = '';
-	@Watch('$route')
-	onchange(to: Route, from: Route) {
-		if (to.name === 'publish') {
-			this.enterClass = 'animated fadeInDown';
-		} else if (from.name === 'publish') {
-			this.leaveClass = 'animated fadeOutUp';
-		} else if (to.name === 'chatroom') {
-			this.enterClass = 'animated fadeIn';
-		} else {
-			this.enterClass = 'animated fadeIn';
-			this.leaveClass = 'animated fadeOut';
-		}
-	}
-}
+export default class App extends Vue {}
 </script>
 
 <style>
@@ -62,17 +40,5 @@ a,
 button,
 input {
 	-webkit-tap-highlight-color: rgba(255, 0, 0, 0);
-}
-.child-view {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	transition: all 0.1s cubic-bezier(0.55, 0, 0.1, 1);
-}
-.tranAni-leave-active {
-	opacity: 0;
-}
-.tranAni-enter {
-	opacity: 0;
 }
 </style>

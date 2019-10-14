@@ -7,7 +7,6 @@ import { Component } from 'vue-property-decorator';
 import BaseConfig from './config';
 import MyButton from '@src/components/mybutton';
 import SvgIcon from '@src/components/svg';
-import GetPageData from '@src/components/get-page-data.vue';
 // import Cookies from 'js-cookie';
 // import VueHtml5Editor from 'vue-html5-editor';
 

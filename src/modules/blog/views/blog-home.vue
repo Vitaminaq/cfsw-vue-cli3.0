@@ -1,6 +1,6 @@
 <template>
 	<div class="chatroom">
-		<logo-header />
+		<logo-header @click.native="test" />
 		<div class="wrapper" v-if="articList">
 			<scroller
 				@dropDown="dropDown"
@@ -51,6 +51,7 @@ export default class ChatRoom extends Vue {
 	public get list() {
 		return this.articList.list;
 	}
+
 	public async pullUp() {
 		return this.articList.pullUp();
 	}
@@ -64,13 +65,44 @@ export default class ChatRoom extends Vue {
 	public async todetail(id: string) {
 		return this.$router.push({
 			name: 'blog-detail',
-			query: { id: id }
+			query: { id }
 		});
 	}
-	beforeDestroy() {
+	public beforeDestroy() {
 		if (this.$route.name === 'publish') {
 			this.articList.$clearData();
 		}
+	}
+	public async test() {
+		// await this.$pupop.confirm({
+		// 	buttons: [
+		// 		{
+		// 			text: '取消',
+		// 			callback: () => {
+		// 				return this.$store.blog.blogList.getListBaseAjaxMethod();
+		// 			}
+		// 		},
+		// 		{
+		// 			text: '删除',
+		// 			callback: () => {
+		// 				return this.$store.blog.blogList.getListBaseAjaxMethod();
+		// 			}
+		// 		}
+		// 	]
+		// });
+		// const r = await this.$pupop.alert({
+		// 	message: '点赞成功',
+		// 	btnText: '知道了',
+		// 	callback: () => {
+		// 		return this.$store.blog.blogList.getListBaseAjaxMethod();
+		// 	}
+		// });
+		// const r = await this.$pupop.loading({
+		// 	message: '加载中...',
+		// 	duration: 2000
+		// });
+		// console.log(r, 'hhhhhhhhhhhhhhhhhhhhhhhh');
+		this.$pupop.toast('加载成功', 1000);
 	}
 }
 </script>

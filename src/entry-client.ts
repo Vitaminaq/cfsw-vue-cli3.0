@@ -6,6 +6,7 @@ import VueRescroll from 'vue-rescroll';
 import BaseConfig from './config';
 import VueHtml5Editor from 'vue-html5-editor';
 import VueImgLazyLoad from 'vue-images-lazy-load';
+import Pupop from '@src/components/my-pupop';
 import { getRealUrl, getAsyncData } from '@src/services/publics';
 
 const options = {
@@ -50,8 +51,9 @@ const options = {
 Vue.use(VueRescroll)
 	.use(VueImgLazyLoad)
 	.use(VueHtml5Editor, options)
+	.use(Pupop)
 	.directive('focus', {
-		inserted: function(el) {
+		inserted: function(el: any) {
 			el.focus();
 		}
 	});
