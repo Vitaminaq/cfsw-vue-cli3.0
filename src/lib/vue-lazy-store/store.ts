@@ -6,7 +6,9 @@ let localVue: VueConstructor<Vue> | null = null;
 
 export class Store {
 	public constructor(options?: any) {
-        this.mergeOptions(options);
+		this.mergeOptions(options);
+		// console.log(this);
+		this.listenAction();
 	}
 	public mergeOptions(options: any): this {
 		if (!options) return this;
@@ -19,11 +21,25 @@ export class Store {
 	public addMoudles(modules: any): this {
 		if (!modules || !localVue) return this;
 		defineMoudle(localVue, this, modules);
+		this.listenAction();
 		return this;
+	}
+	public listenAction() {
+		console.log(this, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
+		for (var key in this) {
+			console.log(key, this[key]);
+		}
+		// for(var key in this) {
+		// 	console.log(this, key, Object.getPrototypeOf(this), 'wwwwwwwwwwwwwwwwwww');
+		// 	// if (/^\$/.test(key)) {
+		// 	// 	console.log(key, 'wwwwwwwwwwwwwwwwwww');
+		// 	// }
+		// }
 	}
 	public init() {
 		if (!localVue) throw Error('please Vue.use() install it');
 		vueObservable(localVue, this);
+		this.listenAction();
 	}
 	public replace(store: any): this {
 		mergeStore(this, store);

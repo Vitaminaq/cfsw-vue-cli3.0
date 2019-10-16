@@ -137,7 +137,13 @@ class AgreeComment extends BaseLoaderData<
 	string,
 	BlogApi
 > {
-	async agreeComment(): Promise<this> {
+	public constructor(api: any) {
+		super(api);
+		for (const name in this) {
+			console.log(this, name, this[name], 'ddddddddddddddddddddddddddd');
+		}
+	}
+	public async agreeComment(): Promise<this> {
 		this.$RequestStart();
 		const res = await this.api.agreeComment(this.state.params);
 		this.$RequestSuccess(res);
