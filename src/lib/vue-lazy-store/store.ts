@@ -1,13 +1,19 @@
 import Vue, { VueConstructor } from 'vue';
 
-import { isNotPro, mergeStore, defineMoudle, vueObservable } from './utils';
+import { isNotPro, defineMoudle, vueObservable, getAllPrototypeNames } from './utils';
 
 let localVue: VueConstructor<Vue> | null = null;
 
+export interface ActionItem {
+	position: string;
+	params: any;
+}
+
 export class Store {
+	public actions: ActionItem[] = [];
 	public constructor(options?: any) {
 		this.mergeOptions(options);
-		// console.log(this);
+		this.restore();
 		this.listenAction();
 	}
 	public mergeOptions(options: any): this {
@@ -25,24 +31,36 @@ export class Store {
 		return this;
 	}
 	public listenAction() {
-		console.log(this, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
-		for (var key in this) {
-			console.log(key, this[key]);
-		}
-		// for(var key in this) {
-		// 	console.log(this, key, Object.getPrototypeOf(this), 'wwwwwwwwwwwwwwwwwww');
-		// 	// if (/^\$/.test(key)) {
-		// 	// 	console.log(key, 'wwwwwwwwwwwwwwwwwww');
-		// 	// }
-		// }
+		const pn: string[] = getAllPrototypeNames(this);
+		pn.forEach((name: string) => {
+            if (/^\$/.test(name)) {
+				const fn: any = (this as any)[name];
+				(this as any)[name] = function(...arg: any[]){
+					console.log(`当前执行动作：${this.constructor.name}.${name}`)
+					this.actions.push({
+						position: `${this.constructor.name}.${name}`,
+						params: arg
+					});
+					return fn.apply(this, arg);
+				}
+			} 
+		})
 	}
 	public init() {
 		if (!localVue) throw Error('please Vue.use() install it');
 		vueObservable(localVue, this);
 		this.listenAction();
 	}
-	public replace(store: any): this {
-		mergeStore(this, store);
+	public restore(): this {
+		if (this.actions.length) {
+			this.actions.forEach((i: ActionItem) => {
+				const arr: string[] = i.position.split('.');
+				if (this.constructor.name === arr[0]) {
+					return (this as any)[arr[1]](...i.params);
+				}
+			})
+			console.log(`${this.constructor.name}状态还原完毕`);
+		}
 		return this;
 	}
 }

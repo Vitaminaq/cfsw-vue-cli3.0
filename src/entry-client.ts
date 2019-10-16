@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import 'es6-promise/auto';
 import Main from './main';
 import { Route } from 'vue-router';
 import VueRescroll from 'vue-rescroll';
@@ -70,10 +69,6 @@ export class EntryClient extends Main {
 	public initState() {
 		// 接管路由
 		getRealUrl(this);
-		// 获取服务端渲染时，注入的__INITIAL_STATE__信息，并同步到客户端的vuex store中
-		// if (window.__INITIAL_STATE__) {
-		// 	this.store.replace(window.__INITIAL_STATE__.store);
-		// }
 	}
 	public getPageData() {
 		const { router } = this;

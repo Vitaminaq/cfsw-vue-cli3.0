@@ -1,4 +1,6 @@
+import 'es6-promise/auto';
 import Vue, { CreateElement, ComponentOptions } from 'vue';
+import 'es6-promise/auto';
 import App from './App.vue';
 import { Route } from 'vue-router';
 import Router from './router';

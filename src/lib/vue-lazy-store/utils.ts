@@ -38,3 +38,18 @@ export const defineMoudle = (localVue: VueConstructor<Vue>, target: any, storeMo
 	})
 	return;
 }
+
+const getObjPrototypes = (obj: any, list: string[]) => {
+	if (obj.__proto__.constructor.name === 'Object') return;
+		list.push.apply(
+			list,
+			Object.getOwnPropertyNames(obj.__proto__)
+		);
+		getObjPrototypes(obj.__proto__, list);
+}
+
+export const getAllPrototypeNames = (obj: any) => {
+	let list: string[] = [];
+	getObjPrototypes(obj, list);
+	return list;
+}
