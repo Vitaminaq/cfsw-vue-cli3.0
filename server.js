@@ -3,7 +3,7 @@ const path = require('path');
 const ip = require('ip');
 const LRU = require('lru-cache');
 const express = require('express');
-const favicon = require('serve-favicon');
+// const favicon = require('serve-favicon');
 const compression = require('compression');
 const microcache = require('route-cache');
 const resolve = (file) => path.resolve(__dirname, file);

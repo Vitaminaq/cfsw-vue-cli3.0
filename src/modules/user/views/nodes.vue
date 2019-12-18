@@ -40,7 +40,7 @@ export default {
 	computed: {
 		list() {
 			return Array.from({ length: 15 }, (v, i) =>
-				Array.from({ length: 1000 }, (v1, i1) => {
+				Array.from({ length: 500 }, (v1, i1) => {
 					return {
 						py: 'long',
 						text: '龙'
