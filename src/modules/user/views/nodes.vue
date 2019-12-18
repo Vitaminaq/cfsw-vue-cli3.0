@@ -41,8 +41,8 @@ export default {
 	},
 	computed: {
 		list() {
-			return Array.from({ length: 20 }, (v, i) =>
-				Array.from({ length: 3000 }, (v1, i1) => `${i}${i1}`)
+			return Array.from({ length: 15 }, (v, i) =>
+				Array.from({ length: 1000 }, (v1, i1) => `${i}${i1}`)
 			);
 		}
 	},
