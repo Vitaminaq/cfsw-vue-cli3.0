@@ -7,6 +7,8 @@ const UserRegister = () =>
 	import(/* webpackChunkName: "register" */ '../views/user-register.vue');
 const UserReset = () =>
 	import(/* webpackChunkName: "reset" */ '../views/user-reset.vue');
+const UserNodes = () =>
+	import(/* webpackChunkName: "reset" */ '../views/nodes.vue');
 
 import { RouteConfig } from 'vue-router';
 
@@ -29,6 +31,11 @@ const RorterList: Array<RouteConfig> = [
 				path: 'reset',
 				name: 'reset',
 				component: UserReset
+			},
+			{
+				path: 'nodes',
+				name: 'nodes',
+				component: UserNodes
 			}
 		]
 	}
