@@ -1,13 +1,15 @@
 import { LocalAxiosOptions } from '@src/common/http';
 import BaseConfig from '@src/config';
+import VueLazy from '@src/lib/vue-lazy-store';
 
 export interface PublicState {
 	appConfig: LocalAxiosOptions | null;
 }
 
-class Publics {
+class Publics extends VueLazy.Store {
 	public appConfig: BaseConfig;
 	public constructor({ appConfig }: LocalAxiosOptions) {
+		super();
 		this.appConfig = appConfig;
 	}
 	public get BASE_API(): string {

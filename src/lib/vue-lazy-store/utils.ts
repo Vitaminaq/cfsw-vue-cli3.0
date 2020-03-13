@@ -16,19 +16,6 @@ export const vueObservable = (localVue: VueConstructor<Vue>, target: any) => {
 	return;
 }
 
-export const mergeStore = (cs: any, ss: any) => {
-	for (const key in ss) {
-		if (ss.hasOwnProperty(key)) {
-			if (typeof ss[key] === 'object' && ss[key] !== null) {
-				cs[key] = mergeStore(cs[key], ss[key]);
-			} else {
-				cs[key] = ss[key];
-			}
-		}
-	}
-	return cs;
-};
-
 export const defineMoudle = (localVue: VueConstructor<Vue>, target: any, storeModule: any):void => {
 	const modules = Array.isArray(storeModule) ? storeModule : [storeModule];
 	modules.forEach(m => {

@@ -12,6 +12,7 @@ export const baseRouteView = (storeModule: any) => {
 						appConfig: store.appConfig
 					})
 				});
+				store.init();
 			}
 		},
 		render: (h: CreateElement) => h('router-view')
