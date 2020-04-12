@@ -71,8 +71,8 @@ function render(req, res) {
 
 	res.setHeader('Content-Type', 'text/html');
 	res.setHeader('Server', serverInfo); // 往响应头里添加一些服务端信息
-	res.setHeader('ETag', etag(''));
-	res.setHeader('Cache-Control', 'max-age=60');
+	// res.setHeader('ETag', etag(''));
+	// res.setHeader('Cache-Control', 'max-age=60');
 
 	const handleError = (err) => {
 		if (err.url) {
