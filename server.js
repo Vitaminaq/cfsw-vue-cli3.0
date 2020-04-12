@@ -51,7 +51,7 @@ const renderer = createRenderer(bundle, {
 
 const serve = (path) =>
 	express.static(resolve(path), {
-		maxAge: 1000 * 60 * 2
+		maxAge: 1000 * 60 * 60 * 24 * 30
 	});
 
 app.use(compression({ threshold: 0 }));
