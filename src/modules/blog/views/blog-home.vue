@@ -29,7 +29,7 @@ import Scroller from '@src/components/scroller/scroller.vue';
 import BlogHomeList from '../components/blog-home-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
-import html2canvas from 'html2canvas';
+// import html2canvas from 'html2canvas';
 
 @Component({
 	components: {

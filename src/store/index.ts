@@ -8,8 +8,6 @@ export interface StoreOptions {
 	appConfig: BaseConfig;
 }
 
-VueLazy.Store.prototype.mode = 'ssr-observe';
-
 class BaseStore extends VueLazy.Store {
 	public appConfig: BaseConfig;
 	public publics: Publics;
@@ -17,7 +15,7 @@ class BaseStore extends VueLazy.Store {
 		super();
 		this.appConfig = appConfig;
 		this.publics = new Publics({ appConfig });
-		this.init(true);
+		this.init();
 	}
 }
 
