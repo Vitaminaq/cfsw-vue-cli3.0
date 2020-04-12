@@ -14,42 +14,79 @@ export const vueObservable = (localVue: VueConstructor<Vue>, target: any) => {
 		}
 	});
 	return;
-}
-
-export const mergeStore = (cs: any, ss: any) => {
-	for (const key in ss) {
-		if (ss.hasOwnProperty(key)) {
-			if (typeof ss[key] === 'object' && ss[key] !== null) {
-				cs[key] = mergeStore(cs[key], ss[key]);
-			} else {
-				cs[key] = ss[key];
-			}
-		}
-	}
-	return cs;
 };
 
-export const defineMoudle = (localVue: VueConstructor<Vue>, target: any, storeModule: any):void => {
+export const defineMoudle = (
+	localVue: VueConstructor<Vue>,
+	target: any,
+	storeModule: any
+): void => {
 	const modules = Array.isArray(storeModule) ? storeModule : [storeModule];
-	modules.forEach(m => {
-        Object.keys(m).forEach(k => {
+	modules.forEach((m) => {
+		Object.keys(m).forEach((k) => {
 			localVue.set(target, k, vueObservable(localVue, m[k]));
-		})  
-	})
+		});
+	});
 	return;
-}
+};
 
 const getObjPrototypes = (obj: any, list: string[]) => {
 	if (obj.__proto__.constructor.name === 'Object') return;
-		list.push.apply(
-			list,
-			Object.getOwnPropertyNames(obj.__proto__)
-		);
-		getObjPrototypes(obj.__proto__, list);
-}
+	Object.getOwnPropertyNames(obj.__proto__).forEach((name: string) => {
+		if (list.includes(name)) return;
+		list.push(name);
+	});
+	getObjPrototypes(obj.__proto__, list);
+};
 
 export const getAllPrototypeNames = (obj: any) => {
 	let list: string[] = [];
 	getObjPrototypes(obj, list);
 	return list;
-}
+};
+
+export const getObjAllPropertyKey = (
+	obj: any,
+	root: any,
+	showTips: boolean,
+	positions: string = ''
+) => {
+	for (const key in obj) {
+		if (obj.hasOwnProperty(key)) {
+			if (
+				key !== 'api' &&
+				(typeof obj[key] === 'object' ||
+					typeof obj[key] === 'function') &&
+				obj[key] !== null
+			) {
+				if (/^\$/.test(key)) {
+					const fn: any = obj[key];
+					(obj as any)[key] = function(...arg: any[]) {
+						const str = `${positions}.${key}`;
+						const p = str.slice(1, str.length);
+						const showConsole = showTips && isNotPro;
+						showConsole && console.log('');
+						showConsole && console.log(`当前执行动作： ${p}`);
+						showConsole && console.log(`当前传入参数：`, arg);
+						if (!root.actions) {
+							root.actions = [];
+						}
+						const action = {
+							position: p,
+							params: arg
+						};
+						root.actions.push(action);
+						root.notify(action);
+						return fn.apply(obj, arg);
+					};
+				}
+				getObjAllPropertyKey(
+					obj[key],
+					root,
+					showTips,
+					`${positions}.${key}`
+				);
+			}
+		}
+	}
+};

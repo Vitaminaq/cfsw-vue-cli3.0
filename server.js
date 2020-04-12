@@ -61,7 +61,7 @@ staticSvgSprite(app);
 
 app.use(
 	microcache.cacheSeconds(60, (req) => {
-		console.log('命中缓存');
+		console.log('命中缓存', req.path);
 		return useMicroCache && req.path;
 	})
 );
