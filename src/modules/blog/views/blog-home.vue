@@ -1,7 +1,7 @@
 <template>
 	<div class="chatroom">
 		<logo-header @click.native="test" />
-		<div class="wrapper" v-if="articList">
+		<div class="wrapper" ref="blogHome" v-if="articList">
 			<scroller
 				@dropDown="dropDown"
 				@pullUp="pullUp"
@@ -29,6 +29,7 @@ import Scroller from '@src/components/scroller/scroller.vue';
 import BlogHomeList from '../components/blog-home-list.vue';
 import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
+import html2canvas from 'html2canvas';
 
 @Component({
 	components: {
@@ -62,6 +63,16 @@ export default class ChatRoom extends Vue {
 		}
 		return this;
 	}
+	public mounted() {
+		this.$store.subscribe((event: any) => {
+			console.log(event);
+			switch (event.path) {
+				case '.blog.blogList.$pullUpSuccess':
+					console.log('首页');
+					break;
+			}
+		});
+	}
 	public async todetail(id: string) {
 		return this.$router.push({
 			name: 'blog-detail',
@@ -74,9 +85,15 @@ export default class ChatRoom extends Vue {
 		}
 	}
 	public async test() {
-		const r = await this.$pupop.confirm({
-			message: '确定删除此信息'
-		});
+		// const r = await this.$pupop.confirm({
+		// 	message: '确定删除此信息'
+		// });
+		// html2canvas(this.$refs.blogHome, {}).then((canvas) => {
+		// 	let imageUrl = canvas.toDataURL('image/png'); // 将canvas转成base64图片格式
+		// 	console.log(imageUrl, 'iiiiiiiiiiiiiiiiii');
+		// 	// this.canvasImageUrl = imageUrl;
+		// 	// this.isDom = false;
+		// });
 		// const r = await this.$pupop.alert({
 		// 	message: '点赞成功',
 		// 	btnText: '知道了',

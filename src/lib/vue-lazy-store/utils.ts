@@ -14,13 +14,9 @@ export const vueObservable = (localVue: VueConstructor<Vue>, target: any) => {
 		}
 	});
 	return;
-};
+}
 
-export const defineMoudle = (
-	localVue: VueConstructor<Vue>,
-	target: any,
-	storeModule: any
-): void => {
+export const defineMoudle = (localVue: VueConstructor<Vue>, target: any, storeModule: any):void => {
 	const modules = Array.isArray(storeModule) ? storeModule : [storeModule];
 	modules.forEach((m) => {
 		Object.keys(m).forEach((k) => {

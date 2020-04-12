@@ -20,6 +20,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "etag": "^1.8.1",
+    "html2canvas": "^1.0.0-rc.5",
     "js-cookie": "^2.2.0",
     "route-cache": "^0.4.4",
     "vue": "^2.6.10",
