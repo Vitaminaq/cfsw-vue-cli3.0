@@ -4,7 +4,7 @@
 		<span v-else-if="pullUpstatus === 'error'" @click="reload"
 			>加载失败，请点击重新加载</span
 		>
-		<img v-else src="./loading.gif" alt="加载中..." />
+		<img class="load-img" src="./timg.gif" alt="加载中..." />
 	</div>
 </template>
 <script lang="ts">
@@ -81,13 +81,21 @@ export default class SeeLoading extends Vue {
 .see-loading {
 	position: absolute;
 	left: 0;
-	height: 4rem;
+	height: 200px;
 	width: 100%;
 	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
 	span {
 		font-size: 0.45rem;
 		color: #adadad;
+	}
+
+	.load-img {
+		height: 100px;
+		width: 140px;
 	}
 }
 </style>

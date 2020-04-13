@@ -9,7 +9,7 @@
 		<div class="operate-btn operate-ctr" @click="toggleBtn">
 			<svg-icon name="operate" />
 		</div>
-		<transition
+		<!-- <transition
 			name="tranAni"
 			enter-active-class="animated fadeIn"
 			leave-active-class="animated fadeOut"
@@ -22,7 +22,7 @@
 					<svg-icon name="back-top" />
 				</li>
 			</ul>
-		</transition>
+		</transition> -->
 	</div>
 </template>
 <script lang="ts">

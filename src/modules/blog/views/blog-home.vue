@@ -124,8 +124,8 @@ export default class ChatRoom extends Vue {
 
 	.wrapper {
 		position: relative;
-		max-height: 100%;
 		min-width: 60%;
+		height: 86%;
 		overflow-y: hidden;
 		background-color: #f7f7f7;
 	}
