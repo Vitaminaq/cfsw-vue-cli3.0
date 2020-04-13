@@ -81,7 +81,7 @@ export default class BlogDetail extends Vue {
 }
 .blog-loading {
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 }
 #detail {
 	overflow-y: auto;
