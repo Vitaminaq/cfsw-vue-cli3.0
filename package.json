@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development vue-cli-service ssr:serve",
-    "serve": "vue-cli-service serve",
+    "serve": "cross-env NODE_TYPE=oc vue-cli-service serve",
     "start": "cross-env NODE_ENV=production PORT=8080 node server.js",
     "build:client": "cross-env NODE_TYPE=client vue-cli-service build",
     "build:server": "cross-env NODE_TYPE=server vue-cli-service build",
     "build": "vue-cli-service ssr:build",
+    "build:oc": "cross-env NODE_TYPE=oc vue-cli-service build",
+    "build:all": "npm run build && npm run build:oc",
     "lint": "eslint --fix --ext .ts,.js,.vue",
     "remove": "rm -rf node_modules package-lock.json yarn-lock.json && yarn"
   },

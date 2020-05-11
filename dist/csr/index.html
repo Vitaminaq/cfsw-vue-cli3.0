@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang=en data-path="{{ url }}"><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><link rel=dns-prefetch href=www.vitaminaq.com><meta name=viewport content="width=device-width,initial-scale=1"><meta name=flexible content="initial-dpr=1"><title>{{ title }}</title><style>html,body{margin:0px; height:100%; }</style><link href=/csr/css/blog.a0b20b69.css rel=prefetch crossorigin=anonymous><link href=/csr/css/chunk-a2207870.84081723.css rel=prefetch crossorigin=anonymous><link href=/csr/css/login.12ad649a.css rel=prefetch crossorigin=anonymous><link href=/csr/css/register.1bdd62d3.css rel=prefetch crossorigin=anonymous><link href=/csr/css/reset.c5ac37d9.css rel=prefetch crossorigin=anonymous><link href=/csr/js/blog.7aa196d8.js rel=prefetch crossorigin=anonymous><link href=/csr/js/chunk-a2207870.18c7d9f1.js rel=prefetch crossorigin=anonymous><link href=/csr/js/login.a965dc1c.js rel=prefetch crossorigin=anonymous><link href=/csr/js/register.20fa0e1d.js rel=prefetch crossorigin=anonymous><link href=/csr/js/reset.3cf18b7f.js rel=prefetch crossorigin=anonymous><link href=/csr/css/chunk-vendors.28ab8999.css rel=stylesheet crossorigin=anonymous integrity=sha384-C3i4fGlFZTEbvl2w9MdauLmjgQmgtB3qYU4mV/PZYABtxiaTlWR0Xsn7ojqaA2ex><link href=/csr/css/app.d2ac7da3.css rel=stylesheet crossorigin=anonymous integrity=sha384-NZRc4qXt3ZSky8Kp9M2hCsK4hp/t4xNPKZMvJZjdeNdVxcDlhiIjJCA+EQBV+ux4></head><body><div id=app></div><script>; (function flexible (window, document) {
+            var docEl = document.documentElement;
+            var dpr = window.devicePixelRatio || 1;
+
+            function setBodyFontSize () {
+                if (document.body) {
+                    document.body.style.fontSize = (12 * dpr) + 'px';
+                    document.body.classList.add('flexible-ready');
+                } else {
+                    document.addEventListener('DOMContentLoaded', setBodyFontSize);
+                }
+            }
+            setBodyFontSize();
+
+            function setRemUnit () {
+                var rem = docEl.clientWidth / 10;
+                docEl.style.fontSize = rem + 'px';
+            }
+
+            setRemUnit();
+
+            window.addEventListener('resize', setRemUnit);
+            window.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    setRemUnit();
+                }
+            });
+
+            if (dpr >= 2) {
+                var fakeBody = document.createElement('body');
+                var testElement = document.createElement('div');
+                testElement.style.border = '.5px solid transparent';
+                fakeBody.appendChild(testElement);
+                docEl.appendChild(fakeBody);
+                if (testElement.offsetHeight === 1) {
+                    docEl.classList.add('hairlines');
+                }
+                docEl.removeChild(fakeBody);
+            }
+        }(window, document));</script><script src=/svg-sprite.js crossorigin=anonymous></script><script src=/csr/js/chunk-vendors.472874eb.js crossorigin=anonymous integrity=sha384-n/WGsXOSJMADFBZt2hx/4bUYo+tR9RxYBhqIcuKjGLWrijHyC6gi19ro9ovrPKS4></script><script src=/csr/js/app.e00c69c0.js crossorigin=anonymous integrity=sha384-gOJ3YFQSMdnpZ2CBM+9fXVVEk1kiQxte+RlwkdNb8dTIeosA7adZx7cbaBxMjRgu></script></body></html>

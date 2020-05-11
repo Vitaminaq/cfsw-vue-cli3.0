@@ -58,6 +58,14 @@ Vue.use(VueRescroll)
 		}
 	});
 
+// 客户端渲染时，获取配置对象
+window.__INITIAL_STATE__ = {};
+window.__INITIAL_STATE__.appConfig = {
+	ENV: 'local',
+	BASE_PATH: '/',
+	BASE_API: 'http://129.28.167.2:3005'
+};
+
 export class EntryClient extends Main {
 	public constructor() {
 		super({

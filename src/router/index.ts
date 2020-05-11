@@ -14,6 +14,9 @@ const options: RouterOptions = {
 class Router extends VueRouter {
 	constructor() {
 		super(options);
+		this.afterEach(async () => {
+			document.title = '大飞哥666';
+		});
 	}
 }
 export default Router;

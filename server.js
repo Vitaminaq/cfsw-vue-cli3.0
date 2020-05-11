@@ -1,4 +1,5 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const ip = require('ip');
 const LRU = require('lru-cache');
@@ -42,8 +43,8 @@ function createRenderer(bundle, options) {
 
 const templatePath = resolve('./public/index.html');
 const template = fs.readFileSync(templatePath, 'utf-8');
-const bundle = require('./dist/vue-ssr-server-bundle.json');
-const clientManifest = require('./dist/vue-ssr-client-manifest.json');
+const bundle = require('./dist/ssr/vue-ssr-server-bundle.json');
+const clientManifest = require('./dist/ssr/vue-ssr-client-manifest.json');
 const renderer = createRenderer(bundle, {
 	template,
 	clientManifest
@@ -56,7 +57,7 @@ const serve = (path) =>
 
 app.use(compression({ threshold: 0 }));
 // app.use(favicon('./public/logo-48.png'));
-app.use('/', serve('./dist'));
+app.use('/ssr', serve('./dist/ssr'));
 staticSvgSprite(app);
 
 app.use(
@@ -108,6 +109,10 @@ function render(req, res) {
 app.all(`*`, (req, res) => {
 	console.log('当前请求路径：', req.path);
 	if (req.method.toLowerCase() !== 'get') return next();
+	console.log('=========================================');
+	console.log('你的内存制/M:' + os.totalmem() / 1024 / 1024);
+	console.log('你的剩余内存/M:' + os.freemem() / 1024 / 1024);
+	console.log('=========================================');
 	render(req, res);
 });
 

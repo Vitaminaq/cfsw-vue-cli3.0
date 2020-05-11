@@ -1,4 +1,5 @@
 const express = require('express');
+const os = require('os');
 const { createBundleRenderer } = require('vue-server-renderer');
 const fs = require('fs');
 const favicon = require('serve-favicon');
@@ -166,6 +167,10 @@ module.exports = (app, options) => {
 			// 	res.redirect('/blog/home');
 			// }
 			console.log('当前ssr请求路径:', req.url);
+			console.log('=========================================');
+			console.log('你的内存制/M:' + os.totalmem() / 1024 / 1024);
+			console.log('你的剩余内存/M:' + os.freemem() / 1024 / 1024);
+			console.log('=========================================');
 			if (config.skipRequests(req)) {
 				return next();
 			}

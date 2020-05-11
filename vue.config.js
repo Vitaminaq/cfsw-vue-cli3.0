@@ -11,8 +11,11 @@ class RemovePwaHtmlPlugin {
 	}
 }
 
+const isOc = process.env.NODE_TYPE === 'oc';
+
 module.exports = {
-	publicPath: `/`,
+	publicPath: isOc ? '/' : '/ssr',
+	outputDir: isOc ? './dist/csr' : './dist/ssr',
 	// baseUrl: config.baseUrl,
 	lintOnSave: process.env.NODE_ENV !== 'production',
 	productionSourceMap: false,
@@ -26,7 +29,8 @@ module.exports = {
 		};
 	},
 	chainWebpack: (config) => {
-		config.plugin('RemovePwaHtmlPlugin').use(RemovePwaHtmlPlugin);
+		// !isOc && config.plugins.delete('html');
+		!isOc && config.plugin('RemovePwaHtmlPlugin').use(RemovePwaHtmlPlugin);
 		// config.plugin('SvgSpritePlugin').use(
 		// 	new SvgSpritePlugin({
 		// 		paths: [path.resolve(__dirname, './lib/svg-sprite.js')]
