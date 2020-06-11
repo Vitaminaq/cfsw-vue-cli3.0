@@ -15,7 +15,7 @@ class Router extends VueRouter {
 	constructor() {
 		super(options);
 		this.afterEach(async () => {
-			document.title = '大飞哥666';
+			// document.title = '大飞哥666';
 		});
 	}
 }

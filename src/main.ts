@@ -85,6 +85,13 @@ export default class Main extends BaseComponents {
 		this.app = this;
 		this.store = store;
 		this.router = router;
+		// router.beforeEach((to, from, next) => {
+		// 	if (to.query.version) return next();
+		// 	console.log('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+		// 	next({
+		// 		query: from.query
+		// 	});
+		// });
 	}
 }
 

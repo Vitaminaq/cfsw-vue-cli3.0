@@ -50,6 +50,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 import { getQueryParams } from '@src/services/publics';
+import { toLogin } from '@src/utils/native-methods';
 
 @Component<BlogDetailFooter>({})
 export default class BlogDetailFooter extends Vue {
@@ -100,13 +101,14 @@ export default class BlogDetailFooter extends Vue {
 			this.userComment.res.code === 20000 ||
 			this.userComment.res.code === 20001
 		) {
-			this.$router.push({
-				name: 'login',
-				query: {
-					...this.$route.query,
-					from: this.$route.fullPath
-				}
-			});
+			// this.$router.push({
+			// 	name: 'login',
+			// 	query: {
+			// 		...this.$route.query,
+			// 		from: this.$route.fullPath
+			// 	}
+			// });
+			toLogin();
 			return this;
 		}
 		this.commentmsg = '';
@@ -128,13 +130,14 @@ export default class BlogDetailFooter extends Vue {
 			this.agreeAuthor.res.code === 20000 ||
 			this.agreeAuthor.res.code === 20001
 		) {
-			this.$router.push({
-				name: 'login',
-				query: {
-					...this.$route.query,
-					from: this.$route.fullPath
-				}
-			});
+			// this.$router.push({
+			// 	name: 'login',
+			// 	query: {
+			// 		...this.$route.query,
+			// 		from: this.$route.fullPath
+			// 	}
+			// });
+			toLogin();
 			return this;
 		}
 		return this;

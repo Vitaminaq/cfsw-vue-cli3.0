@@ -4,14 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 预先解析DNS -->
-    <link rel="dns-prefetch" href="www.vitaminaq.com">
+    <!-- <link rel="dns-prefetch" href="www.vitaminaq.com"> -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta name="flexible" content="initial-dpr=1" />
     <!-- <link href="../src/common/com-style.css" rel="stylesheet" type="text/css"> -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css"> -->
     <!-- <link rel="prefetch" href="/blog/detail" /> -->
-    <!-- <link rel="preload" href="/blog/detail" as="script"> -->
+    <!-- <link rel="preload" href="/blog/detail" as="style"> -->
     <title>{{ title }}</title>
+    <script type="text/javascript">
+        window.pageStartTime = Date.now();
+    </script>
     <style>
         html,body{margin:0px; height:100%; }
     </style>
@@ -63,4 +66,8 @@
 </script>
 <script src="/svg-sprite.js" crossorigin="anonymous" ></script>
   </body>
+  <script type="text/javascript">
+       const time = Date.now() - window.pageStartTime;
+       console.log('dom树解析时间', time);
+  </script>
 </html>

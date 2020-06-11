@@ -65,7 +65,6 @@ class BlogDetail extends BaseLoaderData<
 		return this;
 	}
 	$RequestSuccess(res: Detail.ArticDetail.Response): this {
-		console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
 		if (res.code === 0 && res.data) {
 			this.state.requestStatus = 'success';
 			this.state.res = { ...res };

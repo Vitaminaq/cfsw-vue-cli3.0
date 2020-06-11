@@ -8,6 +8,7 @@ import VueImgLazyLoad from 'vue-images-lazy-load';
 import 'vue-pupop-toast/dist/vue-pupop-toast.css';
 import VuePupopToast from 'vue-pupop-toast';
 import { getRealUrl, getAsyncData } from '@src/services/publics';
+import { setAppState } from '@src/utils/setAppState';
 
 const options = {
 	showModuleName: true,
@@ -59,12 +60,14 @@ Vue.use(VueRescroll)
 	});
 
 // 客户端渲染时，获取配置对象
-window.__INITIAL_STATE__ = {};
-window.__INITIAL_STATE__.appConfig = {
-	ENV: 'local',
-	BASE_PATH: '/',
-	BASE_API: 'http://129.28.167.2:3005'
-};
+// if (window.__INITIAL_STATE__) {
+// 	window.__INITIAL_STATE__ = {};
+// 	window.__INITIAL_STATE__.appConfig = {
+// 		ENV: 'local',
+// 		BASE_PATH: '/',
+// 		BASE_API: 'http://129.28.167.2:3005'
+// 	};
+// }
 
 export class EntryClient extends Main {
 	public constructor() {
@@ -77,6 +80,11 @@ export class EntryClient extends Main {
 	public initState() {
 		// 接管路由
 		getRealUrl(this);
+	}
+	// 同步app状态
+	public getSyncAppState(state: any) {
+		setAppState(state.token);
+		return state;
 	}
 	public getPageData() {
 		const { router } = this;

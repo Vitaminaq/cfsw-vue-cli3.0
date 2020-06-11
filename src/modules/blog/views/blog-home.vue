@@ -78,6 +78,7 @@ export default class ChatRoom extends Vue {
 			name: 'blog-detail',
 			query: { id }
 		});
+		return (window.location.href = `detail?id=${id}`);
 	}
 	public beforeDestroy() {
 		if (this.$route.name === 'publish') {

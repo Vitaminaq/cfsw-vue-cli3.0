@@ -13,6 +13,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import { webviewBack } from '@src/utils/native-methods';
 
 @Component
 export default class GeneralHeader extends Vue {
@@ -24,8 +25,9 @@ export default class GeneralHeader extends Vue {
 	}
 
 	back() {
-		if (!this.backPathName) return this.$router.go(-1);
-		return this.$router.push({ name: this.backPathName });
+		// if (!this.backPathName) return this.$router.go(-1);
+		// return this.$router.push({ name: this.backPathName });
+		webviewBack();
 	}
 }
 </script>

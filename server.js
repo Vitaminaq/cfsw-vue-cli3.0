@@ -73,7 +73,6 @@ function render(req, res) {
 	res.setHeader('Content-Type', 'text/html');
 	res.setHeader('Server', serverInfo); // 往响应头里添加一些服务端信息
 	// res.setHeader('ETag', etag(''));
-	// res.setHeader('Cache-Control', 'max-age=60');
 
 	const handleError = (err) => {
 		if (err.url) {
@@ -109,6 +108,8 @@ function render(req, res) {
 app.all(`*`, (req, res) => {
 	console.log('当前请求路径：', req.path);
 	if (req.method.toLowerCase() !== 'get') return next();
+	req.header('Cache-Control', 'no-cache');
+	res.setHeader('Cache-Control', 'public, max-age=600');
 	console.log('=========================================');
 	console.log('你的内存制/M:' + os.totalmem() / 1024 / 1024);
 	console.log('你的剩余内存/M:' + os.freemem() / 1024 / 1024);

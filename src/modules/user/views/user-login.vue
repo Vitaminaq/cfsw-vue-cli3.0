@@ -106,8 +106,8 @@ export default class Login extends Vue {
 		}, 1000);
 		// if (this.loginModule.res.code !== 0)
 		// 	return (this as any).$toast(this.loginModule.res.data);
-		const to = this.from ? this.from : '/';
-		return this.$router.push({ path: to });
+		// const to = this.from ? this.from : '/';
+		return this.$router.push({ path: '/publish' });
 	}
 	close() {
 		return this.$router.go(-1);

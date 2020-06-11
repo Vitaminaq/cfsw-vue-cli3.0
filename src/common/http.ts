@@ -1,5 +1,6 @@
 import axios from 'axios';
 import BaseConfig from '@src/config';
+import { getCookie } from '@src/utils/setAppState';
 
 export interface LocalAxiosOptions {
 	appConfig: BaseConfig;
@@ -23,6 +24,7 @@ class LocalAxios {
 	private onRequest() {
 		this.axios.interceptors.request.use((config: any) => {
 			config.startTime = new Date().getTime();
+			config.headers.authorization = getCookie() || '';
 			console.log('拦截器生效');
 			return config;
 		});

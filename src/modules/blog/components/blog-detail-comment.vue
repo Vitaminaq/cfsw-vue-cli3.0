@@ -78,13 +78,13 @@ export default class BlogDetailFooter extends Vue {
 			this.agreeComment.res.code === 20000 ||
 			this.agreeComment.res.code === 20001
 		) {
-			this.$router.push({
-				name: 'login',
-				query: {
-					...this.$route.query,
-					from: this.$route.fullPath
-				}
-			});
+			// this.$router.push({
+			// 	name: 'login',
+			// 	query: {
+			// 		...this.$route.query,
+			// 		from: this.$route.fullPath
+			// 	}
+			// });
 			return this;
 		}
 		return this;

@@ -1,6 +1,6 @@
 <template>
 	<div id="publish">
-		<!-- <general-header :header-title="headerTitle">
+		<general-header :header-title="headerTitle">
 			<button
 				slot="btn"
 				:disabled="disable"
@@ -20,7 +20,7 @@
 			type="text"
 			placeholder="请输入标题"
 		/>
-		<vue-html5-editor :content="artic" :z-index="1" @change="updateData" /> -->
+		<vue-html5-editor :content="artic" :z-index="1" @change="updateData" />
 	</div>
 </template>
 
@@ -28,6 +28,8 @@
 import { Vue, Component } from 'vue-property-decorator';
 import GeneralHeader from '@src/components/header/general-header.vue';
 import FooterContent from '@src/components/footer/footer.vue';
+import api from './api/index';
+
 @Component({
 	components: {
 		GeneralHeader,
@@ -40,29 +42,25 @@ export default class publish extends Vue {
 	artic: string = '';
 	disable: boolean = false;
 
-	// get publish() {
-	// 	return this.$store.publish;
-	// }
-
-	// async publishIt() {
-	// 	let params = {
-	// 		title: this.title,
-	// 		msg: this.artic
-	// 	};
-	// 	// if ((this as any).isEmpty(params)) {
-	// 	// 	(this as any).$toast('请填写完整信息!');
-	// 	// 	return;
-	// 	// }
-	// 	this.disable = true;
-	// 	this.publish.$assignParams(params);
-	// 	await this.publish.userPublish();
-	// 	this.disable = false;
-	// 	// if (this.publish.res.code !== 0) {
-	// 	// 	return (this as any).$toast(this.publish.res.data);
-	// 	// }
-	// 	this.publish.$clearData();
-	// 	return this.$router.push({ name: 'chatroom' });
-	// }
+	async publishIt() {
+		let params = {
+			title: this.title,
+			msg: this.artic
+		};
+		this.disable = true;
+		new api({
+			appConfig: {
+				BASE_PATH: '/',
+				BASE_API: 'http://127.0.0.1:3005'
+			}
+		}).userPublish({
+			title: '哈哈哈哈哈',
+			msg:
+				'fdksjlfodsLKjfdsljfo分类的时刻辅导老师减肥的噢is费劲儿欧文金佛的设计费解耦风刀霜剑佛诞节'
+		});
+		this.disable = false;
+		return this.$router.push({ name: 'chatroom' });
+	}
 
 	// updateData(val: string) {
 	// 	this.artic = val;
