@@ -92,23 +92,23 @@ export default class BlogDetailFooter extends Vue {
 		// return this;
 	}
 	public async agreeAuthors(): Promise<this> {
-		if (!this.id) return this;
-		this.agreeAuthor.$assignParams({
-			id: this.id
-		});
-		await this.agreeAuthor.agreeAuthor();
-		if (this.agreeAuthor.res.code === 0) {
-			this.articDetail.$updateArticClick(this.id);
-			return this;
-		}
-		// Toast('', this.A_res.data);
-		if (
-			this.agreeAuthor.res.code === 20000 ||
-			this.agreeAuthor.res.code === 20001
-		) {
-			toLogin();
-			return this;
-		}
+		// if (!this.id) return this;
+		// this.agreeAuthor.$assignParams({
+		// 	id: this.id
+		// });
+		// await this.agreeAuthor.agreeAuthor();
+		// if (this.agreeAuthor.res.code === 0) {
+		// 	this.articDetail.$updateArticClick(this.id);
+		// 	return this;
+		// }
+		// // Toast('', this.A_res.data);
+		// if (
+		// 	this.agreeAuthor.res.code === 20000 ||
+		// 	this.agreeAuthor.res.code === 20001
+		// ) {
+		toLogin();
+		// 	return this;
+		// }
 		return this;
 	}
 
