@@ -4,7 +4,7 @@
 		<span v-else-if="pullUpstatus === 'error'" @click="reload"
 			>加载失败，请点击重新加载</span
 		>
-		<img class="load-img" src="./timg.gif" alt="加载中..." />
+		<img v-else class="load-img" src="./timg.gif" alt="加载中..." />
 	</div>
 </template>
 <script lang="ts">

@@ -9,9 +9,21 @@ export const native = (code: string, params?: any) => {
 };
 
 export const webviewBack = () => {
-	native('10000');
+	return native('10000');
 };
 
 export const toLogin = () => {
-	native('10001');
+	return native('10001');
+};
+
+export const toShare = () => {
+	return native('10002');
+};
+
+export const comment = () => {
+	return native('10003');
+};
+
+export const previewImage = (params: any[]) => {
+	return native('10004', params);
 };

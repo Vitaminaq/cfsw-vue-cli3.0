@@ -84,21 +84,44 @@ class BlogDetail extends BaseLoaderData<
 		return this;
 	}
 }
+
 /**
  * 获取文章评论
  */
-class GetUserComment extends BaseLoaderData<
-	Detail.UserComment.RequestParams,
-	string,
-	BlogApi
-> {
-	async getUserComment(): Promise<this> {
-		this.$RequestStart();
-		const res = await this.api.getUserComment(this.state.params);
-		this.$RequestSuccess(res);
-		return this;
+class GetUserComment extends BaseLoaderList<any, BlogApi> {
+	state: any = {
+		...this.state,
+		id: 0
+	};
+	public get commitId() {
+		const len = this.list;
+		return len ? this.list[0].commentId : 0;
+	}
+
+	public getListBaseAjaxMethod(): Promise<Loader.Response> {
+		return this.api.getUserComment(this.state.params);
+	}
+
+	public $updateCommentList(item: any) {
+		this.list.unshift(item);
+		console.log(JSON.stringify(this.list));
 	}
 }
+/**
+ * 获取文章评论
+ */
+// class GetUserComment extends BaseLoaderData<
+// 	Detail.UserComment.RequestParams,
+// 	string,
+// 	BlogApi
+// > {
+// 	async getUserComment(): Promise<this> {
+// 		this.$RequestStart();
+// 		const res = await this.api.getUserComment(this.state.params);
+// 		this.$RequestSuccess(res);
+// 		return this;
+// 	}
+// }
 /**
  * 用户评论文章
  */

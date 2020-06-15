@@ -92,7 +92,10 @@ export const createNativeBridge = (options: CreateNativeBridgeOptions): any => {
 				win[NATIVE_CALL_BACK_NAME] = {};
 			}
 			win[NATIVE_CALL_BACK_NAME][resolveName] = (response: any) => {
-				console.log('结果================================>', response);
+				console.log(
+					'结果================================>',
+					response.code
+				);
 				options.onCallSuccess({ id, fnName, response });
 				return resolve(response);
 			};
@@ -109,13 +112,13 @@ export const createNativeBridge = (options: CreateNativeBridgeOptions): any => {
 				reject(e);
 			}
 		})
-			.then((res) => {
+			.then((response) => {
 				delete window[NATIVE_CALL_BACK_NAME][resolveName];
 				delete window[NATIVE_CALL_BACK_NAME][rejectName];
 
 				console.log(`调用原生方法：${fnName}`);
-				console.log('then================================>', res);
-				return Promise.resolve(res as any);
+				console.log('then================================>', response);
+				return Promise.resolve(response as any);
 			})
 			.catch((err) => {
 				delete window[NATIVE_CALL_BACK_NAME][resolveName];

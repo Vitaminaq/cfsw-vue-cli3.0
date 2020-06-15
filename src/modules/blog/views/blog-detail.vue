@@ -24,7 +24,7 @@
 					timestampToDateTime(Number(detailData.creatAt))
 				}}</span>
 			</div>
-			<div id="artic" v-html="detailData.msg"></div>
+			<div id="artic" v-html="detailData.msg" @click="onOperate"></div>
 			<BlogDetailComment />
 			<BlogDetailFooter />
 		</div>
@@ -34,11 +34,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { timestampToDateTime } from '@src/common/comjs';
-import BlogDetailFooter from '../components/blog-detail-comment.vue';
-import BlogDetailComment from '../components/blog-detail-footer.vue';
+import BlogDetailComment from '../components/blog-detail-comment.vue';
+import BlogDetailFooter from '../components/blog-detail-footer.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
 
 import { getQueryParams } from '@src/services/publics';
+import { previewImage } from '@src/utils/native-methods';
 
 @Component<BlogDetail>({
 	components: {
@@ -71,6 +72,11 @@ export default class BlogDetail extends Vue {
 
 	public timestampToDateTime(time: number): string | undefined {
 		return timestampToDateTime(time);
+	}
+	public onOperate(e: any) {
+		if (e.target.tagName.toLowerCase() === 'img') {
+			previewImage([e.target.src]);
+		}
 	}
 }
 </script>

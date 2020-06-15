@@ -2,29 +2,30 @@
 	<div id="comment">
 		<div id="commentitle">评论区</div>
 		<div class="commentul">
-			<transition-group
-				name="list"
-				tag="ul"
-				v-if="
-					detailData &&
-						detailData.commentList &&
-						detailData.commentList.length > 0
-				"
-				enter-active-class="animated rollIn"
-				leave-active-class="animated rollOut"
+			<scroller
+				@pullUp="pullUp"
+				:pullUpstatus="pullUpStatus"
+				:pullDownStatus="pullDownStatus"
 			>
-				<BlogDetailCommentList
-					v-for="(item, index) in detailData.commentList"
-					:key="item.commentId"
-					:index="index"
-					:item="item"
-					@agreeit="agreeit"
-				/>
-			</transition-group>
-			<div v-else class="no-message">
+				<transition-group
+					name="list"
+					tag="ul"
+					enter-active-class="animated rollIn"
+					leave-active-class="animated rollOut"
+				>
+					<BlogDetailCommentList
+						v-for="(item, index) in list"
+						:key="item.commentId"
+						:index="index"
+						:item="item"
+						@agreeit="agreeit"
+					/>
+				</transition-group>
+			</scroller>
+			<!-- <div v-else class="no-message">
 				<svg-icon name="no-message" />
 				<div class="tips">快来评论吧!</div>
-			</div>
+			</div> -->
 			<div v-if="moreComment" class="more-comment" @click="toComment">
 				查看更多评论
 			</div>
@@ -35,28 +36,42 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { getQueryParams } from '@src/services/publics';
+import Scroller from '@src/components/scroller/scroller.vue';
 import BlogDetailCommentList from './blog-detail-comment-list.vue';
 
 @Component<BlogDetailFooter>({
 	components: {
-		BlogDetailCommentList
+		BlogDetailCommentList,
+		Scroller
 	}
 })
 export default class BlogDetailFooter extends Vue {
 	public get id(): string | null {
 		return getQueryParams(this.$route.query.id);
 	}
-	public get articDetail() {
-		return this.$store.blog.blogDetail;
+	public get getUserComment() {
+		return this.$store.blog.getUserComment;
 	}
-	public get detailData() {
-		return this.articDetail.data;
+	public get list() {
+		return this.getUserComment.list;
+	}
+	public get pullDownStatus() {
+		return this.getUserComment.pullDownStatus;
+	}
+	public get pullUpStatus() {
+		return this.getUserComment.pullUpStatus;
 	}
 	public get agreeComment() {
 		return this.$store.blog.agreeComment;
 	}
 	public get moreComment() {
 		return false;
+	}
+
+	public mounted() {
+		this.getUserComment.$assignParams({
+			id: this.id || 0
+		});
 	}
 
 	public async agreeit(commentId: number, index: number): Promise<this> {
@@ -67,13 +82,13 @@ export default class BlogDetailFooter extends Vue {
 		};
 		this.agreeComment.$assignParams(params);
 		await this.agreeComment.agreeComment();
-		if (this.agreeComment.res.code === 0) {
-			this.articDetail.$updateCommentClick({
-				id: this.id,
-				index: index
-			});
-			return this;
-		}
+		// if (this.agreeComment.res.code === 0) {
+		// 	this.getUserComment.$updateCommentClick({
+		// 		id: this.id,
+		// 		index: index
+		// 	});
+		// 	return this;
+		// }
 		if (
 			this.agreeComment.res.code === 20000 ||
 			this.agreeComment.res.code === 20001
@@ -96,6 +111,9 @@ export default class BlogDetailFooter extends Vue {
 				id: this.id
 			}
 		});
+	}
+	public async pullUp() {
+		return this.getUserComment.pullUp();
 	}
 }
 </script>
