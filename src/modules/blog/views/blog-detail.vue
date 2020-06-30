@@ -39,7 +39,7 @@ import BlogDetailFooter from '../components/blog-detail-footer.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
 
 import { getQueryParams } from '@src/services/publics';
-import { previewImage } from '@src/utils/native-methods';
+import { previewImage, prefetchData } from '@src/utils/native-methods';
 
 @Component<BlogDetail>({
 	components: {
@@ -47,16 +47,21 @@ import { previewImage } from '@src/utils/native-methods';
 		GeneralHeader,
 		BlogDetailFooter
 	},
-	asyncData: ({ store, route }) => {
-		const id = getQueryParams(route.query.id);
-		if (!id) return;
-		const params: Detail.ArticDetail.RequestParams = {
-			id
-		};
-		const { blogDetail } = store.blog;
-		blogDetail.$clearData();
-		blogDetail.$assignParams(params);
-		return blogDetail.getArticDetail();
+	prefetchData: async ({ store, route }) => {
+		const time = Date.now();
+		const r = await prefetchData();
+		store.blog.blogDetail.$setData(r.data);
+		console.log('原生交互耗时', Date.now() - time);
+		// const id = getQueryParams(route.query.id);
+		// if (!id) return;
+		// const params: Detail.ArticDetail.RequestParams = {
+		// 	id
+		// };
+		// const { blogDetail } = store.blog;
+		// blogDetail.$clearData();
+		// blogDetail.$assignParams(params);
+		// await blogDetail.getArticDetail();
+		// console.log('接口请求耗时', Date.now() - time);
 	}
 })
 export default class BlogDetail extends Vue {

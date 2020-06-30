@@ -17,6 +17,9 @@ const routes: Array<RouteConfig> = [
 	{
 		path: '/blog',
 		component: RouteView,
+		meta: {
+			k: 0
+		},
 		children: [
 			/**
 			 * 微博feed流

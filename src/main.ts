@@ -103,5 +103,6 @@ interface AsyncDataOption {
 declare module 'vue/types/options' {
 	interface ComponentOptions<V extends Vue> {
 		asyncData?: (options: AsyncDataOption) => Promise<any> | void;
+		prefetchData?: (options: AsyncDataOption) => Promise<any> | void;
 	}
 }

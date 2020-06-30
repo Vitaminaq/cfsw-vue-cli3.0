@@ -88,11 +88,21 @@ export class EntryClient extends Main {
 	}
 	public getPageData() {
 		const { router } = this;
+		router.beforeResolve(
+			async (to: Route, from: Route, next: () => void) => {
+				const { store } = this;
+				console.log(from, to.matched[0].components.options, {
+					...store
+				});
+				await getAsyncData('prefetchData', this, to);
+				next();
+			}
+		);
 		// 采用路由后置钩子取数据，不阻塞路由跳转
 		router.afterEach(async (to: Route, from: Route) => {
 			await this.$nextTick();
-			await getAsyncData(this, to);
-			window.$getInitData = () => getAsyncData(this, to);
+			await getAsyncData('asyncData', this, to);
+			window.$getInitData = () => getAsyncData('asyncData', this, to);
 		});
 	}
 	public onRouteReady() {
@@ -110,6 +120,17 @@ const createApp = () => {
 };
 
 export default createApp();
+
+if (navigator.serviceWorker && process.env.NODE_ENV === 'production') {
+	navigator.serviceWorker
+		.register('/service-worker.js')
+		.then(() => {
+			console.log('serviceWorker注册成功');
+		})
+		.catch(() => {
+			console.log('serviceWorker注册失败');
+		});
+}
 
 declare global {
 	interface Window {

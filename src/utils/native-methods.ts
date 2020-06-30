@@ -27,3 +27,7 @@ export const comment = () => {
 export const previewImage = (params: any[]) => {
 	return native('10004', params);
 };
+
+export const prefetchData = () => {
+	return native('10005');
+};

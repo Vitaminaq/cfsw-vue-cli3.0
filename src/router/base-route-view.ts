@@ -15,6 +15,17 @@ export const baseRouteView = (storeModule: any) => {
 				store.init();
 			}
 		},
+		prefetchData({ store }: any) {
+			const name = storeModule.default.moduleName;
+			if (!store[name]) {
+				store.addMoudles({
+					[name]: new storeModule.default({
+						appConfig: store.appConfig
+					})
+				});
+				store.init();
+			}
+		},
 		render: (h: CreateElement) => h('router-view')
 	};
 	return routeView;

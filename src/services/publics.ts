@@ -1,5 +1,6 @@
 import { EntryClient } from '@src/entry-client';
 import { Route } from 'vue-router';
+import { store } from '@src/modules/blog';
 
 // 获取url后面参数
 export const getQueryParams = (
@@ -36,14 +37,24 @@ export const getRealUrl = (app: EntryClient) => {
 /**
  * 获取页面asyncData里面的数据数据-初始化数据
  */
-export const getAsyncData = async (app: EntryClient, to: Route) => {
+export const getAsyncData = async (
+	fnName: string,
+	app: EntryClient,
+	to: Route
+) => {
 	const { router, store } = app;
 	const matched: any = router.getMatchedComponents(to);
 	const activated = matched.filter((c: any, i: any) => {
-		return c.options && typeof c.options.asyncData === 'function';
+		return (
+			typeof c[fnName] === 'function' ||
+			(c.options && typeof c.options[fnName] === 'function')
+		);
 	});
 	const asyncDataHooks = activated
-		.map((c: any) => c.options.asyncData)
+		.map((c: any) => {
+			if (!c.options || !c.options[fnName]) return c[fnName];
+			return c.options[fnName];
+		})
 		.filter((_: any) => _);
 	if (!asyncDataHooks.length) return;
 	await Promise.all(

@@ -25,6 +25,7 @@
     "html2canvas": "^1.0.0-rc.5",
     "js-cookie": "^2.2.0",
     "route-cache": "^0.4.4",
+    "sw-precache-webpack-plugin": "^1.0.0",
     "vue": "^2.6.10",
     "vue-dom-lazy-load": "^1.0.0",
     "vue-images-lazy-load": "^1.0.9",

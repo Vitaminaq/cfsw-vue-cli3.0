@@ -83,6 +83,10 @@ class BlogDetail extends BaseLoaderData<
 		this.data = null;
 		return this;
 	}
+	public $setData(item: any) {
+		this.data = item;
+		console.log(this.data, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+	}
 }
 
 /**

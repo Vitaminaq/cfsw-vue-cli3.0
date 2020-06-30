@@ -29,13 +29,33 @@ module.exports = {
 		};
 	},
 	chainWebpack: (config) => {
-		// !isOc && config.plugins.delete('html');
 		!isOc && config.plugin('RemovePwaHtmlPlugin').use(RemovePwaHtmlPlugin);
-		// config.plugin('SvgSpritePlugin').use(
-		// 	new SvgSpritePlugin({
-		// 		paths: [path.resolve(__dirname, './lib/svg-sprite.js')]
-		// 	})
-		// );
+		config.plugin('SWPrecachePlugin').use(SWPrecachePlugin, [
+			{
+				cacheId: 'cfsw',
+				filename: 'service-worker.js',
+				minify: true,
+				dontCacheBustUrlsMatching: /./,
+				// 未使用webpack打包的资源（例如图片）也缓存下来
+				mergeStaticsConfig: true,
+				staticFileGlobsIgnorePatterns: [
+					/\.map$/,
+					/\.json$/,
+					/\.js$/,
+					/\.css$/
+				],
+				runtimeCaching: [
+					{
+						urlPattern: '/',
+						handler: 'networkFirst'
+					},
+					{
+						urlPattern: /\/blog\//,
+						handler: 'networkFirst'
+					}
+				]
+			}
+		]);
 	},
 	css: {
 		loaderOptions: {
