@@ -1,9 +1,6 @@
-import { BaseAxios, BaseAxiosOptions } from '@src/api/index';
+import { BaseAxios } from '@src/api/index';
 
 export default class BlogApi extends BaseAxios {
-	public constructor({ appConfig }: BaseAxiosOptions) {
-		super({ appConfig });
-	}
 	public getArtic(params: Loader.RequestParams): Promise<Loader.Response> {
 		return this.axios.get(`/api/user/chatroom`, params);
 	}

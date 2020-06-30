@@ -3,7 +3,7 @@ import {
 	BaseLoaderData,
 	BaseLoaderList,
 	BaseClass
-} from '@src/common/base-loader-class';
+} from '@src/utils/base-loader-class';
 import { BaseAxiosOptions } from '@src/api/index';
 
 // ====================  blog-home  ==================

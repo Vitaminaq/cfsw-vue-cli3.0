@@ -98,8 +98,8 @@ export default class Register extends Vue {
 		}
 	};
 
-	get registerModule() {
-		return this.$store.user.userRegister;
+	public get api() {
+		return this.$store.user.api;
 	}
 
 	async register() {
@@ -112,23 +112,19 @@ export default class Register extends Vue {
 			headimg: '1'
 		};
 		params.headimg = this.headerImg;
-		this.registerModule.$assignParams(params);
-		// Toast('loading', '注册中...');
 		this.button.disabled = true;
-		await this.registerModule.userRegister();
+		const r = await this.api.userRegister(params);
 		// closeLoading();
 		setTimeout(() => {
 			this.button.disabled = false;
 		}, 1000);
-		// (this as any).$toast(this.registerModule.res.data);
-		if (this.registerModule.res.code === 0) {
-			return this.$router.push({
-				name: 'login',
-				query: {
-					nickname: params.nickname as any
-				}
-			});
-		}
+		if (r.code !== 0) return;
+		return this.$router.push({
+			name: 'login',
+			query: {
+				nickname: params.nickname as any
+			}
+		});
 	}
 	clickUpload() {
 		(this as any).$refs.uploadFile.click();

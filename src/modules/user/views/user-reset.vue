@@ -76,8 +76,8 @@ export default class Reset extends Vue {
 		}
 	};
 
-	get resetModule() {
-		return this.$store.user.userReset;
+	public get api() {
+		return this.$store.user.api;
 	}
 
 	async reset() {
@@ -88,17 +88,11 @@ export default class Reset extends Vue {
 			age: this.age,
 			password: this.password
 		};
-		if ((this as any).isEmpty(params)) {
-			console.log('请填写完整信息');
-			return;
-		}
-		// if (this.isEmpty) return Toast('', '请按要求填写!');
 		this.button.disabled = true;
-		this.resetModule.$assignParams(params);
-		await this.resetModule.userReset();
+		const r = await this.api.userReset(params);
 		this.button.disabled = false;
 		// Toast('', this.resetModule.res.data);
-		if (this.resetModule.res.code !== 0) return;
+		if (r.code !== 0) return;
 		return this.$router.push({
 			name: 'login',
 			query: {

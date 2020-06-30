@@ -1,6 +1,9 @@
-import { createNativeBridge } from './native';
+import { createNativeBridge, isNativeFuncExist } from './native';
+
+export { isNativeFuncExist };
 
 export const native = (code: string, params?: any) => {
+	if (!isNativeFuncExist()) return;
 	return createNativeBridge({
 		downloadUrl: 'http://www.baidu.com',
 		onCallSuccess: (options: any) => {},

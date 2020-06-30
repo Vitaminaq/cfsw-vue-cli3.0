@@ -39,7 +39,11 @@ import BlogDetailFooter from '../components/blog-detail-footer.vue';
 import GeneralHeader from '@src/components/header/general-header.vue';
 
 import { getQueryParams } from '@src/services/publics';
-import { previewImage, prefetchData } from '@src/utils/native-methods';
+import {
+	previewImage,
+	prefetchData,
+	isNativeFuncExist
+} from '@src/utils/native-methods';
 
 @Component<BlogDetail>({
 	components: {
@@ -48,25 +52,30 @@ import { previewImage, prefetchData } from '@src/utils/native-methods';
 		BlogDetailFooter
 	},
 	prefetchData: async ({ store, route }) => {
+		if (!isNativeFuncExist()) return;
 		const time = Date.now();
 		const r = await prefetchData();
 		store.blog.blogDetail.$setData(r.data);
 		console.log('原生交互耗时', Date.now() - time);
-		// const id = getQueryParams(route.query.id);
-		// if (!id) return;
-		// const params: Detail.ArticDetail.RequestParams = {
-		// 	id
-		// };
-		// const { blogDetail } = store.blog;
-		// blogDetail.$clearData();
-		// blogDetail.$assignParams(params);
-		// await blogDetail.getArticDetail();
-		// console.log('接口请求耗时', Date.now() - time);
+	},
+	asyncData: async ({ route, store }) => {
+		const { blogDetail } = store.blog;
+		if (isNativeFuncExist()) return;
+		const id = getQueryParams(route.query.id);
+		if (!id) return;
+		const time = Date.now();
+		const params: Detail.ArticDetail.RequestParams = {
+			id
+		};
+		blogDetail.$assignParams(params);
+		await blogDetail.loadData();
+		console.log('接口请求耗时', Date.now() - time);
 	}
 })
 export default class BlogDetail extends Vue {
 	headerTitle: string = '微博正文';
-	headImg: string = '';
+	headImg: string =
+		'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3441742992,2765570575&fm=26&gp=0.jpg';
 
 	public get id(): string | null {
 		return getQueryParams(this.$route.query.id);

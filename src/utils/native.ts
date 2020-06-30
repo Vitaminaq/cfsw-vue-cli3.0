@@ -33,6 +33,18 @@ const getFlutterWebview = (): any => {
 
 const isFlutter: boolean = !!getFlutterWebview();
 
+/**
+ * 判断原生的方法是否存在
+ */
+export const isNativeFuncExist = (fnName = 'syncAppState'): boolean => {
+	if (isFlutter) {
+		return true;
+	} else if (isIOS) {
+		return !!getWindow().webkit.messageHandlers[fnName];
+	}
+	return false;
+};
+
 export interface CallSuccessOptions {
 	id: number;
 	fnName: string;

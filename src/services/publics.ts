@@ -1,6 +1,5 @@
 import { EntryClient } from '@src/entry-client';
 import { Route } from 'vue-router';
-import { store } from '@src/modules/blog';
 
 // 获取url后面参数
 export const getQueryParams = (

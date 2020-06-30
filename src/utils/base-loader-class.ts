@@ -1,9 +1,11 @@
 import VueLazy from '@src/lib/vue-lazy-store';
 
+export class BaseVueLazy extends VueLazy.Store {}
+
 /**
  * 基本类
  */
-export class BaseClass<A> extends VueLazy.Store {
+export class BaseClass<A> extends BaseVueLazy {
 	public api: A;
 	public constructor(api: A) {
 		super();

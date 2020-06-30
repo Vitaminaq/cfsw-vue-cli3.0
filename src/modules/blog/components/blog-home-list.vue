@@ -47,7 +47,7 @@ export default class ArticList extends Vue {
 	@Prop({ default: () => {} }) item!: Loader.ListItem;
 
 	get BASE_API() {
-		return this.$store.publics.BASE_API;
+		return this.$store.appConfig.BASE_API;
 	}
 	get baseUrl() {
 		return `${this.BASE_API}${this.item.headimg}`;

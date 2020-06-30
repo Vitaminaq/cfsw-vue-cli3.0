@@ -61,8 +61,6 @@ export default class BlogDetailFooter extends Vue {
 	public async commentIt() {
 		if (!this.id) return this;
 		const r = await comment();
-		console.log('响应值');
-		console.log(r.data);
 		if (Number(r.code) !== 0) return;
 		let params = {
 			articId: this.id,

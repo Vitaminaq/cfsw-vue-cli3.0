@@ -62,27 +62,27 @@ export default class Login extends Vue {
 		}
 	};
 
-	get loginModule() {
-		return this.$store.user.userLogin;
+	public get api() {
+		return this.$store.user.api;
 	}
-	get nn(): string | null {
+	public get nn(): string | null {
 		return getQueryParams(this.$route.query.nickname);
 	}
-	get from(): string | null {
+	public get from(): string | null {
 		return getQueryParams(this.$route.query.from);
 	}
 
-	mounted() {
+	public mounted() {
 		if (!this.nn) return;
 		this.getUserHeaderImg();
 	}
-	async getUserHeaderImg(): Promise<this> {
+	public async getUserHeaderImg(): Promise<this> {
 		const { nickname } = this;
 		if (!nickname) return this;
 		const params = {
 			nickname
 		};
-		const r = await this.loginModule.api.getUserHeaderImg(params);
+		const r = await this.api.getUserHeaderImg(params);
 		if (r.code !== 0 || !r.data) return this;
 		this.url = r.data.headimg;
 		return this;
@@ -98,15 +98,11 @@ export default class Login extends Vue {
 		// 	(this as any).$toast('请填写完整信息!');
 		// 	return;
 		// }
-		this.loginModule.$assignParams(params);
 		this.button.disabled = true;
-		await this.loginModule.userLogin();
+		await this.api.userLogin(params);
 		setTimeout(() => {
 			this.button.disabled = false;
 		}, 1000);
-		// if (this.loginModule.res.code !== 0)
-		// 	return (this as any).$toast(this.loginModule.res.data);
-		// const to = this.from ? this.from : '/';
 		return this.$router.push({ path: '/publish' });
 	}
 	close() {

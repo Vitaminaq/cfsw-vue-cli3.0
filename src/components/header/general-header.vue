@@ -13,21 +13,21 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { webviewBack } from '@src/utils/native-methods';
+import { webviewBack, isNativeFuncExist } from '@src/utils/native-methods';
 
-@Component
+@Component<GeneralHeader>({})
 export default class GeneralHeader extends Vue {
 	@Prop({ default: '' }) headerTitle!: string;
 	@Prop({ default: '' }) backPathName!: string;
 
-	get hasBtn() {
+	public get hasBtn() {
 		return !!this.$slots.btn;
 	}
 
-	back() {
-		// if (!this.backPathName) return this.$router.go(-1);
-		// return this.$router.push({ name: this.backPathName });
-		webviewBack();
+	public back() {
+		if (isNativeFuncExist()) return webviewBack();
+		if (!this.backPathName) return this.$router.go(-1);
+		return this.$router.push({ name: this.backPathName });
 	}
 }
 </script>

@@ -16,10 +16,10 @@ class Axios extends LocalAxios {
 	constructor({ appConfig }: BaseAxiosOptions) {
 		super({ appConfig });
 	}
-	post(url: string, params: any) {
+	post(url: string, params?: any) {
 		return this.axios.post(url, params);
 	}
-	get(url: string, params: any) {
+	get(url: string, params?: any) {
 		return this.axios.get(url, { params });
 	}
 }
