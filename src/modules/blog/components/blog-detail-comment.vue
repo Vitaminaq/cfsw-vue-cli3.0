@@ -61,9 +61,9 @@ export default class BlogDetailFooter extends Vue {
 	public get pullUpStatus() {
 		return this.getUserComment.pullUpStatus;
 	}
-	public get agreeComment() {
-		return this.$store.blog.agreeComment;
-	}
+	// public get agreeComment() {
+	// 	return this.$store.blog.agreeComment;
+	// }
 	public get moreComment() {
 		return false;
 	}
@@ -80,8 +80,8 @@ export default class BlogDetailFooter extends Vue {
 			id: this.id,
 			commentId: commentId
 		};
-		this.agreeComment.$assignParams(params);
-		await this.agreeComment.agreeComment();
+		// this.agreeComment.$assignParams(params);
+		// await this.agreeComment.agreeComment();
 		// if (this.agreeComment.res.code === 0) {
 		// 	this.getUserComment.$updateCommentClick({
 		// 		id: this.id,
@@ -89,19 +89,19 @@ export default class BlogDetailFooter extends Vue {
 		// 	});
 		// 	return this;
 		// }
-		if (
-			this.agreeComment.res.code === 20000 ||
-			this.agreeComment.res.code === 20001
-		) {
-			// this.$router.push({
-			// 	name: 'login',
-			// 	query: {
-			// 		...this.$route.query,
-			// 		from: this.$route.fullPath
-			// 	}
-			// });
-			return this;
-		}
+		// if (
+		// 	this.agreeComment.res.code === 20000 ||
+		// 	this.agreeComment.res.code === 20001
+		// ) {
+		// this.$router.push({
+		// 	name: 'login',
+		// 	query: {
+		// 		...this.$route.query,
+		// 		from: this.$route.fullPath
+		// 	}
+		// });
+		// 	return this;
+		// }
 		return this;
 	}
 	public toComment() {

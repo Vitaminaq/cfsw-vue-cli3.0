@@ -2,7 +2,7 @@
 	<div id="footer" v-if="detailData">
 		<div class="operate">
 			<div class="input-contain" @click="commentIt">说点什么...</div>
-			<div class="operate-artic oprate-click" @click="agreeAuthors()">
+			<div class="operate-artic oprate-click" @click="agreeAuthors">
 				<svg-icon
 					name="click"
 					:class="detailData.isClick ? 'oprated' : ''"
@@ -48,16 +48,12 @@ export default class BlogDetailFooter extends Vue {
 	public get id(): string | null {
 		return getQueryParams(this.$route.query.id);
 	}
-	get articDetail() {
+	public get articDetail() {
 		return this.$store.blog.blogDetail;
 	}
-	get detailData() {
+	public get detailData() {
 		return this.articDetail.data;
 	}
-	public get agreeAuthor() {
-		return this.$store.blog.agreeAuthor;
-	}
-
 	public toButtom() {
 		const detailDom = (this as any).$refs.detail;
 		detailDom.scrollTop = detailDom.scrollHeight;
@@ -91,25 +87,21 @@ export default class BlogDetailFooter extends Vue {
 		// }
 		// return this;
 	}
-	public async agreeAuthors(): Promise<this> {
-		// if (!this.id) return this;
-		// this.agreeAuthor.$assignParams({
-		// 	id: this.id
-		// });
-		// await this.agreeAuthor.agreeAuthor();
-		// if (this.agreeAuthor.res.code === 0) {
-		// 	this.articDetail.$updateArticClick(this.id);
-		// 	return this;
-		// }
-		// // Toast('', this.A_res.data);
+	public async agreeAuthors(): Promise<void> {
+		const { id } = this;
+		if (!id) return;
+		const r = await this.articDetail.api.agreeAuthor({
+			id
+		});
+		if (r.code !== 0) return;
+		// this.articDetail.$updateArticClick(this.id);
 		// if (
 		// 	this.agreeAuthor.res.code === 20000 ||
 		// 	this.agreeAuthor.res.code === 20001
 		// ) {
-		toLogin();
-		// 	return this;
+		//     toLogin();
 		// }
-		return this;
+		return;
 	}
 
 	public toShare() {
