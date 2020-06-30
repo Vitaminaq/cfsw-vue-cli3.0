@@ -63,16 +63,6 @@ export default class ChatRoom extends Vue {
 		}
 		return this;
 	}
-	public mounted() {
-		this.$store.subscribe((event: any) => {
-			console.log(event);
-			switch (event.path) {
-				case '.blog.blogList.$pullUpSuccess':
-					console.log('首页');
-					break;
-			}
-		});
-	}
 	public async todetail(id: string) {
 		return this.$router.push({
 			name: 'blog-detail',

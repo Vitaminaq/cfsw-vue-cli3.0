@@ -2,7 +2,7 @@
 	<div id="comment">
 		<div id="commentitle">评论区</div>
 		<div class="commentul">
-			<scroller
+			<!-- <scroller
 				@pullUp="pullUp"
 				:pullUpstatus="pullUpStatus"
 				:pullDownStatus="pullDownStatus"
@@ -21,7 +21,7 @@
 						@agreeit="agreeit"
 					/>
 				</transition-group>
-			</scroller>
+			</scroller> -->
 			<!-- <div v-else class="no-message">
 				<svg-icon name="no-message" />
 				<div class="tips">快来评论吧!</div>

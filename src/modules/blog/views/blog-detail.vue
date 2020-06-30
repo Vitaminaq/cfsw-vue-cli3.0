@@ -52,6 +52,7 @@ import {
 		BlogDetailFooter
 	},
 	prefetchData: async ({ store, route }) => {
+		console.log(isNativeFuncExist(), 'kkkkkkkkkkkkkkkkkkkkkkkkkkkk');
 		if (!isNativeFuncExist()) return;
 		const time = Date.now();
 		const r = await prefetchData();
