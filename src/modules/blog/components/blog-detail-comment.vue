@@ -69,7 +69,7 @@ export default class BlogDetailFooter extends Vue {
 	}
 
 	public mounted() {
-		this.getUserComment.$assignParams({
+		(this as any).getUserComment.$assignParams({
 			id: this.id || 0
 		});
 	}

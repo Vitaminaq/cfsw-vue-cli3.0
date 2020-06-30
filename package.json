@@ -33,7 +33,7 @@
     "vue-property-decorator": "^8.2.2",
     "vue-pupop-toast": "^1.0.8",
     "vue-rescroll": "^2.0.0",
-    "vue-router": "^3.0.7",
+    "vue-router": "3.0.7",
     "vue-server-renderer": "^2.6.10"
   },
   "devDependencies": {

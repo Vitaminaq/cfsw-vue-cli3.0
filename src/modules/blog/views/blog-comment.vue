@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<BlogDetailCommentList
+		<!-- <BlogDetailCommentList
 			v-for="(item, index) in data"
 			:key="item.commentId"
 			:index="index"
 			:item="item"
 			@agreeit="agreeit"
-		/>
+		/> -->
 	</div>
 </template>
 <script lang="ts">
@@ -25,11 +25,6 @@ export default class ArticComment extends Vue {
 	}
 	get articDetail() {
 		return this.$store.blog.blogDetail;
-	}
-	get data() {
-		const { id } = this;
-		if (!id) return '';
-		return this.articDetail.state.dataStore[id];
 	}
 }
 </script>

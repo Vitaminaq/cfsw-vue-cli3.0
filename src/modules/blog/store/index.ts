@@ -31,39 +31,8 @@ class BlogDetail extends BaseLoaderData<
 			id: ''
 		},
 		res: { code: 0, data: {} as Detail.ArticDetail.Data },
-		requestStatus: 'unrequest',
-		dataStore: {}
+		requestStatus: 'unrequest'
 	};
-	get dataStore() {
-		return this.state.dataStore;
-	}
-	$updateCommentClick({ id, index }: any): this {
-		if (
-			this.state.dataStore[id].articMessage.commentList[index]
-				.isClickComment
-		) {
-			this.state.dataStore[id].articMessage.commentList[
-				index
-			].isClickComment = false;
-			this.state.dataStore[id].articMessage.commentList[index].clicknum--;
-		} else {
-			this.state.dataStore[id].articMessage.commentList[
-				index
-			].isClickComment = true;
-			this.state.dataStore[id].articMessage.commentList[index].clicknum++;
-		}
-		return this;
-	}
-	$updateArticClick(id: string): this {
-		if (this.state.dataStore[id].articMessage.isClick) {
-			this.state.dataStore[id].articMessage.isClick = false;
-			this.state.dataStore[id].articMessage.clicknum--;
-		} else {
-			this.state.dataStore[id].articMessage.isClick = true;
-			this.state.dataStore[id].articMessage.clicknum++;
-		}
-		return this;
-	}
 	$RequestSuccess(res: Detail.ArticDetail.Response): this {
 		if (res.code === 0 && res.data) {
 			this.state.requestStatus = 'success';

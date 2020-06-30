@@ -38,7 +38,6 @@ declare namespace Detail {
 			params: RequestParams;
 			requestStatus: Loader.RequestStatus;
 			res: Response;
-			dataStore: any;
 		}
 	}
 	namespace UserComment {

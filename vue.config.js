@@ -1,5 +1,6 @@
 const config = require('./config/config.local');
 const path = require('path');
+const SWPrecachePlugin = require('sw-precache-webpack-plugin');
 // const SvgSpritePlugin = require('./lib/svg-sprite-plugin');
 
 class RemovePwaHtmlPlugin {

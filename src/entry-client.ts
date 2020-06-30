@@ -90,10 +90,6 @@ export class EntryClient extends Main {
 		const { router } = this;
 		router.beforeResolve(
 			async (to: Route, from: Route, next: () => void) => {
-				const { store } = this;
-				console.log(from, to.matched[0].components.options, {
-					...store
-				});
 				await getAsyncData('prefetchData', this, to);
 				next();
 			}

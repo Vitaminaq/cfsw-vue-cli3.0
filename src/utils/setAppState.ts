@@ -1,11 +1,10 @@
 import cookie from 'js-cookie';
 
 export const setAppState = (token: string) => {
-	console.log(token, 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+	console.log('接受到token：', token);
 	cookie.set('TOKEN', token);
 };
 
 export const getCookie = () => {
-	console.log(cookie.get('TOKEN'), 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
 	return cookie.get('TOKEN');
 };

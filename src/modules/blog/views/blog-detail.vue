@@ -1,6 +1,6 @@
 <template>
 	<div
-		id="detail"
+		class="detail"
 		v-rescroll="{
 			name: `detail${$route.query.id}`
 		}"
@@ -15,7 +15,7 @@
 			src="../images/blog_detail_loading.jpeg"
 			alt=""
 		/>
-		<div v-else id="detailcontent">
+		<div v-else class="detail-content">
 			<h1>{{ detailData.title }}</h1>
 			<div class="author">
 				<div class="author-headimg"><img :src="headImg" /></div>
@@ -87,20 +87,22 @@ export default class BlogDetail extends Vue {
 </script>
 
 <style lang="less" scoped>
-.list-move {
-	transition: transform 1s;
-}
 .blog-loading {
 	width: 100%;
 	height: 100vh;
 }
-#detail {
+.detail {
+	height: 100%;
+	width: 100%;
 	overflow-y: auto;
 	text-align: center;
 	word-wrap: break-word;
+	display: flex;
+	flex-direction: column;
 
-	#detailcontent {
+	.detail-content {
 		text-align: left;
+		flex: 1;
 
 		h1 {
 			width: 90%;
