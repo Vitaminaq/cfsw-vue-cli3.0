@@ -24,7 +24,7 @@ export const getUrlQuery = (str: string) => {
 
 // 转换url - 客户端
 export const getRealUrl = (app: EntryClient) => {
-	if (!window) return;
+	if (typeof window === undefined) return;
 	const { pathname, hash, search } = window.location;
 	const query1 = getUrlQuery(hash.replace(/^#/, ''));
 	const query2 = getUrlQuery(search.replace(/^\?/, ''));

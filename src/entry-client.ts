@@ -90,12 +90,14 @@ export class EntryClient extends Main {
 		const { router } = this;
 		router.beforeResolve(
 			async (to: Route, from: Route, next: () => void) => {
+				console.log('路由解析');
 				await getAsyncData('prefetchData', this, to);
 				next();
 			}
 		);
 		// 采用路由后置钩子取数据，不阻塞路由跳转
 		router.afterEach(async (to: Route, from: Route) => {
+			console.log('路由');
 			await this.$nextTick();
 			await getAsyncData('asyncData', this, to);
 			window.$getInitData = () => getAsyncData('asyncData', this, to);
@@ -112,7 +114,8 @@ export class EntryClient extends Main {
 const createApp = () => {
 	const app = new EntryClient();
 	window.app = app;
-	app.onRouteReady();
+	// app.onRouteReady();
+	app.$mount('#app');
 };
 
 export default createApp();

@@ -19,10 +19,10 @@
 			<h1>{{ detailData.title }}</h1>
 			<div class="author">
 				<div class="author-headimg"><img :src="headImg" /></div>
-				<span class="name">{{ detailData.nickname }}</span>
-				<span class="time">{{
-					timestampToDateTime(Number(detailData.creatAt))
-				}}</span>
+				<div class="name">{{ detailData.nickname }}</div>
+				<div class="time">
+					{{ timestampToDateTime(Number(detailData.creatAt)) }}
+				</div>
 			</div>
 			<div id="artic" v-html="detailData.msg" @click="onOperate"></div>
 			<BlogDetailComment />
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import { timestampToDateTime } from '@src/common/comjs';
 import BlogDetailComment from '../components/blog-detail-comment.vue';
 import BlogDetailFooter from '../components/blog-detail-footer.vue';
@@ -52,25 +52,29 @@ import {
 		BlogDetailFooter
 	},
 	prefetchData: async ({ store, route }) => {
-		console.log(isNativeFuncExist(), 'kkkkkkkkkkkkkkkkkkkkkkkkkkkk');
-		if (!isNativeFuncExist()) return;
 		const time = Date.now();
+		console.log('执行prefetchData', time);
+		if (!isNativeFuncExist()) return;
 		const r = await prefetchData();
-		store.blog.blogDetail.$setData(r.data);
+		store.blog.blogDetail.$requestSuccess(r);
+		console.log(store.blog.blogDetail.data, 'jjjjjjjjjjjjjjjjjjjjjjj');
 		console.log('原生交互耗时', Date.now() - time);
+		return;
 	},
 	asyncData: async ({ route, store }) => {
+		const time = Date.now();
+		console.log('执行asyncData', time);
 		const { blogDetail } = store.blog;
 		if (isNativeFuncExist()) return;
 		const id = getQueryParams(route.query.id);
 		if (!id) return;
-		const time = Date.now();
 		const params: Detail.ArticDetail.RequestParams = {
 			id
 		};
 		blogDetail.$assignParams(params);
 		await blogDetail.loadData();
 		console.log('接口请求耗时', Date.now() - time);
+		return;
 	}
 })
 export default class BlogDetail extends Vue {
@@ -82,7 +86,7 @@ export default class BlogDetail extends Vue {
 		return getQueryParams(this.$route.query.id);
 	}
 	public get detailData() {
-		return this.$store.blog.blogDetail.data;
+		return this.$store.blog.blogDetail.res.data;
 	}
 
 	public timestampToDateTime(time: number): string | undefined {
