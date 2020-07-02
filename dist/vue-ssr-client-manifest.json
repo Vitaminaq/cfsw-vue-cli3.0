@@ -1,8 +1,8 @@
 {
-  "publicPath": "/ssr/",
+  "publicPath": "/",
   "all": [
     "css/app.aab4742d.css",
-    "css/blog.f1adaaaf.css",
+    "css/blog.87b9dc75.css",
     "css/chunk-75feeb60.84081723.css",
     "css/chunk-vendors.28ab8999.css",
     "css/login.9001576a.css",
@@ -12,13 +12,13 @@
     "img/blog_detail_loading.451a167c.jpeg",
     "img/share.aec99efa.svg",
     "index.html",
-    "js/app.377b3bf4.js",
-    "js/blog.696b4a01.js",
-    "js/chunk-75feeb60.198e2b35.js",
+    "js/app.9aca2ace.js",
+    "js/blog.9e9c9e2f.js",
+    "js/chunk-75feeb60.11d8a369.js",
     "js/chunk-vendors.e8caec15.js",
-    "js/login.90caa0ad.js",
-    "js/register.81116854.js",
-    "js/reset.b9730e8d.js",
+    "js/login.330d7ad1.js",
+    "js/register.0cacb495.js",
+    "js/reset.d31e8913.js",
     "manifest.json",
     "robots.txt"
   ],
@@ -26,19 +26,19 @@
     "css/chunk-vendors.28ab8999.css",
     "js/chunk-vendors.e8caec15.js",
     "css/app.aab4742d.css",
-    "js/app.377b3bf4.js"
+    "js/app.9aca2ace.js"
   ],
   "async": [
-    "css/blog.f1adaaaf.css",
+    "css/blog.87b9dc75.css",
     "css/chunk-75feeb60.84081723.css",
     "css/login.9001576a.css",
     "css/register.9dee2995.css",
     "css/reset.29b7927d.css",
-    "js/blog.696b4a01.js",
-    "js/chunk-75feeb60.198e2b35.js",
-    "js/login.90caa0ad.js",
-    "js/register.81116854.js",
-    "js/reset.b9730e8d.js"
+    "js/blog.9e9c9e2f.js",
+    "js/chunk-75feeb60.11d8a369.js",
+    "js/login.330d7ad1.js",
+    "js/register.0cacb495.js",
+    "js/reset.d31e8913.js"
   ],
   "modules": {
     "12479943": [
@@ -81,7 +81,7 @@
       2,
       13
     ],
-    "7f63ac7c": [
+    "fb91c17e": [
       1,
       12,
       9,
@@ -419,12 +419,6 @@
       3,
       14
     ],
-    "18ca6933": [
-      1,
-      12,
-      9,
-      8
-    ],
     "078fdbc8": [
       6,
       17
@@ -628,6 +622,12 @@
     "3f66f8e9": [
       3,
       14
+    ],
+    "4a99429c": [
+      1,
+      12,
+      9,
+      8
     ],
     "84b65090": [
       3,
@@ -939,12 +939,6 @@
       9,
       8
     ],
-    "7eb14672": [
-      1,
-      12,
-      9,
-      8
-    ],
     "2ddbbfe8": [
       4,
       15
@@ -954,6 +948,12 @@
       14
     ],
     "19dd38cb": [
+      1,
+      12,
+      9,
+      8
+    ],
+    "fadf5b74": [
       1,
       12,
       9,

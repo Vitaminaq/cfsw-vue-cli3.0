@@ -4,7 +4,7 @@ module.exports = {
 	port: null,
 	host: null,
 	entry: (target) => `./src/entry-${target}`,
-	defaultTitle: 'cfsw',
+	defaultTitle: 'wismo',
 	favicon: './public/favicon.ico',
 	skipRequests: (req) => req.originalUrl === '/graphql',
 	nodeExternalsWhitelist: [/\.css$/, /\?vue&type=style/],

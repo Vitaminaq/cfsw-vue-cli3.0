@@ -149,10 +149,15 @@ module.exports.setupDevServer = ({ server, templatePath, onUpdate }) =>
 				copied = '';
 			}
 
+			const url1 = `http://127.0.0.1:${config.port}`;
+			const url2 = `localhost:${config.port}`;
+
 			setTimeout(() => {
 				console.log();
 				console.log(`  App running at:`);
 				console.log(`  - Local:   ${chalk.cyan(url)} ${copied}`);
+				console.log(`  - Local:   ${chalk.cyan(url1)}`);
+				console.log(`  - Local:   ${chalk.cyan(url2)}`);
 			});
 		}
 	});

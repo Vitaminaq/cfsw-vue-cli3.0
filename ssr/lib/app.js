@@ -5,8 +5,7 @@ const fs = require('fs');
 const favicon = require('serve-favicon');
 const LRU = require('lru-cache');
 const compression = require('compression');
-const appConfig = require('../../../config/index');
-const staticSvgSprite = require('../../../lib/static-svg-sprite');
+const appConfig = require('../../config/index');
 
 const config = require('./config');
 
@@ -81,7 +80,6 @@ module.exports = (app, options) => {
 			});
 
 		// Serve static files
-		staticSvgSprite(app);
 		app.use(compression({ threshold: 0 }));
 		app.use(favicon(config.favicon));
 
@@ -117,7 +115,9 @@ module.exports = (app, options) => {
 				url: req.url,
 				title: config.defaultTitle,
 				appConfig: appConfig(), // 传入基础配置
-				httpCode: 200
+				httpCode: 200,
+				buildTime: '',
+				env: process.env.NODE_ENV
 			};
 			renderer.renderToString(context, (err, html) => {
 				if (err || context.httpCode === 500) {
@@ -163,9 +163,6 @@ module.exports = (app, options) => {
 			};
 		}
 		app.get('*', (req, res, next) => {
-			// if (req.url === '/') {
-			// 	res.redirect('/blog/home');
-			// }
 			console.log('当前ssr请求路径:', req.url);
 			console.log('=========================================');
 			console.log('你的内存制/M:' + os.totalmem() / 1024 / 1024);

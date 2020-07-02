@@ -12,11 +12,9 @@ class RemovePwaHtmlPlugin {
 	}
 }
 
-const isOc = process.env.NODE_TYPE === 'oc';
-
 module.exports = {
-	publicPath: isOc ? '/' : '/ssr',
-	outputDir: isOc ? './dist/csr' : './dist/ssr',
+	publicPath: '/',
+	outputDir: './dist',
 	// baseUrl: config.baseUrl,
 	lintOnSave: process.env.NODE_ENV !== 'production',
 	productionSourceMap: false,
@@ -30,7 +28,7 @@ module.exports = {
 		};
 	},
 	chainWebpack: (config) => {
-		!isOc && config.plugin('RemovePwaHtmlPlugin').use(RemovePwaHtmlPlugin);
+		config.plugin('RemovePwaHtmlPlugin').use(RemovePwaHtmlPlugin);
 		config.plugin('SWPrecachePlugin').use(SWPrecachePlugin, [
 			{
 				cacheId: 'cfsw',
@@ -51,8 +49,8 @@ module.exports = {
 						handler: 'networkFirst'
 					},
 					{
-						urlPattern: /\/blog\//,
-						handler: 'networkFirst'
+						urlPattern: /\/blog\/.*(\?|\&)v=.*/,
+						handler: 'cacheFirst'
 					}
 				]
 			}
@@ -69,8 +67,5 @@ module.exports = {
 	},
 	pluginOptions: {
 		templatePath: path.resolve(__dirname, './public/index.html')
-	},
-	devServer: {
-		port: 8090
 	}
 };

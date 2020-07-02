@@ -14,7 +14,7 @@ const staticSvgSprite = require('./lib/static-svg-sprite');
 const etag = require('etag');
 
 const isProd = process.env.NODE_ENV === 'production';
-const useMicroCache = process.env.MICRO_CACHE !== 'false';
+
 const serverInfo =
 	`express/${require('express/package.json').version} ` +
 	`vue-server-renderer/${
@@ -43,8 +43,8 @@ function createRenderer(bundle, options) {
 
 const templatePath = resolve('./public/index.html');
 const template = fs.readFileSync(templatePath, 'utf-8');
-const bundle = require('./dist/ssr/vue-ssr-server-bundle.json');
-const clientManifest = require('./dist/ssr/vue-ssr-client-manifest.json');
+const bundle = require('./dist/vue-ssr-server-bundle.json');
+const clientManifest = require('./dist/vue-ssr-client-manifest.json');
 const renderer = createRenderer(bundle, {
 	template,
 	clientManifest
@@ -57,13 +57,25 @@ const serve = (path) =>
 
 app.use(compression({ threshold: 0 }));
 // app.use(favicon('./public/logo-48.png'));
-app.use('/ssr', serve('./dist/ssr'));
+app.use('/', serve('./dist'));
 staticSvgSprite(app);
+
+// // 拦截器
+// app.use('/', (req, res, next) => {
+// 	const { url } = req;
+// 	if (req.url.match(/\?/)) {
+// 		req.url = `${url}&v=1.0.0`;
+// 	} else {
+// 		req.url = `${url}?v=1.0.0`;
+// 	}
+// 	next();
+// });
 
 app.use(
 	microcache.cacheSeconds(60, (req) => {
 		console.log('命中缓存', req.path);
-		return useMicroCache && req.path;
+		const { v } = req.query;
+		return v && `${req.path}${v}`;
 	})
 );
 
@@ -106,7 +118,7 @@ function render(req, res) {
 }
 
 app.all(`*`, (req, res) => {
-	console.log('当前请求路径：', req.path);
+	console.log('当前请求路径：', req.url);
 	if (req.method.toLowerCase() !== 'get') return next();
 	req.header('Cache-Control', 'no-cache');
 	res.setHeader('Cache-Control', 'public, max-age=600');

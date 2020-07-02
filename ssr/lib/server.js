@@ -1,6 +1,5 @@
 const express = require('express');
 const applyApp = require('./app');
-const ip = require('ip');
 
 exports.createServer = ({ port, host }) => {
 	return new Promise(async (resolve, reject) => {
@@ -8,7 +7,7 @@ exports.createServer = ({ port, host }) => {
 
 		await applyApp(app);
 
-		const host = ip.address();
+		const host = '0.0.0.0';
 
 		app.listen(port, host, (err) => {
 			if (err) {
