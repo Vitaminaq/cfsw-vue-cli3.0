@@ -6,6 +6,7 @@ const favicon = require('serve-favicon');
 const LRU = require('lru-cache');
 const compression = require('compression');
 const appConfig = require('../../config/index');
+const staticSvgSprite = require('../../lib/static-svg-sprite');
 
 const config = require('./config');
 
@@ -82,6 +83,7 @@ module.exports = (app, options) => {
 		// Serve static files
 		app.use(compression({ threshold: 0 }));
 		app.use(favicon(config.favicon));
+		staticSvgSprite(app);
 
 		// if (config.api.hasPlugin('pwa')) {
 		// 	app.use(

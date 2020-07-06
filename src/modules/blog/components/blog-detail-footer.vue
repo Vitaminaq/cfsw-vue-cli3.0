@@ -25,7 +25,12 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 import { getQueryParams } from '@src/services/publics';
-import { toLogin, toShare, comment } from '@src/utils/native-methods';
+import {
+	toLogin,
+	toShare,
+	comment,
+	updateNativeClickStatus
+} from '@src/utils/native-methods';
 
 import api from '../api/index';
 
@@ -76,14 +81,6 @@ export default class BlogDetailFooter extends Vue {
 			msg: r.data,
 			uid: 3
 		});
-		// if (
-		// 	this.userComment.res.code === 20000 ||
-		// 	this.userComment.res.code === 20001
-		// ) {
-		// 	toLogin();
-		// 	return this;
-		// }
-		// return this;
 	}
 	public async agreeAuthors(): Promise<void> {
 		const { id } = this;
@@ -92,13 +89,11 @@ export default class BlogDetailFooter extends Vue {
 			id
 		});
 		if (r.code !== 0) return;
-		// this.articDetail.$updateArticClick(this.id);
-		// if (
-		// 	this.agreeAuthor.res.code === 20000 ||
-		// 	this.agreeAuthor.res.code === 20001
-		// ) {
-		//     toLogin();
-		// }
+		this.articDetail.$updateClickStatus();
+		// 通知原生更新点赞状态
+		updateNativeClickStatus({
+			id: +id
+		});
 		return;
 	}
 

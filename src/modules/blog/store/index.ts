@@ -42,8 +42,16 @@ class BlogDetail extends BaseLoaderData<
 		return this.api.getDetail(this.params);
 	}
 
-	public $setData(item: any) {
-		this.data = item;
+	// 更新点赞状态
+	public $updateClickStatus() {
+		if (!this.data) return;
+		const { isClick } = this.data;
+		if (isClick) {
+			this.data.clicknum--;
+		} else {
+			this.data.clicknum++;
+		}
+		this.data.isClick = !isClick;
 	}
 }
 

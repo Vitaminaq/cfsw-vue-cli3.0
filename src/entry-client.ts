@@ -8,7 +8,10 @@ import VueImgLazyLoad from 'vue-images-lazy-load';
 import 'vue-pupop-toast/dist/vue-pupop-toast.css';
 import VuePupopToast from 'vue-pupop-toast';
 import { getRealUrl, getAsyncData } from '@src/services/publics';
-import { setAppState } from '@src/utils/setAppState';
+import {
+	getStateFromNative,
+	StateFromNativeResponse
+} from '@src/services/native';
 
 const options = {
 	showModuleName: true,
@@ -82,8 +85,8 @@ export class EntryClient extends Main {
 		getRealUrl(this);
 	}
 	// 同步app状态
-	public getSyncAppState(state: any) {
-		setAppState(state.token);
+	public getSyncAppState(state: StateFromNativeResponse) {
+		getStateFromNative(state, this);
 		return state;
 	}
 	public getPageData() {

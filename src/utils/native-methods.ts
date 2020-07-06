@@ -34,3 +34,7 @@ export const previewImage = (params: any[]) => {
 export const prefetchData = () => {
 	return native('10005');
 };
+
+export const updateNativeClickStatus = (params: { id: number }) => {
+	return native('10006', params);
+};

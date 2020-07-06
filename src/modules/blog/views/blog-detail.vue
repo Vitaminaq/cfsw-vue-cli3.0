@@ -57,7 +57,6 @@ import {
 		if (!isNativeFuncExist()) return;
 		const r = await prefetchData();
 		store.blog.blogDetail.$requestSuccess(r);
-		console.log(store.blog.blogDetail.data, 'jjjjjjjjjjjjjjjjjjjjjjj');
 		console.log('原生交互耗时', Date.now() - time);
 		return;
 	},
@@ -93,9 +92,8 @@ export default class BlogDetail extends Vue {
 		return timestampToDateTime(time);
 	}
 	public onOperate(e: any) {
-		if (e.target.tagName.toLowerCase() === 'img') {
-			previewImage([e.target.src]);
-		}
+		if (e.target.tagName.toLowerCase() !== 'img') return;
+		previewImage([e.target.src]);
 	}
 }
 </script>

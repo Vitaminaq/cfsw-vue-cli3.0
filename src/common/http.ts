@@ -1,6 +1,7 @@
 import axios from 'axios';
 import BaseConfig from '@src/config';
 import { getCookie } from '@src/utils/setAppState';
+import { toLogin } from '@src/utils/native-methods';
 
 export interface LocalAxiosOptions {
 	appConfig: BaseConfig;
@@ -38,6 +39,10 @@ class LocalAxios {
 					}请求成功，耗时${new Date().getTime() -
 						response.config.startTime}ms`
 				);
+				if ([20000, 20001].includes(response.data.code)) {
+					// 未登录，则先去登录
+					toLogin();
+				}
 				return response.data;
 			},
 			(err: any) => {

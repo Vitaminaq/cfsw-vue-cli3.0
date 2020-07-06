@@ -11,6 +11,8 @@ const resolve = (file) => path.resolve(__dirname, file);
 const { createBundleRenderer } = require('vue-server-renderer');
 const appConfig = require('./config/index')();
 const staticSvgSprite = require('./lib/static-svg-sprite');
+const getConfig = require('./service/app-config');
+
 const etag = require('etag');
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -59,17 +61,7 @@ app.use(compression({ threshold: 0 }));
 // app.use(favicon('./public/logo-48.png'));
 app.use('/', serve('./dist'));
 staticSvgSprite(app);
-
-// // 拦截器
-// app.use('/', (req, res, next) => {
-// 	const { url } = req;
-// 	if (req.url.match(/\?/)) {
-// 		req.url = `${url}&v=1.0.0`;
-// 	} else {
-// 		req.url = `${url}?v=1.0.0`;
-// 	}
-// 	next();
-// });
+getConfig(app);
 
 app.use(
 	microcache.cacheSeconds(60, (req) => {

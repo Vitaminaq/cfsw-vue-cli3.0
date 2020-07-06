@@ -2,7 +2,6 @@ import Vue, { CreateElement, ComponentOptions } from 'vue';
 
 const registerStoreModule = (store: any, storeModule: any) => {
 	const name = storeModule.default.moduleName;
-	console.log(store[name]);
 	if (!store[name]) {
 		store.addMoudles({
 			[name]: new storeModule.default({
