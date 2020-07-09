@@ -4,14 +4,13 @@
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-import { Route } from 'vue-router';
+import { Vue, Component } from 'vue-property-decorator';
 
 @Component<App>({})
 export default class App extends Vue {}
 </script>
 
-<style>
+<style lang="less">
 * {
 	margin: 0;
 	padding: 0;
@@ -40,5 +39,13 @@ a,
 button,
 input {
 	-webkit-tap-highlight-color: rgba(255, 0, 0, 0);
+}
+@media screen and (min-width: 1024px) {
+	#app {
+		height: 100%;
+		// prettier-ignore
+		width: 1024PX;
+		margin: 0 auto;
+	}
 }
 </style>

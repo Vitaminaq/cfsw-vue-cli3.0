@@ -63,6 +63,7 @@ app.use('/', serve('./dist'));
 staticSvgSprite(app);
 getConfig(app);
 
+// 没带版本号的，不做缓存
 app.use(
 	microcache.cacheSeconds(60, (req) => {
 		console.log('命中缓存', req.path);
@@ -94,8 +95,10 @@ function render(req, res) {
 		req,
 		url: req.url,
 		title: 'cfsw',
-		appConfig, // 传入基础配置
-		httpCode: 200
+		appConfig, // 传入基础配置,
+		buildTime: '',
+		httpCode: 200,
+		env: process.env.NODE_ENV
 	};
 
 	renderer.renderToString(context, (err, html) => {
