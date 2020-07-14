@@ -86,6 +86,7 @@ export class EntryClient extends Main {
 	}
 	// 同步app状态
 	public getSyncAppState(state: StateFromNativeResponse) {
+		console.log(state, 'wwwwwwwwwwwwwwwwwwwww');
 		getStateFromNative(state, this);
 		return state;
 	}

@@ -22,10 +22,11 @@ class LocalAxios {
 		this.onRequest();
 		this.onResponse();
 	}
-	private onRequest() {
+	private onRequest<a, argument>() {
 		this.axios.interceptors.request.use((config: any) => {
 			config.startTime = new Date().getTime();
-			config.headers.authorization = getCookie() || '';
+			const cookie = getCookie() || '';
+			config.headers.authorization = cookie;
 			console.log('拦截器生效');
 			return config;
 		});

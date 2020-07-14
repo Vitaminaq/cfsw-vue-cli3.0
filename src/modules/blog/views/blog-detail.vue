@@ -9,24 +9,33 @@
 			:header-title="headerTitle"
 			back-path-name="blog-home"
 		/>
-		<img
-			v-if="!detailData"
-			class="blog-loading"
-			src="../images/blog_detail_loading.jpeg"
-			alt=""
-		/>
-		<div v-else class="detail-content">
-			<h1>{{ detailData.title }}</h1>
-			<div class="author">
-				<div class="author-headimg"><img :src="headImg" /></div>
-				<div class="name">{{ detailData.nickname }}</div>
-				<div class="time">
-					{{ timestampToDateTime(Number(detailData.creatAt)) }}
+		<div class="detail-contain">
+			<div v-if="!detailData" class="blog-loading">
+				<div class="loading-title"></div>
+				<div class="loading-author">
+					<div class="loading-headimg"></div>
+					<div class="loading-name"></div>
+					<div class="loading-time"></div>
 				</div>
+				<div class="loading-content"></div>
 			</div>
-			<div id="artic" v-html="detailData.msg" @click="onOperate"></div>
-			<BlogDetailComment />
-			<BlogDetailFooter />
+			<div v-else class="detail-content">
+				<h1>{{ detailData.title }}</h1>
+				<div class="author">
+					<div class="author-headimg"><img :src="headImg" /></div>
+					<div class="name">{{ detailData.nickname }}</div>
+					<div class="time">
+						{{ timestampToDateTime(Number(detailData.creatAt)) }}
+					</div>
+				</div>
+				<div
+					class="artic"
+					v-html="detailData.msg"
+					@click="onOperate"
+				></div>
+				<BlogDetailComment />
+				<BlogDetailFooter />
+			</div>
 		</div>
 	</div>
 </template>
@@ -51,20 +60,22 @@ import {
 		GeneralHeader,
 		BlogDetailFooter
 	},
-	prefetchData: async ({ store, route }) => {
-		const time = Date.now();
-		console.log('执行prefetchData', time);
-		if (!isNativeFuncExist()) return;
-		const r = await prefetchData();
-		store.blog.blogDetail.$requestSuccess(r);
-		console.log('原生交互耗时', Date.now() - time);
-		return;
-	},
+	// prefetchData: async ({ store, route }) => {
+	// 	const time = Date.now();
+	// 	if (!isNativeFuncExist()) return;
+	// 	const r = await prefetchData();
+	// 	store.blog.blogDetail.$requestSuccess(r);
+	// 	console.log('原生交互耗时', Date.now() - time);
+	// 	return;
+	// },
 	asyncData: async ({ route, store }) => {
 		const time = Date.now();
-		console.log('执行asyncData', time);
 		const { blogDetail } = store.blog;
-		if (isNativeFuncExist()) return;
+		if (isNativeFuncExist()) {
+			const r = await prefetchData();
+			store.blog.blogDetail.$requestSuccess(r);
+			return;
+		}
 		const id = getQueryParams(route.query.id);
 		if (!id) return;
 		const params: Detail.ArticDetail.RequestParams = {
@@ -72,7 +83,6 @@ import {
 		};
 		blogDetail.$assignParams(params);
 		await blogDetail.loadData();
-		console.log('接口请求耗时', Date.now() - time);
 		return;
 	}
 })
@@ -85,7 +95,7 @@ export default class BlogDetail extends Vue {
 		return getQueryParams(this.$route.query.id);
 	}
 	public get detailData() {
-		return this.$store.blog.blogDetail.res.data;
+		return this.$store.blog.blogDetail.data;
 	}
 
 	public timestampToDateTime(time: number): string | undefined {
@@ -93,16 +103,13 @@ export default class BlogDetail extends Vue {
 	}
 	public onOperate(e: any) {
 		if (e.target.tagName.toLowerCase() !== 'img') return;
+		console.log('点击图片');
 		previewImage([e.target.src]);
 	}
 }
 </script>
 
 <style lang="less" scoped>
-.blog-loading {
-	width: 100%;
-	height: 100vh;
-}
 .detail {
 	height: 100%;
 	width: 100%;
@@ -112,23 +119,68 @@ export default class BlogDetail extends Vue {
 	display: flex;
 	flex-direction: column;
 
+	.detail-contain {
+		flex: 1;
+		padding: 20px 16px;
+	}
+
+	.blog-loading {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+
+		.loading-title {
+			height: 28px;
+			background-color: #f5f5f5;
+			border-radius: 10px;
+		}
+		.loading-author {
+			padding-top: 10px;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+
+			.loading-headimg {
+				width: 26px;
+				height: 26px;
+				border-radius: 50%;
+				background-color: #f5f5f5;
+			}
+
+			.loading-name {
+				width: 100px;
+				margin-left: 10px;
+				height: 10px;
+				background-color: #f5f5f5;
+			}
+
+			.loading-time {
+				width: 100px;
+				height: 10px;
+				background-color: #f5f5f5;
+			}
+		}
+		.loading-content {
+			flex: 1;
+			margin-top: 20px;
+			border-radius: 10px;
+			background-color: #f5f5f5;
+		}
+	}
+
 	.detail-content {
 		text-align: left;
-		flex: 1;
+		height: 100%;
 
 		h1 {
-			width: 90%;
 			margin: 0 auto;
-			padding-top: 20px;
 			font-size: 0.55rem;
 			text-align: center;
 		}
 	}
 
 	.author {
-		width: 90%;
 		padding-top: 10px;
-		margin: 0 auto;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
@@ -155,14 +207,11 @@ export default class BlogDetail extends Vue {
 		}
 	}
 
-	#artic {
+	.artic {
+		margin: 20px 0;
 		font-size: 0.45rem;
 		text-align: left;
 		height: auto;
-		width: 90%;
-		margin: 0 auto;
-		padding-top: 0.266667rem;
-		padding-bottom: 0.4rem;
 	}
 }
 </style>
