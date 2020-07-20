@@ -1,10 +1,18 @@
 <template>
-	<div id="seeLoading" class="see-loading">
-		<span v-if="pullUpstatus === 'done'">无更多数据</span>
-		<span v-else-if="pullUpstatus === 'error'" @click="reload"
-			>加载失败，请点击重新加载</span
-		>
-		<img v-else class="load-img" src="./loading.gif" alt="加载中..." />
+	<div class="see-loading">
+		<div class="done" v-if="pullUpstatus === 'done'">无更多数据</div>
+		<div class="error" v-else-if="pullUpstatus === 'error'" @click="reload">
+			加载失败，请点击重新加载
+		</div>
+		<div v-else-if="pullUpstatus === 'empty'">
+			<div v-if="!$slots.empty" class="empty">
+				暂无数据
+			</div>
+			<slot name="empty" />
+		</div>
+		<div class="loading" v-else>
+			<img class="load-img" src="./loading.gif" alt="加载中..." />
+		</div>
 	</div>
 </template>
 <script lang="ts">
@@ -63,7 +71,8 @@ export default class SeeLoading extends Vue {
 			isSee &&
 			this.pullUpstatus !== 'requesting' &&
 			this.pullUpstatus !== 'done' &&
-			this.pullUpstatus !== 'error'
+			this.pullUpstatus !== 'error' &&
+			this.pullUpstatus !== 'empty'
 		) {
 			this.$emit('pullUp');
 		}
@@ -79,23 +88,29 @@ export default class SeeLoading extends Vue {
 
 <style lang="less" scoped>
 .see-loading {
-	position: absolute;
-	left: 0;
-	height: 200px;
 	width: 100%;
 	text-align: center;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-size: 14px;
+	color: #adadad;
 
-	span {
-		font-size: 0.45rem;
-		color: #adadad;
+	.done,
+	.error {
+		height: 60px;
+		width: 100%;
+		line-height: 60px;
 	}
 
-	.load-img {
-		height: 80px;
-		width: 80px;
+	.loading,
+	.empty {
+		height: 100px;
+		line-height: 100px;
+		.load-img {
+			height: 20px;
+			width: 20px;
+		}
 	}
 }
 </style>

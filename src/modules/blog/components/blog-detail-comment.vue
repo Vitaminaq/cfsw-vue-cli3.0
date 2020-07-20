@@ -1,36 +1,25 @@
 <template>
-	<div id="comment">
-		<div id="commentitle">评论区</div>
-		<div class="commentul">
-			<!-- <scroller
-				@pullUp="pullUp"
-				:pullUpstatus="pullUpStatus"
-				:pullDownStatus="pullDownStatus"
-			>
-				<transition-group
-					name="list"
-					tag="ul"
-					enter-active-class="animated rollIn"
-					leave-active-class="animated rollOut"
-				>
-					<BlogDetailCommentList
-						v-for="(item, index) in list"
-						:key="item.commentId"
-						:index="index"
-						:item="item"
-						@agreeit="agreeit"
-					/>
-				</transition-group>
-			</scroller> -->
-			<!-- <div v-else class="no-message">
-				<svg-icon name="no-message" />
-				<div class="tips">快来评论吧!</div>
-			</div> -->
-			<div v-if="moreComment" class="more-comment" @click="toComment">
-				查看更多评论
+	<div class="comment">
+		<div class="commentitle">评论区</div>
+		<scroller @pullUp="pullUp" :pullUpstatus="pullUpStatus">
+			<ul>
+				<BlogDetailCommentList
+					v-for="(item, index) in list"
+					:key="item.commentId"
+					:index="index"
+					:item="item"
+					@agreeit="agreeit"
+				/>
+			</ul>
+			<div slot="empty" class="no-message">
+				<img src="../images/no-data.svg" />
+				<div class="tips">客官，快来评论吧!</div>
 			</div>
-			<div id="ulbottom" />
+		</scroller>
+		<div v-if="moreComment" class="more-comment" @click="toComment">
+			查看更多评论
 		</div>
+		<div class="ulbottom" />
 	</div>
 </template>
 <script lang="ts">
@@ -118,12 +107,10 @@ export default class BlogDetailFooter extends Vue {
 }
 </script>
 <style lang="less" scoped>
-#comment {
-	text-align: left;
+.comment {
 	height: auto;
-	overflow-y: auto;
 
-	#commentitle {
+	.commentitle {
 		border-top: #adadad solid 0.066667rem;
 		border-bottom: #adadad solid 1px;
 		font-size: 0.5rem;
@@ -133,38 +120,35 @@ export default class BlogDetailFooter extends Vue {
 		line-height: 1.066667rem;
 	}
 
-	.commentul {
-		height: auto;
+	.no-message {
 		width: 100%;
-		overflow-x: hidden;
-		overflow-y: auto;
+		padding: 40px 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 
-		.no-message {
-			width: 100%;
-			height: 220px;
-
-			.icon-symbol {
-				fill: #adadad;
-			}
-
-			.tips {
-				text-align: center;
-				font-size: 16px;
-				color: #adadad;
-			}
+		img {
+			height: 50px;
+			width: 50px;
 		}
 
-		.more-comment {
-			height: 60px;
-			line-height: 60px;
-			font-size: 18px;
+		.tips {
+			margin-top: 8px;
+			font-size: 14px;
 			color: #adadad;
-			text-align: center;
 		}
+	}
 
-		#ulbottom {
-			height: 1.2rem;
-		}
+	.more-comment {
+		height: 60px;
+		line-height: 60px;
+		font-size: 18px;
+		color: #adadad;
+		text-align: center;
+	}
+
+	.ulbottom {
+		height: 1.2rem;
 	}
 }
 </style>

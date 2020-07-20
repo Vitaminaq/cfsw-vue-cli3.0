@@ -32,5 +32,6 @@ declare namespace Loader {
 		| 'requesting'
 		| 'success'
 		| 'error'
-		| 'done';
+		| 'done'
+		| 'empty';
 }

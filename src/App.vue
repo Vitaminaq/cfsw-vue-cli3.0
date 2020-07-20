@@ -22,7 +22,7 @@ export default class App extends Vue {}
 	color: #2c3e50;
 	background-color: #fff;
 	margin-top: 0;
-	height: 100%;
+	height: 100vh;
 }
 a {
 	text-decoration: none;

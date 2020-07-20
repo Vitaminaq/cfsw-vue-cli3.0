@@ -3,9 +3,7 @@
 		<div class="list-content">
 			<div class="artic-content">
 				<div class="user-img">
-					<img
-						src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3441742992,2765570575&fm=26&gp=0.jpg"
-					/>
+					<img :src="headImgUrl" />
 				</div>
 				<div class="author">
 					<div class="title">{{ item.title }}</div>
@@ -46,11 +44,11 @@ import config from '@src/config';
 export default class ArticList extends Vue {
 	@Prop({ default: () => {} }) item!: Loader.ListItem;
 
-	get BASE_API() {
+	public get baseApi() {
 		return this.$store.appConfig.BASE_API;
 	}
-	get baseUrl() {
-		return `${this.BASE_API}${this.item.headimg}`;
+	public get headImgUrl() {
+		return `${this.baseApi}${this.item.headimg}`;
 	}
 	get articInfo() {
 		const { msg } = this.item;

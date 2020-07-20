@@ -1,28 +1,11 @@
 <template>
 	<div ref="my_scroll" class="my_scroll">
-		<!-- <down-loading :isShow="isShow" :height="height" /> -->
 		<slot></slot>
-		<see-loading
-			@pullUp="pullUp"
-			:pullUpstatus="pullUpstatus"
-		></see-loading>
-		<div class="operate-btn operate-ctr" @click="toggleBtn">
-			<svg-icon name="operate" />
-		</div>
-		<!-- <transition
-			name="tranAni"
-			enter-active-class="animated fadeIn"
-			leave-active-class="animated fadeOut"
-		>
-			<ul v-show="toggle">
-				<li class="operate-btn refresh-btn" @click="refreshBtn">
-					<svg-icon name="refresh" />
-				</li>
-				<li class="operate-btn back-top-btn" @click="backTopBtn">
-					<svg-icon name="back-top" />
-				</li>
-			</ul>
-		</transition> -->
+		<see-loading @pullUp="pullUp" :pullUpstatus="pullUpstatus">
+			<div slot="empty">
+				<slot name="empty"></slot>
+			</div>
+		</see-loading>
 	</div>
 </template>
 <script lang="ts">
@@ -72,39 +55,9 @@ export default class Scroller extends Vue {
 </script>
 <style lang="less" scoped>
 .my_scroll {
-	height: 100%;
+	max-height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
-	.scroller {
-		height: 100%;
-	}
-	.operate-btn {
-		position: fixed;
-		z-index: 9999;
-		width: 40px;
-		height: 40px;
-		border-radius: 50%;
-		text-align: center;
-		background-color: #ff4700;
-		box-shadow: 1px 1px 5px #adadad, -1px -1px 5px #adadad;
-	}
-	.icon-symbol {
-		width: 26px;
-		height: 26px;
-		margin-top: 7px;
-		fill: #fff;
-	}
-	.operate-ctr {
-		bottom: 72px;
-		right: 20px;
-	}
-	.refresh-btn {
-		bottom: 72px;
-		right: 90px;
-	}
-	.back-top-btn {
-		bottom: 142px;
-		right: 20px;
-	}
+	position: relative;
 }
 </style>

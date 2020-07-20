@@ -12,7 +12,7 @@ export interface StateFromNativeResponse {
 export const getStateFromNative = (r: StateFromNativeResponse, app: Vue) => {
 	console.log('从原生接受到的状态', r);
 	const { token, code } = r;
-	token && setAppState(token);
+	setAppState(token ? token : '');
 	switch (code) {
 		// 正常打开webview
 		case 10000:
@@ -23,7 +23,7 @@ export const getStateFromNative = (r: StateFromNativeResponse, app: Vue) => {
 				message: '状态同步中',
 				callback: async () => {
 					// 刷新页面数据
-					await window.$getInitData();
+					await window.$getInitData(true);
 				}
 			});
 			break;

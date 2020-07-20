@@ -98,6 +98,7 @@ export default class Main extends BaseComponents {
 interface AsyncDataOption {
 	store: Store;
 	route: Route;
+	refresh?: boolean;
 }
 
 declare module 'vue/types/options' {

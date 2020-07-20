@@ -39,7 +39,8 @@ export const getRealUrl = (app: EntryClient) => {
 export const getAsyncData = async (
 	fnName: string,
 	app: EntryClient,
-	to: Route
+	to: Route,
+	refresh?: boolean
 ) => {
 	const { router, store } = app;
 	const matched: any = router.getMatchedComponents(to);
@@ -58,7 +59,7 @@ export const getAsyncData = async (
 	if (!asyncDataHooks.length) return;
 	await Promise.all(
 		asyncDataHooks.map(
-			async (hook: any) => await hook({ store, route: to })
+			async (hook: any) => await hook({ store, route: to, refresh })
 		)
 	);
 };

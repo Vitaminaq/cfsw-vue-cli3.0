@@ -66,21 +66,22 @@ export default class BlogDetailFooter extends Vue {
 	public async commentIt() {
 		if (!this.id) return this;
 		const r = await comment();
-		if (Number(r.code) !== 0) return;
+		if (Number(r.code) !== 0 || !r.data) return;
 		let params = {
 			articId: this.id,
 			msg: r.data
 		};
 		const r1 = await this.getUserComment.api.userComment(params);
 		if (r1.code !== 0) return;
-		this.getUserComment.$updateCommentList({
-			clicknum: 0,
-			commentId: this.getUserComment.commitId + 1,
-			creatAt: Date.now(),
-			isClickComment: false,
-			msg: r.data,
-			uid: 3
-		});
+		this.$store.blog.getUserComment.pullDown();
+		// this.getUserComment.$updateCommentList({
+		// 	clicknum: 0,
+		// 	commentId: this.getUserComment.commitId + 1,
+		// 	creatAt: Date.now(),
+		// 	isClickComment: false,
+		// 	msg: r.data,
+		// 	uid: 3
+		// });
 	}
 	public async agreeAuthors(): Promise<void> {
 		const { id } = this;

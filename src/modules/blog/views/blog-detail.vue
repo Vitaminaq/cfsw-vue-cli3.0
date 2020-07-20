@@ -20,19 +20,25 @@
 				<div class="loading-content"></div>
 			</div>
 			<div v-else class="detail-content">
-				<h1>{{ detailData.title }}</h1>
-				<div class="author">
-					<div class="author-headimg"><img :src="headImg" /></div>
-					<div class="name">{{ detailData.nickname }}</div>
-					<div class="time">
-						{{ timestampToDateTime(Number(detailData.creatAt)) }}
+				<div class="content-top">
+					<h1>{{ detailData.title }}</h1>
+					<div class="author">
+						<div class="author-headimg">
+							<img :src="headImgUrl" />
+						</div>
+						<div class="name">{{ detailData.nickname }}</div>
+						<div class="time">
+							{{
+								timestampToDateTime(Number(detailData.creatAt))
+							}}
+						</div>
 					</div>
+					<div
+						class="artic"
+						v-html="detailData.msg"
+						@click="onOperate"
+					></div>
 				</div>
-				<div
-					class="artic"
-					v-html="detailData.msg"
-					@click="onOperate"
-				></div>
 				<BlogDetailComment />
 				<BlogDetailFooter />
 			</div>
@@ -60,18 +66,10 @@ import {
 		GeneralHeader,
 		BlogDetailFooter
 	},
-	// prefetchData: async ({ store, route }) => {
-	// 	const time = Date.now();
-	// 	if (!isNativeFuncExist()) return;
-	// 	const r = await prefetchData();
-	// 	store.blog.blogDetail.$requestSuccess(r);
-	// 	console.log('原生交互耗时', Date.now() - time);
-	// 	return;
-	// },
-	asyncData: async ({ route, store }) => {
+	asyncData: async ({ route, store, refresh }) => {
 		const time = Date.now();
 		const { blogDetail } = store.blog;
-		if (isNativeFuncExist()) {
+		if (isNativeFuncExist() && !refresh) {
 			const r = await prefetchData();
 			store.blog.blogDetail.$requestSuccess(r);
 			return;
@@ -88,14 +86,19 @@ import {
 })
 export default class BlogDetail extends Vue {
 	headerTitle: string = '微博正文';
-	headImg: string =
-		'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3441742992,2765570575&fm=26&gp=0.jpg';
 
 	public get id(): string | null {
 		return getQueryParams(this.$route.query.id);
 	}
 	public get detailData() {
 		return this.$store.blog.blogDetail.data;
+	}
+	public get baseApi() {
+		return this.$store.appConfig.BASE_API;
+	}
+	public get headImgUrl() {
+		if (!this.detailData) return '';
+		return `${this.baseApi}${this.detailData.headimg}`;
 	}
 
 	public timestampToDateTime(time: number): string | undefined {
@@ -111,8 +114,8 @@ export default class BlogDetail extends Vue {
 
 <style lang="less" scoped>
 .detail {
-	height: 100%;
 	width: 100%;
+	height: 100%;
 	overflow-y: auto;
 	text-align: center;
 	word-wrap: break-word;
@@ -121,13 +124,13 @@ export default class BlogDetail extends Vue {
 
 	.detail-contain {
 		flex: 1;
-		padding: 20px 16px;
 	}
 
 	.blog-loading {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
+		padding: 20px 16px;
 
 		.loading-title {
 			height: 28px;
@@ -171,6 +174,10 @@ export default class BlogDetail extends Vue {
 	.detail-content {
 		text-align: left;
 		height: 100%;
+
+		.content-top {
+			padding: 20px 16px;
+		}
 
 		h1 {
 			margin: 0 auto;

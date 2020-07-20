@@ -28,8 +28,11 @@ export default class BlogDetailCommentList extends Vue {
 	@Prop({ required: true }) public index!: number | string;
 	@Prop({ default: () => {} }) public item!: Detail.ArticDetail.Commentxt;
 
+	public get baseApi() {
+		return this.$store.appConfig.BASE_API;
+	}
 	public get headImgUrl() {
-		return `${''}${this.item.headimg}`;
+		return `${this.baseApi}${this.item.headimg}`;
 	}
 	public get isClicked() {
 		return this.item.isClickComment;

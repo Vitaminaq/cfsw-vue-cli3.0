@@ -104,7 +104,8 @@ export class EntryClient extends Main {
 			console.log('路由');
 			await this.$nextTick();
 			await getAsyncData('asyncData', this, to);
-			window.$getInitData = () => getAsyncData('asyncData', this, to);
+			window.$getInitData = (refresh?: boolean) =>
+				getAsyncData('asyncData', this, to, refresh);
 		});
 	}
 	public onRouteReady() {
@@ -139,7 +140,7 @@ declare global {
 	interface Window {
 		__INITIAL_STATE__: any;
 		app: EntryClient;
-		$getInitData: () => any;
+		$getInitData: (refresh?: boolean) => any;
 	}
 }
 

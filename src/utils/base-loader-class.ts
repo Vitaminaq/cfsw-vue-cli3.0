@@ -85,7 +85,8 @@ export type BaseLoaderRequestStatus =
 	| 'requesting'
 	| 'success'
 	| 'error'
-	| 'done';
+	| 'done'
+	| 'empty';
 export interface BaseLoaderState<I> {
 	params: BaseLoaderParams;
 	list: I[];
@@ -115,17 +116,23 @@ export abstract class BaseLoaderList<
 		return this;
 	}
 	public $pullDownSuccess(res: API.APIBaseResponse<D>) {
-		if (!res || res.code !== 0 || !res.data) {
+		const { code, data } = res;
+		if (!res || code !== 0 || !data) {
 			this.pullDownStatus = 'error';
 			return this;
 		}
-		if (res.data.list.length === this.params.limit) {
+		const len = data.list.length;
+		if (len === this.params.limit) {
 			this.pullDownStatus = 'success';
 			this.params.page++;
 		} else {
-			this.pullUpStatus = 'done';
+			if (!len) {
+				this.pullUpStatus = 'empty';
+			} else {
+				this.pullUpStatus = 'done';
+			}
 		}
-		this.list = [...res.data.list] as I[];
+		this.list = [...data.list] as I[];
 		return this;
 	}
 	public async pullDown(): Promise<this> {
@@ -142,17 +149,23 @@ export abstract class BaseLoaderList<
 		return this;
 	}
 	public $pullUpSuccess(res: API.APIBaseResponse<D>): this {
-		if (!res || res.code !== 0 || !res.data) {
+		const { code, data } = res;
+		if (!res || code !== 0 || !data) {
 			this.pullUpStatus = 'error';
 			return this;
 		}
-		if (res.data.list.length === this.params.limit) {
+		const len = data.list.length;
+		if (len === this.params.limit) {
 			this.pullUpStatus = 'success';
 			this.params.page++;
 		} else {
-			this.pullUpStatus = 'done';
+			if (!this.params.page && !len) {
+				this.pullUpStatus = 'empty';
+			} else {
+				this.pullUpStatus = 'done';
+			}
 		}
-		this.list.push(...res.data.list);
+		this.list.push(...data.list);
 		return this;
 	}
 	public async pullUp(): Promise<this> {
