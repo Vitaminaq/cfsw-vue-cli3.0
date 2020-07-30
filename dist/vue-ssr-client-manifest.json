@@ -2,9 +2,9 @@
   "publicPath": "/",
   "all": [
     "css/app.431a0cc2.css",
-    "css/blog.16432d62.css",
+    "css/blog.ddfbc3ae.css",
     "css/chunk-3290d980.d8fefe00.css",
-    "css/chunk-vendors.28ab8999.css",
+    "css/chunk-vendors.abd0fd1d.css",
     "css/login.9001576a.css",
     "css/register.9dee2995.css",
     "css/reset.29b7927d.css",
@@ -12,33 +12,35 @@
     "img/no-data.4bc28c21.svg",
     "img/share.aec99efa.svg",
     "index.html",
-    "js/app.4591681b.js",
-    "js/blog.12a2da1d.js",
-    "js/chunk-3290d980.d61836f0.js",
-    "js/chunk-vendors.e8caec15.js",
-    "js/login.330d7ad1.js",
-    "js/register.0cacb495.js",
-    "js/reset.d31e8913.js",
+    "js/app.00f4ecc6.js",
+    "js/blog.7360f430.js",
+    "js/chunk-3290d980.a67862d4.js",
+    "js/chunk-vendors.f4ff3b9f.js",
+    "js/example.940029bb.js",
+    "js/login.a4b450ee.js",
+    "js/register.6d981e9a.js",
+    "js/reset.55e98da8.js",
     "manifest.json",
     "robots.txt"
   ],
   "initial": [
-    "css/chunk-vendors.28ab8999.css",
-    "js/chunk-vendors.e8caec15.js",
+    "css/chunk-vendors.abd0fd1d.css",
+    "js/chunk-vendors.f4ff3b9f.js",
     "css/app.431a0cc2.css",
-    "js/app.4591681b.js"
+    "js/app.00f4ecc6.js"
   ],
   "async": [
-    "css/blog.16432d62.css",
+    "css/blog.ddfbc3ae.css",
     "css/chunk-3290d980.d8fefe00.css",
     "css/login.9001576a.css",
     "css/register.9dee2995.css",
     "css/reset.29b7927d.css",
-    "js/blog.12a2da1d.js",
-    "js/chunk-3290d980.d61836f0.js",
-    "js/login.330d7ad1.js",
-    "js/register.0cacb495.js",
-    "js/reset.d31e8913.js"
+    "js/blog.7360f430.js",
+    "js/chunk-3290d980.a67862d4.js",
+    "js/example.940029bb.js",
+    "js/login.a4b450ee.js",
+    "js/register.6d981e9a.js",
+    "js/reset.55e98da8.js"
   ],
   "modules": {
     "12479943": [
@@ -63,6 +65,10 @@
       3,
       14
     ],
+    "3e59906c": [
+      3,
+      14
+    ],
     "8d567cd4": [
       0,
       11
@@ -75,7 +81,7 @@
       2,
       13
     ],
-    "cab05ee2": [
+    "6a7919d7": [
       1,
       12,
       8,
@@ -93,15 +99,15 @@
     ],
     "09901939": [
       4,
-      15
+      16
     ],
     "ab4452be": [
       5,
-      16
+      17
     ],
     "040645c4": [
       6,
-      17
+      18
     ],
     "633318b2": [
       0,
@@ -165,7 +171,7 @@
     ],
     "77c5a7a8": [
       4,
-      15
+      16
     ],
     "54fc068d": [
       3,
@@ -203,12 +209,6 @@
       3,
       14
     ],
-    "c9fdf8d8": [
-      1,
-      12,
-      8,
-      9
-    ],
     "78d5109a": [
       3,
       14
@@ -240,6 +240,9 @@
     "104d7852": [
       0,
       11
+    ],
+    "1812f9b5": [
+      15
     ],
     "10a49ac7": [
       3,
@@ -405,7 +408,7 @@
     ],
     "078fdbc8": [
       6,
-      17
+      18
     ],
     "3a5d402e": [
       1,
@@ -427,6 +430,12 @@
       0,
       11
     ],
+    "6ad24cdc": [
+      1,
+      12,
+      8,
+      9
+    ],
     "c2ba4d5a": [
       3,
       14
@@ -447,7 +456,17 @@
       3,
       14
     ],
+    "7a154d70": [
+      1,
+      12,
+      8,
+      9
+    ],
     "699b83ac": [
+      3,
+      14
+    ],
+    "70ee14d8": [
       3,
       14
     ],
@@ -481,7 +500,7 @@
     ],
     "0cf68ace": [
       6,
-      17
+      18
     ],
     "15d4430c": [
       3,
@@ -541,7 +560,7 @@
     ],
     "55d26ff4": [
       5,
-      16
+      17
     ],
     "56bfad19": [
       3,
@@ -578,6 +597,9 @@
     "0c552342": [
       0,
       11
+    ],
+    "5424a97f": [
+      15
     ],
     "6873d571": [
       0,
@@ -659,7 +681,7 @@
     ],
     "0bdf0df0": [
       6,
-      17
+      18
     ],
     "35610f90": [
       3,
@@ -785,7 +807,7 @@
     ],
     "0d934734": [
       5,
-      16
+      17
     ],
     "8596e3f4": [
       3,
@@ -801,7 +823,7 @@
     ],
     "5670045c": [
       5,
-      16
+      17
     ],
     "68ad1391": [
       3,
@@ -873,12 +895,6 @@
       8,
       9
     ],
-    "19b7e000": [
-      1,
-      12,
-      8,
-      9
-    ],
     "6dc0eea9": [
       3,
       14
@@ -937,7 +953,7 @@
     ],
     "2ddbbfe8": [
       4,
-      15
+      16
     ],
     "d499f4f8": [
       3,
@@ -987,6 +1003,10 @@
       3,
       14
     ],
+    "04fa9047": [
+      0,
+      11
+    ],
     "27c4538e": [
       3,
       14
@@ -1005,7 +1025,7 @@
     ],
     "f51c1cd8": [
       4,
-      15
+      16
     ],
     "d6136706": [
       1,
