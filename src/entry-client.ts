@@ -86,7 +86,6 @@ export class EntryClient extends Main {
 	}
 	// 同步app状态
 	public getSyncAppState(state: StateFromNativeResponse) {
-		console.log(state, 'wwwwwwwwwwwwwwwwwwwww');
 		getStateFromNative(state, this);
 		return state;
 	}
@@ -119,8 +118,8 @@ export class EntryClient extends Main {
 const createApp = () => {
 	const app = new EntryClient();
 	window.app = app;
-	// app.onRouteReady();
-	app.$mount('#app');
+	app.onRouteReady();
+	// app.$mount('#app');
 };
 
 export default createApp();

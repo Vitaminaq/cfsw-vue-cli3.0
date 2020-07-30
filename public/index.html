@@ -36,6 +36,7 @@
 
             function setRemUnit () {
                 var rem = docEl.clientWidth / 10;
+                if (rem > 102.4) rem = 102.4;
                 docEl.style.fontSize = rem + 'px';
             }
 

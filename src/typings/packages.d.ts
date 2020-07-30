@@ -5,3 +5,4 @@ declare module 'vue-lazy-store';
 declare module 'vue-rescroll';
 declare module 'js-cookie';
 declare module '*.js';
+declare module 'vue-audios';

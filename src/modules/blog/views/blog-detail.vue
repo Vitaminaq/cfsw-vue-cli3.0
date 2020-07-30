@@ -106,7 +106,6 @@ export default class BlogDetail extends Vue {
 	}
 	public onOperate(e: any) {
 		if (e.target.tagName.toLowerCase() !== 'img') return;
-		console.log('点击图片');
 		previewImage([e.target.src]);
 	}
 }

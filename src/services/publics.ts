@@ -44,10 +44,11 @@ export const getAsyncData = async (
 ) => {
 	const { router, store } = app;
 	const matched: any = router.getMatchedComponents(to);
-	const activated = matched.filter((c: any, i: any) => {
+	const activated = matched.filter((c: any) => {
 		return (
-			typeof c[fnName] === 'function' ||
-			(c.options && typeof c.options[fnName] === 'function')
+			c &&
+			(typeof c[fnName] === 'function' ||
+				(c.options && typeof c.options[fnName] === 'function'))
 		);
 	});
 	const asyncDataHooks = activated
