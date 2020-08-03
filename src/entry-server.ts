@@ -26,12 +26,20 @@ class EntryServer extends Main {
 			}
 			// 如果等于，则把当前url,push进router中，便于客户端接管
 			router.push(url);
-			context.state = {
-				store: store,
-				appConfig: context.appConfig
-			};
-			// 由于运行于移动端，对seo要求不高，去掉服务端预期逻辑
-			resolve(app);
+
+			router.onReady(() => {
+				context.state = {
+					store: store,
+					appConfig: context.appConfig
+				};
+				resolve(app);
+			});
+			// context.state = {
+			// 	store: store,
+			// 	appConfig: context.appConfig
+			// };
+			// // 由于运行于移动端，对seo要求不高，去掉服务端预期逻辑
+			// resolve(app);
 		});
 	}
 }

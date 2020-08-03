@@ -1,14 +1,14 @@
 import Vue from 'vue';
-import VueLazy from '@src/lib/vue-lazy-store';
+import Store from '@src/lib/vuex-store';
 import Publics from './modules/publics';
 import BaseConfig from '@src/config';
 
-Vue.use(VueLazy);
+Vue.use(Store);
 export interface StoreOptions {
 	appConfig: BaseConfig;
 }
 
-class BaseStore extends VueLazy.Store {
+class BaseStore extends Store {
 	public appConfig: BaseConfig;
 	public publics: Publics;
 

@@ -1,4 +1,5 @@
 import { EntryClient } from '@src/entry-client';
+import Main from '@src/main';
 import { Route } from 'vue-router';
 
 // 获取url后面参数
@@ -38,7 +39,7 @@ export const getRealUrl = (app: EntryClient) => {
  */
 export const getAsyncData = async (
 	fnName: string,
-	app: EntryClient,
+	app: Main,
 	to: Route,
 	refresh?: boolean
 ) => {

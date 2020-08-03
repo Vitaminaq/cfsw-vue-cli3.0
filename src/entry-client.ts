@@ -15,43 +15,10 @@ import {
 
 const options = {
 	showModuleName: true,
-	// 自定义各个图标的class，默认使用的是font-awesome提供的图标
-	// 配置图片模块
-	// config image module
-	// image: {
-	// 	// 文件最大体积，单位字节  max file size
-	// 	sizeLimit: 512 * 1024,
-	// 	// 上传参数,默认把图片转为base64而不上传
-	// 	// upload config,default null and convert image to base64
-	// 	upload: {
-	// 		url: null,
-	// 		headers: {},
-	// 		params: {},
-	// 		fieldName: {}
-	// 	},
-	// 	// 压缩参数,默认使用localResizeIMG进行压缩,设置为null禁止压缩
-	// 	// compression config,default resize image by localResizeIMG (https://github.com/think2011/localResizeIMG)
-	// 	// set null to disable compression
-	// 	compress: {
-	// 		width: 1600,
-	// 		height: 1600,
-	// 		quality: 80
-	// 	},
-	// 	// 响应数据处理,最终返回图片链接
-	// 	// handle response data，return image url
-	// 	// uploadHandler(responseText) {
-	// 	// 	//default accept json data like  {ok:false,msg:"unexpected"} or {ok:true,data:"image url"}
-	// 	// 	var json = JSON.parse(responseText);
-	// 	// 	if (!json.ok) {
-	// 	// 		alert(json.msg);
-	// 	// 	} else {
-	// 	// 		return json.data;
-	// 	// 	}
-	// 	// }
-	// },
 	language: 'zh-cn',
 	hiddenModules: ['full-screen', 'info']
 };
+
 Vue.use(VueRescroll)
 	.use(VueImgLazyLoad)
 	.use(VueHtml5Editor, options)
@@ -62,16 +29,6 @@ Vue.use(VueRescroll)
 		}
 	});
 
-// 客户端渲染时，获取配置对象
-// if (window.__INITIAL_STATE__) {
-// 	window.__INITIAL_STATE__ = {};
-// 	window.__INITIAL_STATE__.appConfig = {
-// 		ENV: 'local',
-// 		BASE_PATH: '/',
-// 		BASE_API: 'http://129.28.167.2:3005'
-// 	};
-// }
-
 export class EntryClient extends Main {
 	public constructor() {
 		super({
@@ -81,6 +38,10 @@ export class EntryClient extends Main {
 		this.getPageData();
 	}
 	public initState() {
+		// const { store } = this;
+		// if (window.__INITIAL_STATE__) {
+		// 	store.replace(window.__INITIAL_STATE__.store);
+		// }
 		// 接管路由
 		getRealUrl(this);
 	}
@@ -115,11 +76,64 @@ export class EntryClient extends Main {
 	}
 }
 
+class A {}
+
+class B extends A {
+	b = 1;
+}
+
+class C extends A {
+	c = 2;
+	c1 = new B();
+
+	$testC() {
+		this.c++;
+	}
+}
+
+class D extends A {
+	d = 3;
+}
+
+class E extends A {
+	public states = {};
+
+	public getState(target: any) {
+		Object.keys(target).forEach((k) => {
+			if (target[k] instanceof A) {
+				(this as any).states[k] = target[k];
+				this.getState(target[k]);
+			}
+		});
+	}
+
+	public init() {
+		this.getState(this);
+		Vue.observable(this);
+	}
+}
+
+class F extends E {
+	public b = new B();
+	public c = new C();
+	public d = new D();
+
+	constructor() {
+		super();
+		this.init();
+	}
+}
+
+const f = new F();
+
+f.c.$testC();
+(f as any).states.c.c++;
+console.log(f);
+
 const createApp = () => {
 	const app = new EntryClient();
 	window.app = app;
 	app.onRouteReady();
-	// app.$mount('#app');
 };
 
 export default createApp();

@@ -31,7 +31,9 @@ export class Store {
 		Object.defineProperty(this, 'path', {
 			enumerable: false
 		});
-		this.listenAction();
+		let prototypes = Object.getPrototypeOf(this);
+		// console.log(prototypes, Object.keys(prototypes), this);
+		// this.listenAction();
 	}
 
 	public mergeOptions(options: any): this {
@@ -90,20 +92,68 @@ export class Store {
 				const fn: any = (this as any)[name];
 				// 把遍历出来的$放入订阅中
 				this.subList.push(name);
-				(this as any)[name] = function(...arg: any[]) {
-					// 往主store触发事件
-					const event = {
-						path: `${this.path}.${name}`,
-						content: arg,
-						time: new Date()
-					}
-					this.commit(event);
-					return fn.apply(this, arg);
-				};
+				// (this as any)[name] = function(...arg: any[]) {
+				// 	// 往主store触发事件
+				// 	const event = {
+				// 		path: `${this.path}.${name}`,
+				// 		content: arg,
+				// 		time: new Date()
+				// 	}
+				// 	this.commit(event);
+				// 	return fn.apply(this, arg);
+				// };
+				const descriptor = getDescriptors(getPrototypes(this, Store.prototype));
+				// console.log(descriptor);
+				// Object.defineProperty(this, name, {
+				// 	...descriptor,
+				// 	value: (...payloads: Array<any>) => {
+				// 		const value = descriptor && descriptor.value.apply(this, payloads);
+				// 			const event = {
+				// 		path: `${this.path}.${name}`,
+				// 		content: payloads,
+				// 		time: new Date()
+				// 	}
+				// 		console.log(event, 'wwwwwwwwwwwwwwwwww');
+				// 		this.commit(event);
+				// 		return value;
+				// 	}
+				// });
 			}
 		});
 	}
 }
+const getPrototypes = (obj: object, target: object): Array<object> => {
+    const prototypes: Array<object> = [];
+    let current: object = obj;
+    while (current !== target) {
+		console.log(current, target);
+        current = Object.getPrototypeOf(current);
+        prototypes.push(current);
+	}
+	console.log('===============================================')
+    return prototypes;
+};
+interface GetOwnPropertyDescriptors {
+    [x: string]: PropertyDescriptor | undefined;
+}
+const getOwnPropertyDescriptors = (obj: object): GetOwnPropertyDescriptors => {
+    const descriptors: GetOwnPropertyDescriptors = {};
+    const names: Array<string> = Object.getOwnPropertyNames(obj);
+    names.forEach(k => {
+        descriptors[k] = Object.getOwnPropertyDescriptor(obj, k);
+    });
+    return descriptors;
+};
+
+const getDescriptors = (prototypes: Array<object>): GetOwnPropertyDescriptors => {
+    const descriptors: GetOwnPropertyDescriptors = {};
+    let i: number = prototypes.length;
+    while (i--) {
+        const prototype: object = prototypes[i];
+        Object.assign<GetOwnPropertyDescriptors, GetOwnPropertyDescriptors>(descriptors, getOwnPropertyDescriptors(prototype));
+    }
+    return descriptors;
+};
 
 export function install(_Vue: VueConstructor<Vue>) {
 	if (localVue && _Vue === localVue) {

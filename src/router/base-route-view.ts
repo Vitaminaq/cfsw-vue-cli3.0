@@ -9,6 +9,8 @@ const registerStoreModule = (store: any, storeModule: any) => {
 			})
 		});
 		store.init();
+		typeof window !== 'undefined' &&
+			store.replace(window.__INITIAL_STATE__.store);
 	}
 };
 

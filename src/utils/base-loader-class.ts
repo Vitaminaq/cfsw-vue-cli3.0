@@ -1,6 +1,6 @@
-import VueLazy from '@src/lib/vue-lazy-store';
+import { StoreModule } from '@src/lib/vuex-store';
 
-export class BaseVueLazy extends VueLazy.Store {}
+export class BaseVueLazy extends StoreModule {}
 
 /**
  * 基本类

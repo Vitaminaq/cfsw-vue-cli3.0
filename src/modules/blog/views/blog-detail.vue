@@ -87,6 +87,17 @@ import {
 export default class BlogDetail extends Vue {
 	headerTitle: string = '微博正文';
 
+	// public async serverPrefetch() {
+	// 	const { id } = this;
+	// 	if (!id) return;
+	// 	const { blogDetail } = this.$store.blog;
+	// 	console.log(blogDetail);
+	// 	blogDetail.$assignParams({
+	// 		id
+	// 	});
+	// 	await blogDetail.loadData();
+	// }
+
 	public get id(): string | null {
 		return getQueryParams(this.$route.query.id);
 	}

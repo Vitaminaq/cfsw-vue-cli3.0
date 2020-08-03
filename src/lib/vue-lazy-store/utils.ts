@@ -56,25 +56,42 @@ export const getObjAllPropertyKey = (
 				obj[key] !== null
 			) {
 				if (/^\$/.test(key)) {
-					const fn: any = obj[key];
-					(obj as any)[key] = function(...arg: any[]) {
-						const str = `${positions}.${key}`;
-						const p = str.slice(1, str.length);
-						const showConsole = showTips && isNotPro;
-						showConsole && console.log('');
-						showConsole && console.log(`当前执行动作： ${p}`);
-						showConsole && console.log(`当前传入参数：`, arg);
-						if (!root.actions) {
-							root.actions = [];
-						}
-						const action = {
-							position: p,
-							params: arg
-						};
-						root.actions.push(action);
-						root.notify(action);
-						return fn.apply(obj, arg);
-					};
+					// const fn: any = obj[key];
+					// (obj as any)[key] = function(...arg: any[]) {
+					// 	const str = `${positions}.${key}`;
+					// 	const p = str.slice(1, str.length);
+					// 	const showConsole = showTips && isNotPro;
+					// 	showConsole && console.log('');
+					// 	showConsole && console.log(`当前执行动作： ${p}`);
+					// 	showConsole && console.log(`当前传入参数：`, arg);
+					// 	if (!root.actions) {
+					// 		root.actions = [];
+					// 	}
+					// 	const action = {
+					// 		position: p,
+					// 		params: arg
+					// 	};
+					// 	root.actions.push(action);
+					// 	root.notify(action);
+					// 	return fn.apply(obj, arg);
+						const descriptor = (Object as any).getOwnPropertyDescriptor(obj[key]);
+						console.log(key, 'yyyyyyyyyyyyyyyy');
+					    Object.defineProperty(obj, key, {
+							...descriptor,
+							value: (...payloads: Array<any>) => {
+								const value = descriptor.value.apply(obj, payloads);
+								const str = `${positions}.${key}`;
+								const p = str.slice(1, str.length);
+								const action = {
+									position: p,
+									params: payloads
+								};
+								console.log(action, 'wwwwwwwwwwwwwwwwww');
+								root.notify(action);
+								return value;
+							}
+						});
+					}
 				}
 				getObjAllPropertyKey(
 					obj[key],
@@ -83,6 +100,5 @@ export const getObjAllPropertyKey = (
 					`${positions}.${key}`
 				);
 			}
-		}
 	}
 };
