@@ -42,6 +42,13 @@ export default class Main extends BaseComponents {
 		this.app = this;
 		this.store = store;
 		this.router = router;
+
+		// // 订阅状态变化
+		// const onChage = (event: any) => {
+		// 	console.log(event);
+		// 	store.list.push(event);
+		// };
+		// store.subscribe(onChage);
 	}
 }
 

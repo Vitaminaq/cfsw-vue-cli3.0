@@ -13,6 +13,8 @@ import {
 	StateFromNativeResponse
 } from '@src/services/native';
 
+import { observe } from '@src/lib/observe/observe';
+
 const options = {
 	showModuleName: true,
 	language: 'zh-cn',
@@ -30,6 +32,8 @@ Vue.use(VueRescroll)
 	});
 
 export class EntryClient extends Main {
+	public _init: boolean = false;
+
 	public constructor() {
 		super({
 			appConfig: window.__INITIAL_STATE__.appConfig || ''
@@ -38,10 +42,6 @@ export class EntryClient extends Main {
 		this.getPageData();
 	}
 	public initState() {
-		// const { store } = this;
-		// if (window.__INITIAL_STATE__) {
-		// 	store.replace(window.__INITIAL_STATE__.store);
-		// }
 		// 接管路由
 		getRealUrl(this);
 	}
@@ -56,6 +56,12 @@ export class EntryClient extends Main {
 			async (to: Route, from: Route, next: () => void) => {
 				console.log('路由解析');
 				await getAsyncData('prefetchData', this, to);
+				if (!this._init) {
+					const { store } = this;
+					if (window.__INITIAL_STATE__) {
+						store.replace(window.__INITIAL_STATE__.store);
+					}
+				}
 				next();
 			}
 		);
@@ -75,60 +81,6 @@ export class EntryClient extends Main {
 		});
 	}
 }
-
-class A {}
-
-class B extends A {
-	b = 1;
-}
-
-class C extends A {
-	c = 2;
-	c1 = new B();
-
-	$testC() {
-		this.c++;
-	}
-}
-
-class D extends A {
-	d = 3;
-}
-
-class E extends A {
-	public states = {};
-
-	public getState(target: any) {
-		Object.keys(target).forEach((k) => {
-			if (target[k] instanceof A) {
-				(this as any).states[k] = target[k];
-				this.getState(target[k]);
-			}
-		});
-	}
-
-	public init() {
-		this.getState(this);
-		Vue.observable(this);
-	}
-}
-
-class F extends E {
-	public b = new B();
-	public c = new C();
-	public d = new D();
-
-	constructor() {
-		super();
-		this.init();
-	}
-}
-
-const f = new F();
-
-f.c.$testC();
-(f as any).states.c.c++;
-console.log(f);
 
 const createApp = () => {
 	const app = new EntryClient();

@@ -67,36 +67,34 @@ import {
 		BlogDetailFooter
 	},
 	asyncData: async ({ route, store, refresh }) => {
-		const time = Date.now();
-		const { blogDetail } = store.blog;
-		if (isNativeFuncExist() && !refresh) {
-			const r = await prefetchData();
-			store.blog.blogDetail.$requestSuccess(r);
-			return;
-		}
-		const id = getQueryParams(route.query.id);
-		if (!id) return;
-		const params: Detail.ArticDetail.RequestParams = {
-			id
-		};
-		blogDetail.$assignParams(params);
-		await blogDetail.loadData();
-		return;
+		// const { blogDetail } = store.blog;
+		// if (isNativeFuncExist() && !refresh) {
+		// 	const r = await prefetchData();
+		// 	store.blog.blogDetail.$requestSuccess(r);
+		// 	return;
+		// }
+		// const id = getQueryParams(route.query.id);
+		// if (!id) return;
+		// const params: Detail.ArticDetail.RequestParams = {
+		// 	id
+		// };
+		// blogDetail.$assignParams(params);
+		// await blogDetail.loadData();
+		// return;
 	}
 })
 export default class BlogDetail extends Vue {
 	headerTitle: string = '微博正文';
 
-	// public async serverPrefetch() {
-	// 	const { id } = this;
-	// 	if (!id) return;
-	// 	const { blogDetail } = this.$store.blog;
-	// 	console.log(blogDetail);
-	// 	blogDetail.$assignParams({
-	// 		id
-	// 	});
-	// 	await blogDetail.loadData();
-	// }
+	public async serverPrefetch() {
+		const { id } = this;
+		if (!id) return;
+		const { blogDetail } = this.$store.blog;
+		blogDetail.$assignParams({
+			id
+		});
+		await blogDetail.loadData();
+	}
 
 	public get id(): string | null {
 		return getQueryParams(this.$route.query.id);

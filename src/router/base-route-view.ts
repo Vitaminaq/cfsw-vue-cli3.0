@@ -8,9 +8,6 @@ const registerStoreModule = (store: any, storeModule: any) => {
 				appConfig: store.appConfig
 			})
 		});
-		store.init();
-		typeof window !== 'undefined' &&
-			store.replace(window.__INITIAL_STATE__.store);
 	}
 };
 

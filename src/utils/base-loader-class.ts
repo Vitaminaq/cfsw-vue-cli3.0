@@ -1,6 +1,6 @@
-import { StoreModule } from '@src/lib/vuex-store';
+import Store from '@src/lib/observe/watcher';
 
-export class BaseVueLazy extends StoreModule {}
+export class BaseVueLazy extends Store {}
 
 /**
  * 基本类

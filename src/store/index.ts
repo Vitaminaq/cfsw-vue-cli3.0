@@ -1,9 +1,10 @@
 import Vue from 'vue';
-import Store from '@src/lib/vuex-store';
+import Store from '@src/lib/observe/store';
 import Publics from './modules/publics';
 import BaseConfig from '@src/config';
 
 Vue.use(Store);
+
 export interface StoreOptions {
 	appConfig: BaseConfig;
 }
@@ -11,6 +12,7 @@ export interface StoreOptions {
 class BaseStore extends Store {
 	public appConfig: BaseConfig;
 	public publics: Publics;
+	public list: any[] = [];
 
 	constructor({ appConfig }: StoreOptions) {
 		super();
@@ -19,6 +21,8 @@ class BaseStore extends Store {
 		this.init();
 	}
 }
+
+// Store.showTips = true;
 
 export default BaseStore;
 
