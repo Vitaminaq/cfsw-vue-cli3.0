@@ -2,7 +2,7 @@
 	<div
 		class="detail"
 		v-rescroll="{
-			name: `detail${$route.query.id}`
+			name: `detail${id}`
 		}"
 	>
 		<general-header
