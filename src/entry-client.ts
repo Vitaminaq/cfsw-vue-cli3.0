@@ -90,6 +90,18 @@ const createApp = () => {
 
 export default createApp();
 
+class A {
+	public options = 1;
+}
+
+class B extends A {
+	constructor() {
+		super();
+	}
+}
+
+console.log(new B().constructor);
+
 if (navigator.serviceWorker && process.env.NODE_ENV === 'production') {
 	navigator.serviceWorker
 		.register('/service-worker.js')

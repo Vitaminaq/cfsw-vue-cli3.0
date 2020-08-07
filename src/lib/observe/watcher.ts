@@ -6,7 +6,7 @@ export default class Watcher {
 
     public constructor() {
         observe(this, Watcher.prototype, (options: DispatchOptions) => {
-            this.dep.notify(options);   
+            this.dep.notify(options);
         });
 
         Object.defineProperty(this, 'dep', {

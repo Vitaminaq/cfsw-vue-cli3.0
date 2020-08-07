@@ -40,7 +40,9 @@
 					></div>
 				</div>
 				<BlogDetailComment />
-				<BlogDetailFooter />
+				<BlogDetailFooter @test.once="() => {}" :aa="1">
+					<div>12345</div>
+				</BlogDetailFooter>
 			</div>
 		</div>
 	</div>
@@ -94,6 +96,10 @@ export default class BlogDetail extends Vue {
 			id
 		});
 		await blogDetail.loadData();
+	}
+
+	public mounted() {
+		console.log(this);
 	}
 
 	public get id(): string | null {

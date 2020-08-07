@@ -18,11 +18,12 @@
 				src="../images/share.svg"
 				@click="toShare"
 			/>
+			<slot />
 		</div>
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import { getQueryParams } from '@src/services/publics';
 import {
@@ -36,6 +37,8 @@ import api from '../api/index';
 
 @Component<BlogDetailFooter>({})
 export default class BlogDetailFooter extends Vue {
+	@Prop({ default: 1 }) aa!: number;
+
 	public hidshow: boolean = true;
 	public commentmsg: string = '';
 	public button: MyButton.Button<MyButton.BtnStyle> = {
@@ -59,6 +62,11 @@ export default class BlogDetailFooter extends Vue {
 	public get detailData() {
 		return this.articDetail.data;
 	}
+
+	public mounted() {
+		console.log(this, process.env.VUE_ENV, 'wwwwwwwwwwwwwwwwwww');
+	}
+
 	public toButtom() {
 		const detailDom = (this as any).$refs.detail;
 		detailDom.scrollTop = detailDom.scrollHeight;
