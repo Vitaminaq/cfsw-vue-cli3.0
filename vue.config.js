@@ -45,10 +45,6 @@ module.exports = {
 				],
 				runtimeCaching: [
 					{
-						urlPattern: '/',
-						handler: 'networkFirst'
-					},
-					{
 						urlPattern: /\/blog\/.*(\?|\&)v=.*/,
 						handler: 'cacheFirst'
 					}
