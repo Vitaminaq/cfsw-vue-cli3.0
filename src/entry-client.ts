@@ -76,59 +76,49 @@ export class EntryClient extends Main {
 	}
 }
 
-class A {}
-
-class B extends A {
-	b = 1;
-}
-
-class C extends A {
-	c = 2;
-	c1 = new B();
-
-	$testC() {
-		this.c++;
+// 深度遍历
+const dep = (target: any, current: any = {}, cache: any[] = []) => {
+	if (typeof target !== 'object' || !target) return target;
+	if (!cache.length) {
+		cache.push(target);
 	}
-}
-
-class D extends A {
-	d = 3;
-}
-
-class E extends A {
-	public states = {};
-
-	public getState(target: any) {
+	if (Array.isArray(target)) {
+		current = [];
+		target.forEach((v: any, i: number) => {
+			if (typeof target[i] !== 'object') {
+				current[i] = target[i];
+			} else {
+				current[i] = dep(target[i], current[i]);
+			}
+		});
+	} else {
 		Object.keys(target).forEach((k) => {
-			if (target[k] instanceof A) {
-				(this as any).states[k] = target[k];
-				this.getState(target[k]);
+			const idx = cache.indexOf(target[k]);
+			if (idx != -1) {
+				current[k] = cache[idx];
+			} else if (typeof target[k] !== 'object') {
+				current[k] = target[k];
+			} else {
+				current[k] = dep(target[k], current[k], cache);
+				cache.push(current[k]);
 			}
 		});
 	}
+	return current;
+};
 
-	public init() {
-		this.getState(this);
-		Vue.observable(this);
+var obj: any = {
+	a: 1,
+	b: 2,
+	c: [1, { c21: 1, c22: [1, 2, { c223: 1 }] }, 3],
+	d: { d1: 1, d2: 2 },
+	e: () => {
+		console.log('函数');
 	}
-}
-
-class F extends E {
-	public b = new B();
-	public c = new C();
-	public d = new D();
-
-	constructor() {
-		super();
-		this.init();
-	}
-}
-
-const f = new F();
-
-f.c.$testC();
-(f as any).states.c.c++;
-console.log(f);
+};
+obj.d.d3 = obj;
+var arr = [1, obj, 3];
+console.log(dep(arr), 'wwwwwwwwwww');
 
 const createApp = () => {
 	const app = new EntryClient();
@@ -154,6 +144,7 @@ declare global {
 		__INITIAL_STATE__: any;
 		app: EntryClient;
 		$getInitData: (refresh?: boolean) => any;
+		uni: any;
 	}
 }
 

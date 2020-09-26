@@ -2,6 +2,10 @@ import { CreateElement } from 'vue';
 
 const ExampleVueAudios = () =>
 	import(/* webpackChunkName: "example" */ '../views/example-vue-audios.vue');
+const ExampleUniWebview = () =>
+	import(
+		/* webpackChunkName: "example" */ '../views/example-uni-webview.vue'
+	);
 
 const RouteView = {
 	render: (h: CreateElement) => h('router-view')
@@ -21,6 +25,11 @@ const routes: Array<RouteConfig> = [
 				path: 'vue-audios',
 				name: 'example-vue-audios',
 				component: ExampleVueAudios
+			},
+			{
+				path: 'uni-webview',
+				name: 'example-uni-webview',
+				component: ExampleUniWebview
 			}
 		]
 	}
