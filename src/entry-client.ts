@@ -76,60 +76,6 @@ export class EntryClient extends Main {
 	}
 }
 
-class A {}
-
-class B extends A {
-	b = 1;
-}
-
-class C extends A {
-	c = 2;
-	c1 = new B();
-
-	$testC() {
-		this.c++;
-	}
-}
-
-class D extends A {
-	d = 3;
-}
-
-class E extends A {
-	public states = {};
-
-	public getState(target: any) {
-		Object.keys(target).forEach((k) => {
-			if (target[k] instanceof A) {
-				(this as any).states[k] = target[k];
-				this.getState(target[k]);
-			}
-		});
-	}
-
-	public init() {
-		this.getState(this);
-		Vue.observable(this);
-	}
-}
-
-class F extends E {
-	public b = new B();
-	public c = new C();
-	public d = new D();
-
-	constructor() {
-		super();
-		this.init();
-	}
-}
-
-const f = new F();
-
-f.c.$testC();
-(f as any).states.c.c++;
-console.log(f);
-
 const createApp = () => {
 	const app = new EntryClient();
 	window.app = app;
