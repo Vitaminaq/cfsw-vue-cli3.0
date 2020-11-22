@@ -112,8 +112,8 @@ export default class BlogDetailFooter extends Vue {
 	padding: 0;
 	height: 50px;
 	line-height: 50px;
-	// prettier-ignore
-	border-top: solid #adadad 1PX;
+	// prettier-ignorew
+	border-top: solid #adadad 1px;
 	background-color: #fff;
 	width: 100%;
 	text-align: left;

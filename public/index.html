@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 预先解析DNS -->
     <!-- <link rel="dns-prefetch" href="www.vitaminaq.com"> -->
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="flexible" content="initial-dpr=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <!-- <meta name="flexible" content="initial-dpr=1" /> -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css"> -->
     <title>{{ title }}</title>
     <script type="text/javascript">
@@ -21,17 +21,18 @@
     <script>
         ; (function flexible (window, document) {
             var docEl = document.documentElement;
-            var dpr = window.devicePixelRatio || 1;
+            // var dpr = window.devicePixelRatio || 1;
+            var dpr = 6;
 
-            function setBodyFontSize () {
-                if (document.body) {
-                    document.body.style.fontSize = (12 * dpr) + 'px';
-                    document.body.classList.add('flexible-ready');
-                } else {
-                    document.addEventListener('DOMContentLoaded', setBodyFontSize);
-                }
-            }
-            setBodyFontSize();
+            // function setBodyFontSize () {
+            //     if (document.body) {
+            //         document.body.style.fontSize = (12 * dpr) + 'px';
+            //         document.body.classList.add('flexible-ready');
+            //     } else {
+            //         document.addEventListener('DOMContentLoaded', setBodyFontSize);
+            //     }
+            // }
+            // setBodyFontSize();
 
             function setRemUnit () {
                 var rem = docEl.clientWidth / 10;
@@ -48,17 +49,17 @@
                 }
             });
 
-            if (dpr >= 2) {
-                var fakeBody = document.createElement('body');
-                var testElement = document.createElement('div');
-                testElement.style.border = '.5px solid transparent';
-                fakeBody.appendChild(testElement);
-                docEl.appendChild(fakeBody);
-                if (testElement.offsetHeight === 1) {
-                    docEl.classList.add('hairlines');
-                }
-                docEl.removeChild(fakeBody);
-            }
+            // if (dpr >= 2) {
+            //     var fakeBody = document.createElement('body');
+            //     var testElement = document.createElement('div');
+            //     testElement.style.border = '.5px solid transparent';
+            //     fakeBody.appendChild(testElement);
+            //     docEl.appendChild(fakeBody);
+            //     if (testElement.offsetHeight === 1) {
+            //         docEl.classList.add('hairlines');
+            //     }
+            //     docEl.removeChild(fakeBody);
+            // }
         }(window, document));
 </script>
 <script src="/svg-sprite.js" crossorigin="anonymous" ></script>
