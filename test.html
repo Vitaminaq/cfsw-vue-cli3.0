@@ -1,0 +1,332 @@
+<html>
+  <head>
+    <title>s</title>
+    <style>
+      .a {
+        float: left;
+        background-color: red;
+        height: 100px;
+        width: 100px;
+      }
+      .b {
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        background-color: blue;
+      }
+    </style>
+    <script>
+      let list = [
+        { id: 1, name: "部门A", parentId: 0 },
+        { id: 2, name: "部门B", parentId: 0 },
+        { id: 3, name: "部门C", parentId: 1 },
+        { id: 4, name: "部门D", parentId: 1 },
+        { id: 5, name: "部门E", parentId: 2 },
+        { id: 6, name: "部门F", parentId: 3 },
+        { id: 7, name: "部门G", parentId: 2 },
+        { id: 8, name: "部门H", parentId: 4 },
+      ];
+
+      function convert(list) {
+        const res = [];
+        let map = {};
+        list.forEach((v) => {
+          map[v.id] = v;
+        });
+        for (const item of list) {
+          if (item.parentId === 0) {
+            res.push(item);
+            continue;
+          }
+          if (item.parentId in map) {
+            const parent = map[item.parentId];
+            parent.children = parent.children || [];
+            parent.children.push(item);
+          }
+        }
+        return res;
+      }
+
+      function findFather(list, targetId, path = []) {
+        const len = list.length;
+        for (let i = 0; i < len; i++) {
+          console.log("w");
+          if (list[i].id === targetId) {
+            path.push(targetId);
+            return path;
+            break;
+          } else if (list[i].children) {
+            path.push(list[i].id);
+            return findFather(list[i].children, targetId, path);
+          }
+        }
+        return;
+      }
+      const data = [
+        {
+          id: "1",
+          name: "test1",
+          children: [
+            {
+              id: "11",
+              name: "test11",
+              children: [
+                {
+                  id: "111",
+                  name: "test111",
+                },
+                {
+                  id: "112",
+                  name: "test112",
+                },
+              ],
+            },
+            {
+              id: "12",
+              name: "test12",
+              children: [
+                {
+                  id: "121",
+                  name: "test121",
+                },
+                {
+                  id: "122",
+                  name: "test122",
+                },
+              ],
+            },
+          ],
+        },
+      ];
+      console.log(findFather(data, "112"));
+
+      const nums1 = [1, 2];
+      const nums2 = [3, 4];
+
+      // 一元七角一分
+      class Money {
+        num = 0;
+        constructor(num) {
+          this.num = num;
+          return this;
+        }
+        static add(val1, val2) {
+          const total = val1 + val2;
+          const arr = total.toString();
+          return `${arr[0]}元${arr[1]}角${arr[2]}分`;
+        }
+        toString() {
+          const arr = this.num.toString();
+          return `${arr[0]}元${arr[1]}角${arr[2]}分`;
+        }
+        valueOf() {
+          return this.num;
+        }
+        add(val) {
+          const total = this.num + val;
+          const arr = total.toString();
+          return `${arr[0]}元${arr[1]}角${arr[2]}分`;
+        }
+      }
+      let one = new Money(120);
+      let two = new Money(51);
+      let three = Money.add(one, two); // 静态方法
+      let four = one.add(two);
+      let five = new Money(one + two);
+      console.log(`${three}, ${four}, ${five}`);
+
+      // 树形结构
+      let list1 = [
+        { id: 1, name: "部门A", parentId: 0 },
+        { id: 2, name: "部门B", parentId: 0 },
+        { id: 3, name: "部门C", parentId: 1 },
+        { id: 4, name: "部门D", parentId: 1 },
+        { id: 5, name: "部门E", parentId: 2 },
+        { id: 6, name: "部门F", parentId: 3 },
+        { id: 7, name: "部门G", parentId: 2 },
+        { id: 8, name: "部门H", parentId: 4 },
+      ];
+      function convert(list) {
+        const map = {};
+        list.forEach((i) => {
+          map[i.id] = i;
+        });
+        const len = list.length;
+        const arr = [];
+        for (let i = 0; i < len; i++) {
+          if (!list[i].parentId) {
+            arr.push(list[i]);
+          } else if (list[i].parentId in map) {
+            if (!map[list[i].parentId].children) {
+              map[list[i].parentId].children = [];
+            }
+            map[list[i].parentId].children.push(list[i]);
+          }
+        }
+        return arr;
+      }
+      console.log(convert(list1));
+
+      // 某数是两数之和
+      function getAddNum(nums, target) {
+        const len = nums.length;
+        let currents = [];
+        for (let i = 0; i < len; i++) {
+          const ot = target - nums[i];
+          const idx = nums.indexOf(ot);
+          if (idx !== -1 && idx !== i) {
+            currents = [nums[i], nums[idx]];
+            break;
+          }
+        }
+        return currents;
+      }
+      console.log(getAddNum([2, 7, 11, 15], 9));
+
+      // 移动零
+      function moveZero(nums) {
+        const len = nums.length;
+        let i = 0;
+        while (i < nums.length) {
+          if (!nums[i]) {
+            nums.splice(i, 1);
+          } else {
+            i++;
+          }
+        }
+        while (len - i) {
+          nums.push(0);
+          i++;
+        }
+        return nums;
+      }
+      console.log(moveZero([0, 0, 1, 0, 3, 12]));
+
+      // 累加
+      function add(...arg) {
+        let a = arg.reduce((total, current) => total + current, 0);
+        function nums(...n) {
+          a = a + n.reduce((total, current) => total + current, 0);
+          return nums;
+        }
+        nums.toString = function () {
+          return a;
+        };
+        return nums;
+      }
+      console.log(add(1)); // 1
+      console.log(add(1)(2)); // 3
+      console.log(add(1)(2)(3)); // 6
+      console.log(add(1)(2, 3)); // 6
+      console.log(add(1, 2)(3)); // 6
+      console.log(add(1, 2, 3)); // 6
+
+      // 手写bind
+      function _bind(target, ...arg) {
+        const self = this;
+        return (...arg1) => {
+          return self.apply(target, arg.concat(arg1));
+        };
+      }
+      // 柯里化
+      function curry(fn, length) {
+        const len = length || fn.length;
+        return function (...args) {
+          return arg.length >= length
+            ? fn.apply(this, args)
+            : curry(fn.bind(this, ...args), length - args.length);
+        };
+      }
+      // 柯里化-es6
+      const currying = (fn) =>
+        (judeg = (...args) =>
+          args.length >= fn.length
+            ? judeg(...args)
+            : (...args1) => judeg(...args, ...args1));
+      // 手写call
+      function _call(target, ...arg) {
+        if (!target) {
+          target = window;
+        }
+        target.fn = this;
+        const r = target.fn(...arg);
+        delete target.fn;
+        return r;
+      }
+      // 快速排序
+      function quicksort(arr) {
+        const len = arr.length;
+        if (len < 2) return arr;
+        const mid = arr.splice(Math.floor(len / 2), 1);
+        let left = [];
+        let right = [];
+        const rlen = arr.length;
+        for (let i = 0; i < rlen; i++) {
+          if (arr[i] < mid) {
+            left.push(arr[i]);
+          } else {
+            right.push(arr[i]);
+          }
+        }
+        const lefts = quicksort(left);
+        Array.prototype.push.call(lefts, ...mid, ...quicksort(right));
+        return lefts;
+      }
+      console.log(quicksort([1, 8, 3, 6, 9, 4, 5, 77, 12]));
+
+      // 链式相加
+      var getNum = (node) => {
+        const arr = [];
+        let current = node;
+        while (current !== -1) {
+          arr.push(current.val);
+          current = current.next || -1;
+        }
+        return +arr.reverse().join('');
+      };
+      function ListNode(val) {
+        this.val = val;
+        this.next = null;
+      }
+      var addTwoNumbers = function (l1, l2) {
+        const num1 = getNum(l1);
+        const num2 = getNum(l2);
+        const total = num1 + num2;
+        const arr = total.toString().split("").reverse();
+        const len = arr.length;
+        let i = 1;
+        const target = new ListNode(arr[0]);
+        let current = target;
+        while (i < len) {
+          current.next = new ListNode(arr[i]);
+          current = current.next;
+          i++;
+        }
+        return target;
+      };
+      console.log(addTwoNumbers({
+        val: 2,
+        next: {
+          val: 4,
+          next: {
+            val: 3,
+            next: null
+          }
+        }
+      }, {
+        val: 5,
+        next: {
+          val: 6,
+          next: {
+            val: 4,
+            next: null
+          }
+        }
+      }))
+    </script>
+  </head>
+  <body>
+    <div class="a"></div>
+    <div class="b"></div>
+  </body>
+</html>
