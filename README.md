@@ -5,6 +5,7 @@
  * 基于vue-cli 3.0的ssr(服务端渲染)位于[ssr-vue-cli-3.0](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/ssr-vue-cli-3.0)分支
  * 基于vue-cli 3.0的静态节点ssr(服务端渲染)，以及混合开发优化位于[ssr-no-prefetch-modules](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/ssr-no-prefetch-modules)分支
  * 基于flutter的移动app重构,请移步[flutter-cfsw](https://github.com/Vitaminaq/flutter-cfsw)。
+ * 基于vue 3.0的重构，请移步[vue-3.0](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/vue-3.0)。
 ## Build Setup
 项目正在开发中，界面没怎么设计，随便撸了下，欢迎大家加入讨论。
 
