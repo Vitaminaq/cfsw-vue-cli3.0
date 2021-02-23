@@ -1,7 +1,9 @@
-import { BaseAxios } from '.';
+import axios from '.';
 
-export default class RegisterApi extends BaseAxios {
-	userRegister(params: Register.RequestParams): Promise<Register.Response> {
-		return this.axios.post(`/api/user/register`, params);
+export default class RegisterApi {
+	public userRegister(
+		params: Register.RequestParams
+	): Promise<Register.Response> {
+		return axios.post(`/api/user/register`, params);
 	}
 }

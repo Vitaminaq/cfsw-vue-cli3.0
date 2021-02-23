@@ -1,7 +1,7 @@
 declare namespace API.Login {
 	export namespace UserHeaderImg {
 		export interface RequestParams {
-			nickname: string | string[];
+			nickname: string;
 		}
 		export interface Data {
 			headimg: string;
@@ -11,7 +11,7 @@ declare namespace API.Login {
 	}
 	export namespace UserLogin {
 		export interface RequestParams {
-			nickname: string | string[];
+			nickname: string;
 			password: string;
 		}
 		export interface Data {

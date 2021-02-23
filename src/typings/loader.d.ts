@@ -17,6 +17,8 @@ declare namespace Loader {
 		title: string;
 		viewnum: number;
 		headimg: string;
+		commentId: string;
+		isClickComment: boolean;
 	}
 	export interface Data {
 		list: Array<ListItem>;
@@ -32,5 +34,6 @@ declare namespace Loader {
 		| 'requesting'
 		| 'success'
 		| 'error'
-		| 'done';
+		| 'done'
+		| 'empty';
 }

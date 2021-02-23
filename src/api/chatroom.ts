@@ -1,12 +1,12 @@
-import { BaseAxios } from '@src/api/index';
+import axios from '@src/api/index';
 
-export default class ChatRoomApi extends BaseAxios {
-	getArtic(params: Loader.RequestParams): Promise<Loader.Response> {
-		return this.axios.get(`/api/user/chatroom`, params);
+export default class ChatRoomApi {
+	public getArtic(params: Loader.RequestParams): Promise<Loader.Response> {
+		return axios.get(`/api/user/chatroom`, params);
 	}
-	saveView(
+	public saveView(
 		params: ChatRoom.View.RequestParams
 	): Promise<ChatRoom.View.Response> {
-		return this.axios.post(`/api/user/view`, params);
+		return axios.post(`/api/user/view`, params);
 	}
 }

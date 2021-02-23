@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<header>
-			<router-link to="" event="[]" @click.native="back">
+			<router-link to="" event="[]" @click="back">
 				<svg-icon name="back" />
 			</router-link>
 			<span class="title">{{ headerTitle }}</span>
@@ -12,22 +12,35 @@
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { defineComponent } from 'vue';
+import { webviewBack, isNativeFuncExist } from '@src/utils/native-methods';
 
-@Component
-export default class GeneralHeader extends Vue {
-	@Prop({ default: '' }) headerTitle!: string;
-	@Prop({ default: '' }) backPathName!: string;
-
-	get hasBtn() {
-		return !!this.$slots.btn;
-	}
-
-	back() {
+export default defineComponent({
+	// @Prop({ default: '' }) headerTitle!: string;
+	// @Prop({ default: '' }) backPathName!: string;
+	props: {
+        headerTitle: {
+			type: String,
+			default: ''
+		},
+		backPathName: {
+			type: String,
+			default: ''
+		},
+	},
+    computed: {
+		hasBtn(): boolean {
+			return !!this.$slots.btn;
+		}
+	},
+	methods: {
+		back() {
+		if (isNativeFuncExist()) return webviewBack();
 		if (!this.backPathName) return this.$router.go(-1);
 		return this.$router.push({ name: this.backPathName });
+	    }
 	}
-}
+})
 </script>
 <style lang="less" scoped>
 .empty {

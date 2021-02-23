@@ -1,7 +1,7 @@
 declare namespace API {
 	export interface APIBaseResponse<D> {
 		code: number;
-		data: D;
+		data: D | null;
 	}
 	export interface APIBaseStoreState<P, D> {
 		params: P;

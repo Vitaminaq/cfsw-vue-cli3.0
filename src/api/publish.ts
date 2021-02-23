@@ -1,7 +1,9 @@
-import { BaseAxios } from '.';
+import axios from '.';
 
-export default class PublishApi extends BaseAxios {
-	userPublish(params: Publish.RequestParams): Promise<Publish.Response> {
-		return this.axios.post(`/api/user/publish`, params);
+export default class PublishApi {
+	public userPublish(
+		params: Publish.RequestParams
+	): Promise<Publish.Response> {
+		return axios.post(`/api/user/publish`, params);
 	}
 }

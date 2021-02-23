@@ -1,7 +1,7 @@
-import { BaseAxios } from '.';
+import axios from '.';
 
-export default class ResetApi extends BaseAxios {
-	userReset(params: Reset.RequestParams): Promise<Reset.Response> {
-		return this.axios.post('/api/user/reset', params);
+export default class ResetApi {
+	public userReset(params: Reset.RequestParams): Promise<Reset.Response> {
+		return axios.post('/api/user/reset', params);
 	}
 }

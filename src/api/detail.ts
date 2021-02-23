@@ -1,27 +1,27 @@
-import { BaseAxios } from '.';
+import axios from '.';
 
-export default class DetailApi extends BaseAxios {
-	getDetail(
+export default class DetailApi {
+	public getDetail(
 		params: Detail.ArticDetail.RequestParams
 	): Promise<Detail.ArticDetail.Response> {
-		return this.axios.post('/api/user/detail', params);
+		return axios.post('/api/user/detail', params);
 	}
-	getUserComment(params: any) {
-		return this.axios.get('/api/user/artic/comments', params);
+	public getUserComment(params: any) {
+		return axios.get('/api/user/artic/comments', params);
 	}
-	userComment(
+	public userComment(
 		params: Detail.UserComment.RequestParams
 	): Promise<Detail.UserComment.Response> {
-		return this.axios.post('/api/user/comment', params);
+		return axios.post('/api/user/comment', params);
 	}
-	agreeAuthor(
+	public agreeAuthor(
 		params: Detail.AgreeAuthor.RequestParams
 	): Promise<Detail.AgreeAuthor.Response> {
-		return this.axios.post('/api/user/agree/artic', params);
+		return axios.post('/api/user/agree/artic', params);
 	}
-	agreeComment(
+	public agreeComment(
 		params: Detail.AgreeComment.RequestParams
 	): Promise<Detail.AgreeComment.Response> {
-		return this.axios.post('/api/user/agree/comment', params);
+		return axios.post('/api/user/agree/comment', params);
 	}
 }

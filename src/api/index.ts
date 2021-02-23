@@ -1,18 +1,13 @@
-import LocalAxios from '@src/common/http';
-
-class BaseAxios {
-	axios: Axios;
-	constructor() {
-		this.axios = new Axios();
-	}
-}
+import LocalAxios from '@src/utils/local-axios';
 
 class Axios extends LocalAxios {
-	post(url: string, params: any) {
+	public post(url: string, params?: any): any {
 		return this.axios.post(url, params);
 	}
-	get(url: string, params: any) {
+	public get(url: string, params?: any): any {
 		return this.axios.get(url, { params });
 	}
 }
-export { BaseAxios, Axios };
+
+// 纯客户端渲染跑单例模式
+export default new Axios();
