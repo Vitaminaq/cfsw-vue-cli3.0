@@ -16,6 +16,7 @@
     "@wefly/vue-store-next": "^1.0.1",
     "@wefly/vue-virtual-scroller": "^1.0.5",
     "axios": "^0.21.0",
+    "ip": "^1.1.5",
     "serialize-javascript": "^5.0.1",
     "vue": "^3.0.5",
     "vue-router": "^4.0.4"

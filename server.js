@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const express = require('express')
 const serialize = require('serialize-javascript');
+const ip = require('ip');
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
 
@@ -86,7 +87,8 @@ async function createServer(
 if (!isTest) {
   createServer().then(({ app }) =>
     app.listen(3000, () => {
-      console.log('http://localhost:3000')
+      console.log('http://localhost:3000');
+      console.log(`http://${ip.address()}:3000`);
     })
   )
 }
