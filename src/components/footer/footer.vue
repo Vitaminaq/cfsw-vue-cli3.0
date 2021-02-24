@@ -7,7 +7,7 @@
 				:to="{ name: item.toPathName }"
 				:class="nowRouter !== item.toPathName ? 'leave' : ''"
 			>
-				<!-- <svg-icon :name="item.name" /> -->
+				{{ item.name }}
 			</router-link>
 		</div>
 	</footer>

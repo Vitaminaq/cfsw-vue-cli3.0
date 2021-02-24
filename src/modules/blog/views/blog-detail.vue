@@ -2,10 +2,10 @@
 	<div
 		class="detail"
 	>
-		<!-- <general-header
-			:header-title="headerTitle"
-			back-path-name="blog-home"
-		/> -->
+		<HeaderGeneral
+			headerTitle="微博正文"
+			backPathName="blog-home"
+		/>
 		<div class="detail-contain">
 			<div v-if="!detailData" class="blog-loading">
 				<div class="loading-title"></div>
@@ -44,7 +44,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-// import HeaderGeneral from '@src/components/header/header-general.vue';
+import HeaderGeneral from '@src/components/header/general-header.vue';
 // import BlogCommentList from '../components/blog-comment-list.vue';
 // import BlogDetailFooter from '../components/blog-detail-footer.vue';
 
@@ -63,7 +63,7 @@ import { BlogDetail } from '../store/index';
 export default defineComponent({
 	name: 'blog-detail',
 	components: {
-		// HeaderGeneral,
+		HeaderGeneral,
 		// BlogCommentList,
 		// BlogDetailFooter
 	},
