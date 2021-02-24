@@ -82,14 +82,14 @@ export default defineComponent({
 			return `${config.baseURL}${this.detailData.headimg}`;
 		}
     },
-    async serverPrefetch() {
-        // 获取文章详情
-        const { id = 0 } = this;
-        this.blogDetail.$assignParams({
-            id
+	async asyncData({ store, router }: any) {
+		if (!store.blog) return;
+		const { blogDetail } = store.blog;
+        blogDetail.$assignParams({
+            id: router.query.id
         })
-        await this.blogDetail.loadData();
-    },
+        await blogDetail.loadData();
+	},
 	methods: {
 		onOperate(e: any) {
 			if (e.target.tagName.toLowerCase() !== 'img') return;

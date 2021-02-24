@@ -52,6 +52,7 @@ async function createServer(
 
       let template, render
       if (!isProd) {
+        console.log('当前请求路径', url);
         // always read fresh template in dev
         template = fs.readFileSync(resolve('index.html'), 'utf-8')
         template = await vite.transformIndexHtml(url, template)

@@ -1,7 +1,8 @@
 import App from './App.vue'
 import { createSSRApp } from 'vue'
 import { createRouter } from './router';
-import Store from './store';
+import Store, { BaseStore } from './store';
+import { Router } from 'vue-router';
 
 // SSR requires a fresh app instance per request, therefore we export a function
 // that creates a fresh app instance. If using Vuex, we'd also be creating a
@@ -18,5 +19,21 @@ export function createApp() {
 declare global {
 	interface Window {
 		__INIT_STATE__: Store;
+	}
+}
+
+interface DefinedOption {
+  router: Router;
+  store: BaseStore
+}
+
+declare module '@vue/runtime-core' {
+  export interface ComponentCustomOptions {
+    asyncData?: (option: DefinedOption) => void;
+    registerModule?: (option: DefinedOption) => void;
+  }
+  export interface ComponentCustomProperties {
+		asyncData?: (option: DefinedOption) => void;
+    registerModule?: (option: DefinedOption) => void;
 	}
 }
