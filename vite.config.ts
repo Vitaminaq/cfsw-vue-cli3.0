@@ -1,12 +1,11 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx';
 import path from 'path';
-import postcssPx2rem from 'postcss-px2rem';
+// import postcssPx2rem from 'postcss-px2rem';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(),vueJsx()],
+  plugins: [vue()],
   resolve: {
     alias: {
       '@src': path.resolve(__dirname, './src')
@@ -19,8 +18,4 @@ export default defineConfig({
   //     ]
   //   },
 	// },
-  esbuild: {
-    jsxFactory: 'h',
-    jsxFragment: 'Fragment'
-  }
 })
