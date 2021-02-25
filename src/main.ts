@@ -1,17 +1,19 @@
 import App from './App.vue'
-import { createSSRApp } from 'vue'
+import { createSSRApp, App as APP } from 'vue'
 import { createRouter } from './router';
 import Store, { BaseStore } from './store';
 import { Router } from 'vue-router';
 
 export function createApp() {
-  const app = createSSRApp(App);
+  const app: APP = createSSRApp(App);
   const router = createRouter();
   const store = new Store();
 
   app.use(router).use(store);
   return { app, router, store };
 }
+
+
 
 declare global {
 	interface Window {

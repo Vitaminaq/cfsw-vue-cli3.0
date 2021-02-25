@@ -29,9 +29,9 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/entry-client.js",
+    "src/entry-client.ts",
     "src/lib/vue-virtual-scroller/index.js"
-, "src/entry-server.js"  ],
+, "src/entry-server.ts"  ],
   "exclude": [
     "node_modules"
   ]

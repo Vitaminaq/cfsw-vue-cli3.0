@@ -14,3 +14,4 @@ router.isReady().then(() => {
 router.afterEach(() => {
   getAsyncData(router, store, false);
 })
+

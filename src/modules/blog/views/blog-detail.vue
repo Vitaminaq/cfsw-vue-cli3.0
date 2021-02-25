@@ -1,6 +1,10 @@
 <template>
 	<div
 		class="detail"
+		v-rescroll="{
+			name: `detail${$route.query.id}`,
+			storageMode: 'localstorage'
+		}"
 	>
 		<HeaderGeneral
 			headerTitle="微博正文"

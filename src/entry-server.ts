@@ -3,7 +3,7 @@ import { renderToString } from "@vue/server-renderer";
 
 import { getAsyncData } from '@src/utils/publics';
 
-export async function render(url, manifest) {
+export async function render(url: string, manifest: any) {
   const { app, router, store } = createApp();
 
   // 同步url
@@ -13,7 +13,7 @@ export async function render(url, manifest) {
   await getAsyncData(router, store, true);
 
   // 生成html字符串
-  const ctx = {};
+  const ctx: any = {};
   const html = await renderToString(app, ctx);
 
   // 生成资源预取数组
@@ -23,14 +23,14 @@ export async function render(url, manifest) {
   return [html, preloadLinks, store];
 }
 
-function renderPreloadLinks(modules, manifest) {
+function renderPreloadLinks(modules: any, manifest: any) {
   let links = "";
   const seen = new Set();
-  modules.forEach((id) => {
+  modules.forEach((id: string) => {
     const files = manifest[id];
 
     if (files) {
-      files.forEach((file) => {
+      files.forEach((file: string) => {
         if (!seen.has(file)) {
           seen.add(file);
           links += renderPreloadLink(file);
@@ -41,7 +41,7 @@ function renderPreloadLinks(modules, manifest) {
   return links;
 }
 
-function renderPreloadLink(file) {
+function renderPreloadLink(file: string) {
   if (file.endsWith(".js")) {
     return `<link rel="modulepreload" crossorigin href="${file}">`;
   } else if (file.endsWith(".css")) {
