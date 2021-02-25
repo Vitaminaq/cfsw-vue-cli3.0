@@ -4,6 +4,7 @@
 			<div class="artic-content">
 				<div class="user-img">
 					<img
+					    v-img-lazy-load
 						src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=984172228,2724665722&fm=26&gp=0.jpg"
 					/>
 				</div>
