@@ -66,7 +66,7 @@ async function createServer(
 
       const [appHtml, preloadLinks, store] = await render(url, manifest)
 
-      const state =  ("<script>window.__INIT_STATE__" + "=" + serialize(store, {isJSON: true}) + "</script>");
+      const state =  ("<script>window.__INIT_STATE__=" + serialize(store, {isJSON: true}) + "</script>");
 
       const html = template
         .replace(`<!--preload-links-->`, preloadLinks)

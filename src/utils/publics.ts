@@ -67,7 +67,7 @@ export const getAsyncData = (
   isServer: boolean
 ): Promise<void> => {
   return new Promise(async (resolve) => {
-    const { matched, fullPath } = router.currentRoute.value;
+    const { matched, fullPath, query } = router.currentRoute.value;
 
     // 当前组件
     const components: Component[] = matched.map((i) => {
@@ -76,11 +76,13 @@ export const getAsyncData = (
     // 动态注册store
     registerModules(components, router, store);
 
-    if (isServer || store.ssrPath !== fullPath) {
+    const { prefetchData: isPrefetch } = query;
+
       // 预取数据
+    if ((isServer && Number(isPrefetch)) || (!isServer && !Number(isPrefetch))) {
       await prefetchData(components, router, store);
-      !isServer && store.$setSsrPath("");
     }
+    !isServer && (store.ssrPath !== fullPath) && store.$setSsrPath("");
 
     resolve();
   });

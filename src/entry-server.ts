@@ -8,8 +8,12 @@ export async function render(url: string, manifest: any) {
 
   // 同步url
   router.push(url);
-  store.$setSsrPath(url);
+
+  // 根据参数决定是否需要预取数据
   await router.isReady();
+  const { prefetchData } = router.currentRoute.value.query;
+  // 根据参数决定是否需要预取数据
+  Number(prefetchData) && store.$setSsrPath(url);
   await getAsyncData(router, store, true);
 
   // 生成html字符串
