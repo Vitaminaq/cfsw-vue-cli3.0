@@ -1,4 +1,4 @@
-import { h, render, createVNode, VNode } from 'vue';
+import { render, createVNode, VNode } from 'vue';
 import ImagePreview from './image-preview.vue';
 
 export default (src: string) => {
