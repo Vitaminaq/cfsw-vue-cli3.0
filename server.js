@@ -42,18 +42,30 @@ async function createServer(
     app.use(require('compression')())
     app.use(
       require('serve-static')(resolve('dist/client'), {
-        index: false
+        index: false,
+        'setHeaders': (res) => {
+          res.setHeader('Cache-Control', 'public,max-age=60'); // 1000 * 60 * 60 * 24 * 30
+        }
       })
     )
   }
 
+  // 响应拦截
+  const routeCache = require('route-cache');
+  app.use(
+    routeCache.cacheSeconds(60, (req) => {
+      const { v } = req.query;
+      console.log('命中缓存', req.path, v, v && `${req.path}${v}`);
+      return v && `${req.path}${v}`;
+    })
+  );
   app.use('*', async (req, res) => {
     try {
       const url = req.originalUrl
+      console.log('当前请求路径', url);
 
       let template, render
       if (!isProd) {
-        console.log('当前请求路径', url);
         // always read fresh template in dev
         template = fs.readFileSync(resolve('index.html'), 'utf-8')
         template = await vite.transformIndexHtml(url, template)
@@ -73,6 +85,7 @@ async function createServer(
         .replace(`<!--app-html-->`, appHtml)
         .replace(`<!--app-store-->`, state)
 
+      console.log('渲染');
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       vite && vite.ssrFixStacktrace(e)

@@ -6,7 +6,7 @@ import { getRealUrl } from '@src/services/publics';
 
 const { app, router, store } = createApp()
 
-// 接管路由-替换参数,适用于静态ssr
+// 接管路由-替换参数
 getRealUrl(router);
 
 // 挂载节点
