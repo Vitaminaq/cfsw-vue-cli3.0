@@ -52,9 +52,9 @@ async function createServer(
     const routeCache = require("route-cache");
     app.use(
       routeCache.cacheSeconds(60, (req) => {
-        const { v } = req.query;
-        console.log("命中缓存", v && `${req.path}${v}`);
-        return v && `${req.path}${v}`;
+        const { v, prefetchData } = req.query;
+        // 预取数据模式不做缓存
+        return !Number(prefetchData) && v && `${req.path}${v}`;
       })
     );
   }
@@ -85,8 +85,8 @@ async function createServer(
         .replace(`<!--preload-links-->`, preloadLinks)
         .replace(`<!--app-html-->`, appHtml)
         .replace(`<!--app-store-->`, state);
-
-      res.status(200).set({ "Content-Type": "text/html" }).send(html);
+      // 禁用send的弱缓存
+      res.status(200).set({ "Content-Type": "text/html", "Cache-Control": "no-cache" }).send(html);
     } catch (e) {
       vite && vite.ssrFixStacktrace(e);
       console.log(e.stack);

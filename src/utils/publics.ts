@@ -17,7 +17,7 @@ export const replaceStore = (store: BaseStore) => {
     window.__INIT_STATE__.subList.forEach((item) => {
       const paths = item.path.split(".");
       let target: any = store;
-	  const len = paths.length - 1;
+	    const len = paths.length - 1;
       paths.slice(0, len).forEach((key) => {
         if (!key) return;
         target = target[key];
@@ -27,7 +27,7 @@ export const replaceStore = (store: BaseStore) => {
       }
       target[paths[len]](...item.params);
     });
-	window.__INIT_STATE__.subList = [];
+	  window.__INIT_STATE__.subList = [];
   }
 };
 
