@@ -11,3 +11,6 @@ const configs = {
 };
 
 export const config = configs['production'];
+
+// 是否为csr模式
+export const isCsr = /csr$/.test(import.meta.env.MODE);

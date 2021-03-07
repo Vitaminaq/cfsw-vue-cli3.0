@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "node server",
+    "dev:static": "vite --mode development-csr",
+    "build:static": "vite build --mode production-csr --base /cfsw/",
     "build": "vuedx-typecheck . && yarn build:client && yarn build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.ts --outDir dist/server",
     "generate": "vite build --ssrManifest --outDir dist/static && yarn build:server && node prerender",
     "serve": "cross-env NODE_ENV=production node server",
+    "serve:static": "cross-env NODE_ENV=csr node server-static",
     "debug": "node --inspect-brk server"
   },
   "dependencies": {

@@ -8,7 +8,6 @@ import {
 const Index = () => import('../views/index.vue');
 const pages = import.meta.globEager('../modules/*/router/**');
 
-// console.log(pages, Index, 'wwwwwwwwwwwwwwwwwwwwwwwwwwww');
 
 const routes: RouteRecordRaw[] = [{
 	path: '/',
@@ -20,13 +19,15 @@ Object.keys(pages).map((path) => {
 	Array.prototype.push.apply(routes, pages[path].default);
 });
 
-// console.log(routes, 'ccccccccccccccccccccccccccc');
+const baseUrl = import.meta.env.BASE_URL || '/';
+
+console.log(baseUrl, 'oooooooooooooooooooooooooooooooooooooo');
 
 export function createRouter() {
 	return _createRouter({
 		// use appropriate history implementation for server/client
 		// import.meta.env.SSR is injected by Vite.
-		history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
+		history: import.meta.env.SSR ? createMemoryHistory(baseUrl) : createWebHistory(baseUrl),
 		routes
 	})
 }
