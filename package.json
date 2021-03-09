@@ -11,6 +11,9 @@
     "generate": "vite build --ssrManifest --outDir dist/static && yarn build:server && node prerender",
     "serve": "cross-env NODE_ENV=production node server",
     "serve:static": "cross-env NODE_ENV=csr node server-static",
+    "deploy": "tcb framework deploy",
+    "deploy:client": "tcb framework deploy client",
+    "deploy:server": "tcb framework deploy server",
     "debug": "node --inspect-brk server"
   },
   "dependencies": {

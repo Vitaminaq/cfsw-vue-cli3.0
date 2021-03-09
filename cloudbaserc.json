@@ -1,3 +1,50 @@
 {
-    "envId": "xpf001-8gaixw4t74f34ccb"
-}
+    "version": "2.0",
+    "envId": "xpf001-8gaixw4t74f34ccb",
+    "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
+    "functionRoot": "cloudfunctions",
+    "framework": {
+      "name": "cfsw",
+      "hooks": {
+        "preDeploy": {
+          "type": "execCommand",
+          "commands": [
+            "npm install"
+          ]
+        }
+      },
+      "plugins": {
+        "client": {
+          "use": "@cloudbase/framework-plugin-website",
+          "inputs": {
+            "buildCommand": "npm run build",
+            "outputPath": "dist",
+            "cloudPath": "/cfsw",
+            "envVariables": {
+              "VUE_APP_ENV_ID": "{{env.ENV_ID}}"
+            }
+          }
+        },
+        "server": {
+          "use": "@cloudbase/framework-plugin-node",
+          "inputs": {
+            "entry": "server.js",
+            "path": "/",
+            "name": "nodeapp"
+          }
+        },
+        "auth": {
+          "use": "@cloudbase/framework-plugin-auth",
+          "inputs": {
+            "configs": [
+              {
+                "platform": "NONLOGIN",
+                "status": "ENABLE"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+  
