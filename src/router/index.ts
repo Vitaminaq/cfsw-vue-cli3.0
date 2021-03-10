@@ -21,8 +21,6 @@ Object.keys(pages).map((path) => {
 
 const baseUrl = import.meta.env.BASE_URL || '/';
 
-console.log(baseUrl, 'oooooooooooooooooooooooooooooooooooooo');
-
 export function createRouter() {
 	return _createRouter({
 		// use appropriate history implementation for server/client

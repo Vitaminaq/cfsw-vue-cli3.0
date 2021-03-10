@@ -12,6 +12,7 @@ export const ssrTransformCustomDir = () => {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/cfsw',
   plugins: [vue(
     {
     template: {
@@ -29,9 +30,6 @@ export default defineConfig({
     alias: {
       '@src': path.resolve(__dirname, './src')
     }
-  },
-  build: {
-    assetsDir: 'client'
   },
   css: {
     postcss: {
