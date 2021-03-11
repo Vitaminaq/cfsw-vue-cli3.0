@@ -1,40 +1,20 @@
 const fs = require("fs");
-const path = require("path");
-const exec = require('child_process').execSync;
-const os = require('os');
 const fse = require('fs-extra');
-const distPath = path.resolve(__dirname, '../cloudfunctions/ssr/dist');
-const targetPath = path.resolve(__dirname, '../dist');
+const chalk = require('chalk');
 
-const clean = () => {
-  const system = os.type();
-
-  console.log('当前操作系统：', system);
-
-  if (system === 'Windows_NT') {
-    exec(`if exist ${distPath} rd /s /q ${distPath}`, {
-      stdio: 'inherit'
-    });
-  } else {
-    exec(`find ${distPath} -maxdepth 1 -not -name "dist" | xargs rm -rf`, {
-      stdio: 'inherit'
-    });
-  }
-};
+const { distPath, serverDistPath, paths, serverPackagePath } = require('./config');
 
 const createPackage = () => {
-  const { name, version, dependencies } = require("../package.json");
+  const { name, version, dependencies } = require(paths.package);
+  // 加入服务插件
+  dependencies['serverless-http'] = '^2.7.0';
   const ssrPackage = { name, version, dependencies, main: "index.js" };
-  const configPath = path.resolve(
-    __dirname,
-    "../cloudfunctions/ssr/package.json"
-  );
-  fs.writeFileSync(configPath, JSON.stringify(ssrPackage));
+  fs.writeFileSync(serverPackagePath, JSON.stringify(ssrPackage));
 };
 
 const copyDist = () => {
-    clean();
-    fse.copySync(targetPath, distPath)
+    fse.emptyDirSync(serverDistPath);
+    fse.copySync(distPath, serverDistPath);
 }
 
 /**
@@ -45,7 +25,7 @@ const createSsrFunction = () => {
     createPackage();
     // 复制构建产物
     copyDist();
-    console.log('云函数构建成功');
+    console.log(`${chalk.green('温馨提示：')}云函数构建成功！！！`);
 };
 
 createSsrFunction();

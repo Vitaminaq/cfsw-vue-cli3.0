@@ -18,6 +18,7 @@
         "client": {
           "use": "@cloudbase/framework-plugin-website",
           "inputs": {
+            "buildCommand": "npm run build:static",
             "outputPath": "/dist",
             "cloudPath": "/cfsw",
             "envVariables": {

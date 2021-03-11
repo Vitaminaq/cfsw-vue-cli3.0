@@ -18,6 +18,7 @@
     "create:ssr": "node ./scripts/ssr"
   },
   "dependencies": {
+    "@vue/server-renderer": "^3.0.5",
     "@wefly/vue-image-lazy-load": "^1.0.0",
     "@wefly/vue-rescroll": "^1.0.1",
     "@wefly/vue-store-next": "^1.0.1",
@@ -37,9 +38,9 @@
     "@vitejs/plugin-vue": "^1.1.4",
     "@vitejs/plugin-vue-jsx": "^1.1.0",
     "@vue/compiler-sfc": "^3.0.5",
-    "@vue/server-renderer": "^3.0.5",
     "@vuedx/typecheck": "^0.6.0",
     "@vuedx/typescript-plugin-vue": "^0.6.0",
+    "chalk": "^4.1.0",
     "cross-env": "^7.0.3",
     "fs-extra": "^9.1.0",
     "less": "^4.1.1",
