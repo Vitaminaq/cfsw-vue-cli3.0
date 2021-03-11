@@ -14,7 +14,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: isProd ? '/cfsw/' : '',
+  base: isProd ? '/cfsw/' : '/',
   plugins: [vue(
     {
     template: {

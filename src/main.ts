@@ -5,6 +5,8 @@ import Store, { BaseStore } from './store';
 import { Router } from 'vue-router';
 import { isCsr } from '@src/utils/config';
 
+console.log(import.meta.env.MODE, isCsr, 'iiiiiiiiiiiiiiiiiiiiiiiiiii');
+
 export function createApp1() {
   const app: APP = isCsr ? createApp(App) : createSSRApp(App);
   const router = createRouter();

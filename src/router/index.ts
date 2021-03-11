@@ -19,7 +19,8 @@ Object.keys(pages).map((path) => {
 	Array.prototype.push.apply(routes, pages[path].default);
 });
 
-const baseUrl = import.meta.env.BASE_URL || '';
+let baseUrl = import.meta.env.BASE_URL || '/';
+baseUrl = baseUrl === '/' ? '' : baseUrl;
 
 export function createRouter() {
 	return _createRouter({

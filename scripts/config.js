@@ -2,7 +2,7 @@ const path = require('path');
 
 const paths = {
     dist: "../dist",
-    serverDist: "../cloudfunctions/ssr",
+    serverDist: "../cloudfunctions/ssr/dist",
     package: "../package.json",
     serverPackage: "../cloudfunctions/ssr/package.json"
 };
