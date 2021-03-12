@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<header><span>Confenssion Wall</span></header>
+		<header><span>Confenssion Wall11123</span></header>
 		<div class="empty"></div>
 	</div>
 </template>
