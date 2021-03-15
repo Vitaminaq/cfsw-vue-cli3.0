@@ -44,24 +44,23 @@ isProd && options.plugins.push(VitePWA({
   manifest: {},
   workbox: {
     cacheId: 'cfsw',
-    staticFileGlobsIgnorePatterns: [
-      /\.map$/,
-      /\.json$/,
-      /\.js$/,
-      /\.css$/
-    ],
+    sourcemap: false,
     globIgnores: [
       'node_modules/**',
-      '*.js'
+      '*.js',
+      '*.css'
     ],
     globPatterns: [],
     runtimeCaching: [
       {
         urlPattern: /\/blog\/.*(\?|\&)v=.*/,
         handler: 'StaleWhileRevalidate'
+      },
+      {
+        urlPattern: /\/api\/.*(\?|\&)/,
+        handler: 'NetworkFirst'
       }
-    ],
-    precacheAndRoute: []
+    ]
   }
 }));
 
