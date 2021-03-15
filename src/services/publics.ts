@@ -1,3 +1,5 @@
+import { Router } from "vue-router";
+
 // 获取url后面参数
 export const getQueryParams = (
 	params: string | (string | null)[] | null
@@ -20,13 +22,23 @@ export const getUrlQuery = (str: string): Record<string, any> => {
 };
 
 // 转换url - 客户端
-export const getRealUrl = (router: any) => {
+export const getRealUrl = (router: Router) => {
 	if (typeof window === undefined) return;
 	const { pathname, hash, search } = window.location;
 	const query1 = getUrlQuery(hash.replace(/^#/, ''));
-	if (!Object.keys(query1).length) return;
+	// if (!Object.keys(query1).length) return;
 	const query2 = getUrlQuery(search.replace(/^\?/, ''));
 	const querys: any = Object.assign(query1, query2);
 	router.replace({ path: pathname, query: { ...querys } });
+	const { v } = querys;
+	if (v) {
+		window.app_v = v;
+	}
 	return;
 };
+
+declare global {
+	interface Window {
+		app_v: string;
+	}
+}

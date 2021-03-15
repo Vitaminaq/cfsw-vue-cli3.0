@@ -13,7 +13,7 @@ export const ssrTransformCustomDir = () => {
 const isProd = process.env.NODE_ENV === 'production';
 
 const options = {
-  // base: isProd ? '/cfsw/' : '/',
+  base: isProd ? '/cfsw/' : '/',
   plugins: [vue({
     template: {
       ssr: true,
@@ -53,7 +53,7 @@ isProd && options.plugins.push(VitePWA({
     globPatterns: [],
     runtimeCaching: [
       {
-        urlPattern: /\/blog\/.*(\?|\&)v=.*/,
+        urlPattern: /\/cfsw\/.*(\?|\&)v=.*/,
         handler: 'StaleWhileRevalidate'
       },
       {

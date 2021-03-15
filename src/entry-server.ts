@@ -1,10 +1,10 @@
-import { createApp1 } from "./main";
+import { createApp } from "./main";
 import { renderToString } from "@vue/server-renderer";
 
 import { getAsyncData } from '@src/utils/publics';
 
 export async function render(url: string, manifest: any) {
-  const { app, router, store } = createApp1();
+  const { app, router, store } = createApp();
 
   // 同步url
   router.push(url);
