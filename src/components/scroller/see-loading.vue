@@ -19,6 +19,10 @@
 import { defineComponent } from 'vue';
 import inview from './inview';
 
+interface Data {
+	timer: any;
+}
+
 export default defineComponent({
 	props: {
 		pullUpstatus: {
@@ -36,7 +40,7 @@ export default defineComponent({
 			default: () => []
 		}
 	},
-	data() {
+	data(): Data {
 		return {
 			timer: 0
 		};

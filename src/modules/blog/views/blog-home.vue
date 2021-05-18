@@ -1,7 +1,7 @@
 <template>
 	<div class="chatroom">
 		<LogoHeader />
-		<VueVirtualScroller :list="list" reScrollKey="blogHome">
+		<!-- <VueVirtualScroller :list="list" reScrollKey="blogHome">
 			<template v-slot:default="slotProps">
 				<BlogHomeListItem :item="slotProps.item" />
 			</template>
@@ -12,7 +12,10 @@
 					:pullDownStatus="pullDownStatus"
 				/>
 			</template>
-		</VueVirtualScroller>
+		</VueVirtualScroller> -->
+		<Scroller @pullUp="pullUp" :pullUpstatus="pullUpStatus" :pullDownStatus="pullDownStatus">
+			<BlogHomeListItem v-for="item in list" :key="item.articId" :item="item" />
+		</Scroller>
 		<FooterContent />
 	</div>
 </template>
@@ -24,6 +27,7 @@ import FooterContent from '@src/components/footer/footer.vue';
 import LogoHeader from '@src/components/header/logo-header.vue';
 import { VueVirtualScroller } from '@wefly/vue-virtual-scroller';
 import '@wefly/vue-virtual-scroller/dist/style.css';
+import Scroller from '@src/components/scroller/scroller.vue';
 
 import { BlogList } from '@src/modules/blog/store';
 
@@ -33,7 +37,8 @@ export default defineComponent({
 		BlogHomeListItem,
 		FooterContent,
 		SeeLoading,
-		VueVirtualScroller
+		VueVirtualScroller,
+		Scroller
 	},
 	computed: {
 		blogList(): BlogList {

@@ -1,11 +1,13 @@
 <template>
 	<div class="my_scroll">
-		<slot></slot>
-		<see-loading @pullUp="pullUp" :pullUpstatus="pullUpstatus">
-			<div slot="empty">
-				<slot name="empty"></slot>
-			</div>
-		</see-loading>
+		<div class="">
+			<slot></slot>
+			<see-loading @pullUp="pullUp" :pullUpstatus="pullUpstatus">
+				<template v-slot:empty>
+					<slot name="empty"></slot>
+				</template>
+			</see-loading>
+		</div>
 	</div>
 </template>
 <script lang="ts">
