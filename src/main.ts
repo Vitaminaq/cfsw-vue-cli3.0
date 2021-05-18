@@ -4,7 +4,8 @@ import { createRouter } from './router';
 import Store, { BaseStore } from './store';
 import { Router } from 'vue-router';
 import { isCsr } from '@src/utils/config';
-import VueAudio from '@src/lib/vue-audio';
+import '@wefly/vue-audio/dist/style.css';
+import VueAudio from '@wefly/vue-audio';
 
 console.log(import.meta.env.MODE, isCsr, 'iiiiiiiiiiiiiiiiiiiiiiiiiii');
 
