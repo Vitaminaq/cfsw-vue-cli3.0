@@ -18,10 +18,10 @@
         "client": {
           "use": "@cloudbase/framework-plugin-website",
           "inputs": {
-            "installCommand": "tcb hosting delete cfsw && tcb hosting list",
+            "installCommand": "tcb hosting delete && tcb hosting list",
             "buildCommand": "npm run build:static",
             "outputPath": "/dist",
-            "cloudPath": "/cfsw",
+            "cloudPath": "/",
             "envVariables": {
               "VUE_APP_ENV_ID": "{{env.ENV_ID}}"
             }
@@ -38,7 +38,7 @@
               }
             ],
             "servicePaths": {
-              "cfsw": "/cfsw"
+              "cfsw": "/"
             }
           }
         }
