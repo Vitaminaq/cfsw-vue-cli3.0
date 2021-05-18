@@ -8,9 +8,9 @@
         "preDeploy": {
           "type": "execCommand",
           "commands": [
-            "npm install",
-            "npm run build",
-            "npm run create:ssr"
+            "yarn --registry=http://registry.npm.taobao.org",
+            "yarn build",
+            "yarn create:ssr"
           ]
         }
       },

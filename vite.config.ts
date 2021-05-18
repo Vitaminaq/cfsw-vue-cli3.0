@@ -13,7 +13,6 @@ export const ssrTransformCustomDir = () => {
 const isProd = process.env.NODE_ENV === 'production';
 
 const options = {
-  base: isProd ? '/cfsw/' : '/',
   plugins: [vue({
     template: {
       ssr: true,

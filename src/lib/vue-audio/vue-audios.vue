@@ -6,8 +6,7 @@
 			id="audio"
 			:src="url"
 			preload="auto"
-			@durationchange="onCanPlay"
-			@timeupdate="onUpdateTime"
+			@canPlay="onCanPlay"
 		></audio>
 		<div class="operate-btn" @click.stop="onOperate">
 			<img v-if="!isPlaying" src="./images/play.png" />
@@ -47,6 +46,7 @@ import voiceManage from './voice-manage';
 interface Data {
 	timer: any;
 	timer1: any;
+	timer2: any;
 	currentTime: number;
 	startX: number;
 	slideProgress: number;
@@ -75,6 +75,7 @@ export default defineComponent({
 		return {
 			timer: 0,
 			timer1: 0,
+			timer2: 0,
 			currentTime: 0,
 			startX: 0,
 			slideProgress: 0,
@@ -117,7 +118,9 @@ export default defineComponent({
 	},
 	async mounted() {
 		await this.$nextTick();
-		this.baseDuration = (this as any).$refs.audio.duration;
+		this.timer2 = setTimeout(() => {
+			this.baseDuration = (this as any).$refs.audio.duration;
+		}, 100);
 		voiceManage.subscribe({
 			key: this.url,
 			el: this.$refs.audio
@@ -185,6 +188,7 @@ export default defineComponent({
 		voiceManage.cancel(this.url);
 		clearInterval(this.timer);
 		clearTimeout(this.timer1);
+		clearTimeout(this.timer2);
 	}
 });
 </script>
