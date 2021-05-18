@@ -84,6 +84,8 @@ export default defineComponent({
 	},
 	computed: {
 		formatCurrentTime(): string {
+			if (this.slideProgress)
+			    return secondToDate(this.relDuration * this.slideProgress);
 			return secondToDate(this.currentTime);
 		},
 		relDuration(): number {
@@ -107,27 +109,7 @@ export default defineComponent({
 	watch: {
 		isPlaying(val: boolean) {
 			if (val) {
-				this.timer = setInterval(() => {
-					this.currentTime = (this as any).$refs.audio.currentTime;
-					if (this.currentTime === (this as any).$refs.audio.duration) {
-						this.currentTime = 0;
-						voiceManage.setItem(this.url);
-						switch (this.mode) {
-							case 'none':
-								clearInterval(this.timer);
-								break;
-							case 'loop':
-								this.currentTime = 0;
-								(this as any).$refs.audio.currentTime = 0;
-								this.onOperate();
-							case 'next':
-							case 'next-loop':
-								clearInterval(this.timer);
-								voiceManage.setNextItem(this.url, this.mode);
-                                break;
-						}
-					}
-				}, 600);
+				this.updateTime();
 			} else {
 				clearInterval(this.timer);
 			}
@@ -153,16 +135,17 @@ export default defineComponent({
 		},
 		onTouchMove(e: any) {
 			if (!e.touches.length) return;
+			clearInterval(this.timer);
 			const d = e.touches[0].pageX - this.startX;
 			const p = d / this.containWidth;
 			const sp = this.currentTime / this.relDuration + p;
-			this.slideProgress = sp >= 1 ? 1 : sp;
+			this.slideProgress = sp >= 1 ? 1 : sp <= 0 ? 0 : sp;
 		},
 		async onTouchEnd() {
 			await this.$nextTick();
 			const t = this.slideProgress * this.relDuration;
-			!this.isPlaying && voiceManage.toggle(this.url);
 			(this as any).$refs.audio.currentTime = t;
+			this.updateTime();
 			this.timer1 = setTimeout(() => {
 				this.slideProgress = 0;
 			}, 600);
@@ -173,6 +156,30 @@ export default defineComponent({
 			!this.isPlaying && voiceManage.toggle(this.url);
 			(this as any).$refs.audio.currentTime = t;
 		},
+		updateTime() {
+			clearInterval(this.timer);
+			this.timer = setInterval(() => {
+				this.currentTime = (this as any).$refs.audio.currentTime;
+				if (this.currentTime === (this as any).$refs.audio.duration) {
+					this.currentTime = 0;
+					voiceManage.setItem(this.url);
+					switch (this.mode) {
+						case 'none':
+							clearInterval(this.timer);
+							break;
+						case 'loop':
+							this.currentTime = 0;
+							(this as any).$refs.audio.currentTime = 0;
+							this.onOperate();
+						case 'next':
+						case 'next-loop':
+							clearInterval(this.timer);
+							voiceManage.setNextItem(this.url, this.mode);
+							break;
+					}
+				}
+			}, 600);
+		}
 	},
 	 beforeUnmount() {
 		voiceManage.cancel(this.url);
@@ -199,7 +206,7 @@ export default defineComponent({
 	margin-top: 10px;
 
 	.audio {
-		display: block;
+		display: none;
 	}
 
 	.operate-btn {
