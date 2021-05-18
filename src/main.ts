@@ -4,6 +4,7 @@ import { createRouter } from './router';
 import Store, { BaseStore } from './store';
 import { Router } from 'vue-router';
 import { isCsr } from '@src/utils/config';
+import VueAudio from '@src/lib/vue-audio';
 
 console.log(import.meta.env.MODE, isCsr, 'iiiiiiiiiiiiiiiiiiiiiiiiiii');
 
@@ -12,7 +13,7 @@ export function createApp() {
   const router = createRouter();
   const store = new Store();
 
-  app.use(router).use(store);
+  app.use(router).use(store).use(VueAudio);
   return { app, router, store };
 }
 

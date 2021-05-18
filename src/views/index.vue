@@ -25,6 +25,8 @@
 				</div>
 			</div>
 		</div>
+		<vue-audio url="https://img.tukuppt.com/newpreview_music/08/99/49/5c897788e421b53181.mp3" mode="next-loop" />
+		<vue-audio url="https://img.tukuppt.com/newpreview_music/08/99/45/5c8971b5b0c2c1474.mp3" mode="next-loop" />
 	</div>
 </template>
 
