@@ -50,7 +50,7 @@ export default defineComponent({
                 height: `${height}px`,
 				width: `${width}px`,
 				top: `${top}px`,
-				left: `${left}px`,
+				left: 0,
 				transform: 'translate3d(0, 0, 0)',
 			}
 		}
@@ -61,8 +61,8 @@ export default defineComponent({
                 height: 'auto',
 				width: '100%',
 				top: '50%',
-				left: '50%',
-				transform: 'translate3d(-50%, -50%, 0)',
+				left: 0,
+				transform: 'translate3d(0, -50%, 0)',
 				opacity: 1
 			};
 			this.bgOpacity = this.opacity;
