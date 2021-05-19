@@ -5,6 +5,7 @@
 			class="audio"
 			id="audio"
 			:src="url"
+			:preload="preload"
 			@canplay="onCanPlay"
 		></audio>
 		<div class="operate-btn" @click.stop="onOperate">
@@ -53,6 +54,7 @@ interface Data {
 	baseDuration: number;
 }
 type Mode = 'none' | 'loop' | 'next' | 'next-loop'; // 无 | 单曲循环 | 下一首 | 列表循环
+type Preload = 'auto' | 'meta' | 'none'; // 预加载 | 预初始 | 无
 
 export default defineComponent({
 	props: {
@@ -68,6 +70,10 @@ export default defineComponent({
 		mode: {
 			type: String as PropType<Mode>,
 			default: 'none'
+		},
+		preload: {
+			type: String as PropType<Preload>,
+			default: 'auto'
 		}
 	},
 	data(): Data {
