@@ -5,8 +5,7 @@
 			class="audio"
 			id="audio"
 			:src="url"
-			preload="auto"
-			@canPlay="onCanPlay"
+			@canplay="onCanPlay"
 		></audio>
 		<div class="operate-btn" @click.stop="onOperate">
 			<img v-if="!isPlaying" src="./images/play.png" />
@@ -119,8 +118,11 @@ export default defineComponent({
 	async mounted() {
 		await this.$nextTick();
 		this.timer2 = setTimeout(() => {
-			this.baseDuration = (this as any).$refs.audio.duration;
-		}, 100);
+			const { duration } = (this as any).$refs.audio;
+			if (duration && !this.baseDuration) {
+				this.baseDuration = duration;
+			}
+		}, 1000);
 		voiceManage.subscribe({
 			key: this.url,
 			el: this.$refs.audio
@@ -182,6 +184,9 @@ export default defineComponent({
 					}
 				}
 			}, 600);
+		},
+		onCanPlay() {
+			this.baseDuration = (this as any).$refs.audio.duration;
 		}
 	},
 	 beforeUnmount() {
