@@ -50,7 +50,7 @@ export default defineComponent({
                 height: `${height}px`,
 				width: `${width}px`,
 				top: `${top}px`,
-				left: 0,
+				left: `${left}px`,
 				transform: 'translate3d(0, 0, 0)',
 			}
 		}
