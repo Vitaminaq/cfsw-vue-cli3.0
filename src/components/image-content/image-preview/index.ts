@@ -1,16 +1,22 @@
-import { render, createVNode, VNode } from 'vue';
+import { createApp } from 'vue';
 import ImagePreview from './image-preview.vue';
 
-export default (src: string) => {
-	const vn: VNode = createVNode(ImagePreview, {
-		src,
-		onClose: function() {
-			const el = vn.el as Node;
-			if (!document.body.contains(el)) return;
-			document.body.removeChild(el);
-		}
-	});
-	render(vn, document.body);
+const targetId = 'wefly-vue-image-preview';
 
-	document.body.appendChild((vn as any).el);
+export default (src: string, rect: DOMRect) => {
+	const isExit = document.getElementById(targetId);
+	if (isExit) return;
+	const vn = createApp(ImagePreview, {
+		src,
+		rect,
+		onClose: function (r: any) {
+			vn.unmount();
+			const oldDom = document.getElementById(targetId);
+			oldDom && document.body.removeChild(oldDom);
+		},
+	});
+	const dom = document.createElement('div');
+	dom.id = targetId;
+	document.body.appendChild(dom);
+	vn.mount(`#${targetId}`);
 };

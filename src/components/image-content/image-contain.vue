@@ -1,5 +1,5 @@
 <template>
-	<div class="image-contain" :style="realStyle" @click.stop="preview"></div>
+	<div class="image-contain" ref="imgContain" :style="realStyle" @click.stop="preview"></div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
@@ -25,8 +25,9 @@ export default defineComponent({
 	},
 	methods: {
 		preview(e: any) {
-			console.log('预览', e, e.target.offsetWidth);
-			imagePreview(this.src);
+			const rect = (this as any).$refs.imgContain.getBoundingClientRect();
+			console.log(rect, 'xxxxxxxxxxxxxxxxxxxx');
+			imagePreview(this.src, rect);
 		}
 	}
 });
