@@ -52,7 +52,7 @@ isProd && options.plugins.push(VitePWA({
     globPatterns: [],
     runtimeCaching: [
       {
-        urlPattern: /\/cfsw\/.*(\?|\&)v=.*/,
+        urlPattern: /\/.*(\?|\&)v=.*/,
         handler: 'StaleWhileRevalidate'
       },
       {
