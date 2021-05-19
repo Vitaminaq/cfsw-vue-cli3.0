@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@vue/server-renderer": "^3.0.5",
-    "@wefly/vue-audio": "1.0.2",
+    "@wefly/vue-audio": "1.0.3",
     "@wefly/vue-image-lazy-load": "^1.0.0",
     "@wefly/vue-rescroll": "^1.0.1",
     "@wefly/vue-store-next": "^1.0.1",

@@ -1441,10 +1441,10 @@
     vscode-languageserver-textdocument "^1.0.1"
     vscode-uri "^2.1.2"
 
-"@wefly/vue-audio@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.nlark.com/@wefly/vue-audio/download/@wefly/vue-audio-1.0.2.tgz?cache=0&sync_timestamp=1621333948368&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40wefly%2Fvue-audio%2Fdownload%2F%40wefly%2Fvue-audio-1.0.2.tgz#a5ee94938d646b7f8d790b091538691083e1e4e9"
-  integrity sha1-pe6Uk41ka3+NeQsJFThpEIPh5Ok=
+"@wefly/vue-audio@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.nlark.com/@wefly/vue-audio/download/@wefly/vue-audio-1.0.3.tgz#b92f8e7950cdd3a32e2a9f4cfcdddbe6c96f2112"
+  integrity sha1-uS+OeVDN06MuKp9M/N3b5slvIRI=
   dependencies:
     vue "^3.0.11"
 
