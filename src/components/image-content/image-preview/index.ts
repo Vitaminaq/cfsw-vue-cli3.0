@@ -3,13 +3,22 @@ import ImagePreview from './image-preview.vue';
 
 const targetId = 'wefly-vue-image-preview';
 
-export default (src: string, rect: DOMRect) => {
+interface PreviewOption {
+	imgList: string[];
+	currentIndex: number;
+	el: HTMLElement;
+	opacity?: number;
+}
+
+export default (option: PreviewOption) => {
 	const isExit = document.getElementById(targetId);
 	if (isExit) return;
+	const rect = option.el.getBoundingClientRect();
+	console.log(rect, 'kkkkkkkkkkkkkkkkkkkkkkkk')
 	const vn = createApp(ImagePreview, {
-		src,
+		...option,
 		rect,
-		onClose: function (r: any) {
+		onClose: function () {
 			vn.unmount();
 			const oldDom = document.getElementById(targetId);
 			oldDom && document.body.removeChild(oldDom);

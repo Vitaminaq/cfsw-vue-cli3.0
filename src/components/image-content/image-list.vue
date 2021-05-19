@@ -5,6 +5,7 @@
 			:key="img"
 			:style="style"
 			:src="img"
+			:list="list"
 		/>
 	</div>
 </template>

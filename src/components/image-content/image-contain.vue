@@ -16,6 +16,11 @@ export default defineComponent({
 		src: {
 			type: String,
 			required: true
+		},
+		list: {
+			type: Array as PropType<string[]>,
+			default: () => [],
+			require: true
 		}
 	},
 	computed: {
@@ -24,10 +29,13 @@ export default defineComponent({
 		}
 	},
 	methods: {
-		preview(e: any) {
-			const rect = (this as any).$refs.imgContain.getBoundingClientRect();
-			console.log(rect, 'xxxxxxxxxxxxxxxxxxxx');
-			imagePreview(this.src, rect);
+		preview() {
+			const { list, src } = this;
+			return imagePreview({
+				imgList: list,
+				currentIndex: this.list.findIndex(i => i === src),
+                el: (this as any).$refs.imgContain
+			});
 		}
 	}
 });

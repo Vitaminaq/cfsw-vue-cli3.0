@@ -4,7 +4,7 @@
 	<img
 		class="wefly-preview-img"
 		:style="relStyle"
-		:src="src"
+		:src="currentImg"
 	/>	
 </div>
 </template>
@@ -16,13 +16,19 @@ interface Data {
 	timer: any;
 	timer1: any;
 	bgOpacity: number;
+	idx: number;
 }
 
 export default defineComponent({
 	props: {
-		src: {
-			type: String,
+		imgList: {
+			type: Array as PropType<string[]>,
+			default: () => [],
 			required: true
+		},
+		currentIndex: {
+			type: Number,
+            default: 0
 		},
 		rect: {
 			type: Object as PropType<DOMRect>,
@@ -40,10 +46,14 @@ export default defineComponent({
             style: null,
 			timer: 0,
 			timer1: 0,
-			bgOpacity: 0
+			bgOpacity: 0,
+			idx: 0
 		}
 	},
 	computed: {
+		currentImg(): string {
+			return this.imgList[this.idx];
+		},
         relStyle(): any {
 			const { height, width, top, left } = this.rect;
 			return this.style || {
@@ -55,11 +65,22 @@ export default defineComponent({
 			}
 		}
 	},
+	watch: {
+        currentIndex: {
+            handler(val: number) {
+				if (val === this.idx) return;
+			    this.idx = val;
+		    },
+			immediate: true
+		}
+	},
 	mounted() {
 		this.timer = setTimeout(() => {
+			const maxWidth = window.screen.width;
+			const ratio = maxWidth / this.rect.width;
             this.style = {
-                height: 'auto',
-				width: '100%',
+                height: `${this.rect.height * ratio}px`,
+				width: `${maxWidth}px`,
 				top: '50%',
 				left: 0,
 				transform: 'translate3d(0, -50%, 0)',
@@ -70,7 +91,7 @@ export default defineComponent({
 	},
 	methods: {
 		close() {
-			this.style.opacity = 0;
+			this.style = null;
 			this.bgOpacity = 0;
 			this.timer = setTimeout(() => {
 				this.$emit('close');
