@@ -33,7 +33,7 @@ export default defineComponent({
 			const { list, src } = this;
 			return imagePreview({
 				imgList: list,
-				currentIndex: this.list.findIndex(i => i === src),
+				currentIndex: list.findIndex(i => i === src),
                 el: (this as any).$refs.imgContain
 			});
 		}
