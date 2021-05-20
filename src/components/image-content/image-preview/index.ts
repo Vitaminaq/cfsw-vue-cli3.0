@@ -10,7 +10,7 @@ interface PreviewOption {
 	opacity?: number;
 }
 
-export default (option: PreviewOption) => {
+export default (option: PreviewOption, callback?: (idx: number) => void) => {
 	const isExit = document.getElementById(targetId);
 	if (isExit) return;
 	let rect = null;
@@ -29,6 +29,9 @@ export default (option: PreviewOption) => {
 			const oldDom = document.getElementById(targetId);
 			oldDom && document.body.removeChild(oldDom);
 		},
+		onchange: function(val: number) {
+			callback && callback(val);
+		}
 	});
 	const dom = document.createElement('div');
 	dom.id = targetId;

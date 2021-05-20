@@ -244,7 +244,7 @@ export default defineComponent({
 }
 .wefly-preview-index {
 	position: fixed;
-	top: 40px;
+	top: 20px;
 	font-size: 14px;
 	color: #fff;
 	z-index: 10001;

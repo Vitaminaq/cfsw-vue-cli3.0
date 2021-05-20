@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import legacy from '@vitejs/plugin-legacy'
 import path from 'path';
 import postcssPx2rem from 'postcss-px2rem';
 import { VitePWA } from 'vite-plugin-pwa'
@@ -13,7 +14,11 @@ export const ssrTransformCustomDir = () => {
 const isProd = process.env.NODE_ENV === 'production';
 
 const options = {
-  plugins: [vue({
+  plugins: [
+    legacy({
+      targets: ['defaults']
+    }),
+    vue({
     template: {
       ssr: true,
       compilerOptions: {
