@@ -1,8 +1,8 @@
 import { Router, RouteLocation } from 'vue-router';
 import { BaseStore } from '@/store';
 import { Component } from 'vue';
-// import { setCookies } from '@/utils/cookies';
-import { StateFromNativeResponse } from '@/services/native';
+import { setCookies } from '@src/utils/cookies';
+import { StateFromNativeResponse } from '@src/services/native';
 
 /**
  * 客户端&服务端逻辑大全
@@ -26,6 +26,11 @@ type Querys = {
 	v?: string;
 } & StateFromNativeResponse['data'];
 
+export interface ReqConfig {
+	v: string;
+	token: string;
+}
+
 // 转换url - 客户端
 export const getRealUrl = (router: Router) => {
 	if (typeof window === undefined) return;
@@ -44,7 +49,7 @@ export const getRealUrl = (router: Router) => {
 		window.$app_v = v;
 	}
 	// 同步url后状态
-	// setCookies({ token, platform, channel, vid });
+	setCookies({ token, platform, channel, vid });
 	return;
 };
 
@@ -76,7 +81,8 @@ export const registerModules = (
 	components: Component[],
 	router: Router,
 	store: BaseStore,
-	isServer: boolean
+	isServer: boolean,
+	reqConfig?: ReqConfig
 ) => {
 	return components
 		.filter((i: any) => typeof i.registerModule === 'function')
@@ -86,6 +92,7 @@ export const registerModules = (
 				store,
 				router,
 				isServer,
+				reqConfig
 			});
 		});
 };
@@ -116,7 +123,8 @@ export const prefetchData = (
 export const getAsyncData = (
 	router: Router,
 	store: BaseStore,
-	isServer: boolean
+	isServer: boolean,
+	reqConfig?: ReqConfig
 ): Promise<void> => {
 	return new Promise(async (resolve) => {
 		const { matched, fullPath, query } = router.currentRoute.value;
@@ -126,7 +134,7 @@ export const getAsyncData = (
 			return i.components.default;
 		});
 		// 动态注册store
-		registerModules(components, router, store, isServer);
+		registerModules(components, router, store, isServer, reqConfig);
 
 		const { prefetchData: isPrefetch } = query;
 
@@ -143,21 +151,26 @@ export const getAsyncData = (
 	});
 };
 
-export interface DefinedOption {
+export interface AsyncDataOption {
 	route: RouteLocation;
 	store: BaseStore;
 	router: Router;
 	isServer: boolean;
+	reqConfig?: ReqConfig;
+}
+
+export interface RegisterModuleOption extends AsyncDataOption {
+	reqConfig: ReqConfig;
 }
 
 declare module '@vue/runtime-core' {
 	export interface ComponentCustomOptions {
-		asyncData?: (option: DefinedOption) => void;
-		registerModule?: (option: DefinedOption) => void;
+		asyncData?: (option: AsyncDataOption) => void;
+		registerModule?: (option: RegisterModuleOption) => void;
 	}
 	export interface ComponentCustomProperties {
-		asyncData?: (option: DefinedOption) => void;
-		registerModule?: (option: DefinedOption) => void;
+		asyncData?: (option: AsyncDataOption) => void;
+		registerModule?: (option: RegisterModuleOption) => void;
 	}
 }
 
@@ -165,5 +178,9 @@ declare global {
 	interface Window {
 		$app_v: string;
 		__INIT_STATE__: BaseStore;
+		__APP_CONFIG__: {
+			VITE_BASE_URL: string;
+			VITE_BASE_H5_URL: string;
+		};
 	}
 }

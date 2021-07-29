@@ -1,6 +1,7 @@
 import { RouterView } from 'vue-router';
 import { h } from 'vue';
-import { replaceStore } from '@src/utils/publics';
+import { replaceStore, RegisterModuleOption } from '@src/services/publics';
+import BaseStore from '@/store/index';
 
 export const baseRouteView = (storeModule: any) => {
 	const routeView = {
@@ -8,12 +9,12 @@ export const baseRouteView = (storeModule: any) => {
 		setup() {
 			return () => h(RouterView);
 		},
-		registerModule({ store }: any) {
-			const name: string = storeModule.default.moduleName;
+		registerModule({ store, reqConfig }: RegisterModuleOption) {
+			const name: keyof BaseStore = storeModule.default.moduleName;
 
 			// 接管服务端状态
 			if (!store[name]) {
-				store.addMoudle(name, new storeModule.default());
+				store.addMoudle(name, new storeModule.default(reqConfig));
 				replaceStore(store);
 			}
 		}

@@ -1,9 +1,13 @@
 import Main from "./main";
 import { renderToString } from "@vue/server-renderer";
 
-import { getAsyncData } from '@src/utils/publics';
+import { getAsyncData, ReqConfig } from "@src/services/publics";
 
-export async function render(url: string, manifest: any) {
+export async function render(
+  url: string,
+  manifest: { [key: string]: string[] },
+  reqConfig: ReqConfig
+) {
   const { app, router, store } = new Main();
 
   // 同步url
@@ -14,7 +18,7 @@ export async function render(url: string, manifest: any) {
   const { prefetchData } = router.currentRoute.value.query;
   // 根据参数决定是否需要预取数据
   Number(prefetchData) && store.$setSsrPath(url);
-  await getAsyncData(router, store, true);
+  await getAsyncData(router, store, true, reqConfig);
 
   // 生成html字符串
   const ctx: any = {};

@@ -20,7 +20,6 @@ const options = {
     }),
     vue({
     template: {
-      ssr: true,
       compilerOptions: {
         directiveTransforms: {
           'img-lazy-load': ssrTransformCustomDir,

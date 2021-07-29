@@ -1,13 +1,18 @@
 import axios, { AxiosInstance } from 'axios';
+import { config } from './config';
+import { getCookie } from '@src/utils/cookies';
+import { ReqConfig } from '@src/services/publics';
 
 class LocalAxios {
 	public axios: AxiosInstance;
-	constructor() {
+	constructor(reqConfig?: ReqConfig) {
+		const token = reqConfig ? reqConfig.token : getCookie('token');
 		this.axios = axios.create({
-			baseURL: 'https://www.vitaminaq.cn',
+			baseURL: config.base_url,
 			timeout: 5000,
 			withCredentials: true,
 			headers: {
+				Authorization: token ? `Bearer ${token}` : '',
 				'Content-Type': 'application/json',
 				'Cache-Control': 'no-cache'
 			}
@@ -56,3 +61,12 @@ class LocalAxios {
 }
 
 export default LocalAxios;
+
+declare global {
+	interface Window {
+		_$$token?: string;
+		_$$appid?: string;
+		_$$vid?: string;
+		_$$channel?: string;
+	}
+}

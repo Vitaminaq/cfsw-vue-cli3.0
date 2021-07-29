@@ -2,6 +2,13 @@ import { createNativeBridge, isNativeFuncExist } from './native';
 
 export { isNativeFuncExist };
 
+// 区分原生还是小程序环境
+export const isNative = () => {
+	if (typeof window === 'undefined') return true;
+	const ua = navigator.userAgent.toLowerCase();
+	return !/miniProgram/i.test(ua);
+};
+
 export const native = (code: string, params?: any) => {
 	if (!isNativeFuncExist()) return;
 	return createNativeBridge({
