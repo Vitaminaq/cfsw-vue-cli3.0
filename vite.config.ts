@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import legacy from '@vitejs/plugin-legacy'
 import path from 'path';
-import postcssPx2rem from 'postcss-px2rem';
 import { VitePWA } from 'vite-plugin-pwa'
 
 export const ssrTransformCustomDir = () => {
@@ -24,7 +23,11 @@ const options = {
         directiveTransforms: {
           'img-lazy-load': ssrTransformCustomDir,
           'rescroll': ssrTransformCustomDir
-        }
+        },
+        isCustomElement: (tag: string) => {
+          if (tag === 'wx-open-launch-weapp') return true;
+          return false;
+        },
       }
     }
   })],
@@ -36,9 +39,16 @@ const options = {
   css: {
     postcss: {
       plugins: [
-        postcssPx2rem({ remUnit: 37.5 }) as any // 换算的基数
+        require('postcss-pxtorem')({
+					rootValue: 37.5,
+					propList: ['*'],
+				}),
       ]
     },
+	},
+  esbuild: {
+		jsxFactory: 'h',
+		jsxFragment: 'Fragment',
 	},
 };
 
