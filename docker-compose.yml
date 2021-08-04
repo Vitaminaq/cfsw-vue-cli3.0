@@ -1,0 +1,11 @@
+version: '3.0'
+
+services:
+  cfsw-docker:
+    container_name: cfsw-docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    image: 1109614355/javascript:1.0.1
