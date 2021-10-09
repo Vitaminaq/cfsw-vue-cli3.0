@@ -1,5 +1,5 @@
 把之前的表白墙app利用vuex，typescript，vuex-class.js等升级到vue-cli3.0，3.0这个脚手架给人的感觉就是比以前干净多了。
- * 基于vue-cli 2.0的srr(服务端渲染)位于[ssr-vue-cli-2.0](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/ssr-vue-cli-2.0)分支
+ * 基于vue-cli 2.0的ssr(服务端渲染)位于[ssr-vue-cli-2.0](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/ssr-vue-cli-2.0)分支
  * 基于react+redux+typescript的项目重构,请移步[react-ts](https://github.com/Vitaminaq/react-cfsw)。
  * 基于react+next+redux+ts的ssr,请移步[react-next-ssr](https://github.com/Vitaminaq/react-cfsw/tree/next-ssr)。
  * 基于vue-cli 3.0的ssr(服务端渲染)位于[ssr-vue-cli-3.0](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/ssr-vue-cli-3.0)分支
