@@ -1,14 +1,15 @@
 <template>
 	<div>
-		<header><span>Confenssion Wall</span></header>
+		<header><span>Confenssion Wall11123</span></header>
 		<div class="empty"></div>
 	</div>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { defineComponent } from 'vue';
 
-@Component
-export default class LogoHeader extends Vue {}
+export default defineComponent({
+	name: 'logo-header'
+});
 </script>
 <style lang="less" scoped>
 .empty {

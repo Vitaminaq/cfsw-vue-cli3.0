@@ -1,32 +1,30 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Routers from './routers';
-import Cookies from 'js-cookie';
-// (Router as any).prototype.goBack = function() {
-// 	this.isBack = true;
-// 	window.history.go(-1);
-// };
+import {
+    createRouter as _createRouter,
+	RouteRecordRaw
+  } from 'vue-router'
+import { routerHistory } from '@src/utils/config';
 
-import { RouterOptions } from 'vue-router';
+const Index = () => import('../views/index.vue');
+const context: __WebpackModuleApi.RequireContext = require.context(
+	'../modules',
+	true,
+	/routes.ts$/
+);
 
-Vue.use(Router);
-const options: RouterOptions = {
-	mode: 'history',
-	routes: Routers,
-	fallback: false
-};
 
-class LocalRouter extends Router {
-	constructor() {
-		super(options);
-		this.beforeEach((to, from, next) => {
-			if (to.name === 'publish' || to.name === 'PersonalCenter') {
-				if (!Cookies.get('token') || !Cookies.get('nickname')) {
-					this.push({ name: 'login' });
-				}
-			}
-			next();
-		});
-	}
+const routes: RouteRecordRaw[] = [{
+	path: '/',
+    name: Index.name,
+	component: Index
+}];
+
+context.keys().forEach((path) => {
+	routes.push.apply(routes, context(path).default);
+});
+
+export function createRouter() {
+	return _createRouter({
+		history: routerHistory(),
+		routes
+	})
 }
-export default LocalRouter;

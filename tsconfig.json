@@ -6,7 +6,7 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
@@ -16,6 +16,9 @@
     ],
     "paths": {
       "@src/*": [
+        "src/*"
+      ],
+      "@/*": [
         "src/*"
       ]
     },
@@ -31,7 +34,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx", "src/lib/vue-virtual-scroller/index.js"
+    "tests/**/*.tsx"
   ],
   "exclude": [
     "node_modules"
