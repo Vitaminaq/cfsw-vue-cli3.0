@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios1, { AxiosInstance } from 'axios';
 import { config } from './config';
 import { getCookie } from '@src/utils/cookies';
 import { ReqConfig } from '@src/services/publics';
@@ -7,7 +7,7 @@ class LocalAxios {
 	public axios: AxiosInstance;
 	constructor(reqConfig?: ReqConfig) {
 		const token = reqConfig ? reqConfig.token : getCookie('token');
-		this.axios = axios.create({
+		this.axios = axios1.create({
 			baseURL: config.base_url,
 			timeout: 5000,
 			withCredentials: true,
