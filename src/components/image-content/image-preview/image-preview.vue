@@ -1,7 +1,7 @@
 <template>
   <div @click.stop="close">
     <div class="wefly-preview-bg" :style="{ opacity: bgOpacity }"></div>
-	<div class="wefly-preview-index">{{idx + 1}}/{{len}}</div>
+    <div class="wefly-preview-index">{{ idx + 1 }}/{{ len }}</div>
     <img
       v-if="isOne"
       class="wefly-preview-img"
@@ -81,7 +81,7 @@ export default defineComponent({
       timer1: 0,
       timer2: 0,
       bgOpacity: 0,
-	  imgOpacity: 0,
+      imgOpacity: 0,
       idx: 0,
       startX: 0,
       totalDistance: 0,
@@ -97,9 +97,9 @@ export default defineComponent({
     isOne(): boolean {
       return this.imgList.length < 2;
     },
-	len(): number {
-		return this.imgList.length;
-	},
+    len(): number {
+      return this.imgList.length;
+    },
     relStyle(): RelStyle {
       const { rect } = this;
       if (!rect) {
@@ -141,11 +141,11 @@ export default defineComponent({
     if (!this.isOne) {
       this.totalDistance = -maxWidth * this.idx;
       this.swiperStyle.transform = `translate3d(${this.totalDistance}px, -50%, 0)`;
-	  this.timer = setTimeout(() => {
-		this.bgOpacity = this.opacity;
-		this.imgOpacity = 1;
-	  }, 10);
-	  return;
+      this.timer = setTimeout(() => {
+        this.bgOpacity = this.opacity;
+        this.imgOpacity = 1;
+      }, 10);
+      return;
     }
     this.timer = setTimeout(() => {
       const { rect } = this;
@@ -198,11 +198,13 @@ export default defineComponent({
       this.swiperStyle.transition = "all 0.3s";
       const isRight = this.distance < 0;
       if (Math.abs(this.distance) / this.screenW > 0.3) {
-		const noFirst = !isRight && this.idx;
-		const noLast = isRight && this.idx !== this.len - 1;
-		if (noFirst || noLast) {
-			this.totalDistance = isRight ? this.totalDistance - this.screenW : this.totalDistance + this.screenW;
-		}
+        const noFirst = !isRight && this.idx;
+        const noLast = isRight && this.idx !== this.len - 1;
+        if (noFirst || noLast) {
+          this.totalDistance = isRight
+            ? this.totalDistance - this.screenW
+            : this.totalDistance + this.screenW;
+        }
         this.swiperStyle.transform = `translate3d(${this.totalDistance}px, -50%, 0)`;
         noLast && this.idx++;
         noFirst && this.idx--;
@@ -243,13 +245,13 @@ export default defineComponent({
   transition: all 0.3s;
 }
 .wefly-preview-index {
-	position: fixed;
-	top: 20px;
-	font-size: 14px;
-	color: #fff;
-	z-index: 10001;
-	left: 50%;
-	transform: translate3d(-50%, 0, 0);
+  position: fixed;
+  top: 20px;
+  font-size: 14px;
+  color: #fff;
+  z-index: 10001;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
 }
 .wefly-preview-img-swiper {
   position: fixed;

@@ -1,11 +1,11 @@
-const VueSSRServerPlugin = require('vue-server-renderer/server-plugin');
-const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
+// const VueSSRServerPlugin = require('@vue/server-renderer/server-plugin');
+// const VueSSRClientPlugin = require('@vue/server-renderer/client-plugin');
 const nodeExternals = require('webpack-node-externals');
 const WebpackBar = require('webpackbar');
 
 const config = require('./config');
-const HtmlFilterPlugin = require('./plugins/HtmlFilterPlugin');
-const CssContextLoader = require.resolve('./loaders/css-context');
+// const HtmlFilterPlugin = require('./plugins/HtmlFilterPlugin');
+// const CssContextLoader = require.resolve('./loaders/css-context');
 
 exports.chainWebpack = (webpackConfig) => {
 	const target = process.env.VUE_CLI_SSR_TARGET;
@@ -25,27 +25,27 @@ exports.chainWebpack = (webpackConfig) => {
 	if (!isClient) {
 		webpackConfig.plugins.delete('friendly-errors');
 
-		const isExtracting = webpackConfig.plugins.has('extract-css');
-		if (isExtracting) {
-			// Remove extract
-			const langs = ['css', 'postcss', 'scss', 'sass', 'less', 'stylus'];
-			const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
-			for (const lang of langs) {
-				for (const type of types) {
-					const rule = webpackConfig.module.rule(lang).oneOf(type);
-					rule.uses.delete('extract-css-loader');
-					// Critical CSS
-					rule.use('css-context')
-						.loader(CssContextLoader)
-						.before('css-loader');
-				}
-			}
-			webpackConfig.plugins.delete('extract-css');
-		}
+		// const isExtracting = webpackConfig.plugins.has('extract-css');
+		// if (isExtracting) {
+		// 	// Remove extract
+		// 	const langs = ['css', 'postcss', 'scss', 'sass', 'less', 'stylus'];
+		// 	const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
+		// 	for (const lang of langs) {
+		// 		for (const type of types) {
+		// 			const rule = webpackConfig.module.rule(lang).oneOf(type);
+		// 			rule.uses.delete('extract-css-loader');
+		// 			// Critical CSS
+		// 			rule.use('css-context')
+		// 				.loader(CssContextLoader)
+		// 				.before('css-loader');
+		// 		}
+		// 	}
+		// 	webpackConfig.plugins.delete('extract-css');
+		// }
 	}
 
 	// HTML
-	webpackConfig.plugin('html-filter').use(HtmlFilterPlugin);
+	// webpackConfig.plugin('html-filter').use(HtmlFilterPlugin);
 	if (isProd) {
 		webpackConfig.plugin('html').tap((args) => {
 			args[0].minify.removeComments = false;
@@ -74,7 +74,7 @@ exports.chainWebpack = (webpackConfig) => {
 		.noInfo(true);
 
 	if (isClient) {
-		webpackConfig.plugin('ssr').use(VueSSRClientPlugin);
+		// webpackConfig.plugin('ssr').use(VueSSRClientPlugin);
 		webpackConfig
 			.plugin('loader')
 			.use(WebpackBar, [{ name: 'Client', color: 'green' }]);
@@ -89,14 +89,14 @@ exports.chainWebpack = (webpackConfig) => {
 				return options;
 			});
 	} else {
-		webpackConfig.plugin('ssr').use(VueSSRServerPlugin);
+		// webpackConfig.plugin('ssr').use(VueSSRServerPlugin);
 		webpackConfig
 			.plugin('loader')
 			.use(WebpackBar, [{ name: 'Server', color: 'orange' }]);
 
 		webpackConfig.devtool('source-map');
 		webpackConfig.externals(
-			nodeExternals({ whitelist: config.nodeExternalsWhitelist })
+			nodeExternals({ allowlist: config.nodeExternalsWhitelist })
 		);
 		webpackConfig.output.libraryTarget('commonjs2');
 		webpackConfig.target('node');

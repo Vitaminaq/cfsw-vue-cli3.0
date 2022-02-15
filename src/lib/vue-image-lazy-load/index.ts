@@ -1,3 +1,3 @@
-import VueImgLazyLoad, { directive } from './directive';
+import VueImgLazyLoad, { directive } from "./directive";
 
 export { directive, VueImgLazyLoad as default };

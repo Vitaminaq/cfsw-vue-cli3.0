@@ -4,21 +4,45 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service ssr:serve",
+    "test": "vue-cli-service test",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:ssr": "vue-cli-service ssr:build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vue/server-renderer": "^3.2.31",
     "@wefly/vue-image-lazy-load": "^1.0.0",
     "@wefly/vue-rescroll": "^1.0.1",
     "@wefly/vue-store-next": "^1.0.1",
     "@wefly/vue-virtual-scroller": "^1.0.5",
     "axios": "^0.26.0",
+    "chalk": "4.1.0",
+    "clipboardy": "^3.0.0",
+    "compression": "^1.7.4",
     "core-js": "^3.6.5",
+    "cross-env": "^7.0.3",
+    "express": "^4.17.2",
+    "fs-extra": "^10.0.0",
+    "hash-sum": "^2.0.0",
+    "ip": "^1.1.5",
     "js-cookie": "^3.0.1",
+    "loader-utils": "^3.2.0",
+    "lru-cache": "^7.3.1",
+    "memory-fs": "^0.5.0",
+    "portfinder": "^1.0.28",
+    "querystring": "0.2.0",
     "register-service-worker": "^1.7.1",
+    "rimraf": "^3.0.2",
+    "serve-favicon": "^2.5.0",
     "vue": "^3.2.31",
-    "vue-router": "^4.0.0-0"
+    "vue-router": "^4.0.0-0",
+    "webpack": "4.46.0",
+    "webpack-dev-middleware": "^5.3.1",
+    "webpack-hot-middleware": "^2.25.1",
+    "webpack-merge": "^5.8.0",
+    "webpack-node-externals": "^3.0.0",
+    "webpackbar": "^5.0.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.18.0",
@@ -39,7 +63,12 @@
     "less-loader": "^5.0.0",
     "postcss-pxtorem": "5.1.1",
     "prettier": "^2.2.1",
-    "typescript": "~4.1.5",
-    "vue-cli-plugin-ssr": "file:plugins/vue-cli-plugin-ssr"
+    "typescript": "~4.1.5"
+  },
+  "vuePlugins": {
+    "service": [
+      "./plugins/vue-cli-plugin-ssr",
+      "./plugins/ssr"
+    ]
   }
 }

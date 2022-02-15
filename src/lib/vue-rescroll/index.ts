@@ -1,2 +1,2 @@
-import VueRescroll, { directive } from './directive';
+import VueRescroll, { directive } from "./directive";
 export { VueRescroll as default, directive };

@@ -1,3 +1,3 @@
-import IntersectionOberserPolyfill from './intersection-observer-polyfill';
+import IntersectionOberserPolyfill from "./intersection-observer-polyfill";
 
 export default IntersectionOberserPolyfill;

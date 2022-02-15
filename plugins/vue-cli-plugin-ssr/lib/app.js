@@ -1,11 +1,11 @@
 const express = require('express');
-const { createBundleRenderer } = require('vue-server-renderer');
+const { createBundleRenderer } = require('@vue/server-renderer');
 const fs = require('fs');
 const favicon = require('serve-favicon');
 const LRU = require('lru-cache');
 const compression = require('compression');
-const appConfig = require('../../../config/index');
-const staticSvgSprite = require('../../../lib/static-svg-sprite');
+// const appConfig = require('../../../config/index');
+// const staticSvgSprite = require('../../../lib/static-svg-sprite');
 
 const config = require('./config');
 
@@ -32,9 +32,9 @@ module.exports = (app, options) => {
 		const directives = config.directives;
 
 		const defaultRendererOptions = {
-			cache: LRU({
+			cache: new LRU({
 				max: 1000,
-				maxAge: 1000 * 60 * 15
+				ttl: 1000 * 60 * 15
 			}),
 			runInNewContext: false,
 			inject: true, // 给模板文件自动注入各种依赖文件
@@ -80,7 +80,7 @@ module.exports = (app, options) => {
 			});
 
 		// Serve static files
-		staticSvgSprite(app);
+		// staticSvgSprite(app);
 		app.use(compression({ threshold: 0 }));
 		app.use(favicon(config.favicon));
 
@@ -115,7 +115,7 @@ module.exports = (app, options) => {
 				req,
 				url: req.url,
 				title: config.defaultTitle,
-				appConfig: appConfig(), // 传入基础配置
+				// appConfig: appConfig(), // 传入基础配置
 				httpCode: 200
 			};
 			renderer.renderToString(context, (err, html) => {

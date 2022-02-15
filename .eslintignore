@@ -1,0 +1,15 @@
+node_modules/*
+dist/*
+.gitignore
+package.json
+tsconfig.json
+yarn.lock
+config.local.js.rej
+public/*
+src/assets/*
+lib/*
+src/lib/*
+README.md
+src/commom/com-style.css
+src/index.html
+vue.config.js

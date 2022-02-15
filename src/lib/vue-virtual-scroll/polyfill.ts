@@ -1,16 +1,15 @@
-window.requestAnimFrame = (function() {
-    return (
-      window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      function(a) {
-        window.setTimeout(a, 1e3 / 60);
-      }
-    );
-  })();
-
+window.requestAnimFrame = (function () {
+  return (
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function (a) {
+      window.setTimeout(a, 1e3 / 60);
+    }
+  );
+})();
 
 interface Window {
   requestAnimFrame: any;
@@ -18,4 +17,3 @@ interface Window {
   oRequestAnimationFrame: any;
   msRequestAnimationFrame: any;
 }
-

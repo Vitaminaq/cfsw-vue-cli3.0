@@ -1,4 +1,4 @@
-import Svg from './svg.vue';
+import Svg from "./svg.vue";
 export default function install(Vue: any) {
-	Vue.component('svg-icon', Svg);
+  Vue.component("svg-icon", Svg);
 }
