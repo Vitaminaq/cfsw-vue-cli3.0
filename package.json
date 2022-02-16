@@ -6,8 +6,11 @@
     "dev": "vue-cli-service ssr:serve",
     "test": "vue-cli-service test",
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
     "build:ssr": "vue-cli-service ssr:build",
+    "build:client": "vue-cli-service build --dest dist/client",
+    "build:server": "cross-env SSR=1 vue-cli-service build --dest dist/server",
+    "start": "node server",
+    "build": "npm run build:client && npm run build:server",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -40,6 +43,7 @@
     "webpack": "4.46.0",
     "webpack-dev-middleware": "^5.3.1",
     "webpack-hot-middleware": "^2.25.1",
+    "webpack-manifest-plugin": "^4.1.1",
     "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0",
     "webpackbar": "^5.0.2"
