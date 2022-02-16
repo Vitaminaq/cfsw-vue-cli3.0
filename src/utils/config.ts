@@ -1,5 +1,5 @@
 import { createSSRApp, App, Component } from "vue";
-import { createMemoryHistory } from "vue-router";
+import { createMemoryHistory, createWebHistory } from "vue-router";
 
 export interface Config {
   base_h5: string;
@@ -29,6 +29,6 @@ export const _createApp = (root: Component): App => {
 };
 
 // 根据模式导出路由模式
-export const routerHistory = () => {
-  return createMemoryHistory();
+export const routerHistory = (ssr: boolean) => {
+  return ssr ? createMemoryHistory() : createWebHistory();
 };
