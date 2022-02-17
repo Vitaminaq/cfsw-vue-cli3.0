@@ -71,7 +71,6 @@
   },
   "vuePlugins": {
     "service": [
-      "./plugins/vue-cli-plugin-ssr",
       "./plugins/ssr"
     ]
   }

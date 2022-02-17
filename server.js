@@ -9,13 +9,9 @@ const server = express()
 const appPath = path.join(__dirname, './dist', 'server', manifest['app.js'])
 const createApp = require(appPath).default
 
-server.use('/img', express.static(path.join(__dirname, './dist/client', 'img')))
-server.use('/js', express.static(path.join(__dirname, './dist/client', 'js')))
-server.use('/css', express.static(path.join(__dirname, './dist/client', 'css')))
-server.use(
-  '/favicon.ico',
-  express.static(path.join(__dirname, './dist/client', 'favicon.ico'))
-)
+server.use('/', express.static(path.resolve(__dirname, './dist/client'), {
+  index: false
+}))
 
 server.get('*', async (req, res) => {
   const { app } = createApp()

@@ -1,23 +1,69 @@
-const webpack = require('webpack');
-
 module.exports = (api, options) => {
-	// api.chainWebpack((webpackConfig) => {
-	// 	// Default entry
-	// 	if (!process.env.VUE_CLI_SSR_TARGET) {
-	// 		webpackConfig
-	// 			.entry('app')
-	// 			.clear()
-	// 			.add(config.entry('client'));
-	// 	} else {
-	// 		const { chainWebpack } = require('./lib/webpack');
-	// 		// 不同环境使用不同配置
-	// 		chainWebpack(webpackConfig);
-	// 	}
-	// });
-    console.log(options, 'mmmmmmmmmmmmmmmmmmmmmmmmmmmm');
+	api.chainWebpack((webpackConfig) => {
+		const { ClientWebpack, ServerWebpack } = require('./webpack');
+		// Default entry
+		const { VUE_CLI_SSR_TARGET } = process.env;
+		if (!VUE_CLI_SSR_TARGET || VUE_CLI_SSR_TARGET === 'client')
+			return new ClientWebpack(webpackConfig)
+		return new ServerWebpack(webpackConfig)
+	});
 
 	api.registerCommand(
-		'test',
+		'ssr:build',
+		{
+			description: 'build for production (SSR)'
+		},
+		async (args) => {
+			const webpack = require('webpack');
+			// const rimraf = require('rimraf');
+			// const formatStats = require('@vue/cli-service/lib/commands/build/formatStats');
+
+			// const options = service.projectOptions;
+
+			// rimraf.sync(api.resolve(config.distPath));
+
+			const { getWebpackConfigs } = require('./webpack');
+			const [clientConfig, serverConfig] = getWebpackConfigs(api.service);
+
+			const compiler = webpack([clientConfig, serverConfig]);
+			// const onCompilationComplete = (err, stats) => {
+			// 	if (err) {
+			// 		// eslint-disable-next-line
+            //         console.error(err.stack || err)
+			// 		if (err.details) {
+			// 			// eslint-disable-next-line
+            //             console.error(err.details)
+			// 		}
+			// 		return;
+			// 	}
+
+			// 	if (stats.hasErrors()) {
+			// 		stats.toJson().errors.forEach((err) => console.error(err));
+			// 		process.exitCode = 1;
+			// 	}
+
+			// 	if (stats.hasWarnings()) {
+			// 		stats
+			// 			.toJson()
+			// 			.warnings.forEach((warn) => console.warn(warn));
+			// 	}
+
+			// 	try {
+			// 		// eslint-disable-next-line
+            //         console.log(formatStats(stats, options.outputDir, api));
+			// 	} catch (e) {}
+			// };
+
+			if (args.watch) {
+				// compiler.watch({}, onCompilationComplete);
+			} else {
+				compiler.run();
+			}
+		}
+	);
+
+	api.registerCommand(
+		'ssr:serve',
 		{
 			description: 'Run the included server.',
 			usage: 'vue-cli-service serve:ssr [options]',
@@ -27,40 +73,26 @@ module.exports = (api, options) => {
 			}
 		},
 		async (args) => {
-			// const { createServer } = require('./lib/server');
+			const { createServer } = require('./server');
 
-			// let port = args.port || config.port || process.env.PORT;
-			// if (!port) {
-			// 	const portfinder = require('portfinder');
-			// 	port = await portfinder.getPortPromise();
-			// }
+			let port = args.port || config.port || process.env.PORT;
 
-			// const host =
-			// 	args.host || config.host || process.env.HOST || 'localhost';
+			// 防止端口冲突
+			if (!port) {
+				const portfinder = require('portfinder');
+				port = await portfinder.getPortPromise();
+			}
 
-			// config.port = port;
-			// config.host = host;
+			const host =
+				args.host || config.host || process.env.HOST || 'localhost';
 
-			// await createServer({
-			// 	port,
-			// 	host
-			// });
-            const configA = api.resolveWebpackConfig();
-            console.log(configA, 'oooooooooooooooooooooooooooooooo');
-            const compiler = webpack(configA);
+			config.port = port;
+			config.host = host;
 
-            const watching = compiler.watch({
-                // watchOptions 示例
-                aggregateTimeout: 300,
-                poll: undefined
-            }, (err, stats) => {
-                // 在这里打印 watch/build 结果...
-                // console.log(stats);
-            });
-
-            // compiler.run((err, stats) => {
-            //     console.log(err, stats)    
-            // });
+			await createServer({
+				port,
+				host
+			});
 		}
 	);
 };
