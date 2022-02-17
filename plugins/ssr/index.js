@@ -75,23 +75,24 @@ module.exports = (api, options) => {
 		async (args) => {
 			const { createServer } = require('./server');
 
-			let port = args.port || config.port || process.env.PORT;
+			// let port = args.port || config.port || process.env.PORT;
 
 			// 防止端口冲突
-			if (!port) {
-				const portfinder = require('portfinder');
-				port = await portfinder.getPortPromise();
-			}
+			// if (!port) {
+			// 	const portfinder = require('portfinder');
+			// 	port = await portfinder.getPortPromise();
+			// }
 
-			const host =
-				args.host || config.host || process.env.HOST || 'localhost';
+			// const host =
+			// 	args.host || config.host || process.env.HOST || 'localhost';
 
-			config.port = port;
-			config.host = host;
+			// config.port = port;
+			// config.host = host;
 
 			await createServer({
-				port,
-				host
+				port: 8088,
+				host: '',
+				service: api.service
 			});
 		}
 	);

@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin') // 形成服务端manifest文件
 const nodeExternals = require('webpack-node-externals')
+const WebpackBar = require('webpackbar');
+const path = require('path');
 
 class BaseWebpack {
     config;
@@ -20,6 +22,10 @@ class ClientWebpack extends BaseWebpack {
             .entry('app')
             .clear()
             .add('./src/entry-client.ts');
+
+        config
+			.plugin('loader')
+			.use(WebpackBar, [{ name: 'Client', color: 'green' }]);
     }
 }
 
@@ -30,12 +36,10 @@ class ServerWebpack extends BaseWebpack {
             .entry('app')
             .clear()
             .add('./src/entry-server.ts');
-
+        config.libraryTarget('commonjs2');
         // 这允许 webpack 以适合于 Node 的方式处理动态导入，
         // 同时也告诉 `vue-loader` 在编译 Vue 组件的时候抛出面向服务端的代码。
         config.target('node');
-        // 这会告诉服务端的包使用 Node 风格的导出
-        config.output.libraryTarget('commonjs2');
 
         config
             .plugin('manifest')
@@ -55,11 +59,14 @@ class ServerWebpack extends BaseWebpack {
                 maxChunks: 1
             })
         );
+        config
+			.plugin('loader')
+			.use(WebpackBar, [{ name: 'Server', color: 'orange' }]);
     }
 }
 
 const getWebpackConfigs = (service) => {
-	process.env.VUE_CLI_MODE = service.mode;
+	// process.env.VUE_CLI_MODE = service.mode;
 	process.env.VUE_CLI_SSR_TARGET = 'client';
 	const clientConfig = service.resolveWebpackConfig();
 	process.env.VUE_CLI_SSR_TARGET = 'server';
