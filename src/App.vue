@@ -1,5 +1,5 @@
 <template>
-  <div>Current user is: {{ user }}</div>
+  <div>Current user is: {{ user }}222444</div>
 </template>
 
 <script>

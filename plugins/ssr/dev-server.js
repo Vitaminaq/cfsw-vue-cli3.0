@@ -7,7 +7,15 @@ const ip = require('ip');
 
 // const config = require('./config');
 
-module.exports.setupDevServer = ({ server, templatePath, onUpdate, service }) =>
+const requireFromString = (str) => {
+	var m = new module.constructor();
+	// console.log(str);
+	// 'module.exports = { test: 1}'
+	m._compile(str, 'app.js');
+	return m.exports;
+}
+
+module.exports.setupDevServer = ({ server, templatePath, onUpdate, api }) =>
 	new Promise((resolve, reject) => {
 		// const service = config.service;
 		// if (!service) {
@@ -19,18 +27,8 @@ module.exports.setupDevServer = ({ server, templatePath, onUpdate, service }) =>
 		// 	return;
 		// }
 
-		// Read file in real or virtual file systems
-		const readFile = (fs, file) => {
-			try {
-				return fs.readFileSync(
-					path.join(clientConfig.output.path, file),
-					'utf-8'
-				);
-			} catch (e) {}
-		};
-
 		const { getWebpackConfigs } = require('./webpack');
-		const [clientConfig, serverConfig] = getWebpackConfigs(service);
+		const [clientConfig, serverConfig] = getWebpackConfigs(api.service);
 
 		let createApp;
 		let template;
@@ -42,8 +40,8 @@ module.exports.setupDevServer = ({ server, templatePath, onUpdate, service }) =>
 
 		const update = () => {
 			if (createApp && clientManifest) {
-				resolve(createApp);
-				onUpdate();
+				resolve(createApp, template);
+				onUpdate(createApp, template);
 			}
 		};
 
@@ -87,7 +85,9 @@ module.exports.setupDevServer = ({ server, templatePath, onUpdate, service }) =>
 			// );
 
 			// // HTML Template
-			// template = fs.readFileSync(templatePath, 'utf8');
+			// template = fs.readFileSync(path.join(clientConfig.output.path, 'index.html'));
+
+			template = fs.readFileSync(api.resolve(`./dist/client/index.html`), 'utf8');
 
 			clientManifest = 1;
 
@@ -132,13 +132,23 @@ module.exports.setupDevServer = ({ server, templatePath, onUpdate, service }) =>
 				'utf-8'
 			));
 
-			// createApp = serverMfs.meta(path.join(serverConfig.output.path, manifest['app.js']))
 
-			console.log(manifest, serverConfig.output.path, 'xxxxxxxxxxxxxxxxxxxxxxxx')
+			const appFile = serverMfs.readFileSync(path.join(serverConfig.output.path, manifest['app.js']), 'utf-8');
 
-			const appPath = serverMfs.normalize(path.join(serverConfig.output.path, manifest['app.js']));
+			template = fs.readFileSync(path.join(clientConfig.output.path, 'index.html'));
 
-			createApp = require(appPath).default;
+			// console.log(appFile, 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+			// // const appPath = eval(appFile);
+
+			// // console.log(appPath, 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
+
+			// // createApp = require(appPath).default;
+
+			// createApp = requireFromString(appFile);
+
+			createApp = eval(appFile).default;
+
+			// console.log(eval(appFile).default, 'mmmmmmmmmmmmmmmmmmmmmmm444777777')
 
 			update();
 			onCompilationCompleted();

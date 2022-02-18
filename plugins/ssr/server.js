@@ -2,11 +2,11 @@ const express = require('express');
 const applyApp = require('./app');
 const ip = require('ip');
 
-exports.createServer = ({ port, host, service }) => {
+exports.createServer = ({ port, host, api }) => {
 	return new Promise(async (resolve, reject) => {
 		const app = express();
 
-		await applyApp(app, service);
+		await applyApp(app, api);
 
 		const h = host || ip.address();
 

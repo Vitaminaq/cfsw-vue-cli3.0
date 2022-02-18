@@ -1,4 +1,4 @@
-module.exports = (api, options) => {
+const webpackConfig = (api) =>
 	api.chainWebpack((webpackConfig) => {
 		const { ClientWebpack, ServerWebpack } = require('./webpack');
 		// Default entry
@@ -8,6 +8,7 @@ module.exports = (api, options) => {
 		return new ServerWebpack(webpackConfig)
 	});
 
+module.exports = (api, options) => {
 	api.registerCommand(
 		'ssr:build',
 		{
@@ -15,6 +16,7 @@ module.exports = (api, options) => {
 		},
 		async (args) => {
 			const webpack = require('webpack');
+			webpackConfig(api);
 			// const rimraf = require('rimraf');
 			// const formatStats = require('@vue/cli-service/lib/commands/build/formatStats');
 
@@ -73,7 +75,10 @@ module.exports = (api, options) => {
 			}
 		},
 		async (args) => {
+			webpackConfig(api);
 			const { createServer } = require('./server');
+
+			console.log(api.resolve(`./dist/client/index.html`), 'lllllllllllllllllllllll')
 
 			// let port = args.port || config.port || process.env.PORT;
 
@@ -92,7 +97,7 @@ module.exports = (api, options) => {
 			await createServer({
 				port: 8088,
 				host: '',
-				service: api.service
+				api
 			});
 		}
 	);

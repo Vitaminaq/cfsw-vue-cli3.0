@@ -7,10 +7,10 @@
     "test": "vue-cli-service test",
     "serve": "vue-cli-service serve",
     "build:ssr": "vue-cli-service ssr:build",
-    "build:client": "vue-cli-service build --dest dist/client",
-    "build:server": "cross-env SSR=1 vue-cli-service build --dest dist/server",
+    "build:c": "vue-cli-service build --dest dist/client",
+    "build:s": "cross-env SSR=1 vue-cli-service build --dest dist/server",
     "start": "node server",
-    "build": "npm run build:client && npm run build:server",
+    "build": "npm run build:c && npm run build:s",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

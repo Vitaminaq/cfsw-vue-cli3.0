@@ -24,6 +24,11 @@ class ClientWebpack extends BaseWebpack {
             .add('./src/entry-client.ts');
 
         config
+            .output
+            .path(path.resolve(process.cwd(), './dist/client'))
+            .filename('js/[name].[hash].js');
+        
+        config
 			.plugin('loader')
 			.use(WebpackBar, [{ name: 'Client', color: 'green' }]);
     }
@@ -36,7 +41,11 @@ class ServerWebpack extends BaseWebpack {
             .entry('app')
             .clear()
             .add('./src/entry-server.ts');
-        config.libraryTarget('commonjs2');
+        config
+            .output
+            .path(path.resolve(process.cwd(), './dist/server'))
+            .filename('js/[name].[hash].js')
+            .libraryTarget('commonjs2');
         // 这允许 webpack 以适合于 Node 的方式处理动态导入，
         // 同时也告诉 `vue-loader` 在编译 Vue 组件的时候抛出面向服务端的代码。
         config.target('node');

@@ -1,5 +1,4 @@
 const express = require('express');
-const { createBundleRenderer } = require('@vue/server-renderer');
 const fs = require('fs');
 const favicon = require('serve-favicon');
 const LRU = require('lru-cache');
@@ -15,7 +14,7 @@ const DEFAULT_OPTIONS = {
 	prodOnly: false
 };
 
-module.exports = async (app, service) => {
+module.exports = async (app, api) => {
 	// options = Object.assign({}, DEFAULT_OPTIONS, options);
 
 	const isProd = process.env.NODE_ENV === 'production';
@@ -43,6 +42,7 @@ module.exports = async (app, service) => {
 		// 	directives
 		// };
 		let createApp;
+		let template = '';
 
 		if (isProd) {
 			const manifest = require('./dist/server/ssr-manifest.json')
@@ -54,9 +54,15 @@ module.exports = async (app, service) => {
 			// In development: setup the dev server with watch and hot-reload,
 			// and create a new renderer on bundle / index template update.
 			const { setupDevServer } = require('./dev-server');
+			console.log('dev开发');
 			createApp = await setupDevServer({
 				server: app,
-				service
+				api,
+				onUpdate: (createApp, template) => {
+					console.log('更新')
+					createApp = createApp;
+					template = template;
+				}
 			});
 		}
 
@@ -82,13 +88,13 @@ module.exports = async (app, service) => {
 		// 把打包好的文件转成静态资源
 		// const serveStaticFiles = serve(config.distPath, true);
 		// 拒绝访问index.html模板文件
-		app.use((req, res, next) => {
-			if (/index\.html/g.test(req.path)) {
-				next();
-			} else {
-				serveStaticFiles(req, res, next);
-			}
-		});
+		// app.use((req, res, next) => {
+		// 	if (/index\.html/g.test(req.path)) {
+		// 		next();
+		// 	} else {
+		// 		serveStaticFiles(req, res, next);
+		// 	}
+		// });
 
 		// // 额外配置
 		// if (config.extendServer) {
@@ -159,19 +165,25 @@ module.exports = async (app, service) => {
 			// res.status(200).send('11111');
 			const { app } = createApp()
 
-			const appContent = await renderToString(app)
+			const appContent = await renderToString(app);
 
-			fs.readFile(path.join(__dirname, '/dist/client/index.html'), (err, html) => {
-				if (err) {
-					throw err
-					}
-
-					html = html
+			template = template
 					.toString()
 					.replace('<div id="app">', `<div id="app">${appContent}`)
 					res.setHeader('Content-Type', 'text/html')
 					res.send(html)
-				})
+
+			// fs.readFile(path.resolve(process.cwd(), './dist/client/index.html'), (err, html) => {
+			// 	if (err) {
+			// 		throw err
+			// 		}
+
+			// 		html = html
+			// 		.toString()
+			// 		.replace('<div id="app">', `<div id="app">${appContent}`)
+			// 		res.setHeader('Content-Type', 'text/html')
+			// 		res.send(html)
+			// 	})
 			});
 		return createApp;
 	} catch (e) {
