@@ -78,8 +78,6 @@ module.exports = (api, options) => {
 			webpackConfig(api);
 			const { createServer } = require('./server');
 
-			console.log(api.resolve(`./dist/client/index.html`), 'lllllllllllllllllllllll')
-
 			// let port = args.port || config.port || process.env.PORT;
 
 			// 防止端口冲突
