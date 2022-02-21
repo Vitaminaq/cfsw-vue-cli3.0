@@ -12,6 +12,13 @@ class BaseWebpack {
         config.module.rule('js').uses.delete('cache-loader');
         config.module.rule('ts').uses.delete('cache-loader');
         config.module.rule('tsx').uses.delete('cache-loader');
+
+        config.stats('none');
+
+        config.devServer
+            .stats('errors-only')
+            .quiet(true)
+            .noInfo(true);
     }
 }
 
@@ -23,10 +30,10 @@ class ClientWebpack extends BaseWebpack {
             .clear()
             .add('./src/entry-client.ts');
 
-        config
-            .output
-            .path(path.resolve(process.cwd(), './dist/client'))
-            .filename('js/[name].[hash].js');
+        // config
+        //     .output
+        //     .path(path.resolve(process.cwd(), './dist/client'))
+        //     .filename('js/[name].[hash].js');
         
         config
 			.plugin('loader')
@@ -43,8 +50,8 @@ class ServerWebpack extends BaseWebpack {
             .add('./src/entry-server.ts');
         config
             .output
-            .path(path.resolve(process.cwd(), './dist/server'))
-            .filename('js/[name].[hash].js')
+            // .path(path.resolve(process.cwd(), './dist/server'))
+            // .filename('js/[name].[hash].js')
             .libraryTarget('commonjs2');
         // 这允许 webpack 以适合于 Node 的方式处理动态导入，
         // 同时也告诉 `vue-loader` 在编译 Vue 组件的时候抛出面向服务端的代码。

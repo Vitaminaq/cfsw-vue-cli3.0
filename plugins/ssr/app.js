@@ -1,11 +1,11 @@
-const express = require('express');
 const fs = require('fs');
 const favicon = require('serve-favicon');
 const LRU = require('lru-cache');
 const compression = require('compression');
+const serialize = require('serialize-javascript');
 
-const path = require('path')
-const { renderToString } = require('@vue/server-renderer')
+const path = require('path');
+const { renderToString } = require('@vue/server-renderer');
 
 
 // const config = require('./config');
@@ -80,17 +80,26 @@ module.exports = async (app, api) => {
 			// if (config.skipRequests(req)) {
 			// 	return next();
 			// }
-			const { app } = createApp()
+			const { app, store } = await createApp(req.originalUrl, {});
 
 			const appContent = await renderToString(app);
 
-			console.log(template, 'lllllllllllllllllllllll');
+			// 读取配置文件，注入给客户端
+			const config = require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` }).parsed;
+			const state =
+				'<script>window.__INIT_STATE__=' +
+				serialize(store, { isJSON: true }) + ';' +
+				'window.__APP_CONFIG__=' + serialize(config, { isJSON: true }) +
+				'</script>';
+
+			const html = template
+				.toString()
+				.replace('<div id="app">', `<div id="app">${appContent}`)
+				.replace(`<!--app-store-->`, state);
 
 			res.setHeader('Content-Type', 'text/html');
-			res.send( template
-				.toString()
-				.replace('<div id="app">', `<div id="app">${appContent}`));
-			});
+			res.send(html)
+		});
 		return createApp;
 	} catch (e) {
 		console.error(e);

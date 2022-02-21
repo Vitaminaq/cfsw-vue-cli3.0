@@ -1,5 +1,6 @@
 const webpackConfig = (api) =>
 	api.chainWebpack((webpackConfig) => {
+		console.log(webpackConfig, 'wwwwwwwwwwwwwwwwwwwwwwww');
 		const { ClientWebpack, ServerWebpack } = require('./webpack');
 		// Default entry
 		const { VUE_CLI_SSR_TARGET } = process.env;
@@ -18,7 +19,7 @@ module.exports = (api, options) => {
 			const webpack = require('webpack');
 			webpackConfig(api);
 			// const rimraf = require('rimraf');
-			// const formatStats = require('@vue/cli-service/lib/commands/build/formatStats');
+			const formatStats = require('@vue/cli-service/lib/commands/build/formatStats');
 
 			// const options = service.projectOptions;
 
@@ -28,38 +29,38 @@ module.exports = (api, options) => {
 			const [clientConfig, serverConfig] = getWebpackConfigs(api.service);
 
 			const compiler = webpack([clientConfig, serverConfig]);
-			// const onCompilationComplete = (err, stats) => {
-			// 	if (err) {
-			// 		// eslint-disable-next-line
-            //         console.error(err.stack || err)
-			// 		if (err.details) {
-			// 			// eslint-disable-next-line
-            //             console.error(err.details)
-			// 		}
-			// 		return;
-			// 	}
+			const onCompilationComplete = (err, stats) => {
+				if (err) {
+					// eslint-disable-next-line
+                    console.error(err.stack || err)
+					if (err.details) {
+						// eslint-disable-next-line
+                        console.error(err.details)
+					}
+					return;
+				}
 
-			// 	if (stats.hasErrors()) {
-			// 		stats.toJson().errors.forEach((err) => console.error(err));
-			// 		process.exitCode = 1;
-			// 	}
+				if (stats.hasErrors()) {
+					stats.toJson().errors.forEach((err) => console.error(err));
+					process.exitCode = 1;
+				}
 
-			// 	if (stats.hasWarnings()) {
-			// 		stats
-			// 			.toJson()
-			// 			.warnings.forEach((warn) => console.warn(warn));
-			// 	}
+				if (stats.hasWarnings()) {
+					stats
+						.toJson()
+						.warnings.forEach((warn) => console.warn(warn));
+				}
 
-			// 	try {
-			// 		// eslint-disable-next-line
-            //         console.log(formatStats(stats, options.outputDir, api));
-			// 	} catch (e) {}
-			// };
+				try {
+					// eslint-disable-next-line
+                    console.log(formatStats(stats, options.outputDir, api));
+				} catch (e) {}
+			};
 
 			if (args.watch) {
 				// compiler.watch({}, onCompilationComplete);
 			} else {
-				compiler.run();
+				compiler.run(onCompilationComplete);
 			}
 		}
 	);

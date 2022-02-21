@@ -1,5 +1,5 @@
 <template>
-  <div>Current user is: {{ user }}2224458885</div>
+  <router-view />
 </template>
 
 <script>

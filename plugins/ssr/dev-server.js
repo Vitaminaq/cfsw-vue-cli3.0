@@ -113,15 +113,6 @@ module.exports.setupDevServer = ({ server, onUpdate, api }) =>
 
 			const appFile = serverMfs.readFileSync(path.join(serverConfig.output.path, manifest['app.js']), 'utf-8');
 
-			// console.log(appFile, 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
-			// // const appPath = eval(appFile);
-
-			// // console.log(appPath, 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
-
-			// // createApp = require(appPath).default;
-
-			// createApp = requireFromString(appFile);
-
 			createApp = eval(appFile).default;
 
 			update();
