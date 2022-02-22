@@ -13,7 +13,7 @@ module.exports = async (app, api) => {
 
 	const isProd = process.env.NODE_ENV === 'production';
 
-	console.log(isProd, 'pppppppppppppppppppppppppppppp');
+	console.log(isProd, global, 'pppppppppppppppppppppppppppppp111');
 
 	try {
 

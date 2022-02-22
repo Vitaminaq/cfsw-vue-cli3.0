@@ -4,13 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service ssr:serve",
-    "test": "vue-cli-service test",
-    "serve": "vue-cli-service serve",
-    "build:ssr": "vue-cli-service ssr:build",
-    "build:c": "vue-cli-service build --dest dist/client",
-    "build:s": "cross-env SSR=1 vue-cli-service build --dest dist/server",
-    "start": "vue-cli-service ssr:start",
-    "build": "npm run build:c && npm run build:s",
+    "build:ssr": "cross-env NODE_ENV=beta vue-cli-service ssr:build",
+    "start": "cross-env NODE_ENV=production RUN_TYPE=build vue-cli-service ssr:serve",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

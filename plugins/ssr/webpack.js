@@ -2,18 +2,24 @@ const webpack = require('webpack');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin') // 形成服务端manifest文件
 const nodeExternals = require('webpack-node-externals')
 const WebpackBar = require('webpackbar');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 const { config: baseConfig } = require('./config');
 
 class BaseWebpack {
     config;
     constructor(config) {
         this.config = config;
+
+        config.plugins.delete('hmr');
         config.module.rule('vue').uses.delete('cache-loader');
         config.module.rule('js').uses.delete('cache-loader');
         config.module.rule('ts').uses.delete('cache-loader');
         config.module.rule('tsx').uses.delete('cache-loader');
 
         config.stats('none');
+
+        config.output.filename('js/[name].[hash].js').chunkFilename('js/[name].[chunkhash].js');
 
         config.devServer
             .stats('errors-only')
@@ -29,6 +35,25 @@ class ClientWebpack extends BaseWebpack {
             .entry('app')
             .clear()
             .add('./src/entry-client');
+        
+        // const langs = ['css', 'postcss', 'scss', 'sass', 'less', 'stylus'];
+        // const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
+        // for (const lang of langs) {
+        //     for (const type of types) {
+        //         const rule = config.module.rule(lang).oneOf(type);
+        //         rule.use('extract-css-loader').loader(MiniCssExtractPlugin);
+        //         // rule.uses.delete('extract-css-loader');
+        //         // // Critical CSS
+        //         // rule.use('css-context')
+        //         //     .loader(CssContextLoader)
+        //         //     .before('css-loader');
+        //         console.log(rule, 'wwwwwwwwwwwwwwwwwwwww')
+        //     }
+        // }
+
+        // config.plugin('MiniCssExtractPlugin').use(MiniCssExtractPlugin, [{
+        //     filename: "[name].css"
+        // }]);
         
         config
 			.plugin('loader')

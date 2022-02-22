@@ -1,0 +1,1 @@
+import{b as s}from"./base-loader-class.fd2cc1a4.js";import"./vendor.fa45f8ae.js";class e extends s{constructor(){super(...arguments),this.startAddress={name:"定位中...",lat:0,lng:0},this.endAddress=null}$setStartAddress(s){Object.assign(this.startAddress,s)}$setEndAddress(s){Object.assign(this.endAddress,s)}}e.moduleName="taxi";export default e;

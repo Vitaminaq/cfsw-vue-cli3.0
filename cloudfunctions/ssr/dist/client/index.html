@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="dns-prefetch" href="www.vitaminaq.com" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="flexible" content="initial-dpr=1" />
+    <title>cfsw</title>
+    <!--preload-links-->
+    <script src="https://map.qq.com/api/gljs?v=1.exp&key=UFTBZ-HATC6-VYESI-MSJXK-YIAQ7-IEBRU"></script>
+		<script
+			type="text/javascript"
+			src="https://mapapi.qq.com/web/mapComponents/geoLocation/v/geolocation.min.js"
+		></script>
+  <script type="module" crossorigin src="/cfsw/assets/index.8d805dfd.js"></script>
+  <link rel="modulepreload" href="/cfsw/assets/vendor.fa45f8ae.js">
+  <link rel="stylesheet" href="/cfsw/assets/index.f62d45b4.css">
+</head>
+  <body>
+    <div id="app"><!--app-html--></div>
+    
+    <!--app-store-->
+    <script>
+      (function flexible(window, document) {
+        var docEl = document.documentElement;
+        var dpr = window.devicePixelRatio || 1;
+
+        function setBodyFontSize() {
+          if (document.body) {
+            document.body.style.fontSize = 12 * dpr + "px";
+            document.body.classList.add("flexible-ready");
+          } else {
+            document.addEventListener("DOMContentLoaded", setBodyFontSize);
+          }
+        }
+        setBodyFontSize();
+
+        function setRemUnit() {
+          var rem = docEl.clientWidth / 10;
+          if (rem > 102.4) rem = 102.4;
+          docEl.style.fontSize = rem + "px";
+        }
+
+        setRemUnit();
+
+        window.addEventListener("resize", setRemUnit);
+        window.addEventListener("pageshow", function (e) {
+          if (e.persisted) {
+            setRemUnit();
+          }
+        });
+
+        if (dpr >= 2) {
+          var fakeBody = document.createElement("body");
+          var testElement = document.createElement("div");
+          testElement.style.border = ".5px solid transparent";
+          fakeBody.appendChild(testElement);
+          docEl.appendChild(fakeBody);
+          if (testElement.offsetHeight === 1) {
+            docEl.classList.add("hairlines");
+          }
+          docEl.removeChild(fakeBody);
+        }
+      })(window, document);
+    </script>
+  </body>
+</html>

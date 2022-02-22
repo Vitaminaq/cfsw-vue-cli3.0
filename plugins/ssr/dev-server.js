@@ -106,12 +106,7 @@ module.exports.setupDevServer = ({ server, onUpdate }) =>
 			}
 			if (stats.hasErrors()) return;
 			// 读取内存里面的文件
-			const manifest = JSON.parse(serverMfs.readFileSync(
-				path.join(serverConfig.output.path, 'ssr-manifest.json'),
-				'utf-8'
-			));
-
-			const appFile = serverMfs.readFileSync(path.join(serverConfig.output.path, manifest['app.js']), 'utf-8');
+			const appFile = serverMfs.readFileSync(path.join(serverConfig.output.path, 'js/app.js'), 'utf-8');
 
 			createApp = eval(appFile).default;
 
