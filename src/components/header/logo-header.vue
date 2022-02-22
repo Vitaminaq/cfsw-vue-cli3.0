@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header><span>Confenssion Wall11123</span></header>
+    <header><span>Confenssion Wall</span></header>
     <div class="empty"></div>
   </div>
 </template>
@@ -8,7 +8,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "logo-header",
+  name: "logo-header"
 });
 </script>
 <style lang="less" scoped>

@@ -9,7 +9,7 @@
     "build:ssr": "vue-cli-service ssr:build",
     "build:c": "vue-cli-service build --dest dist/client",
     "build:s": "cross-env SSR=1 vue-cli-service build --dest dist/server",
-    "start": "node server",
+    "start": "vue-cli-service ssr:start",
     "build": "npm run build:c && npm run build:s",
     "lint": "vue-cli-service lint"
   },

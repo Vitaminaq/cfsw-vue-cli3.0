@@ -30,11 +30,11 @@ const routes: RouteRecordRaw[] = [
        * 微博详情
        * path: /blog/detail
        */
-      // {
-      //   path: "detail",
-      //   name: "blog-detail",
-      //   component: BlogDetail,
-      // },
+      {
+        path: "detail",
+        name: "blog-detail",
+        component: BlogDetail,
+      },
       // /**
       //  * 微博评论
       //  * path: /blog/comment

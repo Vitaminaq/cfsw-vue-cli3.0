@@ -3,7 +3,8 @@ import { config, Config } from "@src/utils/config";
 
 // 获取对应baseUrl
 const getBaseUrl = (key: keyof Config = "base_url"): string => {
-  return config[key] ? config[key] : key;
+  // return config[key] ? config[key] : key;
+  return 'https://www.vitaminaq.cn';
 };
 
 // 替换url中的占位符

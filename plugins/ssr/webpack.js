@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin') // 形成服务端manifest文件
 const nodeExternals = require('webpack-node-externals')
 const WebpackBar = require('webpackbar');
-const path = require('path');
+const { config: baseConfig } = require('./config');
 
 class BaseWebpack {
     config;
@@ -28,12 +28,7 @@ class ClientWebpack extends BaseWebpack {
         config
             .entry('app')
             .clear()
-            .add('./src/entry-client.ts');
-
-        // config
-        //     .output
-        //     .path(path.resolve(process.cwd(), './dist/client'))
-        //     .filename('js/[name].[hash].js');
+            .add('./src/entry-client');
         
         config
 			.plugin('loader')
@@ -47,12 +42,12 @@ class ServerWebpack extends BaseWebpack {
         config
             .entry('app')
             .clear()
-            .add('./src/entry-server.ts');
+            .add('./src/entry-server');
+
         config
             .output
-            // .path(path.resolve(process.cwd(), './dist/server'))
-            // .filename('js/[name].[hash].js')
             .libraryTarget('commonjs2');
+
         // 这允许 webpack 以适合于 Node 的方式处理动态导入，
         // 同时也告诉 `vue-loader` 在编译 Vue 组件的时候抛出面向服务端的代码。
         config.target('node');
@@ -61,7 +56,7 @@ class ServerWebpack extends BaseWebpack {
             .plugin('manifest')
             .use(new WebpackManifestPlugin({ fileName: 'ssr-manifest.json' }));
 
-        config.externals(nodeExternals({ allowlist: /\.(css|vue)$/ }));
+        config.externals(nodeExternals({ allowlist: baseConfig.nodeExternalsWhitelist }));
 
         config.optimization.splitChunks(false).minimize(false);
 
@@ -78,14 +73,21 @@ class ServerWebpack extends BaseWebpack {
         config
 			.plugin('loader')
 			.use(WebpackBar, [{ name: 'Server', color: 'orange' }]);
+
+        config.node.clear();
     }
 }
 
 const getWebpackConfigs = (service) => {
 	// process.env.VUE_CLI_MODE = service.mode;
 	process.env.VUE_CLI_SSR_TARGET = 'client';
+
+    // Override outputDir before resolving webpack config
+    service.projectOptions.outputDir = `${baseConfig.distPath}/client`;
 	const clientConfig = service.resolveWebpackConfig();
+
 	process.env.VUE_CLI_SSR_TARGET = 'server';
+    service.projectOptions.outputDir = `${baseConfig.distPath}/server`;
 	const serverConfig = service.resolveWebpackConfig();
 	return [clientConfig, serverConfig];
 };

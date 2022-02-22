@@ -1,10 +1,6 @@
 <template>
 	<div
 		class="detail"
-		v-rescroll="{
-			name: `detail${$route.query.id}`,
-			storageMode: 'localstorage'
-		}"
 	>
 		<HeaderGeneral
 			headerTitle="微博正文"
@@ -87,11 +83,11 @@ export default defineComponent({
 			return '';
 		}
     },
-	async asyncData({ store, router }: any) {
+	async asyncData({ store, router, route }: any) {
 		if (!store.blog) return;
 		const { blogDetail } = store.blog;
         blogDetail.$assignParams({
-            id: router.query.id
+            id: route.query.id
         })
         await blogDetail.loadData();
 	},

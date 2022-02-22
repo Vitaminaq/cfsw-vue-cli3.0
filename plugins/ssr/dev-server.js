@@ -1,9 +1,9 @@
 const path = require('path');
 const MFS = require('memory-fs');
-const fs = require('fs');
 const webpack = require('webpack');
 const chalk = require('chalk');
 const ip = require('ip');
+const { config } = require('./config');
 
 // const requireFromString = (str) => {
 // 	var m = new module.constructor();
@@ -13,23 +13,23 @@ const ip = require('ip');
 // 	return m.exports;
 // }
 
-module.exports.setupDevServer = ({ server, onUpdate, api }) =>
+module.exports.setupDevServer = ({ server, onUpdate }) =>
 	new Promise((resolve, reject) => {
 		const { getWebpackConfigs } = require('./webpack');
-		const [clientConfig, serverConfig] = getWebpackConfigs(api.service);
+		const [clientConfig, serverConfig] = getWebpackConfigs(config.api.service);
 
 		let createApp;
 		let template;
 
-		const url = `http://${ip.address()}:8088`;
+		const url = `http://${ip.address()}:${config.port}`;
 
 		const update = () => {
 			if (createApp && template) {
+				onUpdate({ ca: createApp, tl: template });
 				resolve({
 					createApp,
 					template
 				});
-				onUpdate({createApp, template});
 			}
 		};
 
@@ -114,6 +114,8 @@ module.exports.setupDevServer = ({ server, onUpdate, api }) =>
 			const appFile = serverMfs.readFileSync(path.join(serverConfig.output.path, manifest['app.js']), 'utf-8');
 
 			createApp = eval(appFile).default;
+
+			console.log(createApp, 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
 
 			update();
 			onCompilationCompleted();

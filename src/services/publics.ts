@@ -139,13 +139,13 @@ export const getAsyncData = (
     const { prefetchData: isPrefetch } = query;
 
     // 预取数据
-    if (
-      (isServer && Number(isPrefetch)) ||
-      (!isServer && !Number(isPrefetch))
-    ) {
+    // if (
+    //   (isServer && Number(isPrefetch)) ||
+    //   (!isServer && !Number(isPrefetch))
+    // ) {
       await prefetchData(components, router, store, isServer);
-    }
-    !isServer && store.ssrPath !== fullPath && store.$setSsrPath("");
+    // }
+    // !isServer && store.ssrPath !== fullPath && store.$setSsrPath("");
 
     resolve();
   });

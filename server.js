@@ -14,7 +14,9 @@ server.use('/', express.static(path.resolve(__dirname, './dist/client'), {
 }))
 
 server.get('*', async (req, res) => {
-  const { app } = createApp()
+  const { app } = await createApp(req.originalUrl, {})
+
+  console.log(app, 'pppppppppppppppppppppppppp')
 
   const appContent = await renderToString(app)
 

@@ -85,7 +85,11 @@ module.exports = {
   },
   pluginOptions: {
     ssr: {
-      templatePath: path.resolve(__dirname, "./public/index.html"),
+      port: 8085,
+      nodeExternalsWhitelist: [/\.css$/, /\?vue&type=style/],
+      extendServer: null,
+      distPath: 'dist',
+      maxAge: 1000 * 60 * 60 * 24 * 30
     },
   },
 };

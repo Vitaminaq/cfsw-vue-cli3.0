@@ -1,15 +1,20 @@
+const { mergeConfig, config } = require('./config');
+
 const webpackConfig = (api) =>
 	api.chainWebpack((webpackConfig) => {
-		console.log(webpackConfig, 'wwwwwwwwwwwwwwwwwwwwwwww');
 		const { ClientWebpack, ServerWebpack } = require('./webpack');
 		// Default entry
 		const { VUE_CLI_SSR_TARGET } = process.env;
+
+		console.log(VUE_CLI_SSR_TARGET, 'jjjjjjjjjjjjjjjjjjjjjjjjjjj')
 		if (!VUE_CLI_SSR_TARGET || VUE_CLI_SSR_TARGET === 'client')
-			return new ClientWebpack(webpackConfig)
-		return new ServerWebpack(webpackConfig)
+			return new ClientWebpack(webpackConfig);
+		return new ServerWebpack(webpackConfig);
 	});
 
 module.exports = (api, options) => {
+	mergeConfig({ ...options.pluginOptions.ssr, api });
+
 	api.registerCommand(
 		'ssr:build',
 		{
@@ -17,6 +22,8 @@ module.exports = (api, options) => {
 		},
 		async (args) => {
 			const webpack = require('webpack');
+
+			// modify webpack config
 			webpackConfig(api);
 			// const rimraf = require('rimraf');
 			const formatStats = require('@vue/cli-service/lib/commands/build/formatStats');
@@ -29,6 +36,7 @@ module.exports = (api, options) => {
 			const [clientConfig, serverConfig] = getWebpackConfigs(api.service);
 
 			const compiler = webpack([clientConfig, serverConfig]);
+
 			const onCompilationComplete = (err, stats) => {
 				if (err) {
 					// eslint-disable-next-line
@@ -79,23 +87,20 @@ module.exports = (api, options) => {
 			webpackConfig(api);
 			const { createServer } = require('./server');
 
-			// let port = args.port || config.port || process.env.PORT;
+			console.log(config, 'oooooooooooooooooo');
+
+			const port = args.port || config.port || process.env.PORT;
 
 			// 防止端口冲突
-			// if (!port) {
-			// 	const portfinder = require('portfinder');
-			// 	port = await portfinder.getPortPromise();
-			// }
+			if (!port) {
+				const portfinder = require('portfinder');
+				port = await portfinder.getPortPromise();
+			}
 
-			// const host =
-			// 	args.host || config.host || process.env.HOST || 'localhost';
-
-			// config.port = port;
-			// config.host = host;
+			config.port = port;
 
 			await createServer({
-				port: 8088,
-				host: '',
+				port,
 				api
 			});
 		}

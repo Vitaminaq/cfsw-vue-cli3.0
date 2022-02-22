@@ -2,13 +2,13 @@ const express = require('express');
 const applyApp = require('./app');
 const ip = require('ip');
 
-exports.createServer = ({ port, host, api }) => {
+exports.createServer = ({ port }) => {
 	return new Promise(async (resolve, reject) => {
 		const app = express();
 
-		await applyApp(app, api);
+		await applyApp(app);
 
-		const h = host || ip.address();
+		const h = ip.address();
 
 		app.listen(port, h, (err) => {
 			if (err) {

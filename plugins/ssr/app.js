@@ -1,55 +1,44 @@
 const fs = require('fs');
 const favicon = require('serve-favicon');
-const LRU = require('lru-cache');
 const compression = require('compression');
 const serialize = require('serialize-javascript');
 
-const path = require('path');
 const { renderToString } = require('@vue/server-renderer');
+const express = require('express')
+const { config } = require('./config');
 
-
-// const config = require('./config');
-
-const DEFAULT_OPTIONS = {
-	prodOnly: false
-};
 
 module.exports = async (app, api) => {
 	// options = Object.assign({}, DEFAULT_OPTIONS, options);
 
 	const isProd = process.env.NODE_ENV === 'production';
 
-	// if (options.prodOnly && !isProd) return;
-
-	// const templatePath = config.templatePath;
+	console.log(isProd, 'pppppppppppppppppppppppppppppp');
 
 	try {
 
 		let createApp;
-		let template;
+	    let template;
 
 		if (isProd) {
-			const manifest = require('./dist/server/ssr-manifest.json')
-			const appPath = path.join(__dirname, './dist', 'server', manifest['app.js'])
+			const manifest = require(config.api.resolve(`./${config.distPath}/server/ssr-manifest.json`));
+			const appPath = config.api.resolve(`./${config.distPath}/server/${manifest['app.js']}`);
 			createApp = require(appPath).default
+			template = fs.readFileSync(config.api.resolve(`./${config.distPath}/client/index.html`), 'utf-8');
 		} else {
 			const { setupDevServer } = require('./dev-server');
-			console.log('dev开发');
-			const { createApp: ca, template: tl } = await setupDevServer({
+			await setupDevServer({
 				server: app,
 				api,
-				onUpdate: ({createApp, template}) => {
-					console.log('更新')
-					createApp = createApp;
-					template = template;
+				onUpdate: ({ca, tl}) => {
+					console.log('更新', ca)
+					createApp = ca;
+					template = tl;
 				}
 			});
-            createApp = ca;
-			template = tl;
 		}
 
 		// Serve static files
-		// staticSvgSprite(app);
 		app.use(compression({ threshold: 0 }));
 		// app.use(favicon(config.favicon));
 
@@ -60,36 +49,42 @@ module.exports = async (app, api) => {
 		// 	);
 		// }
 
-		// 把打包好的文件转成静态资源
-		// const serveStaticFiles = serve(config.distPath, true);
-		// 拒绝访问index.html模板文件
-		// app.use((req, res, next) => {
-		// 	if (/index\.html/g.test(req.path)) {
-		// 		next();
-		// 	} else {
-		// 		serveStaticFiles(req, res, next);
-		// 	}
-		// });
-
-		// // 额外配置
-		// if (config.extendServer) {
-		// 	config.extendServer(app);
-		// }
+		// Serve static files
+		if (isProd) {
+			const serve = (filePath) =>
+			express.static(filePath, {
+				maxAge: config.maxAge,
+				index: false
+			});
+			// 把打包好的文件转成静态资源
+			const serveStaticFiles = serve(config.api.resolve(`./${config.distPath}/client`));
+			// 拒绝访问index.html模板文件
+			app.use((req, res, next) => {
+				if (/index\.html/g.test(req.path)) {
+					next();
+				} else {
+					serveStaticFiles(req, res, next);
+				}
+			});
+		}
+		// 额外配置
+		if (config.extendServer) {
+			config.extendServer(app);
+		}
 
 		app.get('*', async(req, res, next) => {
-			// if (config.skipRequests(req)) {
-			// 	return next();
-			// }
+			if (config.skipRequests(req)) return next();
+
 			const { app, store } = await createApp(req.originalUrl, {});
 
 			const appContent = await renderToString(app);
 
 			// 读取配置文件，注入给客户端
-			const config = require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` }).parsed;
+			const envConfig = require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` }).parsed;
 			const state =
 				'<script>window.__INIT_STATE__=' +
 				serialize(store, { isJSON: true }) + ';' +
-				'window.__APP_CONFIG__=' + serialize(config, { isJSON: true }) +
+				'window.__APP_CONFIG__=' + serialize(envConfig, { isJSON: true }) +
 				'</script>';
 
 			const html = template
