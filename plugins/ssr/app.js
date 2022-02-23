@@ -1,18 +1,16 @@
 const fs = require('fs');
-const favicon = require('serve-favicon');
 const compression = require('compression');
 const serialize = require('serialize-javascript');
 
 const { renderToString } = require('@vue/server-renderer');
 const express = require('express')
 const { config } = require('./config');
-const createMapper = require('./inject-source');
-const { TemplateRenderer } = require('./render');
+const { TemplateRenderer } = require('./inject-source');
 
 const resolveSource = (path) =>
     config.api.resolve(`./${config.distPath}/${path}`);
 
-module.exports = async (app, api) => {
+module.exports = async (app) => {
 	// options = Object.assign({}, DEFAULT_OPTIONS, options);
 
 	const isProd = process.env.NODE_ENV === 'production';
@@ -21,28 +19,28 @@ module.exports = async (app, api) => {
 
 		let createApp;
 	    let template;
+		let clientManifest;
 
 		if (isProd) {
 			const manifest = require(resolveSource('server/ssr-manifest.json'));
 			const appPath = resolveSource(`server/${manifest['app.js']}`);
 			createApp = require(appPath).default
 			template = fs.readFileSync(resolveSource('client/index.html'), 'utf-8');
+			clientManifest = require(resolveSource('client/vue-ssr-client-manifest.json'));
 		} else {
 			const { setupDevServer } = require('./dev-server');
 			await setupDevServer({
 				server: app,
-				api,
-				onUpdate: ({ca, tl}) => {
-					console.log('更新', ca)
+				onUpdate: ({ca, tl, cm}) => {
 					createApp = ca;
 					template = tl;
+					clientManifest = cm;
 				}
 			});
 		}
 
 		// Serve static files
 		app.use(compression({ threshold: 0 }));
-		// app.use(favicon(config.favicon));
 
 		// if (config.api.hasPlugin('pwa')) {
 		// 	app.use(
@@ -77,19 +75,19 @@ module.exports = async (app, api) => {
 		app.get('*', async(req, res, next) => {
 			if (config.skipRequests(req)) return next();
 
-			const { app, store } = await createApp(req.originalUrl, {});
+			// 读取配置文件，注入给客户端
+		    const envConfig = require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` }).parsed;
+
+
+			const { app, store } = await createApp(req.originalUrl, envConfig);
 
 			const appContent = await renderToString(app);
 
-			// 读取配置文件，注入给客户端
-			const envConfig = require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` }).parsed;
 			const state =
 				'<script>window.__INIT_STATE__=' +
 				serialize(store, { isJSON: true }) + ';' +
 				'window.__APP_CONFIG__=' + serialize(envConfig, { isJSON: true }) +
 				'</script>';
-			
-			const clientManifest = require(resolveSource('client/vue-ssr-client-manifest.json'));
 
 			const render = new TemplateRenderer({
 				template,
@@ -97,6 +95,7 @@ module.exports = async (app, api) => {
 				clientManifest
 			});
 
+			// Load resources on demand
 			const html = render.render('')
 				.replace('<div id="app">', `<div id="app">${appContent}`)
 				.replace(`<!--app-store-->`, state);

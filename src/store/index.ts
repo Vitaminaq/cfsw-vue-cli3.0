@@ -8,7 +8,7 @@ export class BaseStore extends Store {
   public ssrPath = "";
   public user: User;
 
-  public constructor(reqConfig?: ReqConfig) {
+  public constructor(reqConfig: ReqConfig) {
     super();
     this.user = new User(reqConfig);
     this.subscribe((event) => {

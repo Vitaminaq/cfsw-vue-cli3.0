@@ -1,4 +1,4 @@
-import api, { BlogApi } from '../api';
+import BlogApi from '../api';
 import {
 	BaseLoaderData,
 	BaseLoaderList,
@@ -83,8 +83,8 @@ class Blog extends BaseClass<BlogApi> {
 	public blogList: BlogList;
 	public blogDetail: BlogDetail;
 	public getUserComment: GetUserComment;
-	public constructor() {
-		super(api);
+	public constructor(appConfig: any) {
+		super(new BlogApi(appConfig));
 		this.blogList = new BlogList(this.api);
 		this.blogDetail = new BlogDetail(this.api);
 		this.getUserComment = new GetUserComment(this.api);

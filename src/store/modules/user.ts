@@ -12,7 +12,7 @@ class User extends BaseClass<UserApi> {
   public static moduleName = "user";
   public userInfo: UserInfo;
 
-  public constructor(reqConfig?: ReqConfig) {
+  public constructor(reqConfig: ReqConfig) {
     super(new UserApi(reqConfig));
     this.userInfo = new UserInfo(this.api);
   }

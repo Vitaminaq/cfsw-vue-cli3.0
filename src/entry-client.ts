@@ -6,7 +6,10 @@ import { getRealUrl, getAsyncData } from '@src/services/publics';
 
 class EntryClient extends Main {
 	public constructor() {
-		super(false);
+		super({
+			isServer: false,
+			appConfig: window.__APP_CONFIG__
+		});
 		this.initState();
 		this.registerRouterHook();
 	}

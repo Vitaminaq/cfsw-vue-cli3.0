@@ -14,7 +14,7 @@ export const baseRouteView = (storeModule: any) => {
 
       // 接管服务端状态
       if (!store[name]) {
-        store.addMoudle(name, new storeModule.default(reqConfig));
+        store.addMoudle(name, new storeModule.default(reqConfig || window.__APP_CONFIG__));
         replaceStore(store);
       }
     },

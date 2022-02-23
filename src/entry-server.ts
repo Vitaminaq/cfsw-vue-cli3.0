@@ -6,7 +6,10 @@ class EntryServer extends Main {
   public reqConfig: ReqConfig;
 
   public constructor(url: string, reqConfig: ReqConfig) {
-    super(true);
+    super({
+      isServer: true,
+      appConfig: reqConfig
+    });
     this.url = url;
     this.reqConfig = reqConfig;
   }

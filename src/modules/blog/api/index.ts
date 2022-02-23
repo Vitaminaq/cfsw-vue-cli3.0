@@ -1,6 +1,6 @@
 import BaseMethod from '@src/api/index';
 
-export class BlogApi extends BaseMethod {
+class BlogApi extends BaseMethod {
 	public getArtic(params: Loader.RequestParams): Promise<Loader.Response> {
 		return this.get(`/api/user/chatroom`, params);
 	}
@@ -34,4 +34,4 @@ export class BlogApi extends BaseMethod {
 	}
 }
 
-export default new BlogApi();
+export default BlogApi;

@@ -20,16 +20,14 @@ module.exports.setupDevServer = ({ server, onUpdate }) =>
 
 		let createApp;
 		let template;
+		let clientManifest;
 
 		const url = `http://${ip.address()}:${config.port}`;
 
 		const update = () => {
-			if (createApp && template) {
-				onUpdate({ ca: createApp, tl: template });
-				resolve({
-					createApp,
-					template
-				});
+			if (createApp && template && clientManifest) {
+				onUpdate({ ca: createApp, tl: template, cm: clientManifest });
+				resolve();
 			}
 		};
 
@@ -69,6 +67,7 @@ module.exports.setupDevServer = ({ server, onUpdate }) =>
 			if (stats.hasErrors()) return;
 
 			template = clientMfs.readFileSync(path.join(clientConfig.output.path, 'index.html'), 'utf8');
+			clientManifest = JSON.parse(clientMfs.readFileSync(path.join(clientConfig.output.path, 'vue-ssr-client-manifest.json'), 'utf8'));
 
 			update();
 			onCompilationCompleted();

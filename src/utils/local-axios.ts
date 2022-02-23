@@ -1,14 +1,15 @@
 import axios1, { AxiosInstance } from "axios";
-import { config } from "./config";
 import { getCookie } from "@src/utils/cookies";
 import { ReqConfig } from "@src/services/publics";
 
 class LocalAxios {
   public axios: AxiosInstance;
-  constructor(reqConfig?: ReqConfig) {
+  public reqConfig: ReqConfig;
+  constructor(reqConfig: ReqConfig) {
+    this.reqConfig = reqConfig;
     const token = reqConfig ? reqConfig.token : getCookie("token");
     this.axios = axios1.create({
-      baseURL: config.base_url,
+      baseURL: reqConfig.VUE_BASE_URL,
       timeout: 5000,
       withCredentials: true,
       headers: {

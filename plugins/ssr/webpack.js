@@ -33,6 +33,8 @@ class BaseWebpack {
 class ClientWebpack extends BaseWebpack {
     constructor(config) {
         super(config);
+        const isProd = process.env.NODE_ENV === 'production';
+
         config
             .entry('app')
             .clear()
@@ -46,12 +48,12 @@ class ClientWebpack extends BaseWebpack {
 
         // block clear comments in template
         config.plugin('html').tap((args) => {
-            args[0].minify.removeComments = false;
+            args[0].minify && (args[0].minify.removeComments = false);
             return args;
         });
         
         config.plugin('VueSSRClientPlugin')
-              .use(VueSSRClientPlugin);
+            .use(VueSSRClientPlugin);
     }
 }
 
@@ -92,7 +94,6 @@ class ServerWebpack extends BaseWebpack {
 
         const isExtracting = config.plugins.has('extract-css');
 
-        console.log(isExtracting, 'mmmmmmmmmmmmmmmmmmmmmmm');
 		if (isExtracting) {
 			// Remove extract
 			const langs = ['css', 'postcss', 'scss', 'sass', 'less', 'stylus'];

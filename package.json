@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service ssr:serve",
+    "dev": "cross-env NODE_ENV=development vue-cli-service ssr:serve",
     "build": "cross-env NODE_ENV=production vue-cli-service ssr:build",
     "start": "cross-env NODE_ENV=production RUN_TYPE=build vue-cli-service ssr:serve",
     "lint": "vue-cli-service lint"

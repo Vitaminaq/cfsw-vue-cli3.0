@@ -29,6 +29,8 @@ type Querys = {
 export interface ReqConfig {
   v: string;
   token: string;
+  VUE_BASE_URL: string;
+  VUE_BASE_H5_URL: string;
 }
 
 // 转换url - 客户端
@@ -139,13 +141,13 @@ export const getAsyncData = (
     const { prefetchData: isPrefetch } = query;
 
     // 预取数据
-    // if (
-    //   (isServer && Number(isPrefetch)) ||
-    //   (!isServer && !Number(isPrefetch))
-    // ) {
+    if (
+      (isServer && Number(isPrefetch)) ||
+      (!isServer && !Number(isPrefetch))
+    ) {
       await prefetchData(components, router, store, isServer);
-    // }
-    // !isServer && store.ssrPath !== fullPath && store.$setSsrPath("");
+    }
+    !isServer && store.ssrPath !== fullPath && store.$setSsrPath("");
 
     resolve();
   });
