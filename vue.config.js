@@ -11,7 +11,6 @@ module.exports = {
       "@": path.resolve(__dirname, "./src"),
     };
   },
-  filenameHashing: true,
   css: {
     loaderOptions: {
       postcss: {
@@ -30,7 +29,6 @@ module.exports = {
   pluginOptions: {
     ssr: {
       port: 8085,
-      nodeExternalsWhitelist: [/\.css$/, /\?vue&type=style/],
       extendServer: null,
       distPath: 'dist',
       maxAge: 1000 * 60 * 60 * 24 * 30

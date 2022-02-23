@@ -6,14 +6,16 @@ const serialize = require('serialize-javascript');
 const { renderToString } = require('@vue/server-renderer');
 const express = require('express')
 const { config } = require('./config');
+const createMapper = require('./inject-source');
+const { TemplateRenderer } = require('./render');
 
+const resolveSource = (path) =>
+    config.api.resolve(`./${config.distPath}/${path}`);
 
 module.exports = async (app, api) => {
 	// options = Object.assign({}, DEFAULT_OPTIONS, options);
 
 	const isProd = process.env.NODE_ENV === 'production';
-
-	console.log(isProd, global, 'pppppppppppppppppppppppppppppp111');
 
 	try {
 
@@ -21,10 +23,10 @@ module.exports = async (app, api) => {
 	    let template;
 
 		if (isProd) {
-			const manifest = require(config.api.resolve(`./${config.distPath}/server/ssr-manifest.json`));
-			const appPath = config.api.resolve(`./${config.distPath}/server/${manifest['app.js']}`);
+			const manifest = require(resolveSource('server/ssr-manifest.json'));
+			const appPath = resolveSource(`server/${manifest['app.js']}`);
 			createApp = require(appPath).default
-			template = fs.readFileSync(config.api.resolve(`./${config.distPath}/client/index.html`), 'utf-8');
+			template = fs.readFileSync(resolveSource('client/index.html'), 'utf-8');
 		} else {
 			const { setupDevServer } = require('./dev-server');
 			await setupDevServer({
@@ -57,7 +59,7 @@ module.exports = async (app, api) => {
 				index: false
 			});
 			// 把打包好的文件转成静态资源
-			const serveStaticFiles = serve(config.api.resolve(`./${config.distPath}/client`));
+			const serveStaticFiles = serve(resolveSource('client'));
 			// 拒绝访问index.html模板文件
 			app.use((req, res, next) => {
 				if (/index\.html/g.test(req.path)) {
@@ -86,9 +88,16 @@ module.exports = async (app, api) => {
 				serialize(store, { isJSON: true }) + ';' +
 				'window.__APP_CONFIG__=' + serialize(envConfig, { isJSON: true }) +
 				'</script>';
+			
+			const clientManifest = require(resolveSource('client/vue-ssr-client-manifest.json'));
 
-			const html = template
-				.toString()
+			const render = new TemplateRenderer({
+				template,
+				inject: true,
+				clientManifest
+			});
+
+			const html = render.render('')
 				.replace('<div id="app">', `<div id="app">${appContent}`)
 				.replace(`<!--app-store-->`, state);
 

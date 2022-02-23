@@ -110,8 +110,6 @@ module.exports.setupDevServer = ({ server, onUpdate }) =>
 
 			createApp = eval(appFile).default;
 
-			console.log(createApp, 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm');
-
 			update();
 			onCompilationCompleted();
 		});

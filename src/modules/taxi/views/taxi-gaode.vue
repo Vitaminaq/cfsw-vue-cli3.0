@@ -19,9 +19,6 @@ import {
 
 import BoardPoint from '../components/board-point.vue';
 
-import icon_start from './images/taxi-point-start.png';
-import icon_end from './images/taxi-point-end.png';
-
 interface Data {
 	geolocation: Geolocation | null;
 	map: any;
@@ -295,7 +292,7 @@ export default defineComponent({
 						width: 25,
 						height: 35,
 						anchor: { x: 16, y: 32 },
-						src: icon_start,
+						src: require('./images/taxi-point-start.png'),
 					}),
 				},
 				geometries: [
@@ -356,7 +353,7 @@ export default defineComponent({
 						width: 25,
 						height: 35,
 						anchor: { x: 16, y: 32 },
-						src: icon_end,
+						src: require('./images/taxi-point-end.png'),
 					}),
 				},
 				geometries: [
