@@ -121,6 +121,7 @@ module.exports = (app, options) => {
 				buildTime: '',
 				env: process.env.NODE_ENV
 			};
+			console.log(renderer, 'mmmmmmmmmmmmmmmmmmmmmmmm');
 			renderer.renderToString(context, (err, html) => {
 				if (err || context.httpCode === 500) {
 					console.error(`error during render url : ${req.url}`);

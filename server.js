@@ -8,7 +8,7 @@ const express = require('express');
 const compression = require('compression');
 const microcache = require('route-cache');
 const resolve = (file) => path.resolve(__dirname, file);
-const { createBundleRenderer } = require('vue-server-renderer');
+const { createBundleRenderer } = require('./render');
 const appConfig = require('./config/index')();
 const staticSvgSprite = require('./lib/static-svg-sprite');
 const getConfig = require('./service/app-config');
@@ -92,14 +92,11 @@ function render(req, res) {
 	};
 
 	const context = {
-		req,
 		url: req.url,
 		title: 'cfsw',
 		appConfig, // 传入基础配置,
-		buildTime: '',
-		httpCode: 200,
-		env: process.env.NODE_ENV
 	};
+	console.log(renderer, 'mmmmmmmmmmmmmmmmmmmmmmmm');
 
 	renderer.renderToString(context, (err, html) => {
 		if (err) {
