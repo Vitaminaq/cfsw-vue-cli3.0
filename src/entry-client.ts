@@ -1,5 +1,4 @@
 import Main from './main'
-import VueRescroll from '@wefly/vue-rescroll';
 import VueImageLazyLoad from '@wefly/vue-image-lazy-load';
 import { getStateFromNative, getSyncWxState } from '@src/services/native';
 import { getRealUrl, getAsyncData } from '@src/services/publics';
@@ -56,7 +55,7 @@ class EntryClient extends Main {
 		// 挂载节点
 		const { router, app } = this;
 		await router.isReady();
-		app.use(VueRescroll).use(VueImageLazyLoad).mount('#app');
+		app.use(VueImageLazyLoad).mount('#app');
 	}
 }
 

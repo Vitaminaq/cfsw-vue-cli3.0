@@ -6,6 +6,7 @@ import { Router } from "vue-router";
 import { _createApp } from "@src/utils/config";
 import '@wefly/vue-audio/dist/style.css';
 import VueAudio from '@wefly/vue-audio';
+import VueRescroll from '@wefly/vue-rescroll';
 // import VueAudio from "@src/lib/vue-audio";
 
 interface MainOptions {
@@ -25,6 +26,6 @@ export default class Main {
     this.store = new Store(appConfig);
 
     const { app, router, store } = this;
-    app.use(router).use(store).use(VueAudio);
+    app.use(router).use(store).use(VueAudio).use(VueRescroll);
   }
 }

@@ -65,7 +65,7 @@ module.exports = (api, options) => {
       };
 
       if (args.watch) {
-        // compiler.watch({}, onCompilationComplete);
+        compiler.watch({}, onCompilationComplete);
       } else {
         compiler.run(onCompilationComplete);
       }

@@ -21,6 +21,7 @@ class BaseWebpack {
 
         config.stats(isProd ? 'normal' : 'none');
 
+        // build add hash
         isBuild && config.output.filename('js/[name].[hash].js').chunkFilename('js/[name].[hash].js');
 
         config.devServer

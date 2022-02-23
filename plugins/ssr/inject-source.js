@@ -9306,7 +9306,6 @@ TemplateRenderer.prototype.render = function render(content, context) {
       this.renderStyles(context) +
       template.neck(context) +
       content +
-      this.renderState(context) +
       this.renderScripts(context) +
       template.tail(context)
     );
@@ -9441,30 +9440,6 @@ TemplateRenderer.prototype.renderPrefetchLinks = function renderPrefetchLinks(
   } else {
     return "";
   }
-};
-
-TemplateRenderer.prototype.renderState = function renderState(
-  context,
-  options
-) {
-  var ref = options || {};
-  var contextKey = ref.contextKey;
-  if (contextKey === void 0) contextKey = "state";
-  var windowKey = ref.windowKey;
-  if (windowKey === void 0) windowKey = "__INITIAL_STATE__";
-  var state = this.serialize(context[contextKey]);
-  var autoRemove = "";
-  var nonceAttr = context.nonce ? ' nonce="' + context.nonce + '"' : "";
-  return context[contextKey]
-    ? "<script" +
-        nonceAttr +
-        ">window." +
-        windowKey +
-        "=" +
-        state +
-        autoRemove +
-        "</script>"
-    : "";
 };
 
 TemplateRenderer.prototype.renderScripts = function renderScripts(context) {

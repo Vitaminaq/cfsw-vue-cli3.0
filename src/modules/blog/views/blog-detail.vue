@@ -1,6 +1,9 @@
 <template>
 	<div
 		class="detail"
+		v-rescroll="{
+			name: 'blog'
+		}"
 	>
 		<HeaderGeneral
 			headerTitle="微博正文"
