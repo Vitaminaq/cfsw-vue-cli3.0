@@ -14,16 +14,19 @@ class BaseWebpack {
         const isBuild = process.env.RUN_TYPE === 'build';
 
         config.plugins.delete('hmr');
+        // 禁用 cache loader，否则客户端构建版本会从服务端构建版本使用缓存过的组件
         config.module.rule('vue').uses.delete('cache-loader');
         config.module.rule('js').uses.delete('cache-loader');
         config.module.rule('ts').uses.delete('cache-loader');
         config.module.rule('tsx').uses.delete('cache-loader');
 
+        // 一些报错的友好提示
         config.stats(isProd ? 'normal' : 'none');
 
-        // build add hash
+        // 构建js文件添加hash
         isBuild && config.output.filename('js/[name].[hash].js').chunkFilename('js/[name].[hash].js');
 
+        // 一些报错的友好提示
         config.devServer
             .stats('errors-only')
             .quiet(true)
@@ -31,10 +34,10 @@ class BaseWebpack {
     }
 }
 
+// 客户端构建配置
 class ClientWebpack extends BaseWebpack {
     constructor(config) {
         super(config);
-        const isProd = process.env.NODE_ENV === 'production';
 
         config
             .entry('app')
@@ -45,6 +48,7 @@ class ClientWebpack extends BaseWebpack {
 			.plugin('loader')
 			.use(WebpackBar, [{ name: 'Client', color: 'green' }]);
     
+        // 过滤掉index.html模板文件里面的js和css注入
         config.plugin('html-filter').use(HtmlFilterPlugin);
 
         // block clear comments in template
@@ -53,6 +57,7 @@ class ClientWebpack extends BaseWebpack {
             return args;
         });
         
+        // 生成客户端文件映射
         config.plugin('VueSSRClientPlugin')
             .use(VueSSRClientPlugin);
     }
@@ -74,6 +79,7 @@ class ServerWebpack extends BaseWebpack {
         // 同时也告诉 `vue-loader` 在编译 Vue 组件的时候抛出面向服务端的代码。
         config.target('node');
 
+        // 生成客户端资源清单
         config
             .plugin('manifest')
             .use(new WebpackManifestPlugin({ fileName: 'ssr-manifest.json' }));
@@ -81,13 +87,17 @@ class ServerWebpack extends BaseWebpack {
         // server-side remove public file
         config.plugins.delete('copy');
 
+        // 由于共用的vue-cli配置会生产一些无用文件，则进行清除
         config.plugin('RemoveUselessAssetsPlugin')
               .use(new RemoveUselessAssetsPlugin());
 
+        // 忽略掉没有必要的构建依赖
         config.externals(nodeExternals({ allowlist: baseConfig.nodeExternalsWhitelist }));
 
+        // 不需要代码分割，合成一个文件即可
         config.optimization.splitChunks(false).minimize(false);
 
+        // 删除服务端不支持的plugins
         config.plugins.delete('preload');
         config.plugins.delete('prefetch');
         config.plugins.delete('progress');
@@ -126,7 +136,6 @@ class ServerWebpack extends BaseWebpack {
 }
 
 const getWebpackConfigs = (service) => {
-	// process.env.VUE_CLI_MODE = service.mode;
 	process.env.VUE_CLI_SSR_TARGET = 'client';
 
     // Override outputDir before resolving webpack config

@@ -3,7 +3,7 @@ const { mergeConfig, config } = require("./config");
 const webpackConfig = (api) =>
   api.chainWebpack((webpackConfig) => {
     const { ClientWebpack, ServerWebpack } = require("./webpack");
-	
+
     const { VUE_CLI_SSR_TARGET } = process.env;
 
     if (!VUE_CLI_SSR_TARGET || VUE_CLI_SSR_TARGET === "client")
@@ -12,7 +12,7 @@ const webpackConfig = (api) =>
   });
 
 module.exports = (api, options) => {
-	// merge config
+  // merge config
   mergeConfig({ ...options.pluginOptions.ssr, api });
 
   api.registerCommand(
@@ -28,12 +28,16 @@ module.exports = (api, options) => {
       const rimraf = require('rimraf');
       const formatStats = require("@vue/cli-service/lib/commands/build/formatStats");
 
+      // 删除构建产物
       rimraf.sync(api.resolve(config.distPath));
 
       const { getWebpackConfigs } = require("./webpack");
 
-	  api.service.projectOptions.css.extract = true;
-	  api.service.projectOptions.filenameHashing = true;
+      // 提取css
+      api.service.projectOptions.css.extract = true;
+      // 文件名添加hash
+      api.service.projectOptions.filenameHashing = true;
+
       const [clientConfig, serverConfig] = getWebpackConfigs(api.service);
 
       const compiler = webpack([clientConfig, serverConfig]);
@@ -61,7 +65,7 @@ module.exports = (api, options) => {
         try {
           // eslint-disable-next-line
           console.log(formatStats(stats, options.outputDir, api));
-        } catch (e) {}
+        } catch (e) { }
       };
 
       if (args.watch) {
@@ -82,20 +86,20 @@ module.exports = (api, options) => {
       },
     },
     async (args) => {
-		webpackConfig(api);
-		const { createServer } = require("./server");
+      webpackConfig(api);
+      const { createServer } = require("./server");
 
-		const port = args.port || config.port || process.env.PORT;
+      const port = args.port || config.port || process.env.PORT;
 
-		// 防止端口冲突
-		if (!port) {
-			const portfinder = require("portfinder");
-			port = await portfinder.getPortPromise();
-		}
+      // 防止端口冲突
+      if (!port) {
+        const portfinder = require("portfinder");
+        port = await portfinder.getPortPromise();
+      }
 
-		config.port = port;
+      config.port = port;
 
-		await createServer({ port,api });
+      await createServer({ port, api });
     }
   );
 };

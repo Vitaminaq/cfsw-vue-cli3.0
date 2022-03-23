@@ -1,6 +1,6 @@
 const ID = 'vue-cli-plugin-ssr:html-filter';
 
-module.exports = class HtmlPwaPlugin {
+module.exports = class HtmlFilterPlugin {
 	apply(compiler) {
 		compiler.hooks.compilation.tap(ID, (compilation) => {
 			compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync(

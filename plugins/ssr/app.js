@@ -11,23 +11,22 @@ const resolveSource = (path) =>
     config.api.resolve(`./${config.distPath}/${path}`);
 
 module.exports = async (app) => {
-	// options = Object.assign({}, DEFAULT_OPTIONS, options);
-
-	const isProd = process.env.NODE_ENV === 'production';
+	const isBuild = process.env.RUN_TYPE === 'build';
 
 	try {
+		let createApp; // entry-server导出的构建函数
+	    let template; // 模板文件
+		let clientManifest; // 客户端资源清单
 
-		let createApp;
-	    let template;
-		let clientManifest;
-
-		if (isProd) {
+		// 经过构建的，直接读取dist目录下相应文件即可
+		if (isBuild) {
 			const manifest = require(resolveSource('server/ssr-manifest.json'));
 			const appPath = resolveSource(`server/${manifest['app.js']}`);
 			createApp = require(appPath).default
 			template = fs.readFileSync(resolveSource('client/index.html'), 'utf-8');
 			clientManifest = require(resolveSource('client/vue-ssr-client-manifest.json'));
 		} else {
+			// 开发环境后续讲解
 			const { setupDevServer } = require('./dev-server');
 			await setupDevServer({
 				server: app,
@@ -39,18 +38,10 @@ module.exports = async (app) => {
 			});
 		}
 
-		// Serve static files
 		app.use(compression({ threshold: 0 }));
 
-		// if (config.api.hasPlugin('pwa')) {
-		// 	app.use(
-		// 		'/service-worker.js',
-		// 		serve(config.serviceWorkerPath, true)
-		// 	);
-		// }
-
 		// Serve static files
-		if (isProd) {
+		if (isBuild) {
 			const serve = (filePath) =>
 			express.static(filePath, {
 				maxAge: config.maxAge,
@@ -89,6 +80,7 @@ module.exports = async (app) => {
 				'window.__APP_CONFIG__=' + serialize(envConfig, { isJSON: true }) +
 				'</script>';
 
+			// 调用从vue-server-render插件里面提取的模板渲染函数，来进行模板静态资源按需加载
 			const render = new TemplateRenderer({
 				template,
 				inject: true,
