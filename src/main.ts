@@ -7,6 +7,12 @@ import { _createApp } from '@src/utils/config';
 // import '@wefly/vue-audio/dist/style.css';
 // import VueAudio from '@wefly/vue-audio';
 import VueAudio from '@src/lib/vue-audio';
+import { createI18n } from 'vue-i18n';
+
+const i18n = createI18n({
+	locale: 'ZH-CN',
+	fallbackLocale: 'zh'
+})
 
 export default class Main {
 	public app: APP = _createApp(App);
@@ -15,6 +21,6 @@ export default class Main {
 
 	constructor() {
 		const { app, router, store } = this;
-		app.use(router).use(store).use(VueAudio);
+		app.use(router).use(store as any).use(VueAudio).use(i18n);
 	}
 }

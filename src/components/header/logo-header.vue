@@ -1,14 +1,20 @@
 <template>
 	<div>
-		<header><span>Confenssion Wall11123</span></header>
+		<header><span>{{ $t('title')}}</span></header>
 		<div class="empty"></div>
 	</div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
+import ZH_CN from './i18n/ZH_CN';
 
 export default defineComponent({
-	name: 'logo-header'
+	name: 'logo-header',
+	i18n: {
+		messages: {
+			ZH_CN
+		}
+	}
 });
 </script>
 <style lang="less" scoped>
