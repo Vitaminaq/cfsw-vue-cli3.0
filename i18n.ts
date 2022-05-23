@@ -14,13 +14,6 @@ const fetch = () => {
 
 const translateLanguages = ['EN_US', 'ZH_TW', 'ZH_HK', 'JA_JP'];
 
-const translateLanguagesMap = {
-    EN_US: 'en',
-    ZH_TW: 'cht',
-    ZH_HK: 'cht',
-    JA_JP: 'ja'
-};
-
 glob(`${root}/!(node_modules)/**/ZH_CN.{ts,js,json}`, {}, async (err, files) => {
     if (err) throw Error('glob：查找文件失败');
 
@@ -56,16 +49,25 @@ glob(`${root}/!(node_modules)/**/ZH_CN.{ts,js,json}`, {}, async (err, files) => 
         resultMap.set(`${key}${ZH_CN}`, i);
     });
 
-    pathMap.forEach((value, key) => {
-        let str = 'export default {\n';
-        Object.keys(value).forEach((i) => {
-            const mapKey = `${i}${value[i]}`;
-            if (resultMap.has(mapKey)) {
-                str = `${str}\t${i}: "${resultMap.get(mapKey).EN_US.value}",\n`
-            } else {
-                str = `${str}\t${i}: '\"\"',\n`
-            }
-        });
-        fse.outputFile(path.resolve(key.replace('ZH_CN', 'EN_US')), `${str}}\n`);
-    });
+    translateLanguages.forEach((lan) => pathMap.forEach((value, key) => {
+        if (key.endsWith('.json')) {
+            let obj = {};
+            Object.keys(value).forEach(i => {
+                const mapKey = `${i}${value[i]}`;
+                obj[i] = resultMap.get(mapKey)[lan].value;
+            });
+            fse.outputFile(path.resolve(key.replace('ZH_CN', lan)), `${JSON.stringify(obj, null, 4)}\n`);
+        } else {
+            let str = 'export default {\n';
+            Object.keys(value).forEach((i) => {
+                const mapKey = `${i}${value[i]}`;
+                if (resultMap.has(mapKey)) {
+                    str = `${str}\t${i}: "${resultMap.get(mapKey)[lan].value}",\n`
+                } else {
+                    str = `${str}\t${i}: '\"\"',\n`
+                }
+            });
+            fse.outputFile(path.resolve(key.replace('ZH_CN', lan)), `${str}}\n`);
+        }
+    }));
 });
