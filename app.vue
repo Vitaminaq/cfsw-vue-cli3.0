@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <NuxtPage /> -->
-    88888
+    <NuxtPage />
   </div>
 </template>
