@@ -4,10 +4,12 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "start": "node .output/server/index.mjs",
     "preview": "nuxt preview"
   },
   "devDependencies": {
-    "nuxt": "3.0.0-rc.3"
+    "nuxt": "3.0.0-rc.3",
+    "postcss-pxtorem": "^6.0.0"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.0-beta.1",

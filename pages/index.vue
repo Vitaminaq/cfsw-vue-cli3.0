@@ -81,6 +81,7 @@ const addTreeRoot = () => {
     label: rootInput.value
   })
   show.value = false
+  rootInput.value = ''
   console.log('bbbbbbbbbbbbbbb')
 }
 
