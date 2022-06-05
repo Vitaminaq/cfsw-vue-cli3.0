@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useStore } from '@src/lib/vue-store-next/store';
 
 export default defineComponent({
 	name: 'index',
@@ -50,6 +51,9 @@ export default defineComponent({
 		scrollKey() {
 			return `index${(this as any).currentIndex}`;
 		}
+	},
+	mounted() {
+		console.log(useStore());
 	},
 	methods: {
 		to() {
