@@ -1,10 +1,9 @@
 import { ReqConfig } from '@/services/publics';
-// import Store, { NotifyOptions } from '@wefly/vue-store-next';
-import Store from '@src/lib/vue-store-next/vue-store-next-esm.js';
+import Store, { NotifyOptions } from '@wefly/vue-store-next';
 import User from './modules/user';
 
 export class BaseStore extends Store {
-	public subList: any[] = [];
+	public subList: NotifyOptions[] = [];
 	// 储存ssr路径
 	public ssrPath: string = '';
 	public user: User;

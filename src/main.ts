@@ -4,9 +4,8 @@ import { createRouter } from './router';
 import Store, { BaseStore } from './store';
 import { Router } from 'vue-router';
 import { _createApp } from '@src/utils/config';
-// import '@wefly/vue-audio/dist/style.css';
-// import VueAudio from '@wefly/vue-audio';
-import VueAudio from '@src/lib/vue-audio';
+import '@wefly/vue-audio/dist/style.css';
+import VueAudio from '@wefly/vue-audio';
 import { createI18n } from 'vue-i18n';
 
 const i18n = createI18n({
