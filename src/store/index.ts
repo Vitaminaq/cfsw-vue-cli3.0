@@ -1,9 +1,11 @@
 import { ReqConfig } from '@/services/publics';
-import Store, { NotifyOptions } from '@wefly/vue-store-next';
+// import Store, { NotifyOptions } from '@wefly/vue-store-next';
+
+import Store, { useStore } from '@src/lib/vue-store-next';
 import User from './modules/user';
 
 export class BaseStore extends Store {
-	public subList: NotifyOptions[] = [];
+	public subList: any[] = [];
 	// 储存ssr路径
 	public ssrPath: string = '';
 	public user: User;
@@ -12,7 +14,8 @@ export class BaseStore extends Store {
 		super();
 		this.user = new User(reqConfig);
 		this.subscribe((event: any) => {
-           this.subList.push(event);
+			console.log(event, 'cccccccccccccccc')
+			this.subList.push(event);
 		})
 		return this.init() as BaseStore;
 	}
@@ -23,6 +26,8 @@ export class BaseStore extends Store {
 }
 
 export default BaseStore;
+
+export const useBaseStore = () => useStore<BaseStore>();
 
 declare module '@vue/runtime-core' {
 	export interface ComponentCustomProperties {

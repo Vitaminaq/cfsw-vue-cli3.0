@@ -7,14 +7,10 @@
 				<div data-type="A">A</div>
 				<div data-type="B">B</div>
 			</div>
-			 <!-- v-rescroll="{ name: scrollKey, domType: 'tab' }" -->
+			<!-- v-rescroll="{ name: scrollKey, domType: 'tab' }" -->
 			<div class="list">
 				<div v-if="currentIndex === 0">
-					<div
-						v-for="(item, index) in list0"
-						:key="index"
-						@click="to"
-					>
+					<div v-for="(item, index) in list0" :key="index" @click="to">
 						{{ item }}
 					</div>
 				</div>
@@ -31,40 +27,40 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from '@src/lib/vue-store-next/index';
 
-export default defineComponent({
-	name: 'index',
-	data() {
-		return {
-			currentIndex: 0,
-			list0: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-			list1: [11, 22, 33, 44, 55, 66, 77, 88, 99],
-		};
-	},
-	computed: {
-		currentList() {
-			return (this as any)[`list${(this as any).currentIndex}`];
-		},
-		scrollKey() {
-			return `index${(this as any).currentIndex}`;
-		}
-	},
-	methods: {
-		to() {
-			this.$router.push({ path: '/blog/home' });
-		},
-		toggle(e: any) {
-			const { type } = e.target.dataset;
-			if (type === 'A') {
-				this.currentIndex = 0;
-			} else {
-				this.currentIndex = 1;
-			}
-		}
-	}
+const currentIndex = ref(0);
+const list0 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+const list1 = ref([11, 22, 33, 44, 55, 66, 77, 88, 99]);
+
+const router = useRouter();
+const store = useStore();
+
+const currentList = computed(() => {
+	return (this as any)[`list${(this as any).currentIndex}`];
 });
+
+const scrollKey = computed(() => `index${(this as any).currentIndex}`);
+
+const to = () => {
+	router.push({ path: '/blog/home' });
+}
+
+const toggle = (e: any) => {
+	const { type } = e.target.dataset;
+	if (type === 'A') {
+		currentIndex.value = 0;
+	} else {
+		currentIndex.value = 1;
+	}
+}
+
+onMounted(() => {
+	console.log(store);
+})
 </script>
 <style lang="less" scoped>
 .page {
@@ -72,9 +68,11 @@ export default defineComponent({
 	flex-direction: column;
 	height: 100vh;
 }
+
 .index {
 	font-size: 37.5px;
 }
+
 .content {
 	flex: 1;
 	display: flex;
@@ -86,18 +84,19 @@ export default defineComponent({
 		width: 100%;
 		display: flex;
 
-		& > div {
+		&>div {
 			flex: 1;
 		}
 	}
+
 	.list {
 		flex: 1;
 		overflow: auto;
 
-		& > div {
+		&>div {
 			height: 100px;
 
-			& > div {
+			&>div {
 				height: 100px;
 			}
 		}

@@ -12,10 +12,14 @@ export const baseRouteView = (storeModule: any) => {
 		registerModule({ store, reqConfig }: RegisterModuleOption) {
 			const name: keyof BaseStore = storeModule.default.moduleName;
 
+			console.log(store, name, store[name]);
+
 			// 接管服务端状态
 			if (!store[name]) {
-				store.addMoudle(name, new storeModule.default(reqConfig));
-				replaceStore(store);
+				store.$setSsrPath('xxxx')
+				store.addModule(name, new storeModule.default(reqConfig));
+				console.log(store, 'yyyyyyyyyyyyyyyyyyyyyy')
+				!import.meta.env.SSR && replaceStore(store);
 			}
 		}
 	};

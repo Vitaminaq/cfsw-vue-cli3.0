@@ -1,3 +1,4 @@
+import { onServerPrefetch } from 'vue';
 import { Router, RouteLocation } from 'vue-router';
 import { BaseStore } from '@/store';
 import { Component } from 'vue';
@@ -63,7 +64,7 @@ export const replaceStore = (store: BaseStore) => {
 			const paths = item.path.split('.');
 			let target: any = store;
 			const len = paths.length - 1;
-			paths.slice(0, len).forEach((key) => {
+			paths.slice(0, len).forEach((key: string) => {
 				if (!key) return;
 				target = target[key];
 			});
@@ -150,6 +151,24 @@ export const getAsyncData = (
 		resolve();
 	});
 };
+
+interface UseAsyncDataOptions {
+	server?: boolean;
+}
+
+export const useAsyncData = (cb: any, options?: UseAsyncDataOptions) => {
+	const { SSR } = import.meta.env;
+	options = {server: true, ...options};
+
+	const fetchOnServer = options.server;
+
+	if (SSR && fetchOnServer) {
+		onServerPrefetch(cb);
+	}
+	if (!SSR && !fetchOnServer) {
+		cb();
+	}
+}
 
 export interface AsyncDataOption {
 	route: RouteLocation;
