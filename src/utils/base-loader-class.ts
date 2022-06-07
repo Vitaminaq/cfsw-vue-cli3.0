@@ -1,6 +1,7 @@
-import { StoreOberser } from '@wefly/vue-store-next';
+// import { StoreOberser } from '@wefly/vue-store-next';
+import { StoreObserve } from '@src/lib/vue-store-next/index';
 
-export class BaseVueLazy extends StoreOberser {}
+export class BaseVueLazy extends StoreObserve {}
 
 /**
  * 基本类

@@ -156,16 +156,19 @@ interface UseAsyncDataOptions {
 	server?: boolean;
 }
 
-export const useAsyncData = (cb: any, options?: UseAsyncDataOptions) => {
-	const { SSR } = import.meta.env;
-	options = {server: true, ...options};
+export const useAsyncData = (cb: () => any, options?: UseAsyncDataOptions) => {
+	// const { SSR } = import.meta.env;
+	const isSSR = typeof process !== 'undefined';
+	options = { server: true, ...options };
 
 	const fetchOnServer = options.server;
 
-	if (SSR && fetchOnServer) {
+	console.log(typeof process !== 'undefined', 'yyyyyyyyyyyyyyyyyyyyyyyyy');
+
+	if (isSSR && fetchOnServer) {
 		onServerPrefetch(cb);
 	}
-	if (!SSR && !fetchOnServer) {
+	if (!isSSR && !fetchOnServer) {
 		cb();
 	}
 }

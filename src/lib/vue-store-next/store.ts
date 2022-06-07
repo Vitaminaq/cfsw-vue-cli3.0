@@ -6,12 +6,12 @@ import {
 import Dep, { SubFunction } from './dep';
 
 const hasSymbol = typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol';
-const PolySymbol = (name: string) => 
-hasSymbol
-    ? Symbol('[vue-store-next]: ' + name )
-    : ('[vue-store-next]: ' ) + name;
+const PolySymbol = (name: string) =>
+	hasSymbol
+		? Symbol('[vue-store-next]: ' + name)
+		: ('[vue-store-next]: ') + name;
 
-const storeInjectKey = PolySymbol('store' );
+const storeInjectKey = PolySymbol('store');
 
 
 export const dep: Dep = new Dep();
@@ -25,22 +25,21 @@ const log = (path: string, args: any[]) => {
 }
 
 export class StoreObserve {
-    public static showLog: boolean = false;
+	public static showLog: boolean = false;
 
- 	public constructor() {
+	public constructor() {
 		const descriptors = getDescriptors(getPrototypes(this, StoreObserve.prototype));
 		Object.keys(descriptors).forEach(type => {
 			const descriptor: PropertyDescriptor | undefined = descriptors[type];
 			if (typeof descriptor !== 'undefined' && /^\$/.test(type) && typeof descriptor.value === 'function') {
-				console.log(type, '7777777777777777')
 				Object.defineProperty(this, type, {
 					...descriptor,
 					value: new Proxy((this as any)[type], {
 						apply(target, thisArg, args) {
-							StoreObserve.showLog && log(thisArg.path, args);
-							console.log('5555555555555555')
+							const { path } = thisArg;
+							StoreObserve.showLog && log(path, args);
 							dep.notify({
-								path: `${thisArg.path}.${type}`,
+								path: path ? `${path}.${type}` : type,
 								params: args,
 								param: args[0]
 							})
@@ -55,14 +54,15 @@ export class StoreObserve {
 }
 
 export default class Store extends StoreObserve {
+	public subList: any[] = [];
 	public constructor(modules?: any) {
 		super();
 		this.mergeOptions(modules);
 	}
 
-    public install(_Vue: any) {
+	public install(_Vue: any) {
 		_Vue.provide(storeInjectKey, this);
-        _Vue.config.globalProperties.$store = this;
+		_Vue.config.globalProperties.$store = this;
 	}
 
 	public mergeOptions(modules: any): this {
@@ -75,15 +75,15 @@ export default class Store extends StoreObserve {
 
 	public getState(father: any, target: any) {
 		Object.getOwnPropertyNames(target).forEach(k => {
-            	if (target[k] instanceof StoreObserve) {
-				    this.getState(target, target[k]);
-				} else {
-					father && Object.keys(father).forEach(fk => {
-						if (father[fk] === target) {
-                            target.path = father.path ? `${father.path}.${fk}` : fk;
-						}
-					});
-				}
+			if (target[k] instanceof StoreObserve) {
+				this.getState(target, target[k]);
+			} else {
+				father && Object.keys(father).forEach(fk => {
+					if (father[fk] === target) {
+						target.path = father.path ? `${father.path}.${fk}` : fk;
+					}
+				});
+			}
 		});
 	}
 
@@ -103,19 +103,33 @@ export default class Store extends StoreObserve {
 		return this;
 	}
 
-	public subscribe(callback: SubFunction):this {
+	public subscribe(callback: SubFunction): this {
 		dep.addSub(callback)
 		return this;
 	}
-	public removeSub(fn: SubFunction):this {
+	public removeSub(fn: SubFunction): this {
 		dep.removeSub(fn);
 		return this;
 	}
-	public destroySub():this {
+	public destroySub(): this {
 		dep.destroy();
 		return this;
 	}
-	// public replace(store: any) {}
+	public replace<S extends Store>(store: S) {
+		const { subList } = store;
+		if (!subList || !Array.isArray(subList) || !subList.length) return;
+		subList.forEach((item) => {
+			const paths = item.path.split('.');
+			let target: any = this;
+			const len = paths.length - 1;
+			paths.slice(0, len).forEach((key: string) => {
+				if (!key) return;
+				target = target[key];
+			});
+			target[paths[len]](...item.params);
+		});
+		store.subList = [];
+	}
 }
 
 

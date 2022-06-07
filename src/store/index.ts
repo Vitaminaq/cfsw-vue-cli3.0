@@ -14,7 +14,6 @@ export class BaseStore extends Store {
 		super();
 		this.user = new User(reqConfig);
 		this.subscribe((event: any) => {
-			console.log(event, 'cccccccccccccccc')
 			this.subList.push(event);
 		})
 		return this.init() as BaseStore;

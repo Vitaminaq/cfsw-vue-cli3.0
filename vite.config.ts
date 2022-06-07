@@ -31,6 +31,11 @@ const options = {
       }
     }
   })],
+  optimizeDeps: {
+		esbuildOptions: {
+			target: 'es2020',
+		},
+	},
   resolve: {
     alias: {
       '@src': path.resolve(__dirname, './src')
