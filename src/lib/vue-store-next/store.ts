@@ -1,4 +1,4 @@
-import { reactive, inject } from 'vue'
+import { reactive, inject, App } from 'vue'
 import {
 	getDescriptors,
 	getPrototypes
@@ -53,19 +53,25 @@ export class StoreObserve {
 	}
 }
 
+export interface NotifyOptions {
+    path: string;
+    params: any[];
+    param: any;
+}
+
 export default class Store extends StoreObserve {
-	public subList: any[] = [];
-	public constructor(modules?: any) {
+	public subList: NotifyOptions[] = [];
+	public constructor(modules?: Record<string, any>) {
 		super();
 		this.mergeOptions(modules);
 	}
 
-	public install(_Vue: any) {
+	public install(_Vue: App) {
 		_Vue.provide(storeInjectKey, this);
 		_Vue.config.globalProperties.$store = this;
 	}
 
-	public mergeOptions(modules: any): this {
+	public mergeOptions(modules: Record<string, any> | undefined): this {
 		if (!modules) return this;
 		Object.keys(modules).forEach((k) => {
 			(this as any)[k] = modules[k];
@@ -96,16 +102,16 @@ export default class Store extends StoreObserve {
 	}
 
 	// 添加模块
-	public addModule(key: string, module: any): this {
+	public addModule<M>(key: string, module: M): this {
 		if (!module) return this;
 		(this as any)[key] = module;
 		this.getState(this, (this as any)[key]);
 		return this;
 	}
 
-	public subscribe(callback: SubFunction): this {
+	public subscribe(callback: SubFunction) {
 		dep.addSub(callback)
-		return this;
+		return () => this.removeSub(callback);
 	}
 	public removeSub(fn: SubFunction): this {
 		dep.removeSub(fn);

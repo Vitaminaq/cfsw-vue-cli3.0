@@ -32,6 +32,8 @@ export const config: Config = {
 // 是否为SSR模式
 export const isSSR = import.meta.env.SSR;
 
+console.log(isSSR, 'rrrrrrrrrrrrrrrrrrr');
+
 // 根据模式导出构造函数
 export const _createApp = (root: Component): App => {
 	return isSSR ? createSSRApp(root) : createApp(root);
