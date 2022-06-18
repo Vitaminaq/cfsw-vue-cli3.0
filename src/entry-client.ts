@@ -28,6 +28,7 @@ class EntryClient extends Main {
 	// 注册路由钩子
 	public registerRouterHook() {
 		this.router.beforeEach((to, from, next) => {
+			console.log(to, from, 'tttttttttttttt');
 			const { v } = to.query;
 			const { $app_v } = window;
 			if (!v && $app_v) {

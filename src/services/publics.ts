@@ -1,6 +1,8 @@
 import { onServerPrefetch } from 'vue';
-import { Router, RouteLocation } from 'vue-router';
-import { BaseStore } from '@/store';
+import { Router, RouteLocation,  onBeforeRouteUpdate,
+    useRoute,
+    RouteLocationNormalizedLoaded } from 'vue-router';
+import { BaseStore, useBaseStore } from '@/store';
 import { Component } from 'vue';
 import { setCookies } from '@src/utils/cookies';
 import { StateFromNativeResponse } from '@src/services/native';
@@ -156,22 +158,50 @@ interface UseAsyncDataOptions {
 	server?: boolean;
 }
 
-export const useAsyncData = (cb: () => any, options?: UseAsyncDataOptions) => {
-	// const { SSR } = import.meta.env;
-	const isSSR = typeof process !== 'undefined';
-	options = { server: true, ...options };
-
-	const fetchOnServer = options.server;
-
-	console.log(typeof process !== 'undefined', 'yyyyyyyyyyyyyyyyyyyyyyyyy');
-
-	if (isSSR && fetchOnServer) {
-		onServerPrefetch(cb);
-	}
-	if (!isSSR && !fetchOnServer) {
-		cb();
-	}
+interface UseAsyncDataCallbackOptions {
+    route: RouteLocationNormalizedLoaded;
+    isServer: boolean;
 }
+
+/**
+ * 数据预取钩子
+ */
+ export const useAsyncData = (
+    cb: (options: UseAsyncDataCallbackOptions) => Promise<any>,
+    options?: UseAsyncDataOptions
+) => {
+    const isServer = (process as any).server;
+    const route = useRoute();
+    const store = useBaseStore();
+    options = { server: true, ...options };
+
+    const fetchOnServer = options.server;
+
+    if (isServer && fetchOnServer) {
+        onServerPrefetch(async () => {
+            await cb({ route, isServer });
+            store.$setSsrPath(route.path);
+        });
+    }
+    if (!isServer) {
+        if (store.ssrPath) {
+            store.$setSsrPath('');
+        } else {
+            cb({ route, isServer });
+        }
+    }
+    onBeforeRouteUpdate(async (to, from, next) => {
+        try {
+            await cb({
+                route: to,
+                isServer,
+            });
+            next();
+        } catch (e) {
+            next();
+        }
+    });
+};
 
 export interface AsyncDataOption {
 	route: RouteLocation;

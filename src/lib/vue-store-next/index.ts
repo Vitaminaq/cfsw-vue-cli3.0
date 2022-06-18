@@ -1,2 +1,2 @@
-import Store, { StoreObserve, useStore, NotifyOptions } from './store';
-export { Store as default, StoreObserve, useStore, NotifyOptions };
+import Store, { StoreObserve, useStore } from './store';
+export { Store as default, StoreObserve, useStore };

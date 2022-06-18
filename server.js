@@ -13,6 +13,9 @@ async function createServer(
 	root = process.cwd(),
 	isProd = process.env.RUN_TYPE === 'build'
 ) {
+	// @ts-ignore
+    process.server = true;
+
 	const resolve = (p) => path.resolve(__dirname, p);
 
 	const indexProd = isProd
@@ -86,6 +89,7 @@ async function createServer(
 				'<script>window.__INIT_STATE__=' +
 				serialize(store, { isJSON: true }) + ';' +
 				'window.__APP_CONFIG__=' + serialize(config, { isJSON: true }) +
+				'if(! window.process) { window.process={}; } window.process.server=false;' +
 				'</script>';
 
 			const html = template
@@ -112,9 +116,9 @@ async function createServer(
 
 if (!isTest) {
 	createServer().then(({ app }) =>
-		app.listen(3000, () => {
-			console.log('http://localhost:3000');
-			console.log(`http://${ip.address()}:3000`);
+		app.listen(3001, () => {
+			console.log('http://localhost:3001');
+			console.log(`http://${ip.address()}:3001`);
 		})
 	);
 }

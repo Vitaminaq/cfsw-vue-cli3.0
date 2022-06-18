@@ -46,7 +46,7 @@ const currentList = computed(() => {
 const scrollKey = computed(() => `index${(this as any).currentIndex}`);
 
 const to = () => {
-	router.push({ path: '/blog/home' });
+	router.replace({ path: '/blog/home' });
 }
 
 const toggle = (e: any) => {
