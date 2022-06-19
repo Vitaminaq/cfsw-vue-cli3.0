@@ -6,19 +6,6 @@ export interface Config {
 	base_url: string;
 }
 
-const replaceTheEnvironmentVariable = (n = "") => {
-	// 开发环境不需要替换环境变量
-	if (process.env.NODE_ENV === "development") return "";
-
-	// 替换环境变量防止打包优化
-	return /^$/.test(n) ? "" : n;
-};
-
-const { origin } = location;
-const api_base = replaceTheEnvironmentVariable("$HTTP_API_BASE") || origin;
-
-export { api_base };
-
 // ssr模式永远指向线上环境 csr则不受影响
 const envs = import.meta.env;
 
@@ -44,8 +31,6 @@ export const config: Config = {
 
 // 是否为SSR模式
 export const isSSR = import.meta.env.SSR;
-
-console.log(isSSR, 'rrrrrrrrrrrrrrrrrrr');
 
 // 根据模式导出构造函数
 export const _createApp = (root: Component): App => {

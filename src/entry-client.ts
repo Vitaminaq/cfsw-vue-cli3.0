@@ -2,7 +2,7 @@ import Main from './main'
 import VueRescroll from '@wefly/vue-rescroll';
 import VueImageLazyLoad from '@wefly/vue-image-lazy-load';
 import { getStateFromNative, getSyncWxState } from '@src/services/native';
-import { getRealUrl, getAsyncData } from '@src/services/publics';
+import { getRealUrl } from '@src/services/publics';
 
 class EntryClient extends Main {
 	public constructor() {
@@ -28,7 +28,6 @@ class EntryClient extends Main {
 	// 注册路由钩子
 	public registerRouterHook() {
 		this.router.beforeEach((to, from, next) => {
-			console.log(to, from, 'tttttttttttttt');
 			const { v } = to.query;
 			const { $app_v } = window;
 			if (!v && $app_v) {
@@ -42,11 +41,6 @@ class EntryClient extends Main {
 			} else {
 				next();
 			}
-		});
-		this.router.afterEach(() => {
-			const { router, store } = this;
-			getAsyncData(router, store, false);
-			window.$getPageData = () => getAsyncData(router, store, false);
 		});
 	}
 

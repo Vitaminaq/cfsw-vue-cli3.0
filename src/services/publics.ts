@@ -56,106 +56,9 @@ export const getRealUrl = (router: Router) => {
 	return;
 };
 
-// 客户端接管store
-export const replaceStore = (store: BaseStore) => {
-	// 接管服务端状态
-	if (typeof window === 'undefined') return;
-	const { __INIT_STATE__ } = window;
-	if (__INIT_STATE__ && __INIT_STATE__.subList.length) {
-		__INIT_STATE__.subList.forEach((item) => {
-			const paths = item.path.split('.');
-			let target: any = store;
-			const len = paths.length - 1;
-			paths.slice(0, len).forEach((key: string) => {
-				if (!key) return;
-				target = target[key];
-			});
-			if (!target) {
-				return (store as any)[paths[len]](...item.params);
-			}
-			target[paths[len]](...item.params);
-		});
-		window.__INIT_STATE__.subList = [];
-	}
-};
-
-// 执行注册store钩子
-export const registerModules = (
-	components: Component[],
-	router: Router,
-	store: BaseStore,
-	isServer: boolean,
-	reqConfig?: ReqConfig
-) => {
-	return components
-		.filter((i: any) => typeof i.registerModule === 'function')
-		.forEach((component: any) => {
-			component.registerModule({
-				route: router.currentRoute,
-				store,
-				router,
-				isServer,
-				reqConfig
-			});
-		});
-};
-
-// 预取数据
-export const prefetchData = (
-	components: Component[],
-	router: Router,
-	store: BaseStore,
-	isServer: boolean
-) => {
-	const asyncDatas: any[] = components.filter(
-		(i: any) => typeof i.asyncData === 'function'
-	);
-	return Promise.all(
-		asyncDatas.map((i) => {
-			return i.asyncData({
-				route: router.currentRoute.value,
-				store,
-				router,
-				isServer,
-			});
-		})
-	);
-};
-
-// ssr自定义钩子
-export const getAsyncData = (
-	router: Router,
-	store: BaseStore,
-	isServer: boolean,
-	reqConfig?: ReqConfig
-): Promise<void> => {
-	return new Promise(async (resolve) => {
-		const { matched, fullPath, query } = router.currentRoute.value;
-
-		// 当前组件
-		const components: Component[] = matched.map((i) => {
-			return i.components.default;
-		});
-		// 动态注册store
-		registerModules(components, router, store, isServer, reqConfig);
-
-		const { prefetchData: isPrefetch } = query;
-
-		// 预取数据
-		if (
-			(isServer && Number(isPrefetch)) ||
-			(!isServer && !Number(isPrefetch))
-		) {
-			await prefetchData(components, router, store, isServer);
-		}
-		!isServer && store.ssrPath !== fullPath && store.$setSsrPath('');
-
-		resolve();
-	});
-};
-
 interface UseAsyncDataOptions {
 	server?: boolean;
+	reuse?: boolean;
 }
 
 interface UseAsyncDataCallbackOptions {
@@ -190,7 +93,7 @@ interface UseAsyncDataCallbackOptions {
             cb({ route, isServer });
         }
     }
-    onBeforeRouteUpdate(async (to, from, next) => {
+    options.reuse && onBeforeRouteUpdate(async (to, from, next) => {
         try {
             await cb({
                 route: to,
