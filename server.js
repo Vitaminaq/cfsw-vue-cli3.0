@@ -116,9 +116,9 @@ async function createServer(
 
 if (!isTest) {
 	createServer().then(({ app }) =>
-		app.listen(3001, () => {
-			console.log('http://localhost:3001');
-			console.log(`http://${ip.address()}:3001`);
+		app.listen(3000, () => {
+			console.log('http://localhost:3000');
+			console.log(`http://${ip.address()}:3000`);
 		})
 	);
 }
