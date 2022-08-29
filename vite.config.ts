@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import legacy from '@vitejs/plugin-legacy'
 import path from 'path';
 import { VitePWA } from 'vite-plugin-pwa'
+import SvgLoader from './plugins/svg-loader';
 
 export const ssrTransformCustomDir = () => {
   return {
@@ -30,7 +31,8 @@ const options = {
         },
       }
     }
-  })],
+  }),
+  SvgLoader()],
   optimizeDeps: {
 		esbuildOptions: {
 			target: 'es2020',

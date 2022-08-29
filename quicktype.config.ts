@@ -1,4 +1,7 @@
 export default {
     platform: 'swagger',
-    url: 'http://dev.pixso.design/api/user/swagger/swagger.json',
+    url: 'https://petstore.swagger.io/v2/swagger.json',
+    allPropertiesRequired: true,
+    include: [],
+    exclude: []
 }
