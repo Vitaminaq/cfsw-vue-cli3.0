@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from '@src/lib/vue-store-next/index';
+import { useStore } from '@src/lib/banana';
 
 const currentIndex = ref(0);
 const list0 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9]);
