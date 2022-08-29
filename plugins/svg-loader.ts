@@ -3,6 +3,10 @@ import fs from 'node:fs';
 import nodePath from 'node:path';
 import { compileTemplate } from '@vue/compiler-sfc';
 import { optimize } from 'svgo';
+import { parser, NodeTag } from 'posthtml-parser'
+import { render } from 'posthtml-render';
+import { normalizePath } from 'vite';
+
 interface SvgLoaderOptions {
     maxSize: number; // 0 为关闭
     svgo: boolean; // 是否开启svg压缩
@@ -38,8 +42,9 @@ export default function svgLoader(opts: Partial<SvgLoaderOptions> = {}): Plugin[
                 console.log(alias, '11111111111111111111');
             },
             async load(id) {
-                if (!id.match(svgRegex)) return;
+                // 处理import
                 const [path, query] = id.split('?', 2);
+                if (!path.match(svgRegex)) return;
                 let svg;
                 let size = 0;
                 try {
@@ -56,6 +61,7 @@ export default function svgLoader(opts: Partial<SvgLoaderOptions> = {}): Plugin[
                 if (svgo !== false && query !== 'skipsvgo') {
                     svg = optimize(svg, svgoConfig).data || svg;
                 }
+                console.log(query, 'iiiiiiiiiiiiiiii');
                 if (query === 'component') {
                     const { code } = compileTemplate({
                         id: JSON.stringify(id),
@@ -68,10 +74,11 @@ export default function svgLoader(opts: Partial<SvgLoaderOptions> = {}): Plugin[
                 if (size < options.maxSize * 1024) {
                     return `export default ${JSON.stringify(svg)}`;
                 }
-                return;
+                return '';
             },
             transform(code, id) {
                 const [path] = id.split('?', 2);
+                // 替换template里面
                 if (path.match(vueRegex)) {
                     const matchs = (
                         code.match(
@@ -81,18 +88,11 @@ export default function svgLoader(opts: Partial<SvgLoaderOptions> = {}): Plugin[
                     if (matchs.length) {
                         matchs.forEach((i) => {
                             code = code.replace(i, (substring) => {
-                                const content = substring
-                                    .replace('<img', '')
-                                    .replace(/\/\>$/, '')
-                                    .replace(/\>$/, '').replace('src', 'data-src');
-                                const { ast } = compileTemplate({
-                                    id: JSON.stringify(id),
-                                    source: substring,
-                                    filename: path,
-                                    transformAssetUrls: true,
-                                });
-                                if (!ast) return code;
-                                const imgPath = ast.imports[0].path;
+                                const { attrs } = parser(substring)[0] as NodeTag;
+                                if (!attrs) return substring;
+                                const { src } = attrs;
+                                // console.log(parser(substring), 'mmmmmmmmmmmmmmmmmmmmmmmmmm');
+                                const imgPath = src as string;
                                 let imgCompletePath = '';
                                 const alia = alias.filter((i) =>
                                     imgPath.match(new RegExp(`^${i.find}`))
@@ -108,32 +108,39 @@ export default function svgLoader(opts: Partial<SvgLoaderOptions> = {}): Plugin[
                                 } else {
                                     imgCompletePath = nodePath.resolve(
                                         id,
-                                        /^\.\./.test(imgPath)
-                                            ? imgPath
-                                            : `.${imgPath}`
+                                        `../${normalizePath(imgPath)}`
                                     );
                                 }
                                 let svg = fs.readFileSync(imgCompletePath, 'utf-8');
                                 svg = optimize(svg, svgoConfig).data
-                                console.log(svg);
-                                //     return `<svg ${content} width="20.000000" height="20.000000" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                //     <g clip-path="url(#clip90_1977)">
-                                //         <path d="M11 3L9 3L9 9L3 9L3 11L9 11L9 17L11 17L11 11L17 11L17 9L11 9L11 3Z" fill-rule="evenodd" clip-rule="evenodd" fill="#565CFF" fill-opacity="1.000000"/>
-                                //     </g>
-                                //     <defs>
-                                //         <clipPath id="clip90_1977">
-                                //             <rect width="20.000000" height="20.000000" fill="white"/>
-                                //         </clipPath>
-                                //     </defs>
-                                // </svg>`;
-                                return svg.replace('<svg', `<svg ${content} `);
+
+                                const svgParse = (parser(svg) as NodeTag[]).filter(i => i.tag && i.tag === 'svg')[0];
+                                if (!svgParse || !svgParse.attrs) return substring;
+                                Object.assign(svgParse.attrs, attrs);
+                                svgParse.attrs.src && delete svgParse.attrs.src;
+                                return render(svgParse);
                             });
                         });
-                        console.log(code, '77777777777777777777777777777777777777');
+                        // const { code: pageCode } = compileTemplate({
+                        //     id: JSON.stringify(id),
+                        //     source: code,
+                        //     filename: path,
+                        //     transformAssetUrls: false,
+                        // });
+                        // console.log(pageCode);
                     }
                 }
                 return code;
             },
-        },
+        }, {
+            name: 'svg-loader-post',
+            transform(code, id) {
+                const [path] = id.split('?', 2);
+                if (path.match(/index\.vue$/)) {
+                    // console.log(code, '77777777777777777777777777');
+                }
+                return code;
+            }
+        }
     ];
 }

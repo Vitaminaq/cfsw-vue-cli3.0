@@ -21,8 +21,14 @@
 				</div>
 			</div>
 		</div>
-		<img :src="noData" />
+		<!-- <img :src="noData" /> -->
+		<div>
+			{{ NoDataRaw }}
+		</div>
+		<NoData class="yyy" width="44" height="44" />
 		<img class="test-share" src="./images/share.svg" />
+		<img class="test-share" src="@/views/images/no-data.svg" />
+		<img class="test-share" src="../assets/images/no-data.svg" />
 		<vue-audio url="https://img.tukuppt.com/newpreview_music/08/99/49/5c897788e421b53181.mp3" mode="next-loop" />
 		<vue-audio url="https://img.tukuppt.com/newpreview_music/08/99/45/5c8971b5b0c2c1474.mp3" mode="next-loop" />
 		<vue-audio url="https://img.tukuppt.com/newpreview_music/08/99/52/5c8979e84ec822372.mp3" mode="next-loop" />
@@ -33,7 +39,10 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from '@src/lib/banana';
-import noData from "./images/no-data.svg";
+import NoData from "./images/no-data.svg?component";
+import NoDataRaw from "./images/no-data.svg";
+
+console.log(NoData);
 
 const currentIndex = ref(0);
 const list0 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9]);

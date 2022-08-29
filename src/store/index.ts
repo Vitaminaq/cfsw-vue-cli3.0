@@ -1,7 +1,7 @@
 import { ReqConfig } from '@/services/publics';
 // import Store, { NotifyOptions } from '@wefly/vue-store-next';
 
-import Store, { useStore } from '@src/lib/vue-store-next';
+import Store, { useStore } from '@src/lib/banana';
 import User from './modules/user';
 
 export class BaseStore extends Store {

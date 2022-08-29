@@ -1,5 +1,5 @@
 // import { StoreOberser } from '@wefly/vue-store-next';
-import { StoreObserve } from '@src/lib/vue-store-next/index';
+import { StoreObserve } from '@src/lib/banana';
 
 export class BaseVueLazy extends StoreObserve {}
 
