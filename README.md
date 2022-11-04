@@ -8,6 +8,8 @@
  * 基于vue 3.0的重构，请移步[vue-3.0](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/vue-3.0)。
  * 基于vue 3.0+vite的ssr重构，请移步[vue3.0-ssr](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/vue3.0-ssr)。
  * 基于vue 3.0+vue-cli的ssr重构，请移步[ssr-vue3.0-cli](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/ssr-vue3.0-cli)。
+ * 基于vue 3.0+vite hooks的写法，请移步[ssr-vue3.0-cli](https://github.com/Vitaminaq/cfsw-vue-cli3.0/tree/vue3.0-hook)。
+ 
 ## Build Setup
 项目正在开发中，界面没怎么设计，随便撸了下，欢迎大家加入讨论。
 
