@@ -1,26 +1,23 @@
-import {
-    createRouter as _createRouter,
-	RouteRecordRaw
-  } from 'vue-router'
-import { routerHistory } from '@src/utils/config';
+import type { RouteRecordRaw } from 'vue-router'
+import { createRouter as _createRouter } from 'vue-router'
+import { routerHistory } from '@/utils/config'
 
-const Index = () => import('../views/index.vue');
-const pages = import.meta.globEager('../modules/*/router/**');
+const Home = () => import('@/views/HomeView.vue')
 
-
-const routes: RouteRecordRaw[] = [{
-	path: '/',
-    name: Index.name,
-	component: Index
-}];
-
-Object.keys(pages).map((path) => {
-	Array.prototype.push.apply(routes, pages[path].default);
-});
+const routes: RouteRecordRaw[] = [
+  /**
+   * 首页 - 新
+   */
+  {
+    path: '/:lang?',
+    name: 'Home',
+    component: Home
+  }
+]
 
 export function createRouter() {
-	return _createRouter({
-		history: routerHistory(),
-		routes
-	})
+  return _createRouter({
+    history: routerHistory(),
+    routes
+  })
 }

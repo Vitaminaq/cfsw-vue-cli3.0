@@ -1,88 +1,15 @@
+import { fileURLToPath, URL } from 'node:url'
+
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import legacy from '@vitejs/plugin-legacy'
-import path from 'path';
-import { VitePWA } from 'vite-plugin-pwa'
-import SvgLoader from './plugins/svg-loader';
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
-export const ssrTransformCustomDir = () => {
-  return {
-    props: [],
-    needRuntime: true
-  }
-}
-const isProd = process.env.NODE_ENV === 'production';
-
-const options = {
-  plugins: [
-    legacy({
-      targets: ['defaults']
-    }),
-    vue({
-    template: {
-      compilerOptions: {
-        directiveTransforms: {
-          'img-lazy-load': ssrTransformCustomDir,
-          'rescroll': ssrTransformCustomDir
-        },
-        isCustomElement: (tag: string) => {
-          if (tag === 'wx-open-launch-weapp') return true;
-          return false;
-        },
-      }
-    }
-  }),
-  SvgLoader()],
-  optimizeDeps: {
-		esbuildOptions: {
-			target: 'es2020',
-		},
-	},
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
-      '@src': path.resolve(__dirname, './src'),
-      '@': path.resolve(__dirname, './src')
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  },
-  css: {
-    postcss: {
-      plugins: [
-        require('postcss-pxtorem')({
-					rootValue: 37.5,
-					propList: ['*'],
-				}),
-      ]
-    },
-	},
-  esbuild: {
-		jsxFactory: 'h',
-		jsxFragment: 'Fragment',
-	},
-};
-
-isProd && options.plugins.push(VitePWA({
-  strategies: 'generateSW', // 是否使用自定义配置的app manifest;
-  manifest: {},
-  workbox: {
-    cacheId: 'cfsw',
-    sourcemap: false,
-    globIgnores: [
-      'node_modules/**',
-      '*.js',
-      '*.css'
-    ],
-    globPatterns: [],
-    runtimeCaching: [
-      {
-        urlPattern: /\/.*(\?|\&)v=.*/,
-        handler: 'StaleWhileRevalidate'
-      },
-      {
-        urlPattern: /\/api\/.*(\?|\&)/,
-        handler: 'NetworkFirst'
-      }
-    ]
   }
-}));
-
-export default defineConfig(options);
+})

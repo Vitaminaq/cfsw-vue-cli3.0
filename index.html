@@ -1,75 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="dns-prefetch" href="www.vitaminaq.com" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="flexible" content="initial-dpr=1" />
-    <title>cfsw</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
     <!--preload-links-->
-    <script src="https://map.qq.com/api/gljs?v=2.1.4b&key=UFTBZ-HATC6-VYESI-MSJXK-YIAQ7-IEBRU"></script>
-    <script
-      type="text/javascript"
-      src="https://mapapi.qq.com/web/mapComponents/geoLocation/v/geolocation.min.js"
-    ></script>
-
-    <script
-      type="text/javascript"
-      src="https://webapi.amap.com/maps?v=1.4.15&key=2ba1a86185dd8a383da1b8d158909c20"
-    ></script>
   </head>
   <body>
     <div id="app"><!--app-html--></div>
     <script type="module" src="/src/entry-client.ts"></script>
     <!--app-store-->
-    <script>
-      window.onerror = function (message, source, lineno, colno, error) {
-        alert(JSON.stringify(message) + JSON.stringify(error));
-      };
-      (function flexible(window, document) {
-        var docEl = document.documentElement;
-        var dpr = window.devicePixelRatio || 1;
-
-        function setBodyFontSize() {
-          if (document.body) {
-            document.body.style.fontSize = 12 * dpr + "px";
-            document.body.classList.add("flexible-ready");
-          } else {
-            document.addEventListener("DOMContentLoaded", setBodyFontSize);
-          }
-        }
-        setBodyFontSize();
-
-        function setRemUnit() {
-          var rem = docEl.clientWidth / 10;
-          if (rem > 102.4) rem = 102.4;
-          docEl.style.fontSize = rem + "px";
-        }
-
-        setRemUnit();
-
-        window.addEventListener("resize", setRemUnit);
-        window.addEventListener("pageshow", function (e) {
-          if (e.persisted) {
-            setRemUnit();
-          }
-        });
-
-        if (dpr >= 2) {
-          var fakeBody = document.createElement("body");
-          var testElement = document.createElement("div");
-          testElement.style.border = ".5px solid transparent";
-          fakeBody.appendChild(testElement);
-          docEl.appendChild(fakeBody);
-          if (testElement.offsetHeight === 1) {
-            docEl.classList.add("hairlines");
-          }
-          docEl.removeChild(fakeBody);
-        }
-      })(window, document);
-    </script>
-    <script src="/wasm/a.out.js"></script>
-    <!-- <script src="/wasm/hello.wasm"></script> -->
   </body>
 </html>

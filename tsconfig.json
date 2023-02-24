@@ -1,38 +1,16 @@
 {
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "sourceMap": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "@src/*": [
-        "src/*"
-      ],
-      "@/*": [
-        "src/*"
-      ]
-    },
-    "lib": ["esnext", "dom", "dom.iterable",
-      "scripthost"],
-    "types": ["vite/client"]
+      "@/*": ["./src/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "src/entry-client.ts",
-    "src/lib/vue-virtual-scroller/index.js"
-, "src/entry-server.ts"  ],
-  "exclude": [
-    "node_modules"
+
+  "references": [
+    {
+      "path": "./tsconfig.config.json"
+    }
   ]
 }
