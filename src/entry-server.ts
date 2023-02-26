@@ -2,7 +2,8 @@ import Main from './main'
 import { renderToString } from '@vue/server-renderer'
 import path from 'path'
 import fs from 'fs/promises'
-import { renderHeadtoString } from './lib/@pixso/vue-head'
+import { renderHeadToString } from './lib/@pixso/vue-head'
+import "@skatejs/ssr/register"
 
 interface RenderOptions {
   url: string
@@ -29,7 +30,9 @@ export async function render({ url, manifest }: RenderOptions) {
   const ctx: any = {}
   const appHtml = await renderToString(app, ctx)
 
-  console.log(renderHeadtoString(head), 'oooooooooooooooo')
+  const pageInfo = renderHeadToString(head.Info)
+
+  // console.log(pageInfo)
 
   // 生成资源预取数组
   const preloadLinks = ctx.modules ? await renderPreloadLinks(ctx.modules, manifest) : []
@@ -38,12 +41,7 @@ export async function render({ url, manifest }: RenderOptions) {
     appHtml,
     preloadLinks,
     storeState: store.state,
-    pageInfo: {
-      lang: '',
-      title: '',
-      description: '',
-      keywords: ''
-    }
+    pageInfo
   }
 }
 

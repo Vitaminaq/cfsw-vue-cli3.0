@@ -13,6 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@skatejs/ssr": "^0.19.11",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "ip": "^2.0.0",

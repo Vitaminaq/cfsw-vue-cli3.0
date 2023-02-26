@@ -1,26 +1,36 @@
 <script setup lang="ts">
-import { onUnmounted } from 'vue'
-import TheWelcome from '../components/TheWelcome.vue'
-import { useHead } from '@/lib/@pixso/vue-head'
+// import { onUnmounted } from 'vue'
+// import { useHead } from '@/lib/@pixso/vue-head'
+import "@/custom-components/custom-button";
 
-let timer: any
+// let timer: any
 
-const head = useHead({
-  title: '哈哈哈哈'
-})
+// const head = useHead({
+//   htmlAttr: {
+//     lang: 'zh'
+//   },
+//   title: '哈哈哈哈',
+//   meta: [
+//     { name: 'description', content: 'My description', id: 'desc' }
+//   ],
+//   style: [{
+//     type: 'text/css', inner: 'body { background-color: #000; color: #fff}'
+//   }]
+// })
 
-timer = setTimeout(() => {
-  console.log('我执行了', '88888888')
-  head.title = '哈哈哈哈'
-}, 3000)
+// timer = setTimeout(() => {
+//   head.title = '哈哈哈哈1'
 
-onUnmounted(() => {
-  clearTimeout(timer)
-})
+//   head.meta[0].content
+// }, 3000)
+
+// onUnmounted(() => {
+//   clearTimeout(timer)
+// })
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <custom-button />
   </main>
 </template>

@@ -1,4 +1,4 @@
-import type {} from 'vite'
+import type { } from 'vite'
 import fs from 'fs/promises'
 import path from 'path'
 import express from 'express'
@@ -71,16 +71,21 @@ async function createServer(root = process.cwd()) {
         render = (await import('./dist/server/entry-server.js')).render
       }
 
-      const { appHtml, preloadLinks, storeState } = await render({ url, manifest })
+      const { appHtml, preloadLinks, storeState, pageInfo } = await render({ url, manifest })
 
       const state = `<script>window.__INIT_STATE__=${serialize(storeState, {
         isJSON: true
       })}</script>`
 
+      const { htmlAttrs, title, headTags } = pageInfo;
+
       const html = template
         .replace(`<!--preload-links-->`, preloadLinks)
         .replace(`<!--app-html-->`, appHtml)
         .replace('<!--app-store-->', state)
+        .replace('{{htmlAttrs}}', htmlAttrs)
+        .replace('{{title}}', title)
+        .replace('<!--page-tags-->', headTags)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
