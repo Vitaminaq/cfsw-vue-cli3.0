@@ -1,6 +1,8 @@
 import type { PluginOption } from 'vite';
 import render from '@skatejs/ssr';
 
+// todo: 考虑带slot的组件
+
 export function ssrRender(options: any): PluginOption {
   return {
     name: 'my-ssr',
@@ -9,8 +11,9 @@ export function ssrRender(options: any): PluginOption {
       if (id.match('custom-')) return;
     },
     async transform(code: any, id: any, options: any) {
-      console.log(code.match('<custom-button />', '7777777777'));
-      if (options?.ssr && code.match('<custom-button />')) {
+      console.log(code.match('<custom-button>', '7777777777'));
+      const matchs = code.match('<custom-button>');
+      if (options?.ssr && matchs) {
         console.log(id, 'ooooooooooooooooooo11111111');
         const res = await import('../src/custom-components/custom-button');
 

@@ -31,6 +31,6 @@ import "@/custom-components/custom-button";
 
 <template>
   <main>
-    <custom-button />
+    <custom-button>uuuuuuuuuuuuuu</custom-button>
   </main>
 </template>
