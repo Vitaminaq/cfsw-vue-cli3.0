@@ -14,7 +14,7 @@ async function createServer(root = process.cwd()) {
 
   const resolve = (p: string) => path.resolve(__dirname, p)
 
-  const indexProd = isProd ? fs.readFile(resolve('dist/client/index.html'), 'utf-8') : ''
+  const indexProd = isProd ? await fs.readFile(resolve('dist/client/index.html'), 'utf-8') : ''
 
   const manifest = isProd
     ? JSON.parse(await fs.readFile(resolve('dist/client/ssr-manifest.json'), 'utf-8'))
@@ -50,7 +50,7 @@ async function createServer(root = process.cwd()) {
     // app.use((await import('compression')).default())
     app.use(
       '/community/',
-      (await import('serve-static')).default(resolve('dist/client'), {
+      ((await import('serve-static')))(resolve('dist/client'), {
         index: false
       })
     )
@@ -68,7 +68,7 @@ async function createServer(root = process.cwd()) {
       } else {
         template = indexProd
         // @ts-ignore
-        render = (await import('./dist/server/entry-server.js')).render
+        render = (await import('./dist/server/entry-server.mjs')).render
       }
 
       const { appHtml, preloadLinks, storeState, pageInfo } = await render({ url, manifest })

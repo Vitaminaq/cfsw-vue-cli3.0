@@ -20,5 +20,8 @@
   },
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   } // 两个选择器中是否换行
 }

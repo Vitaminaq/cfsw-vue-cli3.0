@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // import { onUnmounted } from 'vue'
 // import { useHead } from '@/lib/@pixso/vue-head'
-import "@/custom-components/custom-button";
 
 // let timer: any
 
@@ -31,6 +30,5 @@ import "@/custom-components/custom-button";
 
 <template>
   <main>
-    <custom-button>uuuuuuuuuuuuuu</custom-button>
   </main>
 </template>
