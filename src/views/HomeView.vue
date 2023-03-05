@@ -1,34 +1,35 @@
 <script setup lang="ts">
-// import { onUnmounted } from 'vue'
-// import { useHead } from '@/lib/@pixso/vue-head'
+import { ref, type InputHTMLAttributes } from 'vue';
+import LitWrapper from "@/custom-components/LitWrapper.vue";
+import "@/custom-components/wc-element";
+import "@/custom-components/wc-input";
+import "@/custom-components/wc-list";
 
-// let timer: any
+const value = ref('88');
 
-// const head = useHead({
-//   htmlAttr: {
-//     lang: 'zh'
-//   },
-//   title: '哈哈哈哈',
-//   meta: [
-//     { name: 'description', content: 'My description', id: 'desc' }
-//   ],
-//   style: [{
-//     type: 'text/css', inner: 'body { background-color: #000; color: #fff}'
-//   }]
-// })
+const list = ref([1, 2, 3, 4]);
 
-// timer = setTimeout(() => {
-//   head.title = '哈哈哈哈1'
+const onClick = () => {
+  console.log('111111111');
+}
 
-//   head.meta[0].content
-// }, 3000)
+const onInput = (e: Event) => {
+  console.log((e.target as InputHTMLAttributes).value, '777777777');
+}
 
-// onUnmounted(() => {
-//   clearTimeout(timer)
-// })
 </script>
 
 <template>
   <main>
+    <LitWrapper>
+      <wc-element @click="onClick">
+        <div>1111111111111111</div>
+        <div slot="bottom">222222222222</div>
+      </wc-element>
+    </LitWrapper>
+    <LitWrapper>
+      <wc-input :value="value" @change="onInput" />
+    </LitWrapper>
+    <LitWrapper><wc-list :list="list"></wc-list></LitWrapper>
   </main>
 </template>

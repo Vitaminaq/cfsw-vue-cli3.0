@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import ssrRender from './custom-components/ssr-render';
-import "@/custom-components/lit-element";
 
 </script>
 
 <template>
-  <ssrRender><my-element /></ssrRender>
   <RouterView />
 </template>
 

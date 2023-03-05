@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [vue({
     template: {
       compilerOptions: {
-        isCustomElement: (tag) => tag.includes('my-element')
+        isCustomElement: (tag) => tag.includes('wc-')
       }
     }
   }), vueJsx(),

@@ -1,9 +1,9 @@
-import type { } from 'vite'
-import fs from 'fs/promises'
-import path from 'path'
-import express from 'express'
-import cookieParser from 'cookie-parser'
-import serialize from 'serialize-javascript'
+const path = require('path')
+const express = require('express')
+const cookieParser = require('cookie-parser')
+const serialize = require('serialize-javascript')
+const ip = require("ip");
+const fs = require("fs/promises");
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
 
@@ -12,7 +12,7 @@ const isProd = process.env.RUN_TYPE === 'build'
 async function createServer(root = process.cwd()) {
   process.env.SERVER = 'xxx'
 
-  const resolve = (p: string) => path.resolve(__dirname, p)
+  const resolve = (p) => path.resolve(__dirname, p)
 
   const indexProd = isProd ? await fs.readFile(resolve('dist/client/index.html'), 'utf-8') : ''
 
@@ -26,9 +26,7 @@ async function createServer(root = process.cwd()) {
   let vite
 
   if (!isProd) {
-    vite = await (
-      await import('vite')
-    ).createServer({
+    vite = await require("vite").createServer({
       root,
       logLevel: isTest ? 'error' : 'info',
       define: {
@@ -50,7 +48,7 @@ async function createServer(root = process.cwd()) {
     // app.use((await import('compression')).default())
     app.use(
       '/community/',
-      ((await import('serve-static')))(resolve('dist/client'), {
+      require('serve-static')(resolve('dist/client'), {
         index: false
       })
     )
@@ -68,7 +66,7 @@ async function createServer(root = process.cwd()) {
       } else {
         template = indexProd
         // @ts-ignore
-        render = (await import('./dist/server/entry-server.mjs')).render
+        render = require('./dist/server/entry-server.js').render
       }
 
       const { appHtml, preloadLinks, storeState, pageInfo } = await render({ url, manifest })
@@ -98,12 +96,9 @@ async function createServer(root = process.cwd()) {
   return { app, vite }
 }
 
-export { createServer }
-
 if (!isTest) {
   createServer().then(({ app }) =>
     app.listen(8000, async () => {
-      const ip = await import('ip')
       console.log('http://localhost:8000')
       console.log(`http://${ip.address()}:8000`)
     })
