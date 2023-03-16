@@ -99,6 +99,7 @@ export default defineComponent({
     },
 
     async serverPrefetch() {
+
         if (!this.litElementVnode || !isCustomElementTag(this.litElementTagName)) {
             return;
         }
@@ -107,8 +108,6 @@ export default defineComponent({
             this.renderer = new LitElementRenderer(this.litElementTagName);
 
             this.attachPropsToRenderer();
-
-            await Promise.resolve(this.renderer.element.connectedCallback());
 
             const shadowContents = this.getShadowContents();
             const resolvedSlots = (await this.resolveSlots()) || [];

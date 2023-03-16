@@ -66,12 +66,12 @@ async function createServer(root = process.cwd()) {
       } else {
         template = indexProd
         // @ts-ignore
-        render = require('./dist/server/entry-server.js').render
+        render = (await import('./dist/server/entry-server.mjs')).render
       }
 
       const { appHtml, preloadLinks, storeState, pageInfo } = await render({ url, manifest })
 
-      const state = `<script>window.__INIT_STATE__=${serialize(storeState, {
+      const state = `<script>if(!window.process) { window.process = {}; } window.process.server = false; window.__INIT_STATE__=${serialize(storeState, {
         isJSON: true
       })}</script>`
 

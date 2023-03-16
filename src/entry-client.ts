@@ -1,4 +1,5 @@
 import Main from './main'
+import "lit/experimental-hydrate-support.js";
 
 class EntryClient extends Main {
   public constructor() {
